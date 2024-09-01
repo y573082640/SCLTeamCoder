@@ -316,6 +316,6 @@ Output Format：
         for thread in threads:
             thread.join()        
 
-if __name__ == '__main__':
-    AlgorithmAgent_zh.auto_gen_algo()
+# if __name__ == '__main__':
+#     AlgorithmAgent_zh.auto_gen_algo()
     # AlgorithmAgent.auto_gen_algo()
