@@ -21,7 +21,7 @@ $ pip install -r requirements.txt
 
 -  api_key
 
-  在`SCLTeamCoder/scl_team_coder/glovar.py`中写入你的**智谱api_key。**允许`API_KEY_0520`和`API_KEY_AIRX`相同。
+  在`SCLTeamCoder/scl_team_coder/glovar.py`中写入你的**智谱api_key**。允许`API_KEY_0520`和`API_KEY_AIRX`相同。
 
 **代码启动指南**
 
