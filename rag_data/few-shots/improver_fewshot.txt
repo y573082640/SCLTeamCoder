@@ -1,0 +1,327 @@
+{"title": "FIFO Buffer Management", "name": "LGF_FIFO", "description": "FIFO (First-In First-Out / Queue / ring buffer memory) This function stores incoming data and outputs the oldest unprocessed data.", "type": "FUNCTION_BLOCK", "input": [{"name": "enqueue", "type": "Bool", "description": "Enqueue item to the buffer"}, {"name": "dequeue", "type": "Bool", "description": "Dequeue item from the buffer and return it on `item`"}, {"name": "reset", "type": "Bool", "description": "Initializing the buffer (reset the index and the counter)"}, {"name": "clear", "type": "Bool", "description": "Clearing the buffer and initialize with the initial value `initialItem` (Reset index and counter)."}, {"name": "initialItem", "type": "Variant", "description": "Value with which the ARRAY of the buffer is initialized (usually: `0` / default value)"}], "output": [{"name": "error", "type": "Bool", "description": "An error occurred during the execution of the FB"}, {"name": "status", "type": "Word", "description": "Status of the FB, Error identification"}, {"name": "subFunctionStatus", "type": "Word", "description": "Status or return value of called FB's, FC's and system blocks"}, {"name": "elementCount", "type": "DInt", "description": "Number of elements in the buffer"}, {"name": "isEmpty", "type": "Bool", "description": "Buffer is empty"}], "in/out": [{"name": "item", "type": "Variant", "description": "The entry that is either returned from the ring buffer or written into the buffer"}, {"name": "buffer", "type": "Variant", "description": "The ARRAY that is used as the ring buffer."}], "return_value": [], "status_codes": {"16#0000": "STATUS_NO_ERROR", "16#7000": "STATUS_NO_CURRENT_JOBS", "16#8001": "ERR_BUFFER_EMPTY", "16#8002": "ERR_BUFFER_FULL", "16#8200": "ERR_NO_ARRAY", "16#8201": "ERR_WRONG_TYPE_ITEM", "16#8202": "ERR_WRONG_TYPE_INITIAL_ITEM", "16#8601": "ERR_INDEX_IN_ARRAY_LIMITS_1", "16#8602": "ERR_INDEX_IN_ARRAY_LIMITS_2", "16#8610": "ERR_CLEAR_BUFFER", "16#8611": "ERR_RETURN_FIRST_ENTRY", "16#8612": "ERR_REPLACE_ITEM_BY_INIT_VALUE", "16#8613": "ERR_WRITE_ENTRY"}, "user_defined_types": []}
+&&&&&&&&&&&&&&&&&&&&&&&&&&
+FUNCTION_BLOCK "LGF_FIFO"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Industry_Support
+FAMILY : LGF
+NAME : LGF_FIFO
+   VAR_INPUT 
+      enqueue : Bool := false;
+      dequeue : Bool := false;
+      reset : Bool;
+      clear : Bool;
+      initialItem : Variant;
+   END_VAR
+
+   VAR_OUTPUT 
+      error { ExternalWritable := 'False'} : Bool;
+      status { ExternalWritable := 'False'} : Word;
+      subFunctionStatus { ExternalWritable := 'False'} : Word;
+      elementCount { ExternalWritable := 'False'} : DInt := 0;
+      isEmpty { ExternalWritable := 'False'} : Bool := false;
+   END_VAR
+
+   VAR_IN_OUT 
+      item : Variant;
+      buffer : Variant;
+   END_VAR
+
+   VAR 
+      statEdgesMem { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Struct
+         enqueue { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         dequeue { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         clear { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      END_STRUCT;
+      statFirstItemIndex { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int := -1;
+      statNextEmptyItemIndex { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int := 0;
+      statElementCount { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DInt;
+   END_VAR
+
+   VAR_TEMP 
+      tempEdges : Struct
+         enqueue : Bool;
+         dequeue : Bool;
+         clear : Bool;
+      END_STRUCT;
+      tempInternalError : Int;
+      tempNewFirstItemIndex : Int;
+      tempNewNextEmptyItemIndex : Int;
+      tempBufferSize : UDInt;
+      tempCounter : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      BUFFER_IS_EMPTY : Int := -1;
+      NO_INTERNAL_ERROR : Int := 0;
+      BUFFER_INITIALIZED : Int := -1;
+      EMPTY_INITIALIZED : Int := 0;
+      INDEX_BEGINNING : Int := 0;
+      COUNT_ELEMENTS : UDInt := 1;
+      INCREMENT : Int := 1;
+      BUFFER_SIZE_CORRECTION : UDInt := 1;
+      COUNTER_LOWER_LIMIT : Int := 0;
+      ZERO_ELEMENTS : DInt := 0;
+      STATUS_NO_ERROR : Word := 16#0000;
+      STATUS_NO_CURRENT_JOBS : Word := 16#7000;
+      ERR_BUFFER_EMPTY : Word := 16#8001;
+      ERR_BUFFER_FULL : Word := 16#8002;
+      ERR_NO_ARRAY : Word := 16#8200;
+      ERR_WRONG_TYPE_ITEM : Word := 16#8201;
+      ERR_WRONG_TYPE_INITIAL_ITEM : Word := 16#8202;
+      ERR_INDEX_IN_ARRAY_LIMITS_1 : Word := 16#8601;
+      ERR_INDEX_IN_ARRAY_LIMITS_2 : Word := 16#8602;
+      ERR_CLEAR_BUFFER : Word := 16#8610;
+      ERR_RETURN_FIRST_ENTRY : Word := 16#8611;
+      ERR_REPLACE_ITEM_BY_INIT_VALUE : Word := 16#8612;
+      ERR_WRITE_ENTRY : Word := 16#8613;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_FIFO
+	  // Comment/Function: FIFO (First In First Out)
+	  //                   Queue / ring buffer memory
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      CPU 1515F-2 PN FW:V2.6
+	  // Engineering:      TIA Portal V15.1 Update 2
+	  // Restrictions:     ENO disabled - error handling done with error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Block execution control
+	  // collect edges
+	  #tempEdges.enqueue := #enqueue AND NOT #statEdgesMem.enqueue;
+	  #tempEdges.dequeue := #dequeue AND NOT #statEdgesMem.dequeue;
+	  #tempEdges.clear := #clear AND NOT #statEdgesMem.clear;
+	  // store values for edge detection
+	  #statEdgesMem.enqueue := #enqueue;
+	  #statEdgesMem.dequeue := #dequeue;
+	  #statEdgesMem.clear := #clear;
+	  
+	  // This program code section is only executed if no trigger input is active
+	  IF NOT (#enqueue OR #dequeue OR #reset OR #clear) THEN
+	    // If an error occurred during program execution,
+	    // the status "No Current Job" is used 16#7000 afterwarts when the triggers are reseted
+	    #error := false;
+	    #status := #STATUS_NO_CURRENT_JOBS;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    // the program processing OF the FB is terminated
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Validation of inputs
+	  // check whether the ring #buffer is an ARRAY.
+	  // IF so, the number OF the ARRAY elements is read out.
+	  // IF it is NOT an ARRAY, the program execution is terminated at this point
+	  IF IS_ARRAY(#buffer) THEN
+	    #tempBufferSize := CountOfElements(#buffer);
+	  ELSE
+	    #error := true;
+	    #status := #ERR_NO_ARRAY;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	  
+	  // check whether the data type OF the ARRAY elements matches
+	  // the data type OF the entry (#item). IF the data types DO NOT match,
+	  // the program execution is terminated at this point
+	  IF (TypeOf(#item) <> TypeOfElements(#buffer)) THEN
+	    #error := true;
+	    #status := #ERR_WRONG_TYPE_ITEM;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	  
+	  // check whether the initial value OF the ring #buffer
+	  // matches the entry (tag #item). IF the data types DO NOT match,
+	  // the program execution is terminated at this point
+	  IF (TypeOf(#item) <> TypeOf(#initialItem)) THEN
+	    #error := true;
+	    #status := #ERR_WRONG_TYPE_INITIAL_ITEM;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	  
+	  // check whether the variable indices are within the ARRAY limits.
+	  // IF they are NOT, the program execution is terminated at this point
+	  IF (#statNextEmptyItemIndex >= #tempBufferSize) THEN
+	    #error := true;
+	    #status := #ERR_INDEX_IN_ARRAY_LIMITS_1;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	  ELSIF (#statFirstItemIndex >= #tempBufferSize) THEN
+	    #error := true;
+	    #status := #ERR_INDEX_IN_ARRAY_LIMITS_2;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	  
+	  // If resetBuffer is "TRUE", the buffer counters are reset
+	  IF #reset THEN
+	    #statFirstItemIndex := #BUFFER_INITIALIZED;
+	    #statNextEmptyItemIndex := #EMPTY_INITIALIZED;
+	    #statElementCount := #EMPTY_INITIALIZED;
+	    #elementCount := #EMPTY_INITIALIZED;
+	    #isEmpty := true;
+	    RETURN;
+	  END_IF;
+	  
+	  // If clearBuffer has rising edge, the buffer is initialized by initial values
+	  IF #tempEdges.clear THEN
+	    FOR #tempCounter := #COUNTER_LOWER_LIMIT TO UDINT_TO_INT(#tempBufferSize - #BUFFER_SIZE_CORRECTION) DO
+	      
+	      #tempInternalError := MOVE_BLK_VARIANT(SRC := #initialItem,
+	                                             COUNT := #COUNT_ELEMENTS,
+	                                             SRC_INDEX := #INDEX_BEGINNING,
+	                                             DEST_INDEX := #tempCounter,
+	                                             DEST => #buffer);
+	    END_FOR;
+	    
+	    // checks whether a local error has occurred.
+	    IF (#tempInternalError <> #NO_INTERNAL_ERROR) THEN
+	      #error := true;
+	      #status := #ERR_CLEAR_BUFFER;
+	      #subFunctionStatus := INT_TO_WORD(#tempInternalError);
+	    END_IF;
+	    
+	    // reset counters
+	    #statFirstItemIndex := #BUFFER_INITIALIZED;
+	    #statNextEmptyItemIndex := #EMPTY_INITIALIZED;
+	    #statElementCount := #EMPTY_INITIALIZED;
+	    #elementCount := #EMPTY_INITIALIZED;
+	    #isEmpty := true;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION FIFO algorithm  
+	  IF #tempEdges.dequeue THEN
+	    REGION dequeue
+	      // check whether the ring #buffer is empty
+	      // IF this is the CASE, program execution is terminated at this point
+	      IF (#statFirstItemIndex = #BUFFER_IS_EMPTY) THEN
+	        #error := true;
+	        #status := #ERR_BUFFER_EMPTY;
+	        #subFunctionStatus := #STATUS_NO_ERROR;
+	        RETURN;
+	      END_IF;
+	      
+	      // return the first entry of the ring buffer
+	      #tempInternalError := MOVE_BLK_VARIANT(SRC := #buffer,
+	                                             COUNT := #COUNT_ELEMENTS,
+	                                             SRC_INDEX := #statFirstItemIndex,
+	                                             DEST_INDEX := #INDEX_BEGINNING,
+	                                             DEST => #item);
+	      
+	      // check whether a local error has occurred
+	      IF (#tempInternalError <> #NO_INTERNAL_ERROR) THEN
+	        #error := true;
+	        #status := #ERR_RETURN_FIRST_ENTRY;
+	        #subFunctionStatus := INT_TO_WORD(#tempInternalError);
+	        RETURN;
+	      END_IF;
+	      
+	      // check whether the ring #buffer contains ARRAY elements
+	      // IF it does, the first entry is passed further on and the index is incremented BY 1
+	      #tempInternalError := MOVE_BLK_VARIANT(SRC := #initialItem,
+	                                             COUNT := #COUNT_ELEMENTS,
+	                                             SRC_INDEX := #INDEX_BEGINNING,
+	                                             DEST_INDEX := #statFirstItemIndex,
+	                                             DEST => #buffer);
+	      
+	      // check whether a local error has occurred
+	      IF (#tempInternalError <> #NO_INTERNAL_ERROR) THEN
+	        #error := true;
+	        #status := #ERR_REPLACE_ITEM_BY_INIT_VALUE;
+	        #subFunctionStatus := INT_TO_WORD(#tempInternalError);
+	        RETURN;
+	      END_IF;
+	      
+	      // calculate the new index of the first entry
+	      #tempNewFirstItemIndex := #statFirstItemIndex + #INCREMENT;
+	      #tempNewFirstItemIndex := #tempNewFirstItemIndex MOD UDINT_TO_INT(#tempBufferSize);
+	      
+	      // check whether the ring buffer is empty
+	      IF (#statNextEmptyItemIndex = #tempNewFirstItemIndex) THEN
+	        // If the ring buffer is empty, the index is set to 0
+	        #statFirstItemIndex := #BUFFER_INITIALIZED;
+	        #statNextEmptyItemIndex := #EMPTY_INITIALIZED;
+	      ELSE
+	        // The index of the first entry is changed
+	        #statFirstItemIndex := #tempNewFirstItemIndex;
+	      END_IF;
+	      
+	      // Evaluation of the number of elements in the stack
+	      #statElementCount -= #INCREMENT;
+	      
+	    END_REGION dequeue
+	    
+	  ELSIF #tempEdges.enqueue THEN
+	    REGION enqueue
+	      // check whether the ring #buffer is full
+	      // IF this is the CASE, program execution is terminated at this point
+	      IF (#statNextEmptyItemIndex = #statFirstItemIndex) THEN
+	        #error := true;
+	        #status := #ERR_BUFFER_FULL;
+	        #subFunctionStatus := #STATUS_NO_ERROR;
+	        RETURN;
+	      END_IF;
+	      
+	      // write the entry to the ring buffer
+	      #tempInternalError := MOVE_BLK_VARIANT(SRC := #item,
+	                                             COUNT := #COUNT_ELEMENTS,
+	                                             SRC_INDEX := #INDEX_BEGINNING,
+	                                             DEST_INDEX := #statNextEmptyItemIndex,
+	                                             DEST => #buffer);
+	      
+	      // check whether a local error has occurred
+	      IF (#tempInternalError <> #NO_INTERNAL_ERROR) THEN
+	        #error := true;
+	        #status := #ERR_WRITE_ENTRY;
+	        #subFunctionStatus := INT_TO_WORD(#tempInternalError);
+	        RETURN;
+	      END_IF;
+	      
+	      // increment the index by 1 and calculates the new empty entry index
+	      #tempNewNextEmptyItemIndex := (#statNextEmptyItemIndex + #INCREMENT) MOD UDINT_TO_INT(#tempBufferSize);
+	      #statNextEmptyItemIndex := #tempNewNextEmptyItemIndex;
+	      
+	      // check which index the "#firstItemIndex" tag has
+	      // IF the number = -1, the ring buffer is initialized
+	      // AND the entry is written TO the ring #buffer
+	      // Therefore, "0" must be assigned TO the tag
+	      IF (#statFirstItemIndex = #BUFFER_INITIALIZED) THEN
+	        #statFirstItemIndex := #INDEX_BEGINNING;
+	      END_IF;
+	      
+	      // Evaluation of the number of elements in the stack
+	      #statElementCount += #INCREMENT;
+	    END_REGION enqueue
+	  END_IF;
+	END_REGION
+	
+	REGION Writing to outputs
+	  #elementCount := #statElementCount;
+	  #isEmpty := #statElementCount <= #ZERO_ELEMENTS;
+	  
+	  #error := false;
+	  #status := #STATUS_NO_ERROR;
+	  #subFunctionStatus := #STATUS_NO_ERROR;
+	  // no error handling by ENO needed
+	  ENO := TRUE;
+	END_REGION
+END_FUNCTION_BLOCK
+&&&&&&&&&&&&&&&&&&&&&&&&&&
+一个函数块FB，实现一个先进先出（FIFO）循环队列的功能，其中队列的最大长度和数据类型都是可变的。循环队列应能够支持以下操作：\n\n1. 入队操作（enqueue）：在队列未满的情况下，将一个元素添加到队列的队尾。\n2. 出队操作（dequeue）：在队列不空的情况下，从队列的队首移除一个元素，并返回该元素的值。\n3. 判断队列是否为空：检查队列中是否没有元素。\n4. 判断队列是否已满：检查队列是否已达到最大容量。\n5. 获取队列元素数量：返回队列中当前元素的数量。\n状态代码：\n16#0000：执行FB没有出错\n16#8001：队列是空的\n16#8002：队列是满的

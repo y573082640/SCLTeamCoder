@@ -1,0 +1,113 @@
+FUNCTION_BLOCK "LGF_ProceccingProductControl"
+{ S7_Optimized_Access := 'TRUE' }
+    VAR_INPUT
+        Exhaust_Fan_Button : BOOL;      // 排气扇按钮
+        Intake_Fan_Button : BOOL;       // 进气扇按钮
+        Sensor_A : BOOL;                // 加工站A的传感器
+        Sensor_B : BOOL;                // 加工站B的传感器
+        Sensor_C : BOOL;                // 加工站C的传感器
+        Finished_Light_A : BOOL;        // 加工站A的加工完成指示灯
+        Finished_Light_B : BOOL;        // 加工站B的加工完成指示灯
+        Finished_Light_C : BOOL;        // 加工站C的加工完成指示灯
+    END_VAR
+
+    VAR_OUTPUT
+        MotorForward : BOOL;            // 电机正转控制输出
+        Exhaust_Fan : BOOL;             // 排气扇控制输出
+        Intake_Fan : BOOL;              // 进气扇控制输出
+        CompletionLight : BOOL;     // 取货指示灯
+    END_VAR
+
+    VAR
+        state : INT;                    // 状态变量
+    END_VAR
+
+    // 状态定义
+    VAR CONSTANT
+        STATE_INIT : INT := 0;
+        STATE_ENTERED_A : INT := 1;
+        STATE_FINISHED_A : INT := 2;
+        STATE_ENTERED_B : INT := 3;
+        STATE_FINISHED_B : INT := 4;
+        STATE_ENTERED_C : INT := 5;
+        STATE_FINISHED_C : INT := 6;
+    END_VAR
+
+    VAR_TEMP
+        tempExitStateLoop : BOOL;
+    END_VAR
+
+BEGIN
+    REGION State Machine
+        REPEAT
+            // reset #tempExitStateLoop := TRUE; as its defined auto_state to prevent endless loop
+            #tempExitStateLoop := TRUE;
+            // State machine of FB
+            CASE #state OF
+                #STATE_INIT:
+                    MotorForward := FALSE;
+                    CompletionLight := FALSE;
+                    IF Sensor_A THEN
+                        state := STATE_ENTERED_A;
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+                #STATE_ENTERED_A:
+                    MotorForward := FALSE;
+                    CompletionLight := FALSE;
+                    IF Finished_Light_A THEN
+                        state := STATE_FINISHED_A;
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+                #STATE_FINISHED_A:
+                    MotorForward := TRUE;
+                    CompletionLight := FALSE;
+                    IF Sensor_B THEN
+                        state := STATE_ENTERED_B;
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+                #STATE_ENTERED_B:
+                    MotorForward := FALSE;
+                    CompletionLight := FALSE;
+                    IF Finished_Light_B THEN
+                        state := STATE_FINISHED_B;
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+                #STATE_FINISHED_B:
+                    MotorForward := TRUE;
+                    CompletionLight := FALSE;
+                    IF Sensor_C THEN
+                        state := STATE_ENTERED_C;
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+                #STATE_ENTERED_C:
+                    MotorForward := FALSE;
+                    CompletionLight := FALSE;
+                    IF Finished_Light_C THEN
+                        state := STATE_FINISHED_C;
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+                #STATE_FINISHED_C:
+                    MotorForward := FALSE;
+                    CompletionLight := TRUE;
+                    IF Sensor_C = FALSE THEN
+                        state := STATE_INIT;
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+            END_CASE;
+        UNTIL (TRUE = #tempExitStateLoop)
+        END_REPEAT;
+    END_REGION
+    REGION fans control
+        // 手动控制排气扇和进气扇
+        IF #Exhaust_Fan_Button = TRUE AND #Intake_Fan_Button = FALSE THEN
+            #Exhaust_Fan := TRUE;
+            #Intake_Fan := FALSE;
+        ELSIF #Exhaust_Fan_Button = FALSE AND #Intake_Fan_Button = TRUE THEN
+            #Exhaust_Fan := FALSE;
+            #Intake_Fan := TRUE;
+        ELSE
+            #Exhaust_Fan := FALSE;
+            #Intake_Fan := FALSE;
+        END_IF;
+    END_REGION
+END_FUNCTION_BLOCK

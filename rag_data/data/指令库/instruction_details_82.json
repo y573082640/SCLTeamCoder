@@ -1,0 +1,895 @@
+[
+    {
+        "指令名": "R_TRIG",
+        "指令说明": "使用“检测信号上升沿”指令,可以检测输入 CLK 的从“0”到“1”的状态变化。该指令将输入 CLK 的当前值与保存在指定实例中的上次查询（边沿存储位）的状态进行比较。如果检测到状态从“0”变为“1”,则在输出 Q 中生成一个信号上升沿。",
+        "参数列表": [
+            " CLK, Input, BOOL, 到达信号,将查询该信号的边沿。",
+            " Q, Output, BOOL, 边沿检测的结果。"
+        ],
+        "示例代码和代码解读": "`SCL \"R_TRIG_DB\"(CLK := \"TagIn\", Q => \"TagOut\");` 输入 CLK 中变量的上一个状态存储在“R_TRIG_DB”变量中。如果检测到“TagIn”的信号状态从“0”变为“1”,则“TagOut”的信号状态在一个循环周期内为“1”。",
+        "其他有用信息": "无。"
+    },
+    {
+        "指令名": "F_TRIG",
+        "指令说明": "使用“检测信号下降沿”指令,可以检测输入 CLK 的从“1”到“0”的状态变化。该指令将输入 CLK 的当前值与保存在指定实例中的上次查询的状态进行比较。如果检测到状态从“1”变为“0”,则在输出 Q 中生成一个信号下降沿。",
+        "参数列表": [
+            " CLK, Input, BOOL, 到达信号,将查询该信号的边沿。",
+            " Q, Output, BOOL, 边沿检测的结果。"
+        ],
+        "示例代码和代码解读": "`SCL \"F_TRIG_DB\"(CLK := \"TagIn\", Q => \"TagOut\");` 如果检测到“TagIn”的信号状态从“1”变为“0”,则“TagOut”的信号状态在一个循环周期内为“1”。",
+        "其他有用信息": "CPU 启动后,如果输入“CLK”的值为 FALSE,则“F_TRIG”将输出“Q”设置为 TRUE 并持续一个周期。"
+    },
+    {
+        "指令名": "TP",
+        "指令说明": "使用“生成脉冲”指令,可以根据参数 IN 的信号上升沿,将参数 Q 置位为预设的一段时间 PT。无论未来输入信号的状态如何变化,都将在持续时间 PT 后复位参数 Q。",
+        "参数列表": [
+            " IN, Input, BOOL, 启动输入。",
+            " PT, Input, TIME, 脉冲的持续时间。",
+            " Q, Output, BOOL, 在 PT 持续时间内保持置位状态的操作数。",
+            " ET, Output, TIME, 当前定时器的值。"
+        ],
+        "示例代码和代码解读": "`SCL \"TP_DB\".TP(IN := \"Tag_Start\", PT := \"Tag_PresetTime\", Q => \"Tag_Status\", ET => \"Tag_ElapsedTime\");` 当“Tag_Start”信号上升沿时,PT 预设时间开始计时,并且“Tag_Status”置位为“1”。当前时间值存储在“Tag_ElapsedTime”中。",
+        "其他有用信息": "每次调用“生成脉冲”指令,都会为其分配一个 IEC 定时器用于存储实例数据。"
+    },
+    {
+        "指令名": "TON",
+        "指令说明": "“接通延时”指令可以在输入 IN 的信号上升沿时启动,并延时 PT 指定的时间后,将 Q 参数置位。",
+        "参数列表": [
+            " IN, Input, BOOL, 启动输入。",
+            " PT, Input, TIME, 接通延时的持续时间。",
+            " Q, Output, BOOL, 定时器 PT 时间用完时,保持置位状态的操作数。",
+            " ET, Output, TIME, 当前定时器的值。"
+        ],
+        "示例代码和代码解读": "`SCL \"TON_DB\".TON(IN := \"Tag_Start\", PT := \"Tag_PresetTime\", Q => \"Tag_Status\", ET => \"Tag_ElapsedTime\");` 当“Tag_Start”信号上升沿时,PT 预设时间开始计时。时间周期过后,“Tag_Status”置位为“1”。只要“Tag_Start”为“1”,“Tag_Status”保持置位。当前时间值存储在“Tag_ElapsedTime”中。",
+        "其他有用信息": "每次调用“接通延时”指令,必须将其分配给存储实例数据的 IEC 定时器。"
+    },
+    {
+        "指令名": "TOF",
+        "指令说明": "使用“关断延时”指令,可以在输入 IN 的信号上升沿时置位 Q 输出,当 IN 信号变为“0”时开始计时 PT,持续时间结束后复位 Q 输出。",
+        "参数列表": [
+            " IN, Input, BOOL, 启动输入。",
+            " PT, Input, TIME, 关断延时的持续时间。",
+            " Q, Output, BOOL, 超出时间 PT 后复位的操作数。",
+            " ET, Output, TIME, 当前定时器的值。"
+        ],
+        "示例代码和代码解读": "`SCL \"TOF_DB\".TOF(IN := \"Tag_Start\", PT := \"Tag_PresetTime\", Q => \"Tag_Status\", ET => \"Tag_ElapsedTime\");` “Tag_Start”信号上升沿时置位“Tag_Status”。当“Tag_Start”变为“0”,PT 预设时间开始计时,时间结束后复位“Tag_Status”。当前时间值存储在“Tag_ElapsedTime”中。",
+        "其他有用信息": "每次调用“关断延时”指令,必须将其分配给存储实例数据的 IEC 定时器。"
+    },
+    {
+        "指令名": "TONR",
+        "指令说明": "可以使用“时间累加器”指令来累加由参数 PT 设定的时间段内的时间值。只要 IN 参数的信号状态为“1”,时间 PT 计时过程中,记录的时间值将进行累加。",
+        "参数列表": [
+            " IN, Input, BOOL, 启动输入。",
+            " R, Input, BOOL, 复位参数 ET 和 Q。",
+            " PT, Input, TIME, 时间记录的最长持续时间。",
+            " Q, Output, BOOL, 定时器 PT 内时间用完时,仍保持置位状态的操作数。",
+            " ET, Output, TIME, 累计的时间。"
+        ],
+        "示例代码和代码解读": "`SCL \"TONR_DB\".TONR(IN := \"Tag_Start\", R := \"Tag_Reset\", PT := \"Tag_PresetTime\", Q => \"Tag_Status\", ET => \"Tag_Time\");` 当“Tag_Start”信号上升沿时,PT 预设时间开始计时。累加得到的时间值将存储在“Tag_Time”中。达到 PT 指定的时间值时,“Tag_Status”置位为“1”。",
+        "其他有用信息": "每次调用“时间累加器”指令,必须为其分配一个用于存储实例数据的 IEC 定时器。"
+    },
+    {
+        "指令名": "RESET_TIMER",
+        "指令说明": "使用“复位定时器”指令,可将 IEC 定时器复位为“0”。该指令不会影响 RLO。",
+        "参数列表": [
+            " <IEC 定时器>, Output, IEC_TIMER、TP_TIME、TON_TIME、TOF_TIME、TONR_TIME, 待复位的 IEC 定时器。"
+        ],
+        "示例代码和代码解读": "`SCL IF #started = false THEN \"TON_DB\".TON(IN := \"Tag_Start\", PT := \"Tag_PresetTime\", Q => \"Tag_Status\", ET => \"Tag_ElapsedTime\"); #started := true; END_IF; IF \"TON_DB\".ET < T#25s THEN RESET_TIMER(TIMER := \"TON_DB\"); #started := false; END_IF;` 当变量 #started 为“0”时,执行“接通延时”指令。如果 IEC 定时器“TON_DB”的超出时间小于 25s,则执行“复位定时器”指令,并复位存储在“TON_DB”背景数据块中的定时器。",
+        "其他有用信息": "在定时器运行时,重新初始化 IEC 定时器的实际值会破坏 IEC 定时器的功能,可能会导致程序和实际过程之间不一致。"
+    },
+    {
+        "指令名": "PRESET_TIMER",
+        "指令说明": "可以使用“加载持续时间”指令为 IEC 定时器设置时间。如果该指令输入逻辑运算结果 (RLO) 的信号状态为“1”,则每个周期都执行该指令。",
+        "参数列表": [
+            " <持续时间>, Input, TIME, IEC 定时器运行的持续时间。",
+            " <IEC 定时器>, Output, IEC_TIMER、TP_TIME、TON_TIME、TOF_TIME、TONR_TIME, 设置了持续时间的 IEC 定时器。"
+        ],
+        "示例代码和代码解读": "`SCL IF #started = false THEN \"TON_DB\".TON(IN := \"Tag_Start\", PT := \"Tag_PresetTime\", Q => \"Tag_Status\", ET => \"Tag_ElapsedTime\"); #started := true; #preset := true END_IF; IF \"TON_DB\".ET < T#10s AND #preset = true THEN PRESET_TIMER(PT := T#25s, TIMER := \"TON_DB\"); #preset := false; END_IF;` 当变量 #started 为“0”时,执行“接通延",
+        "其他有用信息": "如果在指令执行时指定 IEC 定时器正在计时,指令将覆盖该指定 IEC 定时器的当前值。"
+    },
+    {
+        "指令名": "S_PULSE",
+        "指令说明": "当检测到参数 S 的逻辑运算结果 (RLO) 从“0”到“1”的变化时,“分配脉冲定时器参数并启动”指令开始计时参数 T_NO 中预设的一段时间。",
+        "参数列表": [
+            " T_NO, Input, TIMER、INT, 已启动的定时器。定时器的数量取决于 CPU。",
+            " S, Input, BOOL, 启动输入。",
+            " TV, Input, S5TIME、WORD, 预设时间值。",
+            " R, Input, BOOL, 复位输入。",
+            " Q, Output, BOOL, 定时器的状态。",
+            " BI, Output, WORD, 当前二进制编码的时间值。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result\" := S_PULSE(T_NO := \"Timer_1\", S := \"Tag_1\", TV := \"Tag_Number\", R := \"Tag_Reset\", Q => \"Tag_Status\", BI => \"Tag_Value\");` 操作数“Tag_1”信号上升沿时,“Timer_1”启动。使用“Tag_Number”时间值进行减计数,直到“Tag_1”信号状态返回“1”。",
+        "其他有用信息": "无。"
+    },
+    {
+        "指令名": "S_PEXT",
+        "指令说明": "当检测到参数 S 的信号上升沿时,“分配扩展脉冲定时器参数并启动”指令将启动预设的定时器。只要 S 参数的信号状态为“1”,定时器将运行一段预设的时间 (TV)。",
+        "参数列表": [
+            " T_NO, Input, TIMER、INT, 已启动的定时器。定时器的数量取决于 CPU。",
+            " S, Input, BOOL, 启动输入。",
+            " TV, Input, S5TIME、WORD, 预设时间值。",
+            " R, Input, BOOL, 复位输入。",
+            " Q, Output, BOOL, 定时器的状态。",
+            " BI, Output, WORD, 当前二进制编码的时间值。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result\" := S_PEXT(T_NO := \"Timer_1\", S := \"Tag_1\", TV := \"Tag_Number\", R := \"Tag_Reset\", Q => \"Tag_Status\", BI => \"Tag_Value\");` “Timer_1”信号状态从“0”变为“1”时,“Tag_1”启动。定时器计时时,“Tag_Status”返回信号状态“1”。达到预置时间时,“Tag_Status”复位为“0”。",
+        "其他有用信息": "无。"
+    },
+    {
+        "指令名": "S_ODT",
+        "指令说明": "当检测到参数 S 的信号上升沿时,“分配接通延时定时器参数并启动”指令将启动预设的定时器作为接通延时定时器。",
+        "参数列表": [
+            " T_NO, Input, TIMER、INT, 已启动的定时器。定时器的数量取决于 CPU。",
+            " S, Input, BOOL, 启动输入。",
+            " TV, Input, S5TIME、WORD, 预设时间值。",
+            " R, Input, BOOL, 复位输入。",
+            " Q, Output, BOOL, 定时器的状态。",
+            " BI, Output, WORD, 当前二进制编码的时间值。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result\" := S_ODT(T_NO := \"Timer_1\", S := \"Tag_1\", TV := \"Tag_Number\", R := \"Tag_Reset\", Q => \"Tag_Status\", BI => \"Tag_Value\");` “Timer_1”信号状态从“0”变为“1”时,“Tag_1”启动。只要“Tag_1”信号状态为“1”,定时器就将在持续时间“Tag_Number”内一直计时。",
+        "其他有用信息": "无。"
+    },
+    {
+        "指令名": "S_ODTS",
+        "指令说明": "当检测到参数 S 的信号上升沿时,“分配保持型接通延时定时器参数并启动”指令将启动预设的定时器。",
+        "参数列表": [
+            " T_NO, Input, TIMER、INT, 已启动的定时器。定时器的数量取决于 CPU。",
+            " S, Input, BOOL, 启动输入。",
+            " TV, Input, S5TIME、WORD, 预设时间值。",
+            " R, Input, BOOL, 复位输入。",
+            " Q, Output, BOOL, 定时器的状态。",
+            " BI, Output, WORD, 当前二进制编码的时间值。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result\" := S_ODTS(T_NO := \"Timer_1\", S := \"Tag_1\", TV := \"Tag_Number\", R := \"Tag_Reset\", Q => \"Tag_Status\", BI => \"Tag_Value\");` “Timer_1”信号状态从“0”变为“1”时,“Tag_1”启动。定时器的运行时间为“Tag_Number”。如果定时器已达到预置时间,则“Tag_Status”将返回信号状态“1”,而与“Tag_1”的信号状态无关。",
+        "其他有用信息": "无。"
+    },
+    {
+        "指令名": "S_OFFDT",
+        "指令说明": "当检测到参数 S 的信号下降沿时,“分配关断延时定时器参数并启动”指令将启动预设的定时器。",
+        "参数列表": [
+            " T_NO, Input, TIMER、INT, 已启动的定时器。定时器的数量取决于 CPU。",
+            " S, Input, BOOL, 启动输入。",
+            " TV, Input, S5TIME、WORD, 预设时间值。",
+            " R, Input, BOOL, 复位输入。",
+            " Q, Output, BOOL, 定时器的状态。",
+            " BI, Output, WORD, 当前二进制编码的时间值。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result\" := S_OFFDT(T_NO := \"Timer_1\", S := \"Tag_1\", TV := \"Tag_Number\", R := \"Tag_Reset\", Q => \"Tag_Status\", BI => \"Tag_Value\");` 如果“Tag_1”信号状态从“1”变为“0”,将启动“Timer_1”定时器。定时器的运行时间为“Tag_Number”。只要定时器在计时或“Tag_1”返回信号状态“1”,“Tag_Status”的信号状态就为“1”。",
+        "其他有用信息": "无。"
+    },
+    {
+        "指令名": "CTU",
+        "指令说明": "可以使用“加计数”指令递增 CV 参数的值。如果参数 CU 的信号状态从“0”变为“1”（信号上升沿）,则执行该指令,同时参数 CV 的当前计数器值加“1”。",
+        "参数列表": [
+            " CU, Input, BOOL, 计数输入。",
+            " R, Input, BOOL, 复位输入。",
+            " PV, Input, 整数, 置位输出 Q 的目标值。",
+            " Q, Output, BOOL, 计数器状态。",
+            " CV, Output, 整数、CHAR、WCHAR、DATE, 当前计数器值。"
+        ],
+        "示例代码和代码解读": "`SCL \"IEC_COUNTER_DB\".CTU(CU := \"Tag_Start\", R := \"Tag_Reset\", PV := \"Tag_PresetValue\", Q => \"Tag_Status\", CV => \"Tag_CounterValue\");`",
+        "其他有用信息": "计数器值递增直至达到数据类型上限。"
+    },
+    {
+        "指令名": "CTD",
+        "指令说明": "“减计数”指令用于递减 CV 参数的值。如果参数 CD 的信号状态从“0”变为“1”（信号上升沿）,则执行该指令,同时参数 CV 的当前计数器值减“1”。",
+        "参数列表": [
+            " CD, Input, BOOL, 计数输入。",
+            " LD, Input, BOOL, 装载输入。",
+            " PV, Input, 整数, 使用 LD = 1 置位输出 CV 的目标值。",
+            " Q, Output, BOOL, 计数器状态。",
+            " CV, Output, 整数、CHAR、WCHAR、DATE, 当前计数器值。"
+        ],
+        "示例代码和代码解读": "`SCL \"IEC_SCOUNTER_DB\".CTD(CD := \"Tag_Start\", LD := \"Tag_Load\", PV := \"Tag_PresetValue\", Q => \"Tag_Status\", CV => \"Tag_CounterValue\");`",
+        "其他有用信息": "计数器值递减直至达到数据类型下限。"
+    },
+    {
+        "指令名": "CTUD",
+        "指令说明": "使用“加减计数”指令递增和递减 CV 参数的计数器值。根据 CU 和 CD 的信号状态,参数 CV 的值会相应增加或减少。",
+        "参数列表": [
+            " CU, Input, BOOL, 加计数输入。",
+            " CD, Input, BOOL, 减计数输入。",
+            " R, Input, BOOL, 复位输入。",
+            " LD, Input, BOOL, 装载输入。",
+            " PV, Input, 整数, 置位输出 QU 的值 / 当 LD = 1 时,置位输出 CV 的值。",
+            " QU, Output, BOOL, 加计数器的状态。",
+            " QD, Output, BOOL, 减计数器的状态。",
+            " CV, Output, 整数、CHAR、WCHAR、DATE, 当前计数器值。"
+        ],
+        "示例代码和代码解读": "`SCL \"IEC_COUNTER_DB\".CTUD(CU := \"Tag_Start1\", CD := \"Tag_Start2\", LD := \"Tag_Load\", R := \"Tag_Reset\", PV := \"Tag_PresetValue\", QU => \"Tag_CU_Status\", QD => \"Tag_CD_Status\", CV => \"Tag_CounterValue\");`",
+        "其他有用信息": "在一个程序周期内 CU 和 CD 同时出现上升沿时,计数器值不变。"
+    },
+    {
+        "指令名": "S_CU",
+        "指令说明": "可使用“分配参数并加计数”指令递增计数器值。当 CU 参数的信号状态从“0”变为“1”（信号上升沿）时,当前计数器值加 1。",
+        "参数列表": [
+            " C_NO, Input, COUNTER、INT, 计数器操作。",
+            " CU, Input, BOOL, 加计数输入。",
+            " S, Input, BOOL, 用于预置计数器的输入端。",
+            " PV, Input, WORD, 预置 BCD 格式的计数器值。",
+            " R, Input, BOOL, 复位输入。",
+            " Q, Output, BOOL, 计数器状态。",
+            " CV, Output, WORD, 当前计数器值。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result\" := S_CU(C_NO := \"Counter_1\", CU := \"Tag_Start\", S := \"Tag_1\", PV := \"Tag_PresetValue\", R := \"Tag_Reset\", Q => \"Tag_Status\", CV => \"Tag_Value\");`",
+        "其他有用信息": "计数器值达到上限 999 后停止增加。"
+    },
+    {
+        "指令名": "S_CD",
+        "指令说明": "可使用“分配参数并减计数”指令递减计数器值。当 CD 参数的信号状态从“0”变为“1”（信号上升沿）时,当前计数器值减 1。",
+        "参数列表": [
+            " C_NO, Input, COUNTER、INT, 计数器操作。",
+            " CD, Input, BOOL, 减计数输入。",
+            " S, Input, BOOL, 用于预置计数器的输入端。",
+            " PV, Input, WORD, 预置 BCD 格式的计数器值。",
+            " R, Input, BOOL, 复位输入。",
+            " Q, Output, BOOL, 计数器状态。",
+            " CV, Output, WORD, 当前计数器值。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result\" := S_CD(C_NO := \"Counter_1\", CD := \"Tag_Start\", S := \"Tag_1\", PV := \"Tag_PresetValue\", R := \"Tag_Reset\", Q => \"Tag_Status\", CV => \"Tag_Value\");`",
+        "其他有用信息": "计数器值达到下限 0 时停止递减。"
+    },
+    {
+        "指令名": "S_CUD",
+        "指令说明": "可使用“分配参数并加/减计数”指令递增和递减计数器值。根据 CU 和 CD 的信号状态,当前计数器值将相应增加或减少。",
+        "参数列表": [
+            " C_NO, Input, COUNTER、INT, 计数器操作。",
+            " CU, Input, BOOL, 加计数输入。",
+            " CD, Input, BOOL, 减计数输入。",
+            " S, Input, BOOL, 用于预置计数器的输入端。",
+            " PV, Input, WORD, 预置 BCD 格式的计数器值。",
+            " R, Input, BOOL, 复位输入。",
+            " Q, Output, BOOL, 计数器状态。",
+            " CV, Output, WORD, 当前计数器值。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result\" := S_CD(C_NO := \"Counter_1\", CU := \"Tag_CU\", CD := \"Tag_CD\", S := \"Tag_1\", PV := \"Tag_PresetValue\", R := \"Tag_Reset\", Q => \"Tag_Status\", CV => \"Tag_Value\");`",
+        "其他有用信息": "计数器值达到上限 999 或下限 0 时停止变化。"
+    },
+    {
+        "指令名": "TypeOf",
+        "指令说明": "可以使用“检查 VARIANT 或 ResolvedSymbol 变量的数据类型”指令检查 VARIANT 或 ResolvedSymbol 变量所指向的变量的数据类型,并进行比较。",
+        "参数列表": [
+            " <操作数>, Input, 二进制数、整数、浮点数、时间、日期和时间、字符串、VARIANT、ResolvedSymbol, 用于查询的操作数。"
+        ],
+        "示例代码和代码解读": "`SCL IF TypeOf(#TagVARIANT) = TypeOf(\"TagBYTE\") THEN ...; END_IF;`",
+        "其他有用信息": "只能在 IF 或 CASE 指令中使用。"
+    },
+    {
+        "指令名": "TypeOfElements",
+        "指令说明": "可以使用“检查 VARIANT 变量的 ARRAY 元素的数据类型”指令查询 VARIANT 变量所指向的变量的数据类型,并进行比较。",
+        "参数列表": [
+            " <操作数>, Input, VARIANT, 用于查询的操作数。"
+        ],
+        "示例代码和代码解读": "`SCL IF TypeOfElements(\"Tag_Variant\") = TypeOF(\"GlobalDB\".Product[1]) THEN \"Tag_Variant\" := \"GlobalDB\".Product[1] * 3; END_IF;`",
+        "其他有用信息": "只能在 IF 或 CASE 指令中使用。"
+    },
+    {
+        "指令名": "IS_ARRAY",
+        "指令说明": "可以使用“检查 ARRAY”指令查询 VARIANT 是否指向 ARRAY 数据类型的变量。",
+        "参数列表": [
+            " <操作数>, Input, VARIANT, 为 ARRAY 查询的操作数。"
+        ],
+        "示例代码和代码解读": "`SCL IF IS_ARRAY(#Tag_VARIANTToArray) THEN \"Tag_Result\" := CountOfElements(#Tag_VARIANTToArray); END_IF;`",
+        "其他有用信息": "只能在 IF 指令中使用。"
+    },
+    {
+        "指令名": "TypeOfDB",
+        "指令说明": "指令“查询 DB 的数据类型”用于查询某个数据块的数据类型,该数据块由 DB_ANY 数据类型变量进行寻址。",
+        "参数列表": [
+            " <操作数>, Input, DB_ANY, 用于查询的操作数。"
+        ],
+        "示例代码和代码解读": "`SCL IF TypeOfDB(#InputDBAny) = TO",
+        "其他有用信息": "只能在 IF 或 CASE 指令中使用。"
+    },
+    {
+        "指令名": "ABS",
+        "指令说明": "使用“计算绝对值”指令可计算输入值的绝对值,并将结果保存到指定的操作数中。",
+        "参数列表": [
+            " <表达式>, Input, SINT、INT、DINT、LINT、浮点数, 输入值。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result1\" := ABS(\"Tag_Value\");`",
+        "其他有用信息": "结果与输入值的数据类型相同。"
+    },
+    {
+        "指令名": "MIN",
+        "指令说明": "使用“获取最小值”指令比较可用输入的值,并将最小的值作为结果返回。至少需要两个输入。",
+        "参数列表": [
+            " IN1, Input, 整数、浮点数、TIME、TOD、DATE、DTL, 第一个输入值。",
+            " IN2, Input, 整数、浮点数、TIME、TOD、DATE、DTL, 第二个输入值。",
+            " INn, Input, 整数、浮点数、TIME、TOD、DATE、DTL, 其他插入的输入（其值待比较）。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result\" := MIN(IN1 := \"Tag_Value1\", IN2 := \"Tag_Value2\", IN3 := \"Tag_Value3\");`",
+        "其他有用信息": "结果为所有输入中的最小值。"
+    },
+    {
+        "指令名": "MAX",
+        "指令说明": "使用“获取最大值”指令,比较输入值,并将最大的值作为结果返回。至少需要两个输入。",
+        "参数列表": [
+            " IN1, Input, 整数、浮点数、TIME、TOD、DATE、DTL, 第一个输入值。",
+            " IN2, Input, 整数、浮点数、TIME、TOD、DATE、DTL, 第二个输入值。",
+            " INn, Input, 整数、浮点数、TIME、TOD、DATE、DTL, 其他插入的输入（其值待比较）。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result\" := MAX(IN1 := \"Tag_Value1\", IN2 := \"Tag_Value2\", IN3 := \"Tag_Value3\");`",
+        "其他有用信息": "结果为所有输入中的最大值。"
+    },
+    {
+        "指令名": "LIMIT",
+        "指令说明": "可使用“设置限值”指令,将参数 IN 的值限制在参数 MN 和 MX 值之间。MN 不应大于 MX。",
+        "参数列表": [
+            " MN, Input, 整数、浮点数、TIME、TOD、DATE、DTL, 下限。",
+            " IN, Input, 整数、浮点数、TIME、TOD、DATE、DTL, 输入值。",
+            " MX, Input, 整数、浮点数、TIME、TOD、DATE、DTL, 上限。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result\" := LIMIT(MN := \"Tag_Minimum\", IN := \"Tag_Value\", MX := \"Tag_Maximum\");`",
+        "其他有用信息": "如果 MN 大于 MX,结果为 IN 参数的值,且 ENO 为“0”。"
+    },
+    {
+        "指令名": "SQR",
+        "指令说明": "使用“计算平方”指令,可以计算输入值的平方值,并将结果保存到指定的操作数中。",
+        "参数列表": [
+            " <表达式>, Input, 浮点数, 输入值。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result1\" := SQR(\"Tag_Value\");`",
+        "其他有用信息": "结果为输入值的平方。"
+    },
+    {
+        "指令名": "SQRT",
+        "指令说明": "使用“计算平方根”指令,可以计算输入值的平方根,并将结果保存到指定的操作数中。",
+        "参数列表": [
+            " <表达式>, Input, 浮点数, 输入值。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result1\" := SQRT(\"Tag_Value\");`",
+        "其他有用信息": "如果输入值小于零,则返回无效浮点数。"
+    },
+    {
+        "指令名": "LN",
+        "指令说明": "使用“计算自然对数”指令,可以计算输入值的以 e 为底的自然对数。",
+        "参数列表": [
+            " <表达式>, Input, 浮点数, 输入值。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result1\" := LN(\"Tag_Value\");`",
+        "其他有用信息": "如果输入值小于零,则返回无效浮点数。"
+    },
+    {
+        "指令名": "EXP",
+        "指令说明": "使用“计算指数值”指令,可通过底数 e 及输入值来计算指数,并将结果保存在指定的操作数中。",
+        "参数列表": [
+            " <表达式>, Input, 浮点数, 输入值。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result1\" := EXP(\"Tag_Value\");`",
+        "其他有用信息": "无。"
+    },
+    {
+        "指令名": "SIN",
+        "指令说明": "使用“计算正弦值”指令,可以计算输入值的正弦值。输入值的单位必须为弧度。",
+        "参数列表": [
+            " <表达式>, Input, 浮点数, 输入值（弧度形式的角度值）。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result\" := SIN(\"Tag_Value\");`",
+        "其他有用信息": "无。"
+    },
+    {
+        "指令名": "COS",
+        "指令说明": "使用“计算余弦值”指令,可以计算输入值的余弦值。输入值的单位必须为弧度。",
+        "参数列表": [
+            " <表达式>, Input, 浮点数, 输入值（弧度形式的角度值）。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result\" := COS(\"Tag_Value\");`",
+        "其他有用信息": "无。"
+    },
+    {
+        "指令名": "TAN",
+        "指令说明": "使用“计算正切值”指令,可以计算输入值的正切值。输入值的单位必须为弧度。",
+        "参数列表": [
+            " <表达式>, Input, 浮点数, 输入值（弧度形式的角度值）。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result\" := TAN(\"Tag_Value\");`",
+        "其他有用信息": "无。"
+    },
+    {
+        "指令名": "ASIN",
+        "指令说明": "使用“计算反正弦值”指令,可以计算正弦值所对应的角度值。输入值只能是 -1 到 +1 范围内的有效浮点数。",
+        "参数列表": [
+            " <表达式>, Input, 浮点数, 正弦值。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result\" := ASIN(\"Tag_Value\");`",
+        "其他有用信息": "结果范围在 -π/2 到 +π/2 之间。"
+    },
+    {
+        "指令名": "ACOS",
+        "指令说明": "使用“计算反余弦值”指令,可以计算余弦值所对应的角度值。输入值只能是 -1 到 +1 范围内的有效浮点数。",
+        "参数列表": [
+            " <表达式>, Input, 浮点数, 余弦值。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result\" := ACOS(\"Tag_Value\");`",
+        "其他有用信息": "结果范围在 0 到 +π 之间。"
+    },
+    {
+        "指令名": "ATAN",
+        "指令说明": "使用“计算反正切值”指令,可以计算正切值所对应的角度值。输入值可以是任何有效的浮点数。",
+        "参数列表": [
+            " <表达式>, Input, 浮点数, 正切值。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result\" := ATAN(\"Tag_Value\");`",
+        "其他有用信息": "结果范围在 -π/2 到 +π/2 之间。"
+    },
+    {
+        "指令名": "FRAC",
+        "指令说明": "“返回小数”指令的结果将返回数值的小数位。例如,输入值为 1.125 时,将返回值 0.125。",
+        "参数列表": [
+            " <表达式>, Input, 浮点数, 输入值。"
+        ],
+        "示例代码和代码解读": "`SCL \"Tag_Result1\" := FRAC(\"Tag_Value\");`",
+        "其他有用信息": "无。"
+    },
+    {
+        "指令名": "MOVE_BLK",
+        "指令说明": "可以使用“移动块”(Move block) 指令将一个存储区（源范围）的数据移动到另一个存储区（目标范围）中。使用参数 COUNT 可以指定将移动到目标范围中的元素个数。",
+        "参数列表": [
+            " IN,待复制源区域中的首个元素。",
+            " COUNT,要从源范围复制到目标范围的元素个数。",
+            " OUT,源范围内容要复制到的目标范围中的首个元素。"
+        ],
+        "示例代码和代码解读": "SCL MOVE_BLK(IN := #a_array[2], COUNT := \"Tag_Count\", OUT => #b_array[1]);",
+        "其他有用信息": "仅当源范围和目标范围的数据类型相同时,才能执行该指令。"
+    },
+    {
+        "指令名": "MOVE_BLK_VARIANT",
+        "指令说明": "可以使用“块移动”指令将一个存储区（源范围）的数据移动到另一个存储区（目标范围）中。可以将一个完整的 ARRAY 或 ARRAY 的元素复制到另一个相同数据类型的 ARRAY 中。",
+        "参数列表": [
+            " SRC,待复制的源块。",
+            " COUNT,已复制的元素数目。",
+            " SRC_INDEX,定义要复制的第一个元素。",
+            " DEST_INDEX,定义了目标存储区的起点。",
+            " DEST,源块中内容将复制到的目标区域。"
+        ],
+        "示例代码和代码解读": "SCL \"Tag_Result\" := MOVE_BLK_VARIANT(SRC := #SrcField, COUNT := \"Tag_Count\", SRC_INDEX := \"Tag_Src_Index\", DEST_INDEX := \"Tag_Dest_Index\", DEST => #DestField);",
+        "其他有用信息": "无论后期如何声明该 ARRAY,参数 SRC_INDEX 和 DEST_INDEX 始终从下限“0”开始计数。"
+    },
+    {
+        "指令名": "SWAP",
+        "指令说明": "使用“交换”指令,可以更改输入值中字节的排列顺序,并将结果保存在指定的操作数中。",
+        "参数列表": [
+            " <表达式>,输入值。"
+        ],
+        "示例代码和代码解读": "SCL \"Tag_Result\" := SWAP(\"Tag_Value\");",
+        "其他有用信息": "无具体其他信息。"
+    },
+    {
+        "指令名": "CountOfElements",
+        "指令说明": "可以使用“获取 ARRAY 元素的数量”指令,查询 VARIANT 指针所包含的 ARRAY 元素数量。",
+        "参数列表": [
+            " <操作数>,要查询的变量。"
+        ],
+        "示例代码和代码解读": "SCL IF IS_ARRAY(#Tag_VARIANTToArray) THEN \"Tag_Result\" := CountOfElements(#Tag_VARIANTToArray); END_IF;",
+        "其他有用信息": "VARIANT 指针可以不指向实例,因此也可不指向多重实例或多重实例的 ARRAY。如果 VARIANT 变量不是 ARRAY,也将返回结果“0”。"
+    },
+    {
+        "指令名": "LOWER_BOUND",
+        "指令说明": "该指令用于读取ARRAY变量的下限。",
+        "参数列表": [
+            " ARR, Input, ARRAY[*], 待读取可变下限的ARRAY。",
+            " DIM, Input, UDINT, 待读取可变下限的ARRAY维度。"
+        ],
+        "示例代码和代码解读": "无具体示例代码,但说明了如何使用该指令。",
+        "其他有用信息": "该指令可用于固件版本为V4.2及以上版本的S7-1200系列CPU和固件版本为V2.0及以上版本的S7-1500系列CPU。"
+    },
+    {
+        "指令名": "UPPER_BOUND",
+        "指令说明": "该指令用于读取ARRAY变量的上限。",
+        "参数列表": [
+            " ARR, Input, ARRAY[*], 待读取可变上限的ARRAY。",
+            " DIM, Input, UDINT, 待读取可变上限的ARRAY维度。"
+        ],
+        "示例代码和代码解读": "无具体示例代码,但说明了如何使用该指令。",
+        "其他有用信息": "同LOWER_BOUND指令的可用性。"
+    },
+    {
+        "指令名": "CONVERT",
+        "指令说明": "该指令用于显式转换值,将源值转换为指定的目标数据类型。",
+        "参数列表": [
+            " 源类型, Input, 二进制数、整数、浮点数等, 要转换的值。",
+            " 目标类型, Output, 二进制数、整数、浮点数等, 转换结果。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用CONVERT指令进行数据类型转换。",
+        "其他有用信息": "在指令功能框中,可以指定转换的源数据类型和目标数据类型。"
+    },
+    {
+        "指令名": "ROUND",
+        "指令说明": "该指令用于将输入值取整为最接近的整数。",
+        "参数列表": [
+            " 表达式, Input, 浮点数, 要取整的输入值。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用ROUND指令进行取整操作。",
+        "其他有用信息": "如果输入值恰好是在一个偶数和一个奇数之间,则选择偶数。"
+    },
+    {
+        "指令名": "CEIL",
+        "指令说明": "该指令用于将浮点数向上取整为最接近的整数。",
+        "参数列表": [
+            " 表达式, Input, 浮点数, 输入值。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用CEIL指令进行向上取整操作。",
+        "其他有用信息": "函数值可以大于或等于输入值。"
+    },
+    {
+        "指令名": "FLOOR",
+        "指令说明": "该指令用于将浮点数向下取整为最接近的较小整数。",
+        "参数列表": [
+            " 表达式, Input, 浮点数, 输入值。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用FLOOR指令进行向下取整操作。",
+        "其他有用信息": "函数值可等于或小于输入值。"
+    },
+    {
+        "指令名": "TRUNC",
+        "指令说明": "该指令用于截尾取整,直接从输入值中截取整数部分。",
+        "参数列表": [
+            " 表达式, Input, 浮点数, 输入值。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用TRUNC指令进行截尾取整操作。",
+        "其他有用信息": "该指令仅选择输入值的整数部分,不含小数位。"
+    },
+    {
+        "指令名": "SCALE_X",
+        "指令说明": "该指令用于将浮点数映射到指定的取值范围进行缩放。",
+        "参数列表": [
+            " EN, Input, BOOL, 使能输入。",
+            " ENO, Output, BOOL, 使能输出。",
+            " MIN, Input, 整数或浮点数, 取值范围的下限。",
+            " VALUE, Input, 浮点数, 要缩放的值。",
+            " MAX, Input, 整数或浮点数, 取值范围的上限。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SCALE_X指令进行值的缩放。",
+        "其他有用信息": "使用公式OUT = [VALUE ∗ (MAX – MIN)] + MIN进行计算,如果使能输入EN的信号状态为“0”或MIN的值大于或等于MAX,则使能输出ENO返回信号状态“0”。"
+    },
+    {
+        "指令名": "NORM_X",
+        "指令说明": "该指令用于通过将输入值映射到线性标尺进行标准化。",
+        "参数列表": [
+            " EN, Input, BOOL, 使能输入。",
+            " ENO, Output, BOOL, 使能输出。",
+            " MIN, Input, 整数或浮点数, 取值范围的下限。",
+            " VALUE, Input, 整数或浮点数, 要标准化的值。",
+            " MAX, Input, 整数或浮点数, 取值范围的上限。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SCALE_X指令进行值的缩放。",
+        "其他有用信息": "使用公式OUT = (VALUE – MIN) / (MAX – MIN)进行计算,如果使能输入EN的信号状态为“0”或MIN的值大于或等于MAX,则使能输出ENO返回信号状态“0”。"
+    },
+    {
+        "指令名": "SCALE",
+        "指令说明": "该指令用于将整数转换为在物理单位内缩放的浮点数。",
+        "参数列表": [
+            " IN, Input, INT, 待缩放的输入值。",
+            " HI_LIM, Input, REAL, 上限。",
+            " LO_LIM, Input, REAL, 下限。",
+            " BIPOLAR, Input, BOOL, 指示将参数IN的值解释为双极性还是单极性。",
+            " OUT, Output, REAL, 指令的结果。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SCALE指令进行缩放操作并处理可能的错误。",
+        "其他有用信息": "常数K1和K2的值取决于参数BIPOLAR的信号状态,如果IN的值超出K2或小于K1,则输出错误。"
+    },
+    {
+        "指令名": "UNSCALE",
+        "指令说明": "该指令用于取消缩放,将浮点数转换为整数。",
+        "参数列表": [
+            " IN, Input, REAL, 待取消缩放并转换为整数的输入值。",
+            " HI_LIM, Input, REAL, 上限。",
+            " LO_LIM, Input, REAL, 下限。",
+            " BIPOLAR, Input, BOOL, 指示将参数IN的值解释为双极性还是单极性。",
+            " OUT, Output, INT, 指令的结果。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用UNSCALE指令进行取消缩放操作并处理可能的错误。",
+        "其他有用信息": "常数K1和K2的值取决于参数BIPOLAR的信号状态,如果IN的值超出HI_LIM或小于LO_LIM,则输出错误并将结果设置为最接近的限值。"
+    },
+    {
+        "指令名": "SHR",
+        "指令说明": "该指令用于右移,将参数的内容逐位向右移动。",
+        "参数列表": [
+            " IN, Input, 位字符串或整数, 要移位的值。",
+            " N, Input, USINT、UINT等, 对值(IN)进行移位的位数。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHR指令进行右移操作。",
+        "其他有用信息": "无符号值移位时,用零填充左侧区域中空出的位；有符号值移位时,用符号位的信号状态填充。"
+    },
+    {
+        "指令名": "SHL",
+        "指令说明": "该指令用于左移,将参数的内容逐位向左移动。",
+        "参数列表": [
+            " IN, Input, 位字符串或整数,要移位的值。",
+            " N, Input, USINT、UINT等, 对值(IN)进行移位的位数。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "结果值中因移位而空出的位将用0填充。"
+    },
+    {
+        "指令名": "ROL",
+        "指令说明": "使用“循环左移”指令,可以将参数 IN 的内容逐位向左循环移位,并将结果作为函数值返回。参数 N 用于指定应将特定值循环移位的位数。用移出的位填充因循环移位而空出的位。",
+        "参数列表": [
+            " IN, Input, 位字符串/整数, 要循环移位的值",
+            " N, Input, USINT/UINT/UDINT/ULINT, 要将值进行(IN)循环移位的位数",
+            " 函数值, 位字符串/整数, 指令的结果"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "如果参数 N 的值为“0”,则将输入 IN 的值作为结果。如果参数 N 的值大于可用位数,则输入 IN 中的操作数值将循环移动指定位数个位。"
+    },
+    {
+        "指令名": "BCDCPL",
+        "指令说明": "“求十进制补码”指令用于计算操作数中所指定 7 位 BCD 数的十进制补码。",
+        "参数列表": [
+            " 操作数, Input, 位字符串, 7 位 BCD 数。",
+            " 函数值, DWORD, 指令的结果。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "使用数学公式 10000000（BCD 编码）- 7 位 BCD 值进行计算。"
+    },
+    {
+        "指令名": "BITSUM",
+        "指令说明": "可以使用“统计置位位数量”指令统计信号状态被置位为“1”的操作数的位数。",
+        "参数列表": [
+            " 操作数, Input, DWORD, 要统计其置位位数量的操作数。",
+            " 函数值, INT, 指令的结果。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "文档中未提供其他有用信息。"
+    },
+    {
+        "指令名": "T_COMP",
+        "指令说明": "此指令用于对数据类型为“定时器”或“日期和时间”的两个变量的内容进行比较。",
+        "参数列表": [
+            " IN1, Input, DATE, TIME, LTIME, TOD, LTOD, DT, LDT, DTL, S5Time, 待比较的第一个值。",
+            " IN2, Input, DATE, TIME, LTIME, TOD, LTOD, DT, LDT, DTL, S5Time, 待比较的第二个值。",
+            " OUT, Output, BOOL, 返回值。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "要进行比较,数据类型的长度和格式必须相同。比较的结果将在 OUT 参数中作为返回值输出。"
+    },
+    {
+        "指令名": "T_CONV",
+        "指令说明": "使用指令“T_CONV”将 IN 输入参数的数据类型转换为 OUT 输出上输出的数据类型。",
+        "参数列表": [
+            " IN, Input, 整数、TIME、日期和时间*, 要转换的值。",
+            " OUT, Return, 整数、TIME、日期和时间*, 转换结果。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "如果使用了相同数据类型的输入和输出参数,则该指令将复制对应值。"
+    },
+    {
+        "指令名": "T_ADD",
+        "指令说明": "使用该指令将 IN1 输入中的时间信息加到 IN2 输入中的时间信息上。",
+        "参数列表": [
+            " IN1, Input, TIME, LTIME, 要相加的第一个数。",
+            " IN2, Input, TIME, LTIME, 要相加的第二个数。",
+            " OUT, Return, DINT, DWORD, TIME, TOD, 相加的结果。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "在计算过程中,可能超出输出参数 OUT 的最大值或低于最小值。通过评估使能输出 ENO,可检测这一错误。"
+    },
+    {
+        "指令名": "T_SUB",
+        "指令说明": "使用该指令将 IN1 输入参数中的时间值减去 IN2 输入参数中的时间值。",
+        "参数列表": [
+            " IN1, Input, TIME, LTIME, 被减数。",
+            " IN2, Input, TIME, LTIME, 减数。",
+            " OUT, Return, DINT, DWORD, TIME, TOD, 相减的结果。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "在计算过程中,可能超出输出参数 OUT 的最大值或低于最小值。通过评估使能输出 ENO,可检测这一错误。"
+    },
+    {
+        "指令名": "T_DIFF",
+        "指令说明": "使用该指令将 IN1 输入参数中的时间值减去 IN2 输入参数中的时间值。",
+        "参数列表": [
+            " IN1, Input, DTL, DATE, TOD, 被减数。",
+            " IN2, Input, DTL, DATE, TOD, 减数。",
+            " OUT, Return, TIME, INT, LTIME, INT, 输入参数之间的差值。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "如果 IN2 输入参数中的时间值大于 IN1 输入参数中的时间值,则 OUT 输出参数中将输出一个负数结果。"
+    },
+    {
+        "指令名": "T_COMBINE",
+        "指令说明": "该指令用于合并日期值和时间值,并生成一个合并日期时间值。",
+        "参数列表": [
+            " IN1, Input, DATE, 日期的输入变量。",
+            " IN2, Input, TOD, 时间的输入变量。",
+            " OUT, Return, DTL, DT, LDT, 日期和时间的返回值。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "在 SCL 程序中使用 T_COMBINE 时,将指令“T_COMBINE”从“指令”任务卡拖放到 SCL 编程窗口中,内部指令 CONCAT_DATE_TOD 或 CONCAT_DATE_LTOD 显示在该窗口内。"
+    },
+    {
+        "指令名": "WR_SYS_T",
+        "指令说明": "使用该指令,可设置 CPU 时钟的日期和时间（模块时间）。",
+        "参数列表": [
+            " IN, Input, DTL, DT, LDT, 日期和时间。",
+            " RET_VAL, Return, INT, 指令的状态。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "CPU 时钟的模块时间将用作 CPU 发起的所有时间处理过程的模板。"
+    },
+    {
+        "指令名": "RD_SYS_T",
+        "指令说明": "可以使用该指令读取 CPU 时钟的当前日期和当前时间（模块时间）。",
+        "参数列表": [
+            " RET_VAL, Return, INT, 指令的状态。",
+            " OUT, Output, DTL, DT, LDT, CPU 的日期和时间。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "得出的值不包含有关本地时区或夏令时的信息。"
+    },
+    {
+        "指令名": "RD_LOC_T",
+        "指令说明": "使用该指令从 CPU 时钟读取当前本地时间。",
+        "参数列表": [
+            " RET_VAL, Return, INT, 指令的状态。",
+            " OUT, Output, DTL, LDT, DTL, 本地时间。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "在输出本地时间时,会用到夏令时和标准时间的时区和开始时间（已在 CPU 时钟的组态中设置）的相关信息。"
+    },
+    {
+        "指令名": "WR_LOC_T",
+        "指令说明": "指令“WR_LOC_T”用于设置 CPU 时钟的日期和时间。",
+        "参数列表": [
+            " LOCTIME, Input, DTL, LDT, 本地时间。",
+            " DST, Input, BOOL, Daylight Saving Time。",
+            " RET_VAL, Return, INT, 错误消息。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "本地时间和系统时间的时间信息粒度与具体产品有关,且至少为 1 毫秒。"
+    },
+    {
+        "指令名": "SET_TIMEZONE",
+        "指令说明": "使用指令“SET_TIMEZONE”设置进行本地时区和夏令时/标准时间切换的参数。",
+        "参数列表": [
+            " REQ, Input, BOOL, 执行函数。",
+            " TimeZone, Input, TimeTransformationRule, 本地时区参数和夏令时/标准时间转换参数。",
+            " DONE, Output, BOOL, 状态参数。",
+            " BUSY, Output, BOOL, 状态参数。",
+            " ERROR, Output, BOOL, 状态参数。",
+            " STATUS, Output, WORD, 详细的错误和状态信息。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "每次更改时区时,需要调用该指令一次。例如,建议在启动 OB 中调用“SET_TIMEZONE”。"
+    },
+    {
+        "指令名": "SNC_RTCB",
+        "指令说明": "同步时钟从站是指将某总线段的时钟主站的日期和日时钟传送到该总线段中的所有时钟从站。",
+        "参数列表": [
+            " RET_VAL, Output, INT, 执行过程中如果发生错误,则返回值将包含错误代码。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "仅当在其实时时钟被指定为至少一个总线段的主站时钟的 CPU 上调用了“SNC_RTCB”时,同步才可能成功。"
+    },
+    {
+        "指令名": "TIME_TCK",
+        "指令说明": "使用指令“TIME_TCK”,可以读取 CPU 的系统时间。",
+        "参数列表": [
+            " RET_VAL, Return, TIME, 读取的系统时间。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "系统时间是一个时间计数器,从 0 开始计数,直至最大值 2147483647 ms。发生溢出时,系统时间将重新从“0”开始计数。"
+    },
+    {
+        "指令名": "RTM",
+        "指令说明": "可使用该指令对 CPU 的 32 位运行小时计数器执行设置、启动、停止和读取操作。",
+        "参数列表": [
+            " NR, Input, RTM, 运行小时计数器的编号。",
+            " MODE, Input, BYTE, 作业 ID。",
+            " PV, Input, DINT, 运行小时计数器的新值。",
+            " RET_VAL, Return, INT, 指令执行过程中如果发生错误,则返回值将包含错误代码。",
+            " CQ, Output, BOOL, 运行小时计数器的状态。",
+            " CV, Output, DINT, 运行小时计数器的当前值。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "在执行用户程序期间也可以停止或重新启动运行小时计数器,但这可能会导致保存的值不正确。"
+    },
+    {
+        "指令名": "S_MOVE",
+        "指令说明": "可以使用此指令将参数 IN 中字符串的内容写入在参数 OUT 中指定的数据区域。",
+        "参数列表": [
+            " IN, Input, STRING, WSTRING, 源字符串。",
+            " OUT, Output, STRING, WSTRING, 目标字符串。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "要复制数据类型为 ARRAY 的变量,可使用指令“MOVE_BLK”和“UMOVE_BLK”。"
+    },
+    {
+        "指令名": "S_COMP",
+        "指令说明": "使用该指令,可比较两个 (W)STRING 格式的变量的内容,并将比较结果作为返回值输出。",
+        "参数列表": [
+            " IN1, Input, STRING, WSTRING, 输入变量,格式为 STRING / WSTRING。",
+            " IN2, Input, STRING, WSTRING, 输入变量,格式为 STRING / WSTRING。",
+            " OUT, Output, BOOL, 比较的结果。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "按照字符的 ASCII 码从左侧开始比较字符。第一个不同的字符决定比较结果。"
+    },
+    {
+        "指令名": "S_CONV",
+        "指令说明": "使用该指令将 IN 输入中的值转换为 OUT 输出中指定的数据格式。",
+        "参数列表": [
+            " IN, Input, CHAR, WCHAR, USINT, UINT, UDINT, ULINT, SINT, INT, DINT, LINT, REAL, LREAL, 要转换的值。",
+            " OUT, Output, CHAR, WCHAR, USINT, UINT, UDINT, ULINT, SINT, INT, DINT, LINT, REAL, LREAL, STRING, WSTRING, 转换结果。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "转换后字符串的长度取决于 IN 输入中的值。在 SCL 中,运算后返回的字符串将覆盖返回值处变量中的内容。"
+    },
+    {
+        "指令名": "STRG_VAL",
+        "指令说明": "“STRG_VAL”指令可将字符串转换为整数或浮点数。",
+        "参数列表": [
+            " IN, Input, STRING, WSTRING, 要转换的数字字符串。",
+            " FORMAT, Input, WORD, 字符的输入格式。",
+            " P, Input, UINT, 要转换的第一个字符的引用。",
+            " OUT, Output, USINT, SINT, UINT, INT, UDINT, DINT, REAL, LREAL, 转换结果。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "转换允许的字符包括数字“0”到“9”、小数点、小数撇、计数制“E”和“e”,以及加减号字符。如果发现无效字符,将取消转换过程。"
+    },
+    {
+        "指令名": "VAL_STRG",
+        "指令说明": "“VAL_STRG”指令用于将数字值转换为字符串。",
+        "参数列表": [
+            " IN, Input, USINT, SINT, UINT, INT, UDINT, DINT, REAL, LREAL, 要转换的值。",
+            " SIZE, Input, USINT, 字符位数。",
+            " PREC, Input, USINT, 小数位数。",
+            " FORMAT, Input, WORD, 字符的输出格式。",
+            " P, InOut, UINT, 开始写入结果的字符。",
+            " OUT, Output, STRING, WSTRING, 转换结果。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "无效字符将中断转换过程。"
+    },
+    {
+        "指令名": "Strg_TO_Chars",
+        "指令说明": "通过指令“Strg_TO_Chars”,可将数据类型为 STRING 的字符串复制到 Array of CHAR 或 Array of BYTE 中；或将数据类型为 WSTRING 的字符串复制到 Array of WCHAR 或 Array of WORD 中。",
+        "参数列表": [
+            " STRG, Input, STRING, WSTRING, 复制操作的源。",
+            " PCHARS, Input, DINT, Array of (W)CHAR / BYTE / WORD 结构中的位置,从该位置处开始写入字符。",
+            " CHARS, InOut, VARIANT, 复制操作的目标。",
+            " CNT, Output, UINT, 移动的字符数量。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "该操作只能复制 ASCII 字符。如果目标域包含的字符数少于源字符串中的字符数,则将只写入最多与目标域最大长度相同的字符数。"
+    },
+    {
+        "指令名": "Chars_TO_Strg",
+        "指令说明": "通过指令“Chars_TO_Strg”,可将字符串从 Array of CHAR 或 Array of BYTE 复制到数据类型为 STRING 的字符串中；或将字符串从 ARRAY of WCHAR 或 Array of WORD 复制到数据类型为 WSTRING 的字符串中。",
+        "参数列表": [
+            " CHARS, Input, VARIANT, 复制操作的源。",
+            " PCHARS, Input, DINT, Array of (W)CHAR / BYTE / WORD 中的位置,从该位置处开始复制字符。",
+            " CNT, Input, UINT, 要复制的字符数。",
+            " STRG, Output, STRING, WSTRING, 复制操作的目标。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "复制操作仅支持 ASCII 字符。如果字符串长度小于源域中的字符个数,则将在字符串中写入最大长度的字符数。"
+    },
+    {
+        "指令名": "MAX_LEN",
+        "指令说明": "使用指令“MAX_LEN”,可确定输入参数 IN 中所指定字符串的最大长度,并将其作为数字值输出到输出参数 OUT 中。",
+        "参数列表": [
+            " IN, Input, STRING, WSTRING, 字符串。",
+            " OUT, Return, INT, DINT, 最大字符数。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "(W)STRING 数据类型的变量包含两个长度"
+    },
+    {
+        "指令名": "JOIN",
+        "指令说明": "将多个字符串通过指定的分隔符连接成一个数组,支持CSV格式和FSR格式。",
+        "参数列表": [
+            " Mode,Input,DWORD,指定合并方式（CSV或FSR）。",
+            " RecSeparator,Input,VARIANT,源字符串的分隔符或填充字符。",
+            " EndSeparator,Input,VARIANT,转换末尾的分隔符。",
+            " SrcStruct,Input,VARIANT,指向源字符串的指针。",
+            " Count,Input,UDINT,连接的字符串数量。",
+            " DestArray,InOut,VARIANT,转换后写入字符的区域。",
+            " Position,InOut,UDINT,为整个字符串中的位置制作索引。",
+            " Ret_Val,Return,INT,指令的状态。"
+        ],
+        "示例代码和代码解读": "提供了SCL示例代码,展示了如何使用SHL指令进行左移操作。",
+        "其他有用信息": "JOIN指令在连接字符串时,需要注意字符串的最大长度限制和分隔符的选择。"
+    }
+]

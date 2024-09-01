@@ -1,0 +1,85 @@
+FUNCTION "LGF_GetCalendarDay" : DInt
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_GetCalendarDay
+   VAR_INPUT 
+      "date" {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;
+   END_VAR
+
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_TEMP 
+      tempDaysPassed : DInt;
+      tempDate {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;
+   END_VAR
+
+   VAR CONSTANT 
+      FIRST_DAY : USInt := 1;
+      LAST_DAY : USInt := 31;
+      JANUARY : USInt := 1;
+      DECEMBER : USInt := 12;
+      TIME_ZERO_FORCE_UPDATE : Time := t#0d;
+      ONE_DAY : DInt := 1;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_LIM_DATE : Word := 16#8201;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_GetCalendarDay
+	  // Comment/Function: This function calculates for a date the passed days since 1st January.
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15.1
+	  // Restrictions:     ENO disabled - error handling done with error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  //=============================================================================
+	END_REGION BLOCK INFO HEADER
+	
+	REGION INITIALISATION
+	  #tempDate := #date;
+	  #tempDaysPassed := 0;
+	END_REGION
+	
+	REGION COUNT DAYS
+	  // Check #date
+	  // adding zero forces the PLC to update the tag and eno check
+	  #tempDate := #tempDate + #TIME_ZERO_FORCE_UPDATE;
+	  IF ENO = FALSE THEN
+	    #error := TRUE;
+	    #status := #ERR_LIM_DATE;
+	    #LGF_GetCalendarDay := #tempDaysPassed;
+	    RETURN;
+	  END_IF;
+	  
+	  // Weekday of 1st January in the current year
+	  #tempDate.MONTH := #JANUARY;
+	  #tempDate.DAY := #FIRST_DAY;
+	  // adding zero forces the PLC to update the tag
+	  // in this case especially the weekday
+	  #tempDate := #tempDate + #TIME_ZERO_FORCE_UPDATE;
+	  
+	  // Days passed in the year since 1st January, "date" included
+	  #tempDaysPassed := DATE_TO_DINT(DTL_TO_DATE(#date)) - DATE_TO_DINT(DTL_TO_DATE(#tempDate)) + #ONE_DAY;
+	END_REGION
+	
+	REGION OUTPUTS
+	  #error := FALSE;
+	  #status := #STATUS_NO_ERROR;
+	  #LGF_GetCalendarDay := #tempDaysPassed;
+	  
+	  // ENO is not used, forced to TRUE
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION

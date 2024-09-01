@@ -1,0 +1,40 @@
+{
+    "title": "计算一年中的第几天",
+    "description": "在某些自动化系统中，可能需要根据当前日期计算出它是一年中的第几天。这可以用于追踪生产周期、维护计划或其他需要日期信息的场合。\n控制要求：\n系统需要接收日期输入，包括年、月、日。\n根据输入的日期，计算并输出它是一年中的第几天。\n考虑到不同年份的2月天数可能不同（平年28天，闰年29天），系统需要能够识别闰年并相应地计算。\n输出结果应该是一个整数，表示一年中的第几天。\n如果输入的日期不合法（如2月30日、4月31日等），系统应输出错误状态和错误代码。\n说明：\n1. 要求输入的年份Year在1000到3000之间（包括1000和3000），否则输出错误状态error=true和错误代码status=16#8001。如果输入的月份Month不合法，则输出错误状态error=true和错误代码status=16#8002。如果输入的日Day不合法，则输出错误状态error=true和错误代码status=16#8003。\n2. 计算的结果通过DayOfYear输出。",
+    "type": "FUNCTION_BLOCK",
+    "name": "FB_CalculateDayOfYear",
+    "input": [
+        {
+            "name": "Year",
+            "type": "Int",
+            "description": "年份输入"
+        },
+        {
+            "name": "Month",
+            "type": "Int",
+            "description": "月份输入"
+        },
+        {
+            "name": "Day",
+            "type": "Int",
+            "description": "日输入"
+        }
+    ],
+    "output": [
+        {
+            "name": "DayOfYear",
+            "type": "Int",
+            "description": "一年中的第几天输出"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "错误状态指示\nFALSE: 没有发生错误\nTRUE: 执行出错"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "状态代码"
+        }
+    ]
+}

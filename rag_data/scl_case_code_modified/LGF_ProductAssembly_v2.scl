@@ -1,0 +1,90 @@
+FUNCTION_BLOCK "LGF_ProductAssembly"
+{ S7_Optimized_Access := 'TRUE' }
+    VAR_INPUT 
+        productSensor : Bool; // 产品到达传感器，检测到产品时触发信号 
+        inspectionConfirmButton : Bool; // 操作员确认按钮，用于确认检查工序完成 
+        assemblyConfirmButton : Bool; // 操作员确认按钮，用于确认装配工序完成 
+        testingConfirmButton : Bool; // 操作员确认按钮，用于确认测试工序完成 
+        packingConfirmButton : Bool; // 操作员确认按钮，用于确认打包工序完成 
+        resetButton : Bool; // 操作员确认按钮，用于确认产品已取走 
+    END_VAR
+
+    VAR_OUTPUT 
+        Inspection_Device : Bool; // 控制检查装置的运行输出 
+        Assembly_Device : Bool; // 控制装配装置的运行输出 
+        Testing_Device : Bool; // 控制测试装置的运行输出 
+        Packing_Device : Bool; // 控制打包装置的运行输出 
+        Packed_Light : Bool; // 打包完成指示灯 
+    END_VAR
+
+    VAR
+        "state" : INT := 0; // 状态变量,在定义时初始化
+    END_VAR
+
+    VAR_TEMP
+        tempExitStateLoop : BOOL; // 临时变量，用于控制状态循环的退出
+    END_VAR
+
+BEGIN
+    REGION state machine
+        REPEAT
+            // 重置临时变量tempExitStateLoop为TRUE，防止死循环
+            #tempExitStateLoop := TRUE; // 只有在不发生状态转移下才退出
+            // 功能块的状态机
+            CASE #state OF
+                0:
+                    // 初始状态，等待产品传感器检测到产品
+                    IF #productSensor THEN
+                        #state := 1; // 状态转移到检查工序
+                        #tempExitStateLoop := FALSE; // 发生状态转移，继续循环
+                    END_IF;
+                1:
+                    // 检查工序，启动检查装置
+                    #Inspection_Device := TRUE;
+                    // 等待检查确认按钮按下
+                    IF #inspectionConfirmButton THEN
+                        #Inspection_Device := FALSE; // 关闭检查装置
+                        #state := 2; // 状态转移到装配工序
+                        #tempExitStateLoop := FALSE; // 发生状态转移，继续循环
+                    END_IF;
+                2:
+                    // 装配工序，启动装配装置
+                    #Assembly_Device := TRUE;
+                    // 等待装配确认按钮按下
+                    IF #assemblyConfirmButton THEN
+                        #Assembly_Device := FALSE; // 关闭装配装置
+                        #state := 3; // 状态转移到测试工序
+                        #tempExitStateLoop := FALSE; // 发生状态转移，继续循环
+                    END_IF;
+                3:
+                    // 测试工序，启动测试装置
+                    #Testing_Device := TRUE;
+                    // 等待测试确认按钮按下
+                    IF #testingConfirmButton THEN
+                        #Testing_Device := FALSE; // 关闭测试装置
+                        #state := 4; // 状态转移到打包工序
+                        #tempExitStateLoop := FALSE; // 发生状态转移，继续循环
+                    END_IF;
+                4:
+                    // 打包工序，启动打包装置
+                    #Packing_Device := TRUE;
+                    // 等待打包确认按钮按下
+                    IF #packingConfirmButton THEN
+                        #Packing_Device := FALSE; // 关闭打包装置
+                        #state := 5; // 状态转移到打包完成
+                        #tempExitStateLoop := FALSE; // 发生状态转移，继续循环
+                    END_IF;
+                5:
+                    // 打包完成状态，点亮打包完成指示灯
+                    #Packed_Light := TRUE;
+                    // 等待重置按钮按下
+                    IF #resetButton THEN
+                        #Packed_Light := FALSE; // 关闭打包完成指示灯
+                        #state := 0; // 状态转移到初始状态
+                        #tempExitStateLoop := FALSE; // 发生状态转移，继续循环
+                    END_IF;
+            END_CASE;
+        UNTIL (TRUE = #tempExitStateLoop) // 直到tempExitStateLoop为TRUE时退出循环
+        END_REPEAT;
+    END_REGION
+END_FUNCTION_BLOCK

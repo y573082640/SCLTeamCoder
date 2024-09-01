@@ -1,0 +1,3790 @@
+{
+    "R_TRIG": {
+        "instruction_name": "R_TRIG",
+        "instruction_description": "使用“检测信号上升沿”指令，可以检测输入 CLK 的从“0”到“1”的状态变化。该指令将输入 CLK 的当前值与保存在指定实例中的上次查询（边沿存储位）的状态进行比较。如果检测到状态从“0”变为“1”，则在输出 Q 中生成一个信号上升沿。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " CLK",
+                    "type": " BOOL",
+                    "description": " 到达信号，将查询该信号的边沿。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 边沿检测的结果。"
+                }
+            ]
+        },
+        "example_code": "R_TRIG_DB(CLK := TagIn, Q => TagOut); 输入 CLK 中变量的上一个状态存储在“R_TRIG_DB”变量中。如果检测到“TagIn”的信号状态从“0”变为“1”，则“TagOut”的信号状态在一个循环周期内为“1”。",
+        "additional_info": "无。"
+    },
+    "F_TRIG": {
+        "instruction_name": "F_TRIG",
+        "instruction_description": "使用“检测信号下降沿”指令，可以检测输入 CLK 的从“1”到“0”的状态变化。该指令将输入 CLK 的当前值与保存在指定实例中的上次查询的状态进行比较。如果检测到状态从“1”变为“0”，则在输出 Q 中生成一个信号下降沿。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " CLK",
+                    "type": " BOOL",
+                    "description": " 到达信号，将查询该信号的边沿。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 边沿检测的结果。"
+                }
+            ]
+        },
+        "example_code": "F_TRIG_DB(CLK := TagIn, Q => TagOut); 如果检测到“TagIn”的信号状态从“1”变为“0”，则“TagOut”的信号状态在一个循环周期内为“1”。",
+        "additional_info": "CPU 启动后，如果输入“CLK”的值为 FALSE，则“F_TRIG”将输出“Q”设置为 TRUE 并持续一个周期。"
+    },
+    "TP": {
+        "instruction_name": "TP",
+        "instruction_description": "使用“生成脉冲”指令，可以根据参数 IN 的信号上升沿，将参数 Q 置位为预设的一段时间 PT。无论未来输入信号的状态如何变化，都将在持续时间 PT 后复位参数 Q。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " BOOL",
+                    "description": " 启动输入。"
+                },
+                {
+                    "name": " PT",
+                    "type": " TIME",
+                    "description": " 脉冲的持续时间。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 在 PT 持续时间内保持置位状态的操作数。"
+                },
+                {
+                    "name": " ET",
+                    "type": " TIME",
+                    "description": " 当前定时器的值。"
+                }
+            ]
+        },
+        "example_code": "TP_DB.TP(IN := Tag_Start, PT := Tag_PresetTime, Q => Tag_Status, ET => Tag_ElapsedTime); 当“Tag_Start”信号上升沿时，PT 预设时间开始计时，并且“Tag_Status”置位为“1”。当前时间值存储在“Tag_ElapsedTime”中。",
+        "additional_info": "每次调用“生成脉冲”指令，都会为其分配一个 IEC 定时器用于存储实例数据。"
+    },
+    "TON": {
+        "instruction_name": "TON",
+        "instruction_description": "“接通延时”指令可以在输入 IN 的信号上升沿时启动，并延时 PT 指定的时间后，将 Q 参数置位。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " BOOL",
+                    "description": " 启动输入。"
+                },
+                {
+                    "name": " PT",
+                    "type": " TIME",
+                    "description": " 接通延时的持续时间。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 定时器 PT 时间用完时，保持置位状态的操作数。"
+                },
+                {
+                    "name": " ET",
+                    "type": " TIME",
+                    "description": " 当前定时器的值。"
+                }
+            ]
+        },
+        "example_code": "TON_DB.TON(IN := Tag_Start, PT := Tag_PresetTime, Q => Tag_Status, ET => Tag_ElapsedTime); 当“Tag_Start”信号上升沿时，PT 预设时间开始计时。时间周期过后，“Tag_Status”置位为“1”。只要“Tag_Start”为“1”，“Tag_Status”保持置位。当前时间值存储在“Tag_ElapsedTime”中。",
+        "additional_info": "每次调用“接通延时”指令，必须将其分配给存储实例数据的 IEC 定时器。"
+    },
+    "TOF": {
+        "instruction_name": "TOF",
+        "instruction_description": "使用“关断延时”指令，可以在输入 IN 的信号上升沿时置位 Q 输出，当 IN 信号变为“0”时开始计时 PT，持续时间结束后复位 Q 输出。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " BOOL",
+                    "description": " 启动输入。"
+                },
+                {
+                    "name": " PT",
+                    "type": " TIME",
+                    "description": " 关断延时的持续时间。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 超出时间 PT 后复位的操作数。"
+                },
+                {
+                    "name": " ET",
+                    "type": " TIME",
+                    "description": " 当前定时器的值。"
+                }
+            ]
+        },
+        "example_code": "TOF_DB.TOF(IN := Tag_Start, PT := Tag_PresetTime, Q => Tag_Status, ET => Tag_ElapsedTime); “Tag_Start”信号上升沿时置位“Tag_Status”。当“Tag_Start”变为“0”，PT 预设时间开始计时，时间结束后复位“Tag_Status”。当前时间值存储在“Tag_ElapsedTime”中。",
+        "additional_info": "每次调用“关断延时”指令，必须将其分配给存储实例数据的 IEC 定时器。"
+    },
+    "TONR": {
+        "instruction_name": "TONR",
+        "instruction_description": "可以使用“时间累加器”指令来累加由参数 PT 设定的时间段内的时间值。只要 IN 参数的信号状态为“1”，时间 PT 计时过程中，记录的时间值将进行累加。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " BOOL",
+                    "description": " 启动输入。"
+                },
+                {
+                    "name": " R",
+                    "type": " BOOL",
+                    "description": " 复位参数 ET 和 Q。"
+                },
+                {
+                    "name": " PT",
+                    "type": " TIME",
+                    "description": " 时间记录的最长持续时间。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 定时器 PT 内时间用完时，仍保持置位状态的操作数。"
+                },
+                {
+                    "name": " ET",
+                    "type": " TIME",
+                    "description": " 累计的时间。"
+                }
+            ]
+        },
+        "example_code": "TONR_DB.TONR(IN := Tag_Start, R := Tag_Reset, PT := Tag_PresetTime, Q => Tag_Status, ET => Tag_Time); 当“Tag_Start”信号上升沿时，PT 预设时间开始计时。累加得到的时间值将存储在“Tag_Time”中。达到 PT 指定的时间值时，“Tag_Status”置位为“1”。",
+        "additional_info": "每次调用“时间累加器”指令，必须为其分配一个用于存储实例数据的 IEC 定时器。"
+    },
+    "RESET_TIMER": {
+        "instruction_name": "RESET_TIMER",
+        "instruction_description": "使用“复位定时器”指令，可将 IEC 定时器复位为“0”。该指令不会影响 RLO。",
+        "parameters": {
+            "Output": [
+                {
+                    "name": " <IEC 定时器>",
+                    "type": " IEC_TIMER、TP_TIME、TON_TIME、TOF_TIME、TONR_TIME",
+                    "description": " 待复位的 IEC 定时器。"
+                }
+            ]
+        },
+        "example_code": "IF #started = false THEN TON_DB.TON(IN := Tag_Start, PT := Tag_PresetTime, Q => Tag_Status, ET => Tag_ElapsedTime); #started := true; END_IF; IF TON_DB.ET < T#25s THEN RESET_TIMER(TIMER := TON_DB); #started := false; END_IF; 当变量 #started 为“0”时，执行“接通延时”指令。如果 IEC 定时器“TON_DB”的超出时间小于 25s，则执行“复位定时器”指令，并复位存储在“TON_DB”背景数据块中的定时器。",
+        "additional_info": "在定时器运行时，重新初始化 IEC 定时器的实际值会破坏 IEC 定时器的功能，可能会导致程序和实际过程之间不一致。"
+    },
+    "PRESET_TIMER": {
+        "instruction_name": "PRESET_TIMER",
+        "instruction_description": "可以使用“加载持续时间”指令为 IEC 定时器设置时间。如果该指令输入逻辑运算结果 (RLO) 的信号状态为“1”，则每个周期都执行该指令。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " <持续时间>",
+                    "type": " TIME",
+                    "description": " IEC 定时器运行的持续时间。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " <IEC 定时器>",
+                    "type": " IEC_TIMER、TP_TIME、TON_TIME、TOF_TIME、TONR_TIME",
+                    "description": " 设置了持续时间的 IEC 定时器。"
+                }
+            ]
+        },
+        "example_code": "IF #started = false THEN TON_DB.TON(IN := Tag_Start, PT := Tag_PresetTime, Q => Tag_Status, ET => Tag_ElapsedTime); #started := true; #preset := true END_IF; IF TON_DB.ET < T#10s AND #preset = true THEN PRESET_TIMER(PT := T#25s, TIMER := TON_DB); #preset := false; END_IF; 当变量 #started 为“0”时，执行“接通延",
+        "additional_info": "如果在指令执行时指定 IEC 定时器正在计时，指令将覆盖该指定 IEC 定时器的当前值。"
+    },
+    "S_PULSE": {
+        "instruction_name": "S_PULSE",
+        "instruction_description": "当检测到参数 S 的逻辑运算结果 (RLO) 从“0”到“1”的变化时，“分配脉冲定时器参数并启动”指令开始计时参数 T_NO 中预设的一段时间。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " T_NO",
+                    "type": " TIMER、INT",
+                    "description": " 已启动的定时器。定时器的数量取决于 CPU。"
+                },
+                {
+                    "name": " S",
+                    "type": " BOOL",
+                    "description": " 启动输入。"
+                },
+                {
+                    "name": " TV",
+                    "type": " S5TIME、WORD",
+                    "description": " 预设时间值。"
+                },
+                {
+                    "name": " R",
+                    "type": " BOOL",
+                    "description": " 复位输入。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 定时器的状态。"
+                },
+                {
+                    "name": " BI",
+                    "type": " WORD",
+                    "description": " 当前二进制编码的时间值。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result := S_PULSE(T_NO := Timer_1, S := Tag_1, TV := Tag_Number, R := Tag_Reset, Q => Tag_Status, BI => Tag_Value); 操作数“Tag_1”信号上升沿时，“Timer_1”启动。使用“Tag_Number”时间值进行减计数，直到“Tag_1”信号状态返回“1”。",
+        "additional_info": "无。"
+    },
+    "S_PEXT": {
+        "instruction_name": "S_PEXT",
+        "instruction_description": "当检测到参数 S 的信号上升沿时，“分配扩展脉冲定时器参数并启动”指令将启动预设的定时器。只要 S 参数的信号状态为“1”，定时器将运行一段预设的时间 (TV)。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " T_NO",
+                    "type": " TIMER、INT",
+                    "description": " 已启动的定时器。定时器的数量取决于 CPU。"
+                },
+                {
+                    "name": " S",
+                    "type": " BOOL",
+                    "description": " 启动输入。"
+                },
+                {
+                    "name": " TV",
+                    "type": " S5TIME、WORD",
+                    "description": " 预设时间值。"
+                },
+                {
+                    "name": " R",
+                    "type": " BOOL",
+                    "description": " 复位输入。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 定时器的状态。"
+                },
+                {
+                    "name": " BI",
+                    "type": " WORD",
+                    "description": " 当前二进制编码的时间值。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result := S_PEXT(T_NO := Timer_1, S := Tag_1, TV := Tag_Number, R := Tag_Reset, Q => Tag_Status, BI => Tag_Value); “Timer_1”信号状态从“0”变为“1”时，“Tag_1”启动。定时器计时时，“Tag_Status”返回信号状态“1”。达到预置时间时，“Tag_Status”复位为“0”。",
+        "additional_info": "无。"
+    },
+    "S_ODT": {
+        "instruction_name": "S_ODT",
+        "instruction_description": "当检测到参数 S 的信号上升沿时，“分配接通延时定时器参数并启动”指令将启动预设的定时器作为接通延时定时器。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " T_NO",
+                    "type": " TIMER、INT",
+                    "description": " 已启动的定时器。定时器的数量取决于 CPU。"
+                },
+                {
+                    "name": " S",
+                    "type": " BOOL",
+                    "description": " 启动输入。"
+                },
+                {
+                    "name": " TV",
+                    "type": " S5TIME、WORD",
+                    "description": " 预设时间值。"
+                },
+                {
+                    "name": " R",
+                    "type": " BOOL",
+                    "description": " 复位输入。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 定时器的状态。"
+                },
+                {
+                    "name": " BI",
+                    "type": " WORD",
+                    "description": " 当前二进制编码的时间值。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result := S_ODT(T_NO := Timer_1, S := Tag_1, TV := Tag_Number, R := Tag_Reset, Q => Tag_Status, BI => Tag_Value); “Timer_1”信号状态从“0”变为“1”时，“Tag_1”启动。只要“Tag_1”信号状态为“1”，定时器就将在持续时间“Tag_Number”内一直计时。",
+        "additional_info": "无。"
+    },
+    "S_ODTS": {
+        "instruction_name": "S_ODTS",
+        "instruction_description": "当检测到参数 S 的信号上升沿时，“分配保持型接通延时定时器参数并启动”指令将启动预设的定时器。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " T_NO",
+                    "type": " TIMER、INT",
+                    "description": " 已启动的定时器。定时器的数量取决于 CPU。"
+                },
+                {
+                    "name": " S",
+                    "type": " BOOL",
+                    "description": " 启动输入。"
+                },
+                {
+                    "name": " TV",
+                    "type": " S5TIME、WORD",
+                    "description": " 预设时间值。"
+                },
+                {
+                    "name": " R",
+                    "type": " BOOL",
+                    "description": " 复位输入。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 定时器的状态。"
+                },
+                {
+                    "name": " BI",
+                    "type": " WORD",
+                    "description": " 当前二进制编码的时间值。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result := S_ODTS(T_NO := Timer_1, S := Tag_1, TV := Tag_Number, R := Tag_Reset, Q => Tag_Status, BI => Tag_Value); “Timer_1”信号状态从“0”变为“1”时，“Tag_1”启动。定时器的运行时间为“Tag_Number”。如果定时器已达到预置时间，则“Tag_Status”将返回信号状态“1”，而与“Tag_1”的信号状态无关。",
+        "additional_info": "无。"
+    },
+    "S_OFFDT": {
+        "instruction_name": "S_OFFDT",
+        "instruction_description": "当检测到参数 S 的信号下降沿时，“分配关断延时定时器参数并启动”指令将启动预设的定时器。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " T_NO",
+                    "type": " TIMER、INT",
+                    "description": " 已启动的定时器。定时器的数量取决于 CPU。"
+                },
+                {
+                    "name": " S",
+                    "type": " BOOL",
+                    "description": " 启动输入。"
+                },
+                {
+                    "name": " TV",
+                    "type": " S5TIME、WORD",
+                    "description": " 预设时间值。"
+                },
+                {
+                    "name": " R",
+                    "type": " BOOL",
+                    "description": " 复位输入。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 定时器的状态。"
+                },
+                {
+                    "name": " BI",
+                    "type": " WORD",
+                    "description": " 当前二进制编码的时间值。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result := S_OFFDT(T_NO := Timer_1, S := Tag_1, TV := Tag_Number, R := Tag_Reset, Q => Tag_Status, BI => Tag_Value); 如果“Tag_1”信号状态从“1”变为“0”，将启动“Timer_1”定时器。定时器的运行时间为“Tag_Number”。只要定时器在计时或“Tag_1”返回信号状态“1”，“Tag_Status”的信号状态就为“1”。",
+        "additional_info": "无。"
+    },
+    "CTU": {
+        "instruction_name": "CTU",
+        "instruction_description": "可以使用“加计数”指令递增 CV 参数的值。如果参数 CU 的信号状态从“0”变为“1”（信号上升沿），则执行该指令，同时参数 CV 的当前计数器值加“1”。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " CU",
+                    "type": " BOOL",
+                    "description": " 计数输入。"
+                },
+                {
+                    "name": " R",
+                    "type": " BOOL",
+                    "description": " 复位输入。"
+                },
+                {
+                    "name": " PV",
+                    "type": " 整数",
+                    "description": " 置位输出 Q 的目标值。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 计数器状态。"
+                },
+                {
+                    "name": " CV",
+                    "type": " 整数、CHAR、WCHAR、DATE",
+                    "description": " 当前计数器值。"
+                }
+            ]
+        },
+        "example_code": "IEC_COUNTER_DB.CTU(CU := Tag_Start, R := Tag_Reset, PV := Tag_PresetValue, Q => Tag_Status, CV => Tag_CounterValue);",
+        "additional_info": "计数器值递增直至达到数据类型上限。"
+    },
+    "CTD": {
+        "instruction_name": "CTD",
+        "instruction_description": "“减计数”指令用于递减 CV 参数的值。如果参数 CD 的信号状态从“0”变为“1”（信号上升沿），则执行该指令，同时参数 CV 的当前计数器值减“1”。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " CD",
+                    "type": " BOOL",
+                    "description": " 计数输入。"
+                },
+                {
+                    "name": " LD",
+                    "type": " BOOL",
+                    "description": " 装载输入。"
+                },
+                {
+                    "name": " PV",
+                    "type": " 整数",
+                    "description": " 使用 LD = 1 置位输出 CV 的目标值。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 计数器状态。"
+                },
+                {
+                    "name": " CV",
+                    "type": " 整数、CHAR、WCHAR、DATE",
+                    "description": " 当前计数器值。"
+                }
+            ]
+        },
+        "example_code": "IEC_SCOUNTER_DB.CTD(CD := Tag_Start, LD := Tag_Load, PV := Tag_PresetValue, Q => Tag_Status, CV => Tag_CounterValue);",
+        "additional_info": "计数器值递减直至达到数据类型下限。"
+    },
+    "CTUD": {
+        "instruction_name": "CTUD",
+        "instruction_description": "使用“加减计数”指令递增和递减 CV 参数的计数器值。根据 CU 和 CD 的信号状态，参数 CV 的值会相应增加或减少。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " CU",
+                    "type": " BOOL",
+                    "description": " 加计数输入。"
+                },
+                {
+                    "name": " CD",
+                    "type": " BOOL",
+                    "description": " 减计数输入。"
+                },
+                {
+                    "name": " R",
+                    "type": " BOOL",
+                    "description": " 复位输入。"
+                },
+                {
+                    "name": " LD",
+                    "type": " BOOL",
+                    "description": " 装载输入。"
+                },
+                {
+                    "name": " PV",
+                    "type": " 整数",
+                    "description": " 置位输出 QU 的值 / 当 LD = 1 时，置位输出 CV 的值。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " QU",
+                    "type": " BOOL",
+                    "description": " 加计数器的状态。"
+                },
+                {
+                    "name": " QD",
+                    "type": " BOOL",
+                    "description": " 减计数器的状态。"
+                },
+                {
+                    "name": " CV",
+                    "type": " 整数、CHAR、WCHAR、DATE",
+                    "description": " 当前计数器值。"
+                }
+            ]
+        },
+        "example_code": "IEC_COUNTER_DB.CTUD(CU := Tag_Start1, CD := Tag_Start2, LD := Tag_Load, R := Tag_Reset, PV := Tag_PresetValue, QU => Tag_CU_Status, QD => Tag_CD_Status, CV => Tag_CounterValue);",
+        "additional_info": "在一个程序周期内 CU 和 CD 同时出现上升沿时，计数器值不变。"
+    },
+    "S_CU": {
+        "instruction_name": "S_CU",
+        "instruction_description": "可使用“分配参数并加计数”指令递增计数器值。当 CU 参数的信号状态从“0”变为“1”（信号上升沿）时，当前计数器值加 1。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " C_NO",
+                    "type": " COUNTER、INT",
+                    "description": " 计数器操作。"
+                },
+                {
+                    "name": " CU",
+                    "type": " BOOL",
+                    "description": " 加计数输入。"
+                },
+                {
+                    "name": " S",
+                    "type": " BOOL",
+                    "description": " 用于预置计数器的输入端。"
+                },
+                {
+                    "name": " PV",
+                    "type": " WORD",
+                    "description": " 预置 BCD 格式的计数器值。"
+                },
+                {
+                    "name": " R",
+                    "type": " BOOL",
+                    "description": " 复位输入。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 计数器状态。"
+                },
+                {
+                    "name": " CV",
+                    "type": " WORD",
+                    "description": " 当前计数器值。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result := S_CU(C_NO := Counter_1, CU := Tag_Start, S := Tag_1, PV := Tag_PresetValue, R := Tag_Reset, Q => Tag_Status, CV => Tag_Value);",
+        "additional_info": "计数器值达到上限 999 后停止增加。"
+    },
+    "S_CD": {
+        "instruction_name": "S_CD",
+        "instruction_description": "可使用“分配参数并减计数”指令递减计数器值。当 CD 参数的信号状态从“0”变为“1”（信号上升沿）时，当前计数器值减 1。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " C_NO",
+                    "type": " COUNTER、INT",
+                    "description": " 计数器操作。"
+                },
+                {
+                    "name": " CD",
+                    "type": " BOOL",
+                    "description": " 减计数输入。"
+                },
+                {
+                    "name": " S",
+                    "type": " BOOL",
+                    "description": " 用于预置计数器的输入端。"
+                },
+                {
+                    "name": " PV",
+                    "type": " WORD",
+                    "description": " 预置 BCD 格式的计数器值。"
+                },
+                {
+                    "name": " R",
+                    "type": " BOOL",
+                    "description": " 复位输入。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 计数器状态。"
+                },
+                {
+                    "name": " CV",
+                    "type": " WORD",
+                    "description": " 当前计数器值。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result := S_CD(C_NO := Counter_1, CD := Tag_Start, S := Tag_1, PV := Tag_PresetValue, R := Tag_Reset, Q => Tag_Status, CV => Tag_Value);",
+        "additional_info": "计数器值达到下限 0 时停止递减。"
+    },
+    "S_CUD": {
+        "instruction_name": "S_CUD",
+        "instruction_description": "可使用“分配参数并加/减计数”指令递增和递减计数器值。根据 CU 和 CD 的信号状态，当前计数器值将相应增加或减少。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " C_NO",
+                    "type": " COUNTER、INT",
+                    "description": " 计数器操作。"
+                },
+                {
+                    "name": " CU",
+                    "type": " BOOL",
+                    "description": " 加计数输入。"
+                },
+                {
+                    "name": " CD",
+                    "type": " BOOL",
+                    "description": " 减计数输入。"
+                },
+                {
+                    "name": " S",
+                    "type": " BOOL",
+                    "description": " 用于预置计数器的输入端。"
+                },
+                {
+                    "name": " PV",
+                    "type": " WORD",
+                    "description": " 预置 BCD 格式的计数器值。"
+                },
+                {
+                    "name": " R",
+                    "type": " BOOL",
+                    "description": " 复位输入。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 计数器状态。"
+                },
+                {
+                    "name": " CV",
+                    "type": " WORD",
+                    "description": " 当前计数器值。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result := S_CD(C_NO := Counter_1, CU := Tag_CU, CD := Tag_CD, S := Tag_1, PV := Tag_PresetValue, R := Tag_Reset, Q => Tag_Status, CV => Tag_Value);",
+        "additional_info": "计数器值达到上限 999 或下限 0 时停止变化。"
+    },
+    "TypeOf": {
+        "instruction_name": "TypeOf",
+        "instruction_description": "可以使用“检查 VARIANT 或 ResolvedSymbol 变量的数据类型”指令检查 VARIANT 或 ResolvedSymbol 变量所指向的变量的数据类型，并进行比较。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " <操作数>",
+                    "type": " 二进制数、整数、浮点数、时间、日期和时间、字符串、VARIANT、ResolvedSymbol",
+                    "description": " 用于查询的操作数。"
+                }
+            ]
+        },
+        "example_code": "IF TypeOf(#TagVARIANT) = TypeOf(TagBYTE) THEN ...; END_IF;",
+        "additional_info": "只能在 IF 或 CASE 指令中使用。"
+    },
+    "TypeOfElements": {
+        "instruction_name": "TypeOfElements",
+        "instruction_description": "可以使用“检查 VARIANT 变量的 ARRAY 元素的数据类型”指令查询 VARIANT 变量所指向的变量的数据类型，并进行比较。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " <操作数>",
+                    "type": " VARIANT",
+                    "description": " 用于查询的操作数。"
+                }
+            ]
+        },
+        "example_code": "IF TypeOfElements(Tag_Variant) = TypeOF(GlobalDB.Product[1]) THEN Tag_Variant := GlobalDB.Product[1] * 3; END_IF;",
+        "additional_info": "只能在 IF 或 CASE 指令中使用。"
+    },
+    "IS_ARRAY": {
+        "instruction_name": "IS_ARRAY",
+        "instruction_description": "可以使用“检查 ARRAY”指令查询 VARIANT 是否指向 ARRAY 数据类型的变量。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " <操作数>",
+                    "type": " VARIANT",
+                    "description": " 为 ARRAY 查询的操作数。"
+                }
+            ]
+        },
+        "example_code": "IF IS_ARRAY(#Tag_VARIANTToArray) THEN Tag_Result := CountOfElements(#Tag_VARIANTToArray); END_IF;",
+        "additional_info": "只能在 IF 指令中使用。"
+    },
+    "TypeOfDB": {
+        "instruction_name": "TypeOfDB",
+        "instruction_description": "指令“查询 DB 的数据类型”用于查询某个数据块的数据类型，该数据块由 DB_ANY 数据类型变量进行寻址。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " <操作数>",
+                    "type": " DB_ANY",
+                    "description": " 用于查询的操作数。"
+                }
+            ]
+        },
+        "example_code": "IF TypeOfDB(#InputDBAny) = TO",
+        "additional_info": "只能在 IF 或 CASE 指令中使用。"
+    },
+    "ABS": {
+        "instruction_name": "ABS",
+        "instruction_description": "使用“计算绝对值”指令可计算输入值的绝对值，并将结果保存到指定的操作数中。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " <表达式>",
+                    "type": " SINT、INT、DINT、LINT、浮点数",
+                    "description": " 输入值。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result1 := ABS(Tag_Value);",
+        "additional_info": "结果与输入值的数据类型相同。"
+    },
+    "MIN": {
+        "instruction_name": "MIN",
+        "instruction_description": "使用“获取最小值”指令比较可用输入的值，并将最小的值作为结果返回。至少需要两个输入。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN1",
+                    "type": " 整数、浮点数、TIME、TOD、DATE、DTL",
+                    "description": " 第一个输入值。"
+                },
+                {
+                    "name": " IN2",
+                    "type": " 整数、浮点数、TIME、TOD、DATE、DTL",
+                    "description": " 第二个输入值。"
+                },
+                {
+                    "name": " INn",
+                    "type": " 整数、浮点数、TIME、TOD、DATE、DTL",
+                    "description": " 其他插入的输入（其值待比较）。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result := MIN(IN1 := Tag_Value1, IN2 := Tag_Value2, IN3 := Tag_Value3);",
+        "additional_info": "结果为所有输入中的最小值。"
+    },
+    "MAX": {
+        "instruction_name": "MAX",
+        "instruction_description": "使用“获取最大值”指令，比较输入值，并将最大的值作为结果返回。至少需要两个输入。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN1",
+                    "type": " 整数、浮点数、TIME、TOD、DATE、DTL",
+                    "description": " 第一个输入值。"
+                },
+                {
+                    "name": " IN2",
+                    "type": " 整数、浮点数、TIME、TOD、DATE、DTL",
+                    "description": " 第二个输入值。"
+                },
+                {
+                    "name": " INn",
+                    "type": " 整数、浮点数、TIME、TOD、DATE、DTL",
+                    "description": " 其他插入的输入（其值待比较）。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result := MAX(IN1 := Tag_Value1, IN2 := Tag_Value2, IN3 := Tag_Value3);",
+        "additional_info": "结果为所有输入中的最大值。"
+    },
+    "LIMIT": {
+        "instruction_name": "LIMIT",
+        "instruction_description": "可使用“设置限值”指令，将参数 IN 的值限制在参数 MN 和 MX 值之间。MN 不应大于 MX。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " MN",
+                    "type": " 整数、浮点数、TIME、TOD、DATE、DTL",
+                    "description": " 下限。"
+                },
+                {
+                    "name": " IN",
+                    "type": " 整数、浮点数、TIME、TOD、DATE、DTL",
+                    "description": " 输入值。"
+                },
+                {
+                    "name": " MX",
+                    "type": " 整数、浮点数、TIME、TOD、DATE、DTL",
+                    "description": " 上限。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result := LIMIT(MN := Tag_Minimum, IN := Tag_Value, MX := Tag_Maximum);",
+        "additional_info": "如果 MN 大于 MX，结果为 IN 参数的值，且 ENO 为“0”。"
+    },
+    "SQR": {
+        "instruction_name": "SQR",
+        "instruction_description": "使用“计算平方”指令，可以计算输入值的平方值，并将结果保存到指定的操作数中。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " <表达式>",
+                    "type": " 浮点数",
+                    "description": " 输入值。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result1 := SQR(Tag_Value);",
+        "additional_info": "结果为输入值的平方。"
+    },
+    "SQRT": {
+        "instruction_name": "SQRT",
+        "instruction_description": "使用“计算平方根”指令，可以计算输入值的平方根，并将结果保存到指定的操作数中。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " <表达式>",
+                    "type": " 浮点数",
+                    "description": " 输入值。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result1 := SQRT(Tag_Value);",
+        "additional_info": "如果输入值小于零，则返回无效浮点数。"
+    },
+    "LN": {
+        "instruction_name": "LN",
+        "instruction_description": "使用“计算自然对数”指令，可以计算输入值的以 e 为底的自然对数。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " <表达式>",
+                    "type": " 浮点数",
+                    "description": " 输入值。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result1 := LN(Tag_Value);",
+        "additional_info": "如果输入值小于零，则返回无效浮点数。"
+    },
+    "EXP": {
+        "instruction_name": "EXP",
+        "instruction_description": "使用“计算指数值”指令，可通过底数 e 及输入值来计算指数，并将结果保存在指定的操作数中。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " <表达式>",
+                    "type": " 浮点数",
+                    "description": " 输入值。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result1 := EXP(Tag_Value);",
+        "additional_info": "无。"
+    },
+    "SIN": {
+        "instruction_name": "SIN",
+        "instruction_description": "使用“计算正弦值”指令，可以计算输入值的正弦值。输入值的单位必须为弧度。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " <表达式>",
+                    "type": " 浮点数",
+                    "description": " 输入值（弧度形式的角度值）。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result := SIN(Tag_Value);",
+        "additional_info": "无。"
+    },
+    "COS": {
+        "instruction_name": "COS",
+        "instruction_description": "使用“计算余弦值”指令，可以计算输入值的余弦值。输入值的单位必须为弧度。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " <表达式>",
+                    "type": " 浮点数",
+                    "description": " 输入值（弧度形式的角度值）。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result := COS(Tag_Value);",
+        "additional_info": "无。"
+    },
+    "TAN": {
+        "instruction_name": "TAN",
+        "instruction_description": "使用“计算正切值”指令，可以计算输入值的正切值。输入值的单位必须为弧度。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " <表达式>",
+                    "type": " 浮点数",
+                    "description": " 输入值（弧度形式的角度值）。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result := TAN(Tag_Value);",
+        "additional_info": "无。"
+    },
+    "ASIN": {
+        "instruction_name": "ASIN",
+        "instruction_description": "使用“计算反正弦值”指令，可以计算正弦值所对应的角度值。输入值只能是 -1 到 +1 范围内的有效浮点数。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " <表达式>",
+                    "type": " 浮点数",
+                    "description": " 正弦值。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result := ASIN(Tag_Value);",
+        "additional_info": "结果范围在 -π/2 到 +π/2 之间。"
+    },
+    "ACOS": {
+        "instruction_name": "ACOS",
+        "instruction_description": "使用“计算反余弦值”指令，可以计算余弦值所对应的角度值。输入值只能是 -1 到 +1 范围内的有效浮点数。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " <表达式>",
+                    "type": " 浮点数",
+                    "description": " 余弦值。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result := ACOS(Tag_Value);",
+        "additional_info": "结果范围在 0 到 +π 之间。"
+    },
+    "ATAN": {
+        "instruction_name": "ATAN",
+        "instruction_description": "使用“计算反正切值”指令，可以计算正切值所对应的角度值。输入值可以是任何有效的浮点数。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " <表达式>",
+                    "type": " 浮点数",
+                    "description": " 正切值。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result := ATAN(Tag_Value);",
+        "additional_info": "结果范围在 -π/2 到 +π/2 之间。"
+    },
+    "FRAC": {
+        "instruction_name": "FRAC",
+        "instruction_description": "“返回小数”指令的结果将返回数值的小数位。例如，输入值为 1.125 时，将返回值 0.125。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " <表达式>",
+                    "type": " 浮点数",
+                    "description": " 输入值。"
+                }
+            ]
+        },
+        "example_code": "Tag_Result1 := FRAC(Tag_Value);",
+        "additional_info": "无。"
+    },
+    "Deserialize": {
+        "instruction_name": "Deserialize",
+        "instruction_description": "可以使用“取消序列化”指令反向转换 PLC 数据类型（UDT）、STRUCT 或 ARRAY 的顺序表示并填充所有内容。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " SRC_ARRAY",
+                    "type": " ARRAY[*] of BYTE 或 ARRAY of CHAR",
+                    "description": " 用于保存其数据流将取消序列化的 ARRAY of BYTE 或 ARRAY of CHAR。"
+                }
+            ],
+            "InOut": [
+                {
+                    "name": " DEST_VARIABLE",
+                    "type": " 所有数据类型",
+                    "description": " 已取消序列化数据待写入的目标变量。"
+                },
+                {
+                    "name": " POS",
+                    "type": " DINT",
+                    "description": " POS 参数中的操作数将根据转换后客户数据所占用的字节数，存储第一个字节的下标。"
+                }
+            ]
+        },
+        "example_code": "无示例代码，但通常在需要将序列化数据结构转换回其原始形式时使用。",
+        "additional_info": "在转换之前确保有充足的存储空间，且 SRC_ARRAY 的数据类型必须为 ARRAY of BYTE 或 ARRAY of CHAR。"
+    },
+    "Serialize": {
+        "instruction_name": "Serialize",
+        "instruction_description": "可以使用“序列化”指令将多个 PLC 数据类型 (UDT)、STRUCT 或 ARRAY of <数据类型> 转换为顺序表示，而不会丢失结构部分。该指令临时将用户程序的多个结构化数据项保存到缓冲区中（最好位于全局数据块中），并发送到其它 CPU。",
+        "parameters": {},
+        "example_code": "无具体示例代码。",
+        "additional_info": "源数据区内的填充数据在目标数组中未定义。标准存储区的容量为 64 KB，大于 64 KB 的结构不能进行序列化。"
+    },
+    "MOVE_BLK": {
+        "instruction_name": "MOVE_BLK",
+        "instruction_description": "可以使用“移动块”(Move block) 指令将一个存储区（源范围）的数据移动到另一个存储区（目标范围）中。使用参数 COUNT 可以指定将移动到目标范围中的元素个数。",
+        "parameters": {},
+        "example_code": "SCL MOVE_BLK(IN := #a_array[2], COUNT := Tag_Count, OUT => #b_array[1]);",
+        "additional_info": "仅当源范围和目标范围的数据类型相同时，才能执行该指令。"
+    },
+    "MOVE_BLK_VARIANT": {
+        "instruction_name": "MOVE_BLK_VARIANT",
+        "instruction_description": "可以使用“块移动”指令将一个存储区（源范围）的数据移动到另一个存储区（目标范围）中。可以将一个完整的 ARRAY 或 ARRAY 的元素复制到另一个相同数据类型的 ARRAY 中。",
+        "parameters": {},
+        "example_code": "SCL Tag_Result := MOVE_BLK_VARIANT(SRC := #SrcField, COUNT := Tag_Count, SRC_INDEX := Tag_Src_Index, DEST_INDEX := Tag_Dest_Index, DEST => #DestField);",
+        "additional_info": "无论后期如何声明该 ARRAY，参数 SRC_INDEX 和 DEST_INDEX 始终从下限“0”开始计数。"
+    },
+    "UMOVE_BLK": {
+        "instruction_name": "UMOVE_BLK",
+        "instruction_description": "可以使用“不可中断的存储区移动”(Move block uninterruptible) 指令将一个存储区（源范围）的数据移动到另一个存储区（目标范围）中。该指令不可中断。",
+        "parameters": {},
+        "example_code": "SCL UMOVE_BLK(IN := #a_array[2], COUNT := Tag_Count, OUT => #b_array[1]);",
+        "additional_info": "此移动操作不会被操作系统的其它任务打断。CPU 对此有特定限制，可以使用该指令移动最多 16 KB 大小的数据。"
+    },
+    "FILL_BLK": {
+        "instruction_name": "FILL_BLK",
+        "instruction_description": "可以使用“填充存储区”指令，用 IN 输入的值填充一个存储区域（目标范围）。从输出 OUT 指定的地址开始填充目标范围。",
+        "parameters": {},
+        "example_code": "SCL FILL_BLK(IN := #FillValue, COUNT := Tag_Count, OUT => #TargetArea[1]);",
+        "additional_info": "仅当源范围和目标范围的数据类型相同时，才能执行该指令。如果复制的数据超过 OUT 输出中的元素，则将返回一个意外结果。"
+    },
+    "UFILL_BLK": {
+        "instruction_name": "UFILL_BLK",
+        "instruction_description": "可以使用“不可中断的存储区填充”(Fill block uninterruptible) 指令，用 IN 输入的值填充一个存储区域（目标范围）。该指令不可中断。",
+        "parameters": {},
+        "example_code": "SCL UFILL_BLK(IN := #FillValue, COUNT := Tag_Count, OUT => #TargetArea[1]);",
+        "additional_info": "此移动操作不会被操作系统的其它任务打断。可以使用该指令移动最多 16 KB 大小的数据。"
+    },
+    "SCATTER": {
+        "instruction_name": "SCATTER",
+        "instruction_description": "指令“将位序列解析为单个位”用于将数据类型为 BYTE、WORD、DWORD 或 LWORD 的变量解析为单个位，并保存在 ARRAY of BOOL、匿名 STRUCT 或仅包含有布尔型元素的 PLC 数据类型中。",
+        "parameters": {},
+        "example_code": "SCL SCATTER(IN := #SourceWord, OUT => #DestinationArray);",
+        "additional_info": "多维 ARRAY of BOOL 不支持该指令。ARRAY、STRUCT 或 PLC 数据类型中包含的元素数目必须恰好等于位序列指定的数量。"
+    },
+    "SCATTER_BLK": {
+        "instruction_name": "SCATTER_BLK",
+        "instruction_description": "“将位序列 ARRAY 的元素解析为单个位”指令用于将 BYTE、WORD、DWORD 或 LWORD 数据类型的 ARRAY 分解为单个位，并保存在元素类型仅为布尔型的 ARRAY of BOOL、匿名 STRUCT 或 PLC 数据类型中。",
+        "parameters": {},
+        "example_code": "SCL SCATTER_BLK(IN := #SourceArrayWord[2], COUNT_IN := #CounterInput, OUT => #DestinationArrayBool[0]);",
+        "additional_info": "如果目标 ARRAY 的 ARRAY 下限不是“0”，索引必须始终以 BYTE、WORD、DWORD 或 LWORD 限制开始。"
+    },
+    "GATHER": {
+        "instruction_name": "GATHER",
+        "instruction_description": "指令“将各个位组合为位序列”用于将仅包含布尔型元素的 ARRAY of BOOL、匿名 STRUCT 或 PLC 数据类型中的各个位组合为一个位序列。",
+        "parameters": {},
+        "example_code": "SCL GATHER(IN := #SourceArray, OUT => #DestinationWord);",
+        "additional_info": "多维 ARRAY of BOOL 不支持该指令。ARRAY、STRUCT 或 PLC 数据类型中包含的元素数目必须恰好等于位序列指定的数量。"
+    },
+    "GATHER_BLK": {
+        "instruction_name": "GATHER_BLK",
+        "instruction_description": "指令“将各个位组合为 ARRAY of <位序列> 的多个元素”用于将仅包含布尔型元素的 ARRAY of BOOL、匿名 STRUCT 或 PLC 数据类型中的各个位组合为 ARRAY of <位序列> 中的一个或多个元素。",
+        "parameters": {},
+        "example_code": "SCL GATHER_BLK(IN := #SourceArrayBool[0], COUNT_OUT := #CounterOutput, OUT => #DestinationArrayWord[2]);",
+        "additional_info": "如果源 ARRAY 的 ARRAY 下限不是“0”，索引必须始终以 BYTE、WORD、DWORD 或 LWORD 限制开始。"
+    },
+    "AssignmentAttempt": {
+        "instruction_name": "AssignmentAttempt",
+        "instruction_description": "使用“AssignmentAttempt”指令，可对引用变量进行赋值。支持以下赋值操作",
+        "parameters": {},
+        "example_code": "块接口按如下方式设计",
+        "additional_info": "在 SCL 中，还可以在赋值尝试时分配 NULL，专门设置对 NULL 的引用。"
+    },
+    "SWAP": {
+        "instruction_name": "SWAP",
+        "instruction_description": "使用“交换”指令，可以更改输入值中字节的排列顺序，并将结果保存在指定的操作数中。",
+        "parameters": {},
+        "example_code": "SCL Tag_Result := SWAP(Tag_Value);",
+        "additional_info": "无具体其他信息。"
+    },
+    "ReadFromArrayDB": {
+        "instruction_name": "ReadFromArrayDB",
+        "instruction_description": "可以使用“从 ARRAY 数据块中读取”(Read from ARRAY data block) 指令从索引引用的 ARRAY DB 块类型的数据块中读取元素。",
+        "parameters": {},
+        "example_code": "SCL TagResult := ReadFromArrayDB(DB := ArrayDB, INDEX := 2, VALUE => TargetField);",
+        "additional_info": "ARRAY 数据块是仅包含一个 ARRAY of <数据类型> 的数据块。ARRAY 的元素可以是 PLC 数据类型或其它任何基本数据类型。"
+    },
+    "WriteToArrayDB": {
+        "instruction_name": "WriteToArrayDB",
+        "instruction_description": "可以使用“写入 ARRAY 数据块”(Write to ARRAY data block) 指令将索引引用的元素写入 ARRAY DB 块类型的数据块中。",
+        "parameters": {},
+        "example_code": "SCL TagResult := WriteToArrayDB(DB := ArrayDB, INDEX := 2, VALUE := SourceField);",
+        "additional_info": "ARRAY 数据块是仅包含一个 ARRAY of <数据类型> 的数据块。ARRAY 的元素可以是 PLC 数据类型或其它任何基本数据类型。"
+    },
+    "ReadFromArrayDBL": {
+        "instruction_name": "ReadFromArrayDBL",
+        "instruction_description": "可以使用“从装载存储器的 ARRAY 数据块中读取”(Read from ARRAY data block in load memory) 指令从装载存储器 ARRAY DB 块类型的数据块中读取索引应用的元素。",
+        "parameters": {},
+        "example_code": "SCL ReadFromArrayDBL_DB(REQ := TagReg, DB := ArrayDB, INDEX := 2, VALUE := TargetField, BUSY => TagBusy, DONE => TagDone, ERROR => TagError);",
+        "additional_info": "如果 ARRAY 数据块使用块属性“仅存储在装载存储器”进行指定，则该数组数据块将仅存储在装载存储器中。"
+    },
+    "WriteToArrayDBL": {
+        "instruction_name": "WriteToArrayDBL",
+        "instruction_description": "可以使用“写入装载存储器的 ARRAY 数据块”(Write to ARRAY data block in load memory) 指令将索引引用的元素写入装载存储器 ARRAY DB 块类型的数据块中。",
+        "parameters": {},
+        "example_code": "SCL WriteToArrayDBL_DB(REQ := TagReg, DB := ArrayDB, INDEX := 2, VALUE := SourceField, BUSY => TagBusy, DONE => TagDone, ERROR => TagError);",
+        "additional_info": "如果 ARRAY 数据块使用块属性“仅存储在装载存储器”进行指定，则该数组数据块将仅存储在装载存储器中。"
+    },
+    "PEEK": {
+        "instruction_name": "PEEK",
+        "instruction_description": "使用“读取存储地址”指令，在不指定数据类型的情况下从存储区读取存储地址。",
+        "parameters": {},
+        "example_code": "SCL Tag_Result1 := PEEK(AREA := Tag_Area, DBNUMBER := Tag_DBNumber, BYTEOFFSET := Tag_Byte);",
+        "additional_info": "如果要读取输入、输出或位存储区中的存储地址，则必须将参数 DBNUMBER 的值设置为“0”，否则指令将无效。"
+    },
+    "PEEK_BOOL": {
+        "instruction_name": "PEEK_BOOL",
+        "instruction_description": "使用“读取存储位”指令，在不指定数据类型的情况下从标准存储区读取存储位。",
+        "parameters": {},
+        "example_code": "SCL Tag_Result := PEEK_BOOL(AREA := Tag_Area, DBNUMBER := Tag_DBNumber, BYTEOFFSET := Tag_Byte, BITOFFSET := Tag_Bit);",
+        "additional_info": "如果要读取输入、输出或位存储区中的存储位，则必须将参数 DBNUMBER 的值设置为“0”，否则指令将无效。"
+    },
+    "POKE": {
+        "instruction_name": "POKE",
+        "instruction_description": "使用“写入存储地址”指令，在不指定数据类型的情况下将存储地址写入标准存储区。",
+        "parameters": {},
+        "example_code": "SCL POKE(AREA := Tag_Area, DBNUMBER := Tag_DBNumber, BYTEOFFSET := Tag_Byte, VALUE := Tag_Value);",
+        "additional_info": "如果要将存储地址写入输入、输出或位存储区，则必须将参数 DBNUMBER 的值设置为“0”，否则指令将无效。"
+    },
+    "POKE_BOOL": {
+        "instruction_name": "POKE_BOOL",
+        "instruction_description": "使用“写入存储位”指令，在不指定数据类型的情况下将存储位写入标准存储区。",
+        "parameters": {},
+        "example_code": "SCL POKE_BOOL(AREA := Tag_Area, DBNUMBER := Tag_DBNumber, BYTEOFFSET := Tag_Byte, BITOFFSET := Tag_Bit, VALUE := Tag_Value);",
+        "additional_info": "如果要将存储位写入输入、输出或位存储区，则必须将参数 DBNUMBER 的值设置为“0”，否则指令将无效。"
+    },
+    "POKE_BLK": {
+        "instruction_name": "POKE_BLK",
+        "instruction_description": "使用“写入存储区”指令，在不指定数据类型的情况下将存储区写入不同的标准存储区中。",
+        "parameters": {},
+        "example_code": "SCL POKE_BLK(AREA_SRC := Tag_Source_Area, DBNUMBER_SRC := Tag_Source_DBNumber, BYTEOFFSET_SRC := Tag_Source_Byte, AREA_DEST := Tag_Destination_Area, DBNUMBER_DEST := Tag_Destination_DBNumber, BYTEOFFSET_DEST := Tag_Destination_Byte, COUNT := Tag_Count);",
+        "additional_info": "如果要将存储地址写入输入、输出或位存储区，则必须将参数 DBNUMBER 的值设置为“0”，否则指令将无效。"
+    },
+    "READ_LITTLE": {
+        "instruction_name": "READ_LITTLE",
+        "instruction_description": "可以使用“以小端格式读取数据”指令以小端字节序列从存储区读取数据并将此数据写入单个变量。",
+        "parameters": {},
+        "example_code": "SCL #TagResult := READ_LITTLE(SRC_ARRAY := #SourceField, DEST_VARIABLE => #DINTVariable, POS := #TagPos);",
+        "additional_info": "SRC_ARRAY 参数的 VARIANT 必须为 ARRAY of BYTE。DEST_VARIABLE 的 VARIANT 必须为基本数据类型。"
+    },
+    "WRITE_LITTLE": {
+        "instruction_name": "WRITE_LITTLE",
+        "instruction_description": "可以使用“以小端格式写入数据”指令以小端字节序列将单个变量的数据写入存储区。",
+        "parameters": {},
+        "example_code": "SCL #TagResult := WRITE_LITTLE(SRC_VARIABLE := #DINTVariable, DEST_ARRAY := #TargetField, POS := #TagPos);",
+        "additional_info": "SRC_VARIABLE 的 VARIANT 必须指向基本数据类型。DEST_ARRAY 的 VARIANT 必须为 ARRAY of BYTE。"
+    },
+    "READ_BIG": {
+        "instruction_name": "READ_BIG",
+        "instruction_description": "可以使用“以大端格式读取数据”指令以大端字节序列从存储区读取数据并将此数据写入单个变量。",
+        "parameters": {},
+        "example_code": "SCL #TagResult := READ_BIG(SRC_ARRAY := #SourceField, DEST_VARIABLE => #DINTVariable, POS := #TagPos);",
+        "additional_info": "SRC_ARRAY 参数的 VARIANT 必须为 ARRAY of BYTE。DEST_VARIABLE 的 VARIANT 必须为基本数据类型。"
+    },
+    "WRITE_BIG": {
+        "instruction_name": "WRITE_BIG",
+        "instruction_description": "可以使用“以大端格式写入数据”指令以大端字节序列将单个变量的数据写入存储区。",
+        "parameters": {},
+        "example_code": "SCL #TagResult := WRITE_BIG(SRC_VARIABLE := #DINTVariable, DEST_ARRAY := #TargetField, POS := #TagPos);",
+        "additional_info": "SRC_VARIABLE 的 VARIANT 必须指向基本数据类型。DEST_ARRAY 的 VARIANT 必须为 ARRAY of BYTE。"
+    },
+    "VariantGet": {
+        "instruction_name": "VariantGet",
+        "instruction_description": "可以使用“读出 VARIANT 变量值”指令读取 SRC 参数的 VARIANT 指向的变量值，并将其写入 DST 参数的变量。",
+        "parameters": {},
+        "example_code": "SCL VariantGet(SRC := #TagIn_Source, DST => TagOut_Dest);",
+        "additional_info": "DST 参数变量的数据类型必须与 VARIANT 指向的数据类型相匹配。"
+    },
+    "VariantPut": {
+        "instruction_name": "VariantPut",
+        "instruction_description": "可以使用“写入 VARIANT 变量值”指令将 SRC 参数的变量值写入 VARIANT 所指向的 DST 参数存储区中。",
+        "parameters": {},
+        "example_code": "SCL VariantPut(SRC := TagIn_Source, DST := #TagIn_Dest);",
+        "additional_info": "SRC 参数变量的数据类型必须与 VARIANT 指向的数据类型相匹配。"
+    },
+    "CountOfElements": {
+        "instruction_name": "CountOfElements",
+        "instruction_description": "指令能查询VARIANT指针指向的ARRAY元素数量。可用于需要确定数组长度或验证VARIANT变量类型的场景。",
+        "parameters": {},
+        "example_code": "SCL IF IS_ARRAY(#Tag_VARIANTToArray) THEN Tag_Result := CountOfElements(#Tag_VARIANTToArray); END_IF;",
+        "additional_info": "VARIANT 指针可以不指向实例，因此也可不指向多重实例或多重实例的 ARRAY。如果 VARIANT 变量不是 ARRAY，也将返回结果“0”。"
+    },
+    "MoveResolvedSymbolsToBuffer": {
+        "instruction_name": "MoveResolvedSymbolsToBuffer",
+        "instruction_description": "“从已解析的符号中读取值并写入缓冲区中”指令用于从多个已解析的符号中读取数值并写入存储区 (Array of BYTE) 中。",
+        "parameters": {},
+        "example_code": "MoveResolvedSymbolsToBuffer(firstIndex := 2, lastIndex := 7, src := MySrcDB.Input_ResolvedSymbols,dstOffsets := #Input_Offset,mode := 2#0dst := MyTargetDB.InOut_Buffer,status := #InOut_Status);",
+        "additional_info": "mode 参数的值用于定义 dst 参数中的存储器格式。status 参数是一个 INT 数组，用于存储复制状态。"
+    },
+    "MoveToResolvedSymbol": {
+        "instruction_name": "MoveToResolvedSymbol",
+        "instruction_description": "使用“将值写入已解析的符号中”指令读取变量值，并将其写入由已解析符号引用的目标变量中。",
+        "parameters": {},
+        "example_code": "SCL MoveToResolvedSymbol(SRC := MySrcDB.Input_Variant, DST => MyTargetDB.Output_ResolvedSymbol);",
+        "additional_info": "之前必须已使用 ResolveSymbols 指令对变量进行解析。源变量和目标变量的数据类型必须相同。"
+    },
+    "MoveFromResolvedSymbol": {
+        "instruction_name": "MoveFromResolvedSymbol",
+        "instruction_description": "使用“从已解析的符号中读取值”指令读取已解析符号引用的变量值，并将其写入目标变量中。",
+        "parameters": {},
+        "example_code": "SCL MoveFromResolvedSymbol(SRC := MySrcDB.Input_ResolvedSymbol, DST => MyTargetDB.Output_Variant);",
+        "additional_info": "之前必须已使用 ResolveSymbols 指令对变量进行解析。源变量和目标变量的数据类型必须相同。"
+    },
+    "ResolveSymbols": {
+        "instruction_name": "ResolveSymbols",
+        "instruction_description": "“解析多个符号”指令用于解析多个符号变量名称。执行该指令后，会收到对变量的引用。",
+        "parameters": {},
+        "example_code": "SCL ResolveSymbols_DB(execute := #Input_Execute, firstIndex := 0, lastIndex := 9, done => #Output_Done, busy => #Output_Busy, error => _bool_out_, status => _int_out_, nameList := MySrcDB.InOut_Symbols, referenceList := MyTargetDB.InOut_ResolvedSymbols);",
+        "additional_info": "符号变量名称以 WSTRING 格式传输，且长度不得超过 254 个 UTF-16 字符。支持数组中的元素，但必须指定固定下标才能访问元素。"
+    },
+    "MoveResolvedSymbolsFromBuffer": {
+        "instruction_name": "MoveResolvedSymbolsFromBuffer",
+        "instruction_description": "该指令用于从存储区(Array of BYTE)中读取数值，并写入多个已解析的符号值中。这种方式可以处理从通信指令（如TRCV）接收到的存储区。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " firstIndex",
+                    "type": " DINT",
+                    "description": " 目标缓冲区中待写入的第一个已解析符号的下标。"
+                },
+                {
+                    "name": " lastIndex",
+                    "type": " DINT",
+                    "description": " 目标缓冲区中待写入的最后一个已解析符号的下标。"
+                },
+                {
+                    "name": " mode",
+                    "type": " DWORD",
+                    "description": " 存储器格式，BigEndian 或 LittleEndian。"
+                },
+                {
+                    "name": " src",
+                    "type": " Array of BYTE",
+                    "description": " 读取数值的源缓冲区。"
+                },
+                {
+                    "name": " srcOffsets",
+                    "type": " Array of DINT",
+                    "description": " 源缓冲区中数值的偏移量。"
+                }
+            ],
+            "InOut": [
+                {
+                    "name": " dst",
+                    "type": " Array of ResolvedSymbol",
+                    "description": " 包含对已解析符号的引用的目标缓冲区。"
+                },
+                {
+                    "name": " status",
+                    "type": " Array of INT",
+                    "description": " 包含各个待写入值的复制状态。"
+                }
+            ]
+        },
+        "example_code": "无具体示例代码，但说明了使用firstIndex和lastIndex参数限制已解析符号列表中需写入值的变量，mode参数定义存储器格式，srcOffsets参数指定偏移量，dst参数为已解析符号的引用，status参数包含复制状态。",
+        "additional_info": "确保srcOffsets和dst处的数组限值相同，以包含dst[i]的偏移量。该指令不会验证所指定的偏移量是否重叠，可能随机读取值。"
+    },
+    "LOWER_BOUND": {
+        "instruction_name": "LOWER_BOUND",
+        "instruction_description": "该指令用于读取ARRAY变量的下限。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " ARR",
+                    "type": " ARRAY[*]",
+                    "description": " 待读取可变下限的ARRAY。"
+                },
+                {
+                    "name": " DIM",
+                    "type": " UDINT",
+                    "description": " 待读取可变下限的ARRAY维度。"
+                }
+            ]
+        },
+        "example_code": "LOWER_BOUND(ARR := #matrix1, DIM := #ROWS);",
+        "additional_info": "该指令可用于固件版本为V4.2及以上版本的S7-1200系列CPU和固件版本为V2.0及以上版本的S7-1500系列CPU。"
+    },
+    "UPPER_BOUND": {
+        "instruction_name": "UPPER_BOUND",
+        "instruction_description": "该指令用于读取ARRAY变量的上限。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " ARR",
+                    "type": " ARRAY[*]",
+                    "description": " 待读取可变上限的ARRAY。"
+                },
+                {
+                    "name": " DIM",
+                    "type": " UDINT",
+                    "description": " 待读取可变上限的ARRAY维度。"
+                }
+            ]
+        },
+        "example_code": "UPPER_BOUND(ARR := #matrix1, DIM := #COLUMNS);",
+        "additional_info": "同LOWER_BOUND指令的可用性。"
+    },
+    "BLKMOV": {
+        "instruction_name": "BLKMOV",
+        "instruction_description": "该指令用于将一个存储区的数据移动到另一个存储区，移动操作沿地址升序方向执行。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " SRCBLK",
+                    "type": " VARIANT",
+                    "description": " 指定待移动的存储区（源区域）。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " DSTBLK",
+                    "type": " VARIANT",
+                    "description": " 指定要将块移动到的存储区（目标区域）。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用BLKMOV指令复制数据并处理可能的错误。",
+        "additional_info": "该指令的变量仅适用于未激活“优化块访问”属性的存储区中。源区域和目标区域不得重叠，且有特定的移动规则。"
+    },
+    "UBLKMOV": {
+        "instruction_name": "UBLKMOV",
+        "instruction_description": "该指令用于执行不可中断的存储区数据移动，移动操作沿地址升序方向执行。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " SRCBLK",
+                    "type": " VARIANT",
+                    "description": " 指定待移动的存储区（源区域）。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " DSTBLK",
+                    "type": " VARIANT",
+                    "description": " 指定要将块移动到的存储区（目标区域）。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用UBLKMOV指令复制数据并处理可能的错误。",
+        "additional_info": "与BLKMOV类似，但该移动操作不会被操作系统的其他任务打断，CPU中断响应时间将增加。"
+    },
+    "FILL": {
+        "instruction_name": "FILL",
+        "instruction_description": "该指令使用源区域的数据填充目标区域，直到目标区域写满为止。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " BVAL",
+                    "type": " VARIANT",
+                    "description": " 指定存储区域（源区域），将使用该存储区域中的内容填充BLK参数中指定的目标区域。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " BLK",
+                    "type": " VARIANT",
+                    "description": " 指定要使用源区域的数据填充的存储区。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用FILL指令填充数据。",
+        "additional_info": "源区域和目标区域不得重叠，且有特定的移动规则。"
+    },
+    "CONVERT": {
+        "instruction_name": "CONVERT",
+        "instruction_description": "该指令用于显式转换值，将源值转换为指定的目标数据类型。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " 源类型",
+                    "type": " 二进制数、整数、浮点数等",
+                    "description": " 要转换的值。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " 目标类型",
+                    "type": " 二进制数、整数、浮点数等",
+                    "description": " 转换结果。"
+                }
+            ]
+        },
+        "example_code": " CONVERT_FORMAT_TO_INTEGER : Word := 16#0000;",
+        "additional_info": "在指令功能框中，可以指定转换的源数据类型和目标数据类型。"
+    },
+    "ROUND": {
+        "instruction_name": "ROUND",
+        "instruction_description": "该指令用于将输入值取整为最接近的整数。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " 表达式",
+                    "type": " 浮点数",
+                    "description": " 要取整的输入值。"
+                }
+            ]
+        },
+        "example_code": "ROUND(SLI_gDB_ROUND_scl.inputValToRound);",
+        "additional_info": "如果输入值恰好是在一个偶数和一个奇数之间，则选择偶数。"
+    },
+    "CEIL": {
+        "instruction_name": "CEIL",
+        "instruction_description": "该指令用于将浮点数向上取整为最接近的整数。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " 表达式",
+                    "type": " 浮点数",
+                    "description": " 输入值。"
+                }
+            ]
+        },
+        "example_code": "CEIL(SLI_gDB_CEIL_scl.inputValue);",
+        "additional_info": "函数值可以大于或等于输入值。"
+    },
+    "FLOOR": {
+        "instruction_name": "FLOOR",
+        "instruction_description": "该指令用于将浮点数向下取整为最接近的较小整数。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " 表达式",
+                    "type": " 浮点数",
+                    "description": " 输入值。"
+                }
+            ]
+        },
+        "example_code": "FLOOR(SLI_gDB_FLOOR_scl.inputValue);",
+        "additional_info": "函数值可等于或小于输入值。"
+    },
+    "TRUNC": {
+        "instruction_name": "TRUNC",
+        "instruction_description": "该指令用于截尾取整，直接从输入值中截取整数部分。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " 表达式",
+                    "type": " 浮点数",
+                    "description": " 输入值。"
+                }
+            ]
+        },
+        "example_code": "TRUNC(SLI_gDB_TRUNC_scl.inputValue);",
+        "additional_info": "该指令仅选择输入值的整数部分，不含小数位。"
+    },
+    "SCALE_X": {
+        "instruction_name": "SCALE_X",
+        "instruction_description": "该指令用于将浮点数映射到指定的取值范围进行缩放。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " EN",
+                    "type": " BOOL",
+                    "description": " 使能输入。"
+                },
+                {
+                    "name": " MIN",
+                    "type": " 整数或浮点数",
+                    "description": " 取值范围的下限。"
+                },
+                {
+                    "name": " VALUE",
+                    "type": " 浮点数",
+                    "description": " 要缩放的值。"
+                },
+                {
+                    "name": " MAX",
+                    "type": " 整数或浮点数",
+                    "description": " 取值范围的上限。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " ENO",
+                    "type": " BOOL",
+                    "description": " 使能输出。"
+                }
+            ]
+        },
+        "example_code": "SCALE_X(MIN := SLI_gDB_SCALE_X_scl.minLim,VALUE := SLI_gDB_SCALE_X_scl.inputValue,MAX := SLI_gDB_SCALE_X_scl.maxLim);",
+        "additional_info": "使用公式OUT = [VALUE ∗ (MAX – MIN)] + MIN进行计算，如果使能输入EN的信号状态为“0”或MIN的值大于或等于MAX，则使能输出ENO返回信号状态“0”。"
+    },
+    "NORM_X": {
+        "instruction_name": "NORM_X",
+        "instruction_description": "该指令用于通过将输入值映射到线性标尺进行标准化。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " EN",
+                    "type": " BOOL",
+                    "description": " 使能输入。"
+                },
+                {
+                    "name": " MIN",
+                    "type": " 整数或浮点数",
+                    "description": " 取值范围的下限。"
+                },
+                {
+                    "name": " VALUE",
+                    "type": " 整数或浮点数",
+                    "description": " 要标准化的值。"
+                },
+                {
+                    "name": " MAX",
+                    "type": " 整数或浮点数",
+                    "description": " 取值范围的上限。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " ENO",
+                    "type": " BOOL",
+                    "description": " 使能输出。"
+                }
+            ]
+        },
+        "example_code": "NORM_X(MIN := SLI_gDB_NORM_X_scl.minLim,VALUE := SLI_gDB_NORM_X_scl.inputValue,MAX := SLI_gDB_NORM_X_scl.maxLim);",
+        "additional_info": "使用公式OUT = (VALUE – MIN) / (MAX – MIN)进行计算，如果使能输入EN的信号状态为“0”或MIN的值大于或等于MAX，则使能输出ENO返回信号状态“0”。"
+    },
+    "REF": {
+        "instruction_name": "REF",
+        "instruction_description": "使用REF()关键字可以指定先前所声明引用将指向的变量。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " 表达式",
+                    "type": " 位序列、整数、浮点数等",
+                    "description": " 引用将指向的变量。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何在块接口中声明引用并在程序代码中为这些引用分配相应的变量。",
+        "additional_info": "在使用REF()之前，需要在块接口中先声明一个引用，并且指定的变量数据类型必须与所声明引用的数据类型完全匹配。"
+    },
+    "VARIANT_TO_DB_ANY": {
+        "instruction_name": "VARIANT_TO_DB_ANY",
+        "instruction_description": "该指令用于将VARIANT转换为DB_ANY，查询IN参数地址指定的操作数的数据块编号。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " VARIANT",
+                    "description": " 待读取的变量。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " ERR",
+                    "type": " INT",
+                    "description": " 错误信息。"
+                }
+            ]
+        },
+        "example_code": "VARIANT_TO_DB_ANY(in := #inputSource,err => SLI_gDB_VARIANT_TO_DB_ANY_scl.error);",
+        "additional_info": "如果满足条件，则执行该指令，如果不满足条件，则输出“0”作为数据块编号。"
+    },
+    "DB_ANY_TO_VARIANT": {
+        "instruction_name": "DB_ANY_TO_VARIANT",
+        "instruction_description": "该指令用于从数据块生成VARIANT变量。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " DB_ANY",
+                    "description": " 要读取其编号的数据块。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " ERR",
+                    "type": " INT",
+                    "description": " 错误信息。"
+                }
+            ]
+        },
+        "example_code": "DB_ANY_TO_VARIANT(in := SLI_gDB_DB_ANY_TO_VARIANT_scl.nbrOfDB,err => SLI_gDB_DB_ANY_TO_VARIANT_scl.error);",
+        "additional_info": "如果满足条件，则执行该指令，如果不满足条件或数据块不存在，则在RET_VAL参数中输出值NULL。"
+    },
+    "SCALE": {
+        "instruction_name": "SCALE",
+        "instruction_description": "该指令用于将整数转换为在物理单位内缩放的浮点数。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " INT",
+                    "description": " 待缩放的输入值。"
+                },
+                {
+                    "name": " HI_LIM",
+                    "type": " REAL",
+                    "description": " 上限。"
+                },
+                {
+                    "name": " LO_LIM",
+                    "type": " REAL",
+                    "description": " 下限。"
+                },
+                {
+                    "name": " BIPOLAR",
+                    "type": " BOOL",
+                    "description": " 指示将参数IN的值解释为双极性还是单极性。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": " REAL",
+                    "description": " 指令的结果。"
+                }
+            ]
+        },
+        "example_code": "SCALE(IN := SLI_gDB_SCALE_scl.inputValue,HI_LIM := SLI_gDB_SCALE_scl.maxLim,LO_LIM := SLI_gDB_SCALE_scl.minLim,BIPOLAR := SLI_gDB_SCALE_scl.bipolarIndicator,OUT => SLI_gDB_SCALE_scl.resultValue);",
+        "additional_info": "常数K1和K2的值取决于参数BIPOLAR的信号状态，如果IN的值超出K2或小于K1，则输出错误。"
+    },
+    "UNSCALE": {
+        "instruction_name": "UNSCALE",
+        "instruction_description": "该指令用于取消缩放，将浮点数转换为整数。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " REAL",
+                    "description": " 待取消缩放并转换为整数的输入值。"
+                },
+                {
+                    "name": " HI_LIM",
+                    "type": " REAL",
+                    "description": " 上限。"
+                },
+                {
+                    "name": " LO_LIM",
+                    "type": " REAL",
+                    "description": " 下限。"
+                },
+                {
+                    "name": " BIPOLAR",
+                    "type": " BOOL",
+                    "description": " 指示将参数IN的值解释为双极性还是单极性。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": " INT",
+                    "description": " 指令的结果。"
+                }
+            ]
+        },
+        "example_code": "UNSCALE(IN := SLI_gDB_UNSCALE_scl.inputValue,HI_LIM := SLI_gDB_UNSCALE_scl.maxLim,LO_LIM := SLI_gDB_UNSCALE_scl.minLim,BIPOLAR := SLI_gDB_UNSCALE_scl.bipolarIndicator,OUT => SLI_gDB_UNSCALE_scl.resultValue);",
+        "additional_info": "常数K1和K2的值取决于参数BIPOLAR的信号状态，如果IN的值超出HI_LIM或小于LO_LIM，则输出错误并将结果设置为最接近的限值。"
+    },
+    "IF": {
+        "instruction_name": "IF",
+        "instruction_description": "该指令用于根据条件控制程序流的分支。",
+        "parameters": {},
+        "example_code": "提供了SCL示例代码，展示了如何使用IF指令进行条件判断和执行相应的指令。",
+        "additional_info": "IF指令可以有多种形式，包括IF THEN ELSE END_IF结构，可以嵌套任意多个ELSIF和THEN组合。"
+    },
+    "CASE": {
+        "instruction_name": "CASE",
+        "instruction_description": "该指令用于创建多路分支，根据表达式的值执行多个指令序列中的一个。",
+        "parameters": {},
+        "example_code": "提供了SCL示例代码，展示了如何使用CASE指令进行多路分支选择。",
+        "additional_info": "CASE指令可以通过使用CASE替换一个指令块进行嵌套，ELSE是一个可选的语法部分。"
+    },
+    "FOR": {
+        "instruction_name": "FOR",
+        "instruction_description": "该指令用于在计数循环中重复执行程序循环。",
+        "parameters": {},
+        "example_code": "提供了SCL示例代码，展示了如何使用FOR指令进行循环操作。",
+        "additional_info": "FOR循环可以嵌套，且在编写时应避免死循环，注意运行变量的数据类型和取值范围。"
+    },
+    "WHILE": {
+        "instruction_name": "WHILE",
+        "instruction_description": "该指令用于在满足条件时重复执行程序循环。",
+        "parameters": {},
+        "example_code": "提供了SCL示例代码，展示了如何使用WHILE指令进行循环操作。",
+        "additional_info": "WHILE循环可以嵌套，且可以通过CONTINUE和EXIT指令控制循环的执行。"
+    },
+    "REPEAT": {
+        "instruction_name": "REPEAT",
+        "instruction_description": "该指令用于在不满足条件时重复执行程序循环。",
+        "parameters": {},
+        "example_code": "提供了SCL示例代码，展示了如何使用REPEAT指令进行循环操作。",
+        "additional_info": "即使满足终止条件，REPEAT指令也只执行一次，可以通过CONTINUE和EXIT指令控制循环的执行。"
+    },
+    "CONTINUE": {
+        "instruction_name": "CONTINUE",
+        "instruction_description": "该指令用于结束FOR、WHILE或REPEAT循环的当前程序运行，并再次计算继续执行程序循环的条件。",
+        "parameters": {},
+        "example_code": "提供了SCL示例代码，展示了如何使用CONTINUE指令在满足特定条件时跳过当前循环的剩余部分。",
+        "additional_info": "CONTINUE指令将影响其所在的程序循环。"
+    },
+    "EXIT": {
+        "instruction_name": "EXIT",
+        "instruction_description": "该指令用于随时取消FOR、WHILE或REPEAT循环的执行，而无需考虑是否满足条件。",
+        "parameters": {},
+        "example_code": "提供了SCL示例代码，展示了如何使用EXIT指令在满足特定条件时退出循环。",
+        "additional_info": "EXIT指令将影响其所在的程序循环。"
+    },
+    "GOTO": {
+        "instruction_name": "GOTO",
+        "instruction_description": "该指令用于从标注为跳转标签的指定点开始继续执行程序。",
+        "parameters": {},
+        "example_code": "提供了SCL示例代码，展示了如何使用GOTO指令进行程序跳转。",
+        "additional_info": "跳转标签和GOTO指令必须在同一个块中，且跳转标签的名称只能指定一次。"
+    },
+    "RETURN": {
+        "instruction_name": "RETURN",
+        "instruction_description": "该指令用于终止当前处理块中的程序执行，并在调用块中继续执行。",
+        "parameters": {},
+        "example_code": "提供了SCL示例代码，展示了如何使用RETURN指令在满足特定条件时退出当前块。",
+        "additional_info": "如果RETURN指令出现在块结尾处，则可以跳过。"
+    },
+    "ENDIS_PW": {
+        "instruction_name": "ENDIS_PW",
+        "instruction_description": "该指令用于锁定和解锁CPU各访问级别的密码。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " REQ",
+                    "type": " BOOL",
+                    "description": " 决定CPU中各访问级别的当前密码状态。-- F_PWD， Input， BOOL， 锁定或解锁访问级别“完全访问权限，包括故障安全（无保护）”的密码。"
+                },
+                {
+                    "name": " FULL_PWD",
+                    "type": " BOOL",
+                    "description": " 锁定或解锁访问级别“完全访问权限（无保护）”的密码。"
+                },
+                {
+                    "name": " R_PWD",
+                    "type": " BOOL",
+                    "description": " 锁定或解锁访问级别“只读访问权限”的密码。"
+                },
+                {
+                    "name": " HMI_PWD",
+                    "type": " BOOL",
+                    "description": " 锁定或解锁访问级别“HMI访问权限”的密码。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " F_PWD_ON",
+                    "type": " BOOL",
+                    "description": " 访问级别“完全访问权限，包括故障安全（无保护）”的当前密码状态。"
+                },
+                {
+                    "name": " FULL_PWD_ON",
+                    "type": " BOOL",
+                    "description": " 访问级别“完全访问权限（无保护）”的当前密码状态。"
+                },
+                {
+                    "name": " R_PWD_ON",
+                    "type": " BOOL",
+                    "description": " 访问级别“只读访问权限”的当前密码状态。"
+                },
+                {
+                    "name": " HMI_PWD_ON",
+                    "type": " BOOL",
+                    "description": " 访问级别“HMI访问权限”的当前密码状态。"
+                },
+                {
+                    "name": " RET_VAL",
+                    "type": " WORD",
+                    "description": " 错误信息。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用ENDIS_PW指令锁定和解锁密码。",
+        "additional_info": "通过锁定密码，可以终止现有的合法化连接，锁定后，可以将故障安全CPU的访问权限授予少数几个用户。"
+    },
+    "SHUT_DOWN": {
+        "instruction_name": "SHUT_DOWN",
+        "instruction_description": "该指令用于关闭目标系统，包括CPU和Windows。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " MODE",
+                    "type": " UINT",
+                    "description": " 指定关闭或重新启动的模式。"
+                },
+                {
+                    "name": " COMMENT",
+                    "type": " STRING",
+                    "description": " 指定重新启动的原因。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " Ret_Val",
+                    "type": " WORD",
+                    "description": " 返回值，表示操作结果。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHUT_DOWN指令关闭或重新启动系统。",
+        "additional_info": "根据MODE参数的不同值，执行不同的关闭或重新启动操作。"
+    },
+    "RE_TRIGR": {
+        "instruction_name": "RE_TRIGR",
+        "instruction_description": "该指令用于重置周期监视时间。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " MODE",
+                    "type": " UINT",
+                    "description": " 指定关闭或重新启动的模式。"
+                },
+                {
+                    "name": " COMMENT",
+                    "type": " STRING",
+                    "description": " 指定重新启动的原因。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " Ret_Val",
+                    "type": " WORD",
+                    "description": " 返回值，表示操作结果。"
+                }
+            ]
+        },
+        "example_code": "RE_TRIGR();",
+        "additional_info": "该指令不带任何参数且不提供错误信息，用于重新触发CPU的循环时间监控。"
+    },
+    "STP": {
+        "instruction_name": "STP",
+        "instruction_description": "该指令用于退出程序，将CPU设置为STOP模式。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " MODE",
+                    "type": " UINT",
+                    "description": " 指定关闭或重新启动的模式。"
+                },
+                {
+                    "name": " COMMENT",
+                    "type": " STRING",
+                    "description": " 指定重新启动的原因。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " Ret_Val",
+                    "type": " WORD",
+                    "description": " 返回值，表示操作结果。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHUT_DOWN指令关闭或重新启动系统。",
+        "additional_info": "该指令将终止程序执行，是否从RUN模式切换到STOP模式取决于CPU的配置。"
+    },
+    "GET_ERROR": {
+        "instruction_name": "GET_ERROR",
+        "instruction_description": "该指令用于获取本地错误信息。",
+        "parameters": {},
+        "example_code": "提供了SCL示例代码，展示了如何使用GET_ERROR指令获取错误信息并进行处理。",
+        "additional_info": "错误信息只能保存在ErrorStruct系统数据类型的操作数中，可以多次插入该数据类型，但名称不能更改。"
+    },
+    "GET_ERR_ID": {
+        "instruction_name": "GET_ERR_ID",
+        "instruction_description": "该指令用于获取本地错误ID。",
+        "parameters": {},
+        "example_code": "提供了SCL示例代码，展示了如何使用GET_ERR_ID指令获取错误ID并进行处理。",
+        "additional_info": "错误ID只能保存在WORD数据类型的操作数中。"
+    },
+    "INIT_RD": {
+        "instruction_name": "INIT_RD",
+        "instruction_description": "该指令用于初始化所有保留数据。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " 操作数",
+                    "type": " BOOL",
+                    "description": " 如果输入“REQ”的信号状态为“1”，将复位所有保持性数据。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " RET_VAL",
+                    "type": " INT",
+                    "description": " 错误信息。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用INIT_RD指令复位所有保持性数据。",
+        "additional_info": "该指令的执行时间超出程序周期的持续时间，因此只能在启动OB中执行。"
+    },
+    "WAIT": {
+        "instruction_name": "WAIT",
+        "instruction_description": "该指令用于组态延时时间，暂停程序执行。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " WT",
+                    "type": " INT",
+                    "description": " 延时时间的单位为微秒。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用INIT_RD指令复位所有保持性数据。",
+        "additional_info": "可以组态的延时为-32768到32767微秒，最短延时时间取决于CPU和该指令的执行时间。"
+    },
+    "RUNTIME": {
+        "instruction_name": "RUNTIME",
+        "instruction_description": "该指令用于测量程序运行时间。",
+        "parameters": {
+            "InOut": [
+                {
+                    "name": " 操作数",
+                    "type": " LREAL",
+                    "description": " 指令运行结果仅适用于内部应用。"
+                }
+            ]
+        },
+        "example_code": "RUNTIME(SLI_gDB_RUNTIME_scl.memory);",
+        "additional_info": "该指令使用内部高频计数器来计算时间，如果计数器溢出，该指令返回值<=0.0。"
+    },
+    "DECO": {
+        "instruction_name": "DECO",
+        "instruction_description": "该指令用于解码，将输入值所指定的位置位。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " UINT",
+                    "description": " 输出值中待置位位的位置。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用DECO指令进行解码操作。",
+        "additional_info": "如果参数IN的值大于31，则执行以32为模的指令。"
+    },
+    "ENCO": {
+        "instruction_name": "ENCO",
+        "instruction_description": "该指令用于编码，读取输入值中设置的最小值位的位号。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " 位字符串",
+                    "description": " 输入值。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用ENCO指令进行编码操作。",
+        "additional_info": "如果参数IN的值为0，则在输出OUT中输出值“0”。"
+    },
+    "SEL": {
+        "instruction_name": "SEL",
+        "instruction_description": "该指令用于选择，根据开关参数选择两个输入值中的一个。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " G",
+                    "type": " BOOL",
+                    "description": " 开关。"
+                },
+                {
+                    "name": " IN0",
+                    "type": " 二进制数、整数等",
+                    "description": " 第一个输入值。"
+                },
+                {
+                    "name": " IN1",
+                    "type": " 二进制数、整数等",
+                    "description": " 第二个输入值。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SEL指令根据开关参数选择输入值。",
+        "additional_info": "只有当所有参数的变量均为同一种数据类型等级时，才能执行该指令。"
+    },
+    "MUX": {
+        "instruction_name": "MUX",
+        "instruction_description": "该指令用于多路复用，复制所选的输入参数值并发出。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " K",
+                    "type": " 整数",
+                    "description": " 指定要传送内容的参数。"
+                },
+                {
+                    "name": " IN0",
+                    "type": " 二进制数、整数等",
+                    "description": " 第一个输入值。"
+                },
+                {
+                    "name": " IN1",
+                    "type": " 二进制数、整数等",
+                    "description": " 第二个输入值。"
+                },
+                {
+                    "name": " INn",
+                    "type": " 二进制数、整数等",
+                    "description": " 可选的输入值。"
+                },
+                {
+                    "name": " INELSE",
+                    "type": " 二进制数、整数等",
+                    "description": " 指定K<n时要复制的值。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用MUX指令进行多路复用操作。",
+        "additional_info": "所有分配有参数的变量都必须为相同的数据类型。"
+    },
+    "DEMUX": {
+        "instruction_name": "DEMUX",
+        "instruction_description": "该指令用于多路分用，将输入参数的值传送到所选的输出参数。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " K",
+                    "type": " 整数",
+                    "description": " 指定要将输入值(IN)复制到的输出。"
+                },
+                {
+                    "name": " IN",
+                    "type": " 二进制数、整数等",
+                    "description": " 输入值。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT0",
+                    "type": " 二进制数、整数等",
+                    "description": " 第一个输出。"
+                },
+                {
+                    "name": " OUT1",
+                    "type": " 二进制数、整数等",
+                    "description": " 第二个输出。"
+                },
+                {
+                    "name": " OUTn",
+                    "type": " 二进制数、整数等",
+                    "description": " 可选输出。"
+                },
+                {
+                    "name": " OUTELSE",
+                    "type": " 二进制数、整数等",
+                    "description": " 当K>n时，输入IN的值要复制到的输出。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用DEMUX指令进行多路分用操作。",
+        "additional_info": "确保输入参数“IN”和所有输出参数具有相同的数据类型。"
+    },
+    "SHR": {
+        "instruction_name": "SHR",
+        "instruction_description": "该指令用于右移，将参数的内容逐位向右移动。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " 位字符串或整数",
+                    "description": " 要移位的值。"
+                },
+                {
+                    "name": " N",
+                    "type": " USINT、UINT等",
+                    "description": " 对值(IN)进行移位的位数。"
+                }
+            ]
+        },
+        "example_code": "#erg_byte := SHR(IN := #in_byte, N := #n);  用于将操作数向右按位移位",
+        "additional_info": "无符号值移位时，用零填充左侧区域中空出的位；有符号值移位时，用符号位的信号状态填充。"
+    },
+    "SHL": {
+        "instruction_name": "SHL",
+        "instruction_description": "该指令用于左移，将参数的内容逐位向左移动。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " 位字符串或整数",
+                    "description": "要移位的值。"
+                },
+                {
+                    "name": " N",
+                    "type": " USINT、UINT等",
+                    "description": " 对值(IN)进行移位的位数。"
+                }
+            ]
+        },
+        "example_code": "#erg_byte := SHL(IN:=#in_byte ,N:=#n);  用于将操作数向左按位移位",
+        "additional_info": "结果值中因移位而空出的位将用0填充。"
+    },
+    "ROL": {
+        "instruction_name": "ROL",
+        "instruction_description": "使用“循环左移”指令，可以将参数 IN 的内容逐位向左循环移位，并将结果作为函数值返回。参数 N 用于指定应将特定值循环移位的位数。用移出的位填充因循环移位而空出的位。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " 位字符串/整数",
+                    "description": " 要循环移位的值"
+                },
+                {
+                    "name": " N",
+                    "type": " USINT/UINT/UDINT/ULINT",
+                    "description": " 要将值进行(IN)循环移位的位数"
+                }
+            ]
+        },
+        "example_code": "ROL(IN := SLI_gDB_ROL_scl.valueToRotate, N := SLI_gDB_ROL_scl.numberBitPos);",
+        "additional_info": "如果参数 N 的值为“0”，则将输入 IN 的值作为结果。如果参数 N 的值大于可用位数，则输入 IN 中的操作数值将循环移动指定位数个位。"
+    },
+    "DRUM": {
+        "instruction_name": "DRUM",
+        "instruction_description": "可以使用“执行顺控程序”指令，将相应步的 OUT_VAL 参数的已设定值分配给已设定的输出位（OUT1 到 OUT16）和输出字 (OUT_WORD)。该指令根据参数 S_MASK 中设定的使能掩码条件以及预设时间进行步进操作。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " RESET",
+                    "type": " BOOL",
+                    "description": " 信号状态“1”表示复位状态。"
+                },
+                {
+                    "name": " JOG",
+                    "type": " BOOL",
+                    "description": " 当信号状态从“0”变为“1”时，该指令将进入下一步。"
+                },
+                {
+                    "name": " DRUM_EN",
+                    "type": " BOOL",
+                    "description": " 信号状态“1”允许顺控程序按照事件和时间条件提前执行。"
+                },
+                {
+                    "name": " LST_STEP",
+                    "type": " BYTE",
+                    "description": " 最大步数。"
+                },
+                {
+                    "name": " EVENT(i)",
+                    "type": " BOOL",
+                    "description": " 事件位。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT(j)",
+                    "type": " BOOL",
+                    "description": " 输出位。"
+                },
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 信号状态“1”表示最后一步的时间已用完。"
+                },
+                {
+                    "name": " OUT_WORD",
+                    "type": " WORD",
+                    "description": " 顺控程序写入输出值的目标字地址。"
+                },
+                {
+                    "name": " ERR_CODE",
+                    "type": " WORD",
+                    "description": " 错误信息。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "每步所耗用的时间由预设时基 (DTBP) 与每步预设计数值 (S_PRESET) 的乘积确定。顺控程序的当前步和预设步可以通过静态参数 (如 DSP, DSC) 进行控制。"
+    },
+    "DCAT": {
+        "instruction_name": "DCAT",
+        "instruction_description": "可以使用“离散控制定时器报警”指令，从参数 CMD 发出打开或关闭命令的时刻开始计时。如果在规定时间内已打开或关闭设备，或者超出了预设时间，则激活相应的报警。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " CMD",
+                    "type": " BOOL",
+                    "description": " 命令输入。"
+                },
+                {
+                    "name": " O_FB",
+                    "type": " BOOL",
+                    "description": " 打开时的反馈输入。"
+                },
+                {
+                    "name": " C_FB",
+                    "type": " BOOL",
+                    "description": " 关闭时的反馈输入。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 显示参数 CMD 的状态。"
+                },
+                {
+                    "name": " OA",
+                    "type": " BOOL",
+                    "description": " 打开时的报警输出。"
+                },
+                {
+                    "name": " CA",
+                    "type": " BOOL",
+                    "description": " 关闭时的报警输出。"
+                }
+            ],
+            "Static": [
+                {
+                    "name": " ET",
+                    "type": " DINT",
+                    "description": " 当前已用时间。"
+                },
+                {
+                    "name": " PT",
+                    "type": " DINT",
+                    "description": " 预设的定时器值。"
+                },
+                {
+                    "name": " PREV_TIME",
+                    "type": " DWORD",
+                    "description": " 上一次的系统时间。"
+                },
+                {
+                    "name": " CMD_HIS",
+                    "type": " BOOL",
+                    "description": " CMD 历史位。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "如果命令输入的信号状态在到达预设时间前发生变化，则重新计时。该指令不提供错误信息。"
+    },
+    "MCAT": {
+        "instruction_name": "MCAT",
+        "instruction_description": "用于从开启命令输入（打开或关闭）时开始计时。如果在收到反馈前就超出了预设时间，则触发相应的报警。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " O_CMD",
+                    "type": " BOOL",
+                    "description": " “打开”命令输入。"
+                },
+                {
+                    "name": " C_CMD",
+                    "type": " BOOL",
+                    "description": " “关闭”命令输入。"
+                },
+                {
+                    "name": " S_CMD",
+                    "type": " BOOL",
+                    "description": " “停止”命令输入。"
+                },
+                {
+                    "name": " O_FB",
+                    "type": " BOOL",
+                    "description": " 打开时的反馈输入。"
+                },
+                {
+                    "name": " C_FB",
+                    "type": " BOOL",
+                    "description": " 关闭时的反馈输入。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OO",
+                    "type": " BOOL",
+                    "description": " “打开”输出。"
+                },
+                {
+                    "name": " CO",
+                    "type": " BOOL",
+                    "description": " “关闭”输出。"
+                },
+                {
+                    "name": " OA",
+                    "type": " BOOL",
+                    "description": " 打开时的报警输出。"
+                },
+                {
+                    "name": " CA",
+                    "type": " BOOL",
+                    "description": " 关闭时的报警输出。"
+                },
+                {
+                    "name": " Q",
+                    "type": " BOOL",
+                    "description": " 信号状态“0”表示错误状态。"
+                }
+            ],
+            "Static": [
+                {
+                    "name": " ET",
+                    "type": " DINT",
+                    "description": " 当前已用时间。"
+                },
+                {
+                    "name": " PT",
+                    "type": " DINT",
+                    "description": " 预设的定时器值。"
+                },
+                {
+                    "name": " PREV_TIME",
+                    "type": " DWORD",
+                    "description": " 上一次的系统时间。"
+                },
+                {
+                    "name": " O_HIS",
+                    "type": " BOOL",
+                    "description": " “打开”历史位。"
+                },
+                {
+                    "name": " C_HIS",
+                    "type": " BOOL",
+                    "description": " “关闭”历史位。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "指令对各种输入条件的反应详细列出了不同情况下输出参数的变化。"
+    },
+    "IMC": {
+        "instruction_name": "IMC",
+        "instruction_description": "可以使用“比较输入位与掩码位”指令，将最多 16 个设定的输入位的信号状态与相应的掩码位进行比较。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN_BIT0 到 IN_BIT15",
+                    "type": " BOOL",
+                    "description": " 比较输入位与掩码位。"
+                },
+                {
+                    "name": " CMP_STEP",
+                    "type": " BYTE",
+                    "description": " 用于比较的掩码步号。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": " BOOL",
+                    "description": " 信号状态“1”表示找到一个匹配值。"
+                },
+                {
+                    "name": " ERR_CODE",
+                    "type": " WORD",
+                    "description": " 错误信息。"
+                }
+            ],
+            "Static": [
+                {
+                    "name": " CMP_VAL",
+                    "type": " ARRAY OF WORD",
+                    "description": " 比较掩码。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "如果在比较期间找到匹配值，参数 OUT 的信号状态置为“1”。否则将参数 OUT 置为“0”。如果参数 CMP_STEP 的值大于 15，则不执行该指令，并在参数 ERR_CODE 中输出错误信息。"
+    },
+    "SMC": {
+        "instruction_name": "SMC",
+        "instruction_description": "“比较扫描矩阵”指令可将最多 16 个已编程输入位的信号状态与各步比较掩码的相应位进行比较。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN_BIT0 到 IN_BIT15",
+                    "type": " BOOL",
+                    "description": " 比较输入位与掩码位。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": " BOOL",
+                    "description": " 信号状态“1”表示找到一个匹配值。"
+                },
+                {
+                    "name": " OUT_STEP",
+                    "type": " BYTE",
+                    "description": " 包含具有匹配掩码的步号。"
+                },
+                {
+                    "name": " ERR_CODE",
+                    "type": " WORD",
+                    "description": " 错误信息。"
+                }
+            ],
+            "Static": [
+                {
+                    "name": " LAST",
+                    "type": " BYTE",
+                    "description": " 指定为获得匹配掩码而将扫描的最后步的步号。"
+                },
+                {
+                    "name": " CMP_VAL",
+                    "type": " ARRAY OF WORD",
+                    "description": " 比较掩码。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "如果找到匹配值，则将参数 OUT 的信号状态设为“1”，并将匹配掩码的步号写入参数 OUT_STEP。如果多个步具有匹配掩码，则参数 OUT_STEP 仅指示找到的第一个步。如果没有找到匹配值，则参数 OUT 的信号状态置为“0”。"
+    },
+    "LEAD_LAG": {
+        "instruction_name": "LEAD_LAG",
+        "instruction_description": "可以使用“提前和滞后算法”指令，通过模拟量变量处理信号。该指令可与回路一起用作动态前馈控制中的补偿器。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " REAL",
+                    "description": " 待处理的当前采样时间输入值。"
+                },
+                {
+                    "name": " SAMPLE_T",
+                    "type": " INT",
+                    "description": " 采样时间。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": " REAL",
+                    "description": " 指令的结果。"
+                },
+                {
+                    "name": " ERR_CODE",
+                    "type": " WORD",
+                    "description": " 错误信息。"
+                }
+            ],
+            "Static": [
+                {
+                    "name": " LD_TIME",
+                    "type": " REAL",
+                    "description": " 提前时间的单位与采样时间的相同。"
+                },
+                {
+                    "name": " LG_TIME",
+                    "type": " REAL",
+                    "description": " 滞后时间的时间单位与采样时间的相同。"
+                },
+                {
+                    "name": " GAIN",
+                    "type": " REAL",
+                    "description": " 增益（%/% 的增益）。"
+                },
+                {
+                    "name": " PREV_IN",
+                    "type": " REAL",
+                    "description": " 上一次输入。"
+                },
+                {
+                    "name": " PREV_OUT",
+                    "type": " REAL",
+                    "description": " 上一次输出。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "GAIN 参数的增益值必须大于零。如果 GAIN 的值小于或等于零，则不进行计算，并在 ERR_CODE 中输出错误信息。"
+    },
+    "SEG": {
+        "instruction_name": "SEG",
+        "instruction_description": "“创建 7 段显示的位模式”指令用于将所指定源字的四个十六进制数都转换为 7 段显示的等价位模式。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " WORD",
+                    "description": " 以四个十六进制数字表示的源字。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": " DWORD",
+                    "description": " 7 段显示的位模式。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "指令的结果在参数 OUT 中以双字形式输出。"
+    },
+    "BCDCPL": {
+        "instruction_name": "BCDCPL",
+        "instruction_description": "“求十进制补码”指令用于计算操作数中所指定 7 位 BCD 数的十进制补码。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " 操作数",
+                    "type": " 位字符串",
+                    "description": " 7 位 BCD 数。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "使用数学公式 10000000（BCD 编码）- 7 位 BCD 值进行计算。"
+    },
+    "BITSUM": {
+        "instruction_name": "BITSUM",
+        "instruction_description": "可以使用“统计置位位数量”指令统计信号状态被置位为“1”的操作数的位数。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " 操作数",
+                    "type": " DWORD",
+                    "description": " 要统计其置位位数量的操作数。"
+                }
+            ]
+        },
+        "example_code": "BITSUM(SLI_gDB_BITSUM_scl.inputValue);",
+        "additional_info": "文档中未提供其他有用信息。"
+    },
+    "T_COMP": {
+        "instruction_name": "T_COMP",
+        "instruction_description": "此指令用于对数据类型为“定时器”或“日期和时间”的两个变量的内容进行比较。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN1",
+                    "type": " DATE",
+                    "description": " TIME， LTIME， TOD， LTOD， DT， LDT， DTL， S5Time， 待比较的第一个值。"
+                },
+                {
+                    "name": " IN2",
+                    "type": " DATE",
+                    "description": " TIME， LTIME， TOD， LTOD， DT， LDT， DTL， S5Time， 待比较的第二个值。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": " BOOL",
+                    "description": " 返回值。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "要进行比较，数据类型的长度和格式必须相同。比较的结果将在 OUT 参数中作为返回值输出。"
+    },
+    "T_CONV": {
+        "instruction_name": "T_CONV",
+        "instruction_description": "使用指令“T_CONV”将 IN 输入参数的数据类型转换为 OUT 输出上输出的数据类型。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " 整数、TIME、日期和时间*",
+                    "description": " 要转换的值。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " OUT",
+                    "type": " 整数、TIME、日期和时间*",
+                    "description": " 转换结果。"
+                }
+            ]
+        },
+        "example_code": "DT_TO_LTOD(inputTime);",
+        "additional_info": "如果使用了相同数据类型的输入和输出参数，则该指令将复制对应值。"
+    },
+    "T_ADD": {
+        "instruction_name": "T_ADD",
+        "instruction_description": "使用该指令将 IN1 输入中的时间信息加到 IN2 输入中的时间信息上。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN1",
+                    "type": " TIME",
+                    "description": " LTIME， 要相加的第一个数。"
+                },
+                {
+                    "name": " IN2",
+                    "type": " TIME",
+                    "description": " LTIME， 要相加的第二个数。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " OUT",
+                    "type": " DINT",
+                    "description": " DWORD， TIME， TOD， 相加的结果。"
+                }
+            ]
+        },
+        "example_code": "T_ADD(IN1 := SLI_gDB_T_ADD_scl.timeValTOD, IN2 := SLI_gDB_T_ADD_scl.timeValTIME);",
+        "additional_info": "在计算过程中，可能超出输出参数 OUT 的最大值或低于最小值。通过评估使能输出 ENO，可检测这一错误。"
+    },
+    "T_SUB": {
+        "instruction_name": "T_SUB",
+        "instruction_description": "使用该指令将 IN1 输入参数中的时间值减去 IN2 输入参数中的时间值。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN1",
+                    "type": " TIME",
+                    "description": " LTIME， 被减数。"
+                },
+                {
+                    "name": " IN2",
+                    "type": " TIME",
+                    "description": " LTIME， 减数。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " OUT",
+                    "type": " DINT",
+                    "description": " DWORD， TIME， TOD， 相减的结果。"
+                }
+            ]
+        },
+        "example_code": "T_SUB(IN1 := SLI_gDB_T_SUB_scl.value1TOD, IN2 := SLI_gDB_T_SUB_scl.value2Time);",
+        "additional_info": "在计算过程中，可能超出输出参数 OUT 的最大值或低于最小值。通过评估使能输出 ENO，可检测这一错误。"
+    },
+    "T_DIFF": {
+        "instruction_name": "T_DIFF",
+        "instruction_description": "使用该指令将 IN1 输入参数中的时间值减去 IN2 输入参数中的时间值。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN1",
+                    "type": " DTL",
+                    "description": " DATE， TOD， 被减数。"
+                },
+                {
+                    "name": " IN2",
+                    "type": " DTL",
+                    "description": " DATE， TOD， 减数。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " OUT",
+                    "type": " TIME",
+                    "description": " INT， LTIME， INT， 输入参数之间的差值。"
+                }
+            ]
+        },
+        "example_code": "T_DIFF(IN1 := SLI_gDB_T_DIFF_scl.todvalue1, IN2 := SLI_gDB_T_DIFF_scl.todvalue2);",
+        "additional_info": "如果 IN2 输入参数中的时间值大于 IN1 输入参数中的时间值，则 OUT 输出参数中将输出一个负数结果。"
+    },
+    "T_COMBINE": {
+        "instruction_name": "T_COMBINE",
+        "instruction_description": "该指令用于合并日期值和时间值，并生成一个合并日期时间值。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN1",
+                    "type": " DATE",
+                    "description": " 日期的输入变量。"
+                },
+                {
+                    "name": " IN2",
+                    "type": " TOD",
+                    "description": " 时间的输入变量。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " OUT",
+                    "type": " DTL",
+                    "description": " DT， LDT， 日期和时间的返回值。"
+                }
+            ]
+        },
+        "example_code": "CONCAT_DATE_TOD(IN1 := SLI_gDB_T_COMBINE_scl.valueDATE, IN2 := SLI_gDB_T_COMBINE_scl.valueTOD);",
+        "additional_info": "在 SCL 程序中使用 T_COMBINE 时，将指令“T_COMBINE”从“指令”任务卡拖放到 SCL 编程窗口中，内部指令 CONCAT_DATE_TOD 或 CONCAT_DATE_LTOD 显示在该窗口内。"
+    },
+    "WR_SYS_T": {
+        "instruction_name": "WR_SYS_T",
+        "instruction_description": "使用该指令，可设置 CPU 时钟的日期和时间（模块时间）。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " DTL",
+                    "description": " DT， LDT， 日期和时间。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " RET_VAL",
+                    "type": " INT",
+                    "description": " 指令的状态。"
+                }
+            ]
+        },
+        "example_code": "WR_SYS_T(SLI_gDB_WR_SYS_T_scl.inputTIME);",
+        "additional_info": "CPU 时钟的模块时间将用作 CPU 发起的所有时间处理过程的模板。"
+    },
+    "RD_SYS_T": {
+        "instruction_name": "RD_SYS_T",
+        "instruction_description": "可以使用该指令读取 CPU 时钟的当前日期和当前时间（模块时间）。",
+        "parameters": {
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": " DTL",
+                    "description": " DT， LDT， CPU 的日期和时间。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " RET_VAL",
+                    "type": " INT",
+                    "description": " 指令的状态。"
+                }
+            ]
+        },
+        "example_code": "RD_SYS_T(SLI_gDB_RD_SYS_T_scl.outputTIME);",
+        "additional_info": "得出的值不包含有关本地时区或夏令时的信息。"
+    },
+    "RD_LOC_T": {
+        "instruction_name": "RD_LOC_T",
+        "instruction_description": "使用该指令从 CPU 时钟读取当前本地时间。",
+        "parameters": {
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": " DTL",
+                    "description": " LDT， DTL， 本地时间。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " RET_VAL",
+                    "type": " INT",
+                    "description": " 指令的状态。"
+                }
+            ]
+        },
+        "example_code": "RD_LOC_T(SLI_gDB_RD_LOC_T_scl.outputLocTIME);",
+        "additional_info": "在输出本地时间时，会用到夏令时和标准时间的时区和开始时间（已在 CPU 时钟的组态中设置）的相关信息。"
+    },
+    "WR_LOC_T": {
+        "instruction_name": "WR_LOC_T",
+        "instruction_description": "指令“WR_LOC_T”用于设置 CPU 时钟的日期和时间。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " LOCTIME",
+                    "type": " DTL",
+                    "description": " LDT， 本地时间。"
+                },
+                {
+                    "name": " DST",
+                    "type": " BOOL",
+                    "description": " Daylight Saving Time。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " RET_VAL",
+                    "type": " INT",
+                    "description": " 错误消息。"
+                }
+            ]
+        },
+        "example_code": "WR_LOC_T(LOCTIME := SLI_gDB_WR_LOC_T_scl.inputLocTIME, DST := SLI_gDB_WR_LOC_T_scl.dstValue);",
+        "additional_info": "本地时间和系统时间的时间信息粒度与具体产品有关，且至少为 1 毫秒。"
+    },
+    "SET_TIMEZONE": {
+        "instruction_name": "SET_TIMEZONE",
+        "instruction_description": "使用指令“SET_TIMEZONE”设置进行本地时区和夏令时/标准时间切换的参数。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " REQ",
+                    "type": " BOOL",
+                    "description": " 执行函数。"
+                },
+                {
+                    "name": " TimeZone",
+                    "type": " TimeTransformationRule",
+                    "description": " 本地时区参数和夏令时/标准时间转换参数。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " DONE",
+                    "type": " BOOL",
+                    "description": " 状态参数。"
+                },
+                {
+                    "name": " BUSY",
+                    "type": " BOOL",
+                    "description": " 状态参数。"
+                },
+                {
+                    "name": " ERROR",
+                    "type": " BOOL",
+                    "description": " 状态参数。"
+                },
+                {
+                    "name": " STATUS",
+                    "type": " WORD",
+                    "description": " 详细的错误和状态信息。"
+                }
+            ]
+        },
+        "example_code": " #SET_TIMEZONE_Instance(REQ:=SLI_gDB_SET_TIMEZONE_scl.execute,TimeZone:=SLI_gDB_SET_TIMEZONE_scl.timezone,DONE=>#statDone,BUSY=>SLI_gDB_SET_TIMEZONE_scl.modeBUSY,ERROR=>SLI_gDB_SET_TIMEZONE_scl.modeERROR,STATUS=>SLI_gDB_SET_TIMEZONE_scl.statusTime);",
+        "additional_info": "每次更改时区时，需要调用该指令一次。例如，建议在启动 OB 中调用“SET_TIMEZONE”。"
+    },
+    "SNC_RTCB": {
+        "instruction_name": "SNC_RTCB",
+        "instruction_description": "同步时钟从站是指将某总线段的时钟主站的日期和日时钟传送到该总线段中的所有时钟从站。",
+        "parameters": {
+            "Output": [
+                {
+                    "name": " RET_VAL",
+                    "type": " INT",
+                    "description": " 执行过程中如果发生错误，则返回值将包含错误代码。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "仅当在其实时时钟被指定为至少一个总线段的主站时钟的 CPU 上调用了“SNC_RTCB”时，同步才可能成功。"
+    },
+    "TIME_TCK": {
+        "instruction_name": "TIME_TCK",
+        "instruction_description": "使用指令“TIME_TCK”，可以读取 CPU 的系统时间。",
+        "parameters": {
+            "Return": [
+                {
+                    "name": " RET_VAL",
+                    "type": " TIME",
+                    "description": " 读取的系统时间。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "系统时间是一个时间计数器，从 0 开始计数，直至最大值 2147483647 ms。发生溢出时，系统时间将重新从“0”开始计数。"
+    },
+    "RTM": {
+        "instruction_name": "RTM",
+        "instruction_description": "可使用该指令对 CPU 的 32 位运行小时计数器执行设置、启动、停止和读取操作。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " NR",
+                    "type": " RTM",
+                    "description": " 运行小时计数器的编号。"
+                },
+                {
+                    "name": " MODE",
+                    "type": " BYTE",
+                    "description": " 作业 ID。"
+                },
+                {
+                    "name": " PV",
+                    "type": " DINT",
+                    "description": " 运行小时计数器的新值。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " CQ",
+                    "type": " BOOL",
+                    "description": " 运行小时计数器的状态。"
+                },
+                {
+                    "name": " CV",
+                    "type": " DINT",
+                    "description": " 运行小时计数器的当前值。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " RET_VAL",
+                    "type": " INT",
+                    "description": " 指令执行过程中如果发生错误，则返回值将包含错误代码。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "在执行用户程序期间也可以停止或重新启动运行小时计数器，但这可能会导致保存的值不正确。"
+    },
+    "S_MOVE": {
+        "instruction_name": "S_MOVE",
+        "instruction_description": "可以使用此指令将参数 IN 中字符串的内容写入在参数 OUT 中指定的数据区域。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " STRING",
+                    "description": " WSTRING， 源字符串。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": " STRING",
+                    "description": " WSTRING， 目标字符串。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "要复制数据类型为 ARRAY 的变量，可使用指令“MOVE_BLK”和“UMOVE_BLK”。"
+    },
+    "S_COMP": {
+        "instruction_name": "S_COMP",
+        "instruction_description": "使用该指令，可比较两个 (W)STRING 格式的变量的内容，并将比较结果作为返回值输出。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN1",
+                    "type": " STRING",
+                    "description": " WSTRING， 输入变量，格式为 STRING / WSTRING。"
+                },
+                {
+                    "name": " IN2",
+                    "type": " STRING",
+                    "description": " WSTRING， 输入变量，格式为 STRING / WSTRING。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": " BOOL",
+                    "description": " 比较的结果。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "按照字符的 ASCII 码从左侧开始比较字符。第一个不同的字符决定比较结果。"
+    },
+    "S_CONV": {
+        "instruction_name": "S_CONV",
+        "instruction_description": "使用该指令将 IN 输入中的值转换为 OUT 输出中指定的数据格式。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " CHAR",
+                    "description": " WCHAR， USINT， UINT， UDINT， ULINT， SINT， INT， DINT， LINT， REAL， LREAL， 要转换的值。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": " CHAR",
+                    "description": " WCHAR， USINT， UINT， UDINT， ULINT， SINT， INT， DINT， LINT， REAL， LREAL， STRING， WSTRING， 转换结果。"
+                }
+            ]
+        },
+        "example_code": "INT_TO_STRING(SLI_gDB_S_CONV_scl.inputValueNBR);",
+        "additional_info": "转换后字符串的长度取决于 IN 输入中的值。在 SCL 中，运算后返回的字符串将覆盖返回值处变量中的内容。"
+    },
+    "STRG_VAL": {
+        "instruction_name": "STRG_VAL",
+        "instruction_description": "“STRG_VAL”指令可将字符串转换为整数或浮点数。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " STRING",
+                    "description": " WSTRING， 要转换的数字字符串。"
+                },
+                {
+                    "name": " FORMAT",
+                    "type": " WORD",
+                    "description": " 字符的输入格式。"
+                },
+                {
+                    "name": " P",
+                    "type": " UINT",
+                    "description": " 要转换的第一个字符的引用。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": " USINT",
+                    "description": " SINT， UINT， INT， UDINT， DINT， REAL， LREAL， 转换结果。"
+                }
+            ]
+        },
+        "example_code": "STRG_VAL(IN:=SLI_gDB_STRG_VAL_scl.inputSTRING,FORMAT:=SLI_gDB_STRG_VAL_scl.resultSformat,P:=SLI_gDB_STRG_VAL_scl.pointerSTRG,OUT=>SLI_gDB_STRG_VAL_scl.outputVAL);",
+        "additional_info": "转换允许的字符包括数字“0”到“9”、小数点、小数撇、计数制“E”和“e”，以及加减号字符。如果发现无效字符，将取消转换过程。"
+    },
+    "VAL_STRG": {
+        "instruction_name": "VAL_STRG",
+        "instruction_description": "“VAL_STRG”指令用于将数字值转换为字符串。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " USINT",
+                    "description": " SINT， UINT， INT， UDINT， DINT， REAL， LREAL， 要转换的值。"
+                },
+                {
+                    "name": " SIZE",
+                    "type": " USINT",
+                    "description": " 字符位数。"
+                },
+                {
+                    "name": " PREC",
+                    "type": " USINT",
+                    "description": " 小数位数。"
+                },
+                {
+                    "name": " FORMAT",
+                    "type": " WORD",
+                    "description": " 字符的输出格式。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": " STRING",
+                    "description": " WSTRING， 转换结果。"
+                }
+            ],
+            "InOut": [
+                {
+                    "name": " P",
+                    "type": " UINT",
+                    "description": " 开始写入结果的字符。"
+                }
+            ]
+        },
+        "example_code": "VAL_STRG(IN:=SLI_gDB_VAL_STRG_scl.inputVAL,SIZE:=SLI_gDB_VAL_STRG_scl.sizeSTRG,PREC:=SLI_gDB_VAL_STRG_scl.precVAL,FORMAT:=SLI_gDB_VAL_STRG_scl.resultV2Sformat,P:=SLI_gDB_VAL_STRG_scl.pointer2STRG,OUT=>SLI_gDB_VAL_STRG_scl.outputSTRING);",
+        "additional_info": "无效字符将中断转换过程。"
+    },
+    "Strg_TO_Chars": {
+        "instruction_name": "Strg_TO_Chars",
+        "instruction_description": "通过指令“Strg_TO_Chars”，可将数据类型为 STRING 的字符串复制到 Array of CHAR 或 Array of BYTE 中；或将数据类型为 WSTRING 的字符串复制到 Array of WCHAR 或 Array of WORD 中。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " STRG",
+                    "type": " STRING",
+                    "description": " WSTRING， 复制操作的源。"
+                },
+                {
+                    "name": " PCHARS",
+                    "type": " DINT",
+                    "description": " Array of (W)CHAR / BYTE / WORD 结构中的位置，从该位置处开始写入字符。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " CNT",
+                    "type": " UINT",
+                    "description": " 移动的字符数量。"
+                }
+            ],
+            "InOut": [
+                {
+                    "name": " CHARS",
+                    "type": " VARIANT",
+                    "description": " 复制操作的目标。"
+                }
+            ]
+        },
+        "example_code": "Strg_TO_Chars(Strg:=SLI_gDB_Strg_TO_Chars_scl.inputSTRG,pChars:=SLI_gDB_Strg_TO_Chars_scl.pointerCHARS,Cnt=>SLI_gDB_Strg_TO_Chars_scl.countCHARS,Chars:=SLI_gDB_Strg_TO_Chars_scl.myarrayCHARS);",
+        "additional_info": "该操作只能复制 ASCII 字符。如果目标域包含的字符数少于源字符串中的字符数，则将只写入最多与目标域最大长度相同的字符数。"
+    },
+    "Chars_TO_Strg": {
+        "instruction_name": "Chars_TO_Strg",
+        "instruction_description": "通过指令“Chars_TO_Strg”，可将字符串从 Array of CHAR 或 Array of BYTE 复制到数据类型为 STRING 的字符串中；或将字符串从 ARRAY of WCHAR 或 Array of WORD 复制到数据类型为 WSTRING 的字符串中。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " CHARS",
+                    "type": " VARIANT",
+                    "description": " 复制操作的源。"
+                },
+                {
+                    "name": " PCHARS",
+                    "type": " DINT",
+                    "description": " Array of (W)CHAR / BYTE / WORD 中的位置，从该位置处开始复制字符。"
+                },
+                {
+                    "name": " CNT",
+                    "type": " UINT",
+                    "description": " 要复制的字符数。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " STRG",
+                    "type": " STRING",
+                    "description": " WSTRING， 复制操作的目标。"
+                }
+            ]
+        },
+        "example_code": "Chars_TO_Strg(Chars:=SLI_gDB_Chars_TO_Strg_scl.inputArrayCHARS,pChars:=SLI_gDB_Chars_TO_Strg_scl.pointerCHARS,Cnt:=SLI_gDB_Chars_TO_Strg_scl.countCHARS,Strg=>SLI_gDB_Chars_TO_Strg_scl.outputSTRG);",
+        "additional_info": "复制操作仅支持 ASCII 字符。如果字符串长度小于源域中的字符个数，则将在字符串中写入最大长度的字符数。"
+    },
+    "MAX_LEN": {
+        "instruction_name": "MAX_LEN",
+        "instruction_description": "使用指令“MAX_LEN”，可确定输入参数 IN 中所指定字符串的最大长度，并将其作为数字值输出到输出参数 OUT 中。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": " STRING",
+                    "description": " WSTRING， 字符串。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " OUT",
+                    "type": " INT",
+                    "description": " DINT， 最大字符数。"
+                }
+            ]
+        },
+        "example_code": "MAX_LEN(SLI_gDB_MAX_LEN_scl.inputSTRING);",
+        "additional_info": "(W)STRING 数据类型的变量包含两个长度"
+    },
+    "JOIN": {
+        "instruction_name": "JOIN",
+        "instruction_description": "将多个字符串通过指定的分隔符连接成一个数组，支持CSV格式和FSR格式。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " Mode",
+                    "type": "DWORD",
+                    "description": "指定合并方式（CSV或FSR）。"
+                },
+                {
+                    "name": " RecSeparator",
+                    "type": "VARIANT",
+                    "description": "源字符串的分隔符或填充字符。"
+                },
+                {
+                    "name": " EndSeparator",
+                    "type": "VARIANT",
+                    "description": "转换末尾的分隔符。"
+                },
+                {
+                    "name": " SrcStruct",
+                    "type": "VARIANT",
+                    "description": "指向源字符串的指针。"
+                },
+                {
+                    "name": " Count",
+                    "type": "UDINT",
+                    "description": "连接的字符串数量。"
+                }
+            ],
+            "InOut": [
+                {
+                    "name": " DestArray",
+                    "type": "VARIANT",
+                    "description": "转换后写入字符的区域。"
+                },
+                {
+                    "name": " Position",
+                    "type": "UDINT",
+                    "description": "为整个字符串中的位置制作索引。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " Ret_Val",
+                    "type": "INT",
+                    "description": "指令的状态。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "JOIN指令在连接字符串时，需要注意字符串的最大长度限制和分隔符的选择。"
+    },
+    "SPLIT": {
+        "instruction_name": "SPLIT",
+        "instruction_description": "将一个字符数组按照指定的分隔符拆分为多个字符串，支持CSV格式和FSR格式。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " Mode",
+                    "type": "DWord",
+                    "description": "指定分割方式。"
+                },
+                {
+                    "name": " RecSeparator",
+                    "type": "Variant",
+                    "description": "CSV格式的分隔符或FSR格式的填充字符。"
+                },
+                {
+                    "name": " EndSeparator",
+                    "type": "Variant",
+                    "description": "完整字符串末尾的分隔符。"
+                },
+                {
+                    "name": " SrcArray",
+                    "type": "Variant",
+                    "description": "指向待读取数组的指针。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " Count",
+                    "type": "UDInt",
+                    "description": "找到的字符串数量。"
+                }
+            ],
+            "InOut": [
+                {
+                    "name": " DestStruct",
+                    "type": "Variant",
+                    "description": "包含已转换字符串的结构。"
+                },
+                {
+                    "name": " Position",
+                    "type": "UDInt",
+                    "description": "开始读取数组的位置。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " Ret_Val",
+                    "type": "Int",
+                    "description": "指令执行结果/错误代码。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "SPLIT指令在拆分字符串时，需要考虑不同格式的处理方式和分隔符的选择。"
+    },
+    "ATH": {
+        "instruction_name": "ATH",
+        "instruction_description": "将ASCII字符串转换为对应的十六进制数。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": "VARIANT",
+                    "description": "指向ASCII字符串的指针。"
+                },
+                {
+                    "name": " N",
+                    "type": "INT",
+                    "description": "待转换的ASCII字符数。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": "VARIANT",
+                    "description": "转换后的十六进制数。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " RET_VAL",
+                    "type": "WORD",
+                    "description": "指令的状态。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "ATH指令在转换时，只接受数字0-9和大写或小写字母A-F，其他字符将被转换为0。"
+    },
+    "HTA": {
+        "instruction_name": "HTA",
+        "instruction_description": "将十六进制数转换为对应的ASCII字符串。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": "VARIANT",
+                    "description": "十六进制数的起始地址。"
+                },
+                {
+                    "name": " N",
+                    "type": "UINT",
+                    "description": "待转换的十六进制字节数。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": "VARIANT",
+                    "description": "结果的存储地址。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " RET_VAL",
+                    "type": "WORD",
+                    "description": "错误消息。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "HTA指令在转换时，输出的ASCII字符串长度将是输入值长度的两倍。"
+    },
+    "LEN": {
+        "instruction_name": "LEN",
+        "instruction_description": "确定(W)STRING数据类型变量的当前长度。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L或常量，字符串。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " OUT",
+                    "type": "INT",
+                    "description": "I、Q、M、D、L，有效字符数。"
+                }
+            ]
+        },
+        "example_code": "MAX_LEN(SLI_gDB_MAX_LEN_scl.inputSTRING);",
+        "additional_info": "LEN指令可以读取字符串的实际使用字符数量，空字符串长度为零。"
+    },
+    "CONCAT": {
+        "instruction_name": "CONCAT",
+        "instruction_description": "合并两个字符串。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN1",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L或常量，第一个字符串。"
+                },
+                {
+                    "name": " IN2",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L或常量，第二个字符串。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " OUT",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L，生成的字符串。"
+                }
+            ]
+        },
+        "example_code": "CONCAT(IN1 := SLI_gDB_CONCAT_scl.inputstring1,IN2 := SLI_gDB_CONCAT_scl.inputstring2);",
+        "additional_info": "CONCAT指令在合并时，如果结果超出OUT参数长度，则限制到可用长度。"
+    },
+    "LEFT": {
+        "instruction_name": "LEFT",
+        "instruction_description": "从字符串中提取左侧的字符。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L或常量，字符串。"
+                },
+                {
+                    "name": " L",
+                    "type": "BYTE",
+                    "description": " INT， SINT， USINT，I、Q、M、D、L或常量，要提取的字符数。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " OUT",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L，提取的部分字符串。"
+                }
+            ]
+        },
+        "example_code": "LEFT(IN := SLI_gDB_LEFT_scl.inputSTRING,L := SLI_gDB_LEFT_scl.extractNumber);",
+        "additional_info": "LEFT指令在提取时，如果L大于字符串长度，则返回整个字符串。"
+    },
+    "RIGHT": {
+        "instruction_name": "RIGHT",
+        "instruction_description": "从字符串中提取右侧的字符。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L或常量，字符串。"
+                },
+                {
+                    "name": " L",
+                    "type": "BYTE",
+                    "description": " INT， SINT， USINT，I、Q、M、D、L或常量，要提取的字符数。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " OUT",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L，提取的部分字符串。"
+                }
+            ]
+        },
+        "example_code": "RIGHT(IN := SLI_gDB_RIGHT_scl.inputSTRING,L := SLI_gDB_RIGHT_scl.extractNumber);",
+        "additional_info": "RIGHT指令在提取时，如果L大于字符串长度，则返回整个字符串。"
+    },
+    "MID": {
+        "instruction_name": "MID",
+        "instruction_description": "从字符串中提取中间的字符。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L或常量，字符串。"
+                },
+                {
+                    "name": " L",
+                    "type": "BYTE",
+                    "description": " INT， SINT， USINT，I、Q、M、D、L或常量，要提取的字符串长度。"
+                },
+                {
+                    "name": " P",
+                    "type": "BYTE",
+                    "description": " INT， SINT， USINT，I、Q、M、D、L或常量，要提取的第一个字符的位置。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " OUT",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L，提取的部分字符串。"
+                }
+            ]
+        },
+        "example_code": "MID(IN := SLI_gDB_MID_scl.inputSTRING,L := SLI_gDB_MID_scl.extractNumber,P := SLI_gDB_MID_scl.startingPoint);",
+        "additional_info": "MID指令在提取时，如果P超出字符串长度，则返回空字符串。"
+    },
+    "DELETE": {
+        "instruction_name": "DELETE",
+        "instruction_description": "在字符串中删除特定位置的字符。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L或常量，字符串。"
+                },
+                {
+                    "name": " L",
+                    "type": "BYTE",
+                    "description": " INT， SINT， USINT，I、Q、M、D、L或常量，要删除的字符数。"
+                },
+                {
+                    "name": " P",
+                    "type": "BYTE",
+                    "description": " INT， SINT， USINT，I、Q、M、D、L或常量，要删除的第一个字符的位置。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " OUT",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L，生成的字符串。"
+                }
+            ]
+        },
+        "example_code": "MID(IN := SLI_gDB_MID_scl.inputSTRING,L := SLI_gDB_MID_scl.extractNumber,P := SLI_gDB_MID_scl.startingPoint);",
+        "additional_info": "DELETE指令在删除时，如果P或L为负数或超出字符串长度，则返回空字符串或原始字符串。"
+    },
+    "INSERT": {
+        "instruction_name": "INSERT",
+        "instruction_description": "在字符串中插入字符。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN1",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L或常量，原始字符串。"
+                },
+                {
+                    "name": " IN2",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L或常量，要插入的字符串。"
+                },
+                {
+                    "name": " P",
+                    "type": "BYTE",
+                    "description": " INT， SINT， USINT，I、Q、M、D、L或常量，插入位置。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " OUT",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L，生成的字符串。"
+                }
+            ]
+        },
+        "example_code": "INSERT(IN1 := SLI_gDB_INSERT_scl.input1_STRING,IN2 := SLI_gDB_INSERT_scl.input2_STRING,P := SLI_gDB_INSERT_scl.startingPoint);",
+        "additional_info": "INSERT指令在插入时，如果P超出IN1长度，则IN2追加到IN1之后。"
+    },
+    "REPLACE": {
+        "instruction_name": "REPLACE",
+        "instruction_description": "替换字符串中的字符。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN1",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L或常量，要替换其中字符的字符串。"
+                },
+                {
+                    "name": " IN2",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L或常量，含有要插入的字符的字符串。"
+                },
+                {
+                    "name": " L",
+                    "type": "BYTE",
+                    "description": " INT， SINT， USINT，I、Q、M、D、L或常量，要替换的字符数。"
+                },
+                {
+                    "name": " P",
+                    "type": "BYTE",
+                    "description": " INT， SINT， USINT，I、Q、M、D、L或常量，要替换的第一个字符的位置。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " OUT",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L，生成的字符串。"
+                }
+            ]
+        },
+        "example_code": " REPLACE(IN1 := SLI_gDB_REPLACE_scl.input1_STRING,IN2 := SLI_gDB_REPLACE_scl.input2_STRING,L := SLI_gDB_REPLACE_scl.replaceNumber,P := SLI_gDB_REPLACE_scl.startingPoint);",
+        "additional_info": "REPLACE指令在替换时，如果P或L为负数或零，则返回空字符串。"
+    },
+    "FIND": {
+        "instruction_name": "FIND",
+        "instruction_description": "在字符串中查找特定字符或字符串。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " IN1",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L或常量，被搜索的字符串。"
+                },
+                {
+                    "name": " IN2",
+                    "type": "STRING",
+                    "description": " WSTRING，D、L或常量，要搜索的字符串。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " OUT",
+                    "type": "INT",
+                    "description": "I、Q、M、D、L，字符位置。"
+                }
+            ]
+        },
+        "example_code": "FIND(IN1 := SLI_gDB_FIND_scl.inputSTRING,IN2 := SLI_gDB_FIND_scl.STRINGsearchedFor);",
+        "additional_info": "FIND指令在搜索时，输出第一次出现该值的位置，如果没有匹配项，则输出0。"
+    },
+    "GetSymbolName": {
+        "instruction_name": "GetSymbolName",
+        "instruction_description": "读取输入参数的变量名称。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " VARIABLE",
+                    "type": "PARAMETER",
+                    "description": "选择读取输入参数名称的本地接口。"
+                },
+                {
+                    "name": " SIZE",
+                    "type": "DINT",
+                    "description": "OUT参数处，输出字符数的限值。"
+                }
+            ],
+            "Return": [
+                {
+                    "name": " OUT",
+                    "type": "WSTRING",
+                    "description": "D、L，输出输入参数的变量名称。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "GetSymbolName指令可能导致代码存储器空间需求增加和程序运行时间延长。"
+    },
+    "GetSymbolPath": {
+        "instruction_name": "GetSymbolPath",
+        "instruction_description": "查询从调用路径起始处的实参名称。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " VARIABLE",
+                    "type": "PARAMETER",
+                    "description": "选择形参，在调用路径起始处将读取其对应实参的名称。"
+                },
+                {
+                    "name": " SIZE",
+                    "type": "DINT",
+                    "description": "OUT参数处，输出字符数的限值。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": "WSTRING",
+                    "description": "D、L，输出输入参数来源的变量名称。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "GetSymbolPath指令可能导致代码存储器空间需求增加和程序运行时间延长。"
+    },
+    "GetInstanceName": {
+        "instruction_name": "GetInstanceName",
+        "instruction_description": "在函数块中读取背景数据块的名称。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " SIZE",
+                    "type": "DINT",
+                    "description": "OUT参数处，输出字符数的限值。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": "WSTRING",
+                    "description": "D、L，背景数据块的读取名称。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "GetInstanceName指令可能导致代码存储器空间需求增加和程序运行时间延长。"
+    },
+    "GetInstancePath": {
+        "instruction_name": "GetInstancePath",
+        "instruction_description": "查询块实例的复合全局名称。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " SIZE",
+                    "type": "DINT",
+                    "description": "OUT参数处，输出字符数的限值。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " OUT",
+                    "type": "WSTRING",
+                    "description": "D、L，读取块实例的全局名称。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "GetInstancePath指令可能导致代码存储器空间需求增加和程序运行时间延长。"
+    },
+    "GetBlockName": {
+        "instruction_name": "GetBlockName",
+        "instruction_description": "读取块名称。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " SIZE",
+                    "type": "DINT",
+                    "description": "RET_VAL参数处，输出字符数的限值。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " RET_VAL",
+                    "type": "WSTRING",
+                    "description": "D、L，读取程序块名称。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "GetBlockName指令可以限制块名称的长度，如果名称被截断，末尾标识为...。"
+    },
+    "GetSymbolForReference": {
+        "instruction_name": "GetSymbolForReference",
+        "instruction_description": "确定间接寻址对象的名称。",
+        "parameters": {
+            "Input": [
+                {
+                    "name": " execute",
+                    "type": "Bool",
+                    "description": "控制参数：在上升沿启动作业。"
+                },
+                {
+                    "name": " objectRef",
+                    "type": "引用",
+                    "description": "要确定其名称的对象的引用。"
+                },
+                {
+                    "name": " size",
+                    "type": "DInt",
+                    "description": "定义名称缩短的长度。"
+                }
+            ],
+            "Output": [
+                {
+                    "name": " done",
+                    "type": "Bool",
+                    "description": "作业已执行，且无任何错误。"
+                },
+                {
+                    "name": " busy",
+                    "type": "Bool",
+                    "description": "作业尚未完成。"
+                },
+                {
+                    "name": " error",
+                    "type": "Bool",
+                    "description": "处理期间出错。"
+                },
+                {
+                    "name": " status",
+                    "type": "Int",
+                    "description": "作业处理状态或错误信息。"
+                },
+                {
+                    "name": " reliability",
+                    "type": "Int",
+                    "description": "保留供以后使用。"
+                }
+            ],
+            "InOut": [
+                {
+                    "name": " symbol",
+                    "type": "WString",
+                    "description": "确定的名称。"
+                }
+            ]
+        },
+        "example_code": "提供了SCL示例代码，展示了如何使用SHL指令进行左移操作。",
+        "additional_info": "GetSymbolForReference是异步执行指令，作业执行可跨多次调用。"
+    }
+}

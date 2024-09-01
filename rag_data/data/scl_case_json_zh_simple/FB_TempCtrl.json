@@ -1,0 +1,47 @@
+{
+    "title": "温度逻辑控制",
+    "description": "编写一个函数块FB，实现一个温度控制逻辑。该程序应包含以下功能：\n1. 通过模拟量输入模块读取温度传感器的值。\n2. 将读取的温度值TemperatureSensorInput与设定的温度值SetTemperature进行比较。\n3. 如果实际温度低于设定温度，则启动加热器HeaterOutput。\n4. 如果实际温度高于设定温度，则关闭加热器HeaterOutput。\n5. 如果加热器连续工作超过一定时间（为方便测试，采用5s），应触发过热保护，自动关闭加热器，必须再过一定时间（为方便测试，采用3s）才能解除过热保护。\n6. 提供状态指示，显示当前温度、设定温度、加热器状态以及是否有过热保护触发。\n7. 提供温度传感器故障判断，如果读取的温度值TemperatureSensorInput小于0或大于100，则认为传感器故障，此时应关闭加热器。",
+    "type": "FUNCTION_BLOCK",
+    "name": "FB_TempCtrl",
+    "input": [
+        {
+            "name": "TemperatureSensorInput",
+            "type": "Real",
+            "description": "温度传感器输入值，即实际温度"
+        },
+        {
+            "name": "SetTemperature",
+            "type": "Real",
+            "description": "设定温度值"
+        }
+    ],
+    "output": [
+        {
+            "name": "CurrentTemperature",
+            "type": "Real",
+            "description": "当前温度显示"
+        },
+        {
+            "name": "SetTempDisplay",
+            "type": "Real",
+            "description": "设定温度显示"
+        },
+        {
+            "name": "HeaterStatus",
+            "type": "Bool",
+            "description": "加热器状态显示"
+        },
+        {
+            "name": "OverheatProtection",
+            "type": "Bool",
+            "description": "过热保护状态显示"
+        }
+    ],
+    "in_out": [
+        {
+            "name": "HeaterOutput",
+            "type": "Bool",
+            "description": "加热器控制输出"
+        }
+    ]
+}

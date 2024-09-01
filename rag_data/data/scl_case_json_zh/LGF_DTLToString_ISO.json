@@ -1,0 +1,29 @@
+{
+    "title": "DTL to ISO 8601 Date String",
+    "name": "LGF_DTLToString_ISO",
+    "description": "This function converts a date of data type DTL into a character string of data type STRING in international format (YYYY MM DD).",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "date",
+            "type": "DTL",
+            "description": "Date to convert as DTL tag"
+        },
+        {
+            "name": "separator",
+            "type": "Char",
+            "description": "Separator between the components of the output date."
+        }
+    ],
+    "output": [],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "String",
+            "description": "Output string in accordance with the ISO 8601 format."
+        }
+    ],
+    "status_codes": {},
+    "user_defined_types": [],
+    "description_zh": "\n该函数\"LGF_DTLToString_ISO\"将DTL类型的时间日期值转换为符合ISO 8601国际标准的字符串格式（YYYY MM DD）。函数接收两个输入参数：一个是需要转换的DTL类型日期时间值，另一个是用于分隔日期时间组件的字符。函数输出为一个字符串，其中包含了按ISO 8601格式排列的年、月、日、小时、分钟、秒和纳秒。\n\n函数首先初始化一个空字符串,tempString,用于存储转换后的日期时间字符串。然后,使用VAL_STRG函数将DTL日期时间值的各个部分(年、月、日、小时、分钟、秒和纳秒)转换为字符串,并将其放置在tempString中的正确位置。在这个过程中,函数还会根据输入的分隔符字符来设置日期时间组件之间的分隔符。\n\n最后,函数检查并处理了一些特殊情况,比如当分隔符为空时,会使用默认的日期时间分隔符(\"-\")来代替。同时,函数还会检查并修正一些转换过程中可能出现的问题,比如当月份或日期的值为0时,VAL_STRG函数可能会将其转换为空格,函数会将这些空格替换为\"0\"。\n\n函数最终返回转换后的日期时间字符串,tempString,并将ENO设置为TRUE,表示函数执行没有错误。\n\n\n"
+}

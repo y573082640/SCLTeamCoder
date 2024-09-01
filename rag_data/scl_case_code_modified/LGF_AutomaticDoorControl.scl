@@ -1,0 +1,63 @@
+FUNCTION_BLOCK "LGF_AutomaticDoorControl"
+{ S7_Optimized_Access := 'TRUE' }
+
+   VAR_INPUT 
+        doorControlButton : Bool; // 控制按钮，脉冲信号
+   END_VAR
+
+   VAR_OUTPUT 
+        doorState: Bool; // 门状态
+        errorStateLight : Bool; // 故障指示灯状态
+   END_VAR
+
+   VAR 
+        buttonCounter : Int := 0; // 触发计数器
+        oldState : Bool := FALSE; // 上一个控制按钮状态
+   END_VAR
+
+    VAR CONSTANT 
+        MAX_COUNT : Int := 4; // 最大计数值
+    END_VAR
+
+    VAR_TEMP 
+        isChanged : Bool; // 控制按钮状态变化标志
+    END_VAR
+
+BEGIN
+
+    REGION initialization
+        // 初始化输出和状态变量
+        #doorState := FALSE;
+        #errorStateLight := FALSE;
+        #isChanged := #doorControlButton AND NOT #oldState;
+        #oldState := #doorControlButton;
+    END_REGION
+
+    REGION check rising edge
+        // 检测控制按钮状态的变化
+        IF #isChanged THEN
+            #buttonCounter += 1; // 增加计数器
+            IF #buttonCounter > #MAX_COUNT THEN
+                #buttonCounter := 1; // 超过最大计数值则重置
+            END_IF;
+        END_IF;
+    END_REGION
+
+    REGION update states
+        // 根据计数器值控制指示灯状态
+        CASE #buttonCounter OF
+            1:
+                #doorState := TRUE;
+                #errorStateLight := FALSE;
+            2:
+                #doorState := FALSE;
+                #errorStateLight := FALSE;
+            3:
+                #doorState := FALSE;
+                #errorStateLight := TRUE;
+            4:
+                #doorState := FALSE;
+                #errorStateLight := FALSE;
+        END_CASE;
+    END_REGION
+END_FUNCTION_BLOCK

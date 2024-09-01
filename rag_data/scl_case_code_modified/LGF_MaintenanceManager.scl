@@ -1,0 +1,164 @@
+FUNCTION_BLOCK "LGF_MaintenanceManager"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_INPUT 
+      addMaintenance : Bool;
+      deleteMaintenance : Bool;
+      modifyMaintenance : Bool;
+      queryMaintenance : Bool;
+      maintenanceIn : Struct
+         deviceID : Int;
+         deviceType : Int;
+         maintenanceCycle : Int;
+         lastMaintenanceTime : Date;
+      END_STRUCT;
+   END_VAR
+
+   VAR_OUTPUT 
+      maintenanceAdded : Bool;
+      maintenanceDeleted : Bool;
+      maintenanceModified : Bool;
+      maintenanceQueryResult : Struct
+         deviceID : Int;
+         deviceType : Int;
+         maintenanceCycle : Int;
+         lastMaintenanceTime : Date;
+      END_STRUCT;
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      maintenance : Array[1..5] of Struct
+         deviceID : Int;
+         deviceType : Int;
+         maintenanceCycle : Int;
+         lastMaintenanceTime : Date;
+      END_STRUCT;
+   END_VAR
+
+   VAR_TEMP 
+      index : Int;
+      found : Bool;
+   END_VAR
+
+   VAR CONSTANT 
+      ERR_DEVICE_NOT_FOUND : Word := 16#8001;
+      ERR_DUPLICATE_DEVICE_ID : Word := 16#8002;
+      ERR_NO_FREESPACE : Word := 16#8003;
+      ERR_DELETE_DEVICE_NOT_FOUND : Word := 16#8004;
+      ERR_MODIFY_DEVICE_NOT_FOUND : Word := 16#8005;
+      STATUS_NO_ERROR : Word := 16#0000;
+   END_VAR
+
+BEGIN
+	#error := FALSE;
+	#status := #STATUS_NO_ERROR;
+	REGION QueryMaintenance
+	    IF #queryMaintenance THEN
+	        #found := FALSE;
+	        FOR #index := 1 TO 5 BY 1 DO
+	            IF #maintenance[#index].deviceID <> 0 AND #maintenance[#index].deviceID = #maintenanceIn.deviceID THEN
+	                #maintenanceQueryResult := #maintenance[#index];
+	                #found := TRUE;
+	                EXIT;
+	            END_IF;
+	        END_FOR;
+	        IF NOT #found THEN
+	            #error := TRUE;
+	            #status := #ERR_DEVICE_NOT_FOUND;
+	        ELSE
+	            #error := FALSE;
+	            #status := #STATUS_NO_ERROR;
+	        END_IF;
+	        RETURN;
+	    END_IF;
+	END_REGION
+	
+	REGION AddMaintenance
+	    IF #addMaintenance THEN
+	        #found := FALSE;
+	        FOR #index := 1 TO 5 BY 1 DO
+	            IF #maintenance[#index].deviceID <> 0 AND #maintenance[#index].deviceID = #maintenanceIn.deviceID THEN
+	                #found := TRUE;
+	                EXIT;
+	            END_IF;
+	        END_FOR;
+	        IF #found THEN
+	            #maintenanceAdded := FALSE;
+	            #error := TRUE;
+	            #status := #ERR_DUPLICATE_DEVICE_ID;
+	        ELSE
+	            #found := FALSE;
+	            FOR #index := 1 TO 5 BY 1 DO
+	                IF #maintenance[#index].deviceID = 0 THEN
+	                    #maintenance[#index] := #maintenanceIn;
+	                    #found := TRUE;
+	                    EXIT;
+	                END_IF;
+	            END_FOR;
+	            IF NOT #found THEN
+	                #maintenanceAdded := FALSE;
+	                #error := TRUE;
+	                #status := #ERR_NO_FREESPACE;
+	            ELSE
+	                #maintenanceAdded := TRUE;
+	                #error := FALSE;
+	                #status := #STATUS_NO_ERROR;
+	            END_IF;
+	        END_IF;
+	        RETURN;
+	    END_IF;
+	END_REGION
+	
+	REGION DeleteMaintenance
+	    IF #deleteMaintenance THEN
+	        #found := FALSE;
+	        FOR #index := 1 TO 5 BY 1 DO
+	            IF #maintenance[#index].deviceID <> 0 AND #maintenance[#index].deviceID = #maintenanceIn.deviceID THEN
+	                #maintenance[#index].deviceID := 0;
+	                #found := TRUE;
+	                EXIT;
+	            END_IF;
+	        END_FOR;
+	        IF NOT #found THEN
+	            #maintenanceDeleted := FALSE;
+	            #error := TRUE;
+	            #status := #ERR_DELETE_DEVICE_NOT_FOUND;
+	        ELSE
+	            #maintenanceDeleted := TRUE;
+	            #error := FALSE;
+	            #status := #STATUS_NO_ERROR;
+	        END_IF;
+	        RETURN;
+	    END_IF;
+	END_REGION
+	
+	REGION ModifyMaintenance
+	    IF #modifyMaintenance THEN
+	        #found := FALSE;
+	        FOR #index := 1 TO 5 BY 1 DO
+	            IF #maintenance[#index].deviceID <> 0 AND #maintenance[#index].deviceID = #maintenanceIn.deviceID THEN
+	                #maintenance[#index] := #maintenanceIn;
+	                #found := TRUE;
+	                EXIT;
+	            END_IF;
+	        END_FOR;
+	        IF NOT #found THEN
+	            #maintenanceModified := FALSE;
+	            #error := TRUE;
+	            #status := #ERR_MODIFY_DEVICE_NOT_FOUND;
+	        ELSE
+	            #maintenanceModified := TRUE;
+	            #error := FALSE;
+	            #status := #STATUS_NO_ERROR;
+	        END_IF;
+	        RETURN;
+	    END_IF;
+	END_REGION
+	
+	REGION Writting TO outputs
+	    
+	END_REGION
+	
+END_FUNCTION_BLOCK

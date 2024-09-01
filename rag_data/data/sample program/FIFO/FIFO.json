@@ -1,0 +1,72 @@
+﻿{
+    "title": "FIFO先进先出队列",
+    "description": "编写一个函数块FB，实现一个先进先出（FIFO）循环队列的功能，其中队列的最大长度和数据类型都是可变的。循环队列应能够支持以下操作：\n\n1. 入队操作（enqueue）：在队列未满的情况下，将一个元素添加到队列的队尾。\n2. 出队操作（dequeue）：在队列不空的情况下，从队列的队首移除一个元素，并返回该元素的值。\n3. 判断队列是否为空：检查队列中是否没有元素。\n4. 判断队列是否已满：检查队列是否已达到最大容量。\n5. 获取队列元素数量：返回队列中当前元素的数量。\n状态代码：\n16#0000：执行FB没有出错\n16#8001：队列是空的\n16#8002：队列是满的",
+    "type": "FUNCTION_BLOCK",
+    "name": "FIFO",
+    "input": [
+        {
+            "name": "enqueue",
+            "type": "Bool",
+            "description": "入队操作，在队列未满的情况下，将一个元素添加到队列的队尾"
+        },
+        {
+            "name": "dequeue",
+            "type": "Bool",
+            "description": "出队操作，在队列不空的情况下，从队列的队首移除一个元素，并返回该元素的值。"
+        },
+        {
+            "name": "reset",
+            "type": "Bool",
+            "description": "复位操作，复位头尾指针，元素计数（elementCount）输出被设置为零，并且isEmpty输出被设置为TRUE。"
+        },
+        {
+            "name": "clear",
+            "type": "Bool",
+            "description": "清除操作，复位头尾指针，队列将被清空并用初始值initialItem进行初始化。元素计数（elementCount）输出被设置为零，并且isEmpty输出被设置为TRUE。"
+        },
+        {
+            "name": "initialItem",
+            "type": "Variant",
+            "description": "用于初始化队列的值"
+        }
+    ],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE:没有发生错误 TRUE:执行FB时出错"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "状态代码"
+        },
+        {
+            "name": "elementCount",
+            "type": "DInt",
+            "description": "队列中元素的数量"
+        },
+        {
+            "name": "isEmpty",
+            "type": "Bool",
+            "description": "当为TRUE时表示队列是空的"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "item",
+            "type": "Variant",
+            "description": "用于加入队列或从队列返回的值"
+        },
+        {
+            "name": "buffer",
+            "type": "Variant",
+            "description": "用于作为队列的数组"
+        }
+    ],
+    "status_codes": {
+        "16#0000": "执行FB没有出错",
+        "16#8001": "队列是空的",
+        "16#8002": "队列是满的"
+    }
+}

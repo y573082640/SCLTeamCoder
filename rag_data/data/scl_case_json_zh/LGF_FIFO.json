@@ -1,0 +1,90 @@
+{
+    "title": "FIFO Buffer Management",
+    "name": "LGF_FIFO",
+    "description": "FIFO (First-In First-Out / Queue / ring buffer memory) This function stores incoming data and outputs the oldest unprocessed data.",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "enqueue",
+            "type": "Bool",
+            "description": "Enqueue item to the buffer"
+        },
+        {
+            "name": "dequeue",
+            "type": "Bool",
+            "description": "Dequeue item from the buffer and return it on `item`"
+        },
+        {
+            "name": "reset",
+            "type": "Bool",
+            "description": "Initializing the buffer (reset the index and the counter)"
+        },
+        {
+            "name": "clear",
+            "type": "Bool",
+            "description": "Clearing the buffer and initialize with the initial value `initialItem` (Reset index and counter)."
+        },
+        {
+            "name": "initialItem",
+            "type": "Variant",
+            "description": "Value with which the ARRAY of the buffer is initialized (usually: `0` / default value)"
+        }
+    ],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "An error occurred during the execution of the FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status of the FB, Error identification"
+        },
+        {
+            "name": "subFunctionStatus",
+            "type": "Word",
+            "description": "Status or return value of called FB's, FC's and system blocks"
+        },
+        {
+            "name": "elementCount",
+            "type": "DInt",
+            "description": "Number of elements in the buffer"
+        },
+        {
+            "name": "isEmpty",
+            "type": "Bool",
+            "description": "Buffer is empty"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "item",
+            "type": "Variant",
+            "description": "The entry that is either returned from the ring buffer or written into the buffer"
+        },
+        {
+            "name": "buffer",
+            "type": "Variant",
+            "description": "The ARRAY that is used as the ring buffer."
+        }
+    ],
+    "return_value": [],
+    "status_codes": {
+        "16#0000": "STATUS_NO_ERROR",
+        "16#7000": "STATUS_NO_CURRENT_JOBS",
+        "16#8001": "ERR_BUFFER_EMPTY",
+        "16#8002": "ERR_BUFFER_FULL",
+        "16#8200": "ERR_NO_ARRAY",
+        "16#8201": "ERR_WRONG_TYPE_ITEM",
+        "16#8202": "ERR_WRONG_TYPE_INITIAL_ITEM",
+        "16#8601": "ERR_INDEX_IN_ARRAY_LIMITS_1",
+        "16#8602": "ERR_INDEX_IN_ARRAY_LIMITS_2",
+        "16#8610": "ERR_CLEAR_BUFFER",
+        "16#8611": "ERR_RETURN_FIRST_ENTRY",
+        "16#8612": "ERR_REPLACE_ITEM_BY_INIT_VALUE",
+        "16#8613": "ERR_WRITE_ENTRY"
+    },
+    "user_defined_types": [],
+    "description_zh": "该案例代码实现了一个名为 \"LGF_FIFO\" 的 FUNCTION_BLOCK，用于管理一个先进先出（FIFO）缓冲区。该缓冲区用于存储传入的数据，并在需要时输出最旧的数据。\n\n1. **输入参数**: \n    - `enqueue`：布尔类型输入，指示是否将一个项目添加到缓冲区。\n    - `dequeue`：布尔类型输入，指示是否从缓冲区移除一个最旧的项目并将其返回。\n    - `reset`：布尔类型输入，用于初始化缓冲区（重置索引和计数器）。\n    - `clear`：布尔类型输入，用于清除缓冲区并用 `initialItem` 初始化（重置索引和计数器）。\n    - `initialItem`：变体类型输入，用于初始化缓冲区数组的值。\n\n2. **输出参数**:\n    - `error`：布尔类型输出，指示在执行 FB 时是否发生错误。\n    - `status`：字类型输出，表示 FB 的状态和错误识别。\n    - `subFunctionStatus`：字类型输出，表示被调用 FB、FC 和系统块的状态或返回值。\n    - `elementCount`：双整数类型输出，表示缓冲区中的元素数量。\n    - `isEmpty`：布尔类型输出，表示缓冲区是否为空。\n\n3. **输入/输出参数**:\n    - `item`：变体类型输入/输出，表示从环形缓冲区返回或写入缓冲区的项目。\n    - `buffer`：变体类型输入/输出，用作环形缓冲区的数组。\n\n4. **逻辑实现**:\n    - 首先检查缓冲区是否为数组类型，并验证元素数量。如果缓冲区不是数组或元素数量不正确，则设置错误状态并退出。\n    - 检查输入参数 `enqueue`、`dequeue`、`reset` 和 `clear` 的边缘，并根据需要进行处理。\n    - 如果 `reset` 为真，则重置缓冲区索引和计数器。\n    - 如果 `clear` 为真，则使用 `initialItem` 初始化缓冲区数组，并重置索引和计数器。\n    - 如果 `enqueue` 为真，则将 `item` 写入缓冲区的下一个空位置，并更新索引和计数器。\n    - 如果 `dequeue` 为真，则从缓冲区的当前位置读取项目，更新索引和计数器，并将该项目返回。\n    - 更新输出参数 `elementCount` 和 `isEmpty` 以反映缓冲区的当前状态。\n\n5. **错误处理**: \n    - 代码中包含多个错误检查，用于验证输入参数、数组索引和MOVE操作。如果发生错误，将设置 `error` 和 `status` 参数，并可能返回错误代码。\n\n该案例代码实现了一个功能齐全的 FIFO 缓冲区管理功能，能够处理各种输入和输出情况，并具有适当的错误处理机制。"
+}

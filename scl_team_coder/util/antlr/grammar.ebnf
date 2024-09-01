@@ -1,0 +1,153 @@
+
+(*
+  1. EBNF Rules of SCL Control Flow Statements.
+*)
+IF_statement 
+=   "IF", expression, "THEN", 
+        statement_block, 
+    {"ELSIF", expression, "THEN", statement_block},
+    ["ELSE", statement_block],
+    "END_IF"
+    ;
+
+FOR_statement
+=   "FOR", FOR_init_condition, "TO", FOR_final_condition, ["BY", FOR_step_condition], "DO",
+        statement_block,
+    "END_FOR"
+    ;
+
+WHILE_statement
+=   "WHILE", expression, "DO", 
+        statement_block,
+    "END_WHILE"
+    ;
+
+SWITCH_statement
+=   "CASE", expression, "OF",
+    { case_label, ":", statement_block },
+    [ "ELSE", statement_block ],
+    "END_CASE"
+    ;
+case_label = case_label_constant, {",", case_label_constant};
+
+REPEAT_statement
+=   "REPEAT", statement_block, "UNTIL", expression, "END_REPEAT"
+    ;
+
+statement_block = statement, {statement};
+
+
+(*
+  2. EBNF Rules of SCL Expressions.
+*)
+expression 
+=   "(", expression, ")" 
+    | compare_expression 
+    | logical_expression 
+    | arithmetic_expression 
+    | bool_expression
+    | function_call
+    ;
+bool_expression = "TRUE" | "FALSE";
+compare_expression = arithmetic_expression, ("<" | ">" | "<=" | ">=" | "<>" | "="), arithmetic_expression;
+logical_expression = expression, ("AND" | "OR" | "XOR" | "&"), expression | "NOT", expression
+arithmetic_expression = expression, ("+" | "-" | "*" | "/" | "**" | "MOD" | "DIV"), expression | ("+" | "-"), expression;
+
+
+(*
+  3. EBNF Rules of SCL constants.
+*)
+constant 
+=   REALLiteral
+	| INTLiteral
+	| BOOLLiteral
+	| DINTLiteral
+	| CHARLiteral
+	| STRINGLiteral
+	| BYTELiteral
+	| WORDLiteral
+	| DWORDLiteral
+	| DATELiteral
+	| TIMELiteral
+	| TIME_OF_DAYLiteral
+	| DATE_AND_TIMELiteral
+	| POINTERLiteral
+	| GLOBALBOOLLiteral
+    ;
+BOOLLiteral
+=   ('F'|'f'), ('A'|'a'), ('L'|'l'), ('S'|'s'), ('E'|'e') 
+	| ('T'|'t'), ('R'|'r'), ('U'|'u'), ('E'|'e') 
+	| 'BOOL#0'
+	| 'BOOL#1'
+	;
+	
+BYTELiteral
+=   BYTELiteralID, '#16#', HexDigits
+	| BYTELiteralID, '#', digit, {digit}
+	| BYTELiteralID, '#2#', BinaryDigits
+	| BYTELiteralID, '#', CHARLiteral
+	;
+CHARLiteral
+=   '\'', SingleCharacter, '\''
+	| '\'', EscapeSequence, '\''
+	| 'CHAR#', digit, {digit}
+	;
+STRINGLiteral
+=   '\'', [StringCharacters], '\''
+	;
+	
+WORDLiteral
+=   WORDLiteralID, '#16#', HexDigits
+	| WORDLiteralID, '#8#', OctalDigits
+	| '8#', OctalDigits
+	| WORDLiteralID, '#2#', BinaryDigits
+	| WORDLiteralID, '#', digit, {digit}
+	;
+DWORDLiteral
+=   DWORDLiteralID, '#16#', HexDigits
+	| DWORDLiteralID, '#8#', OctalDigits
+	| '8#', OctalDigits
+	| DWORDLiteralID, '#2#', BinaryDigits
+	| DWORDLiteralID, '#', digit, {digit}
+	| 'L#', [Sign], HexDigits
+	;
+POINTERLiteral
+=   '16#', HexDigits | '16#', Digits
+	;
+INTLiteral
+=   digit, {digit}
+	| INTLiteralID, '#16#', HexDigits
+	| INTLiteralID, '#', digit, {digit}
+	| INTLiteralID, '#2#', BinaryDigits
+	| INTLiteralID, '#8#', OctalDigits
+	;
+DINTLiteral
+=   DINTLiteralID, '#16#', HexDigits
+	| DINTLiteralID, '#', digit, {digit}
+	| DINTLiteralID, '#2#', BinaryDigits
+	| DINTLiteralID, '#8#', OctalDigits
+	;
+REALLiteral
+=   DecimalFloatingPointLiteral
+	| DecimalFloatingPointLiteral, [('e'|'E'), [Sign], DecimalFloatingPointLiteral]
+	| REALLiteralID, '#', [Sign], DecimalFloatingPointLiteral
+	| REALLiteralID, '#', [Sign], DecimalFloatingPointLiteral (('e'|'E'), [Sign], DecimalFloatingPointLiteral)
+	;
+
+TIMELiteral
+=   'TIME#', [DecimalFloatingPointLiteral, 'd'], [DecimalFloatingPointLiteral, 'h'] (DecimalFloatingPointLiteral 'm')? (DecimalFloatingPointLiteral 's')? (DecimalFloatingPointLiteral 'ms')?
+	;
+	
+DATELiteral
+=  'DATE#', Digits, '-', Digits, '-', Digits
+	;
+
+TIME_OF_DAYLiteral
+=   TIME_OF_DAYLiteralID, '#', (DecimalFloatingPointLiteral ':'), (DecimalFloatingPointLiteral ':'), (DecimalFloatingPointLiteral)
+	;
+
+DATE_AND_TIMELiteral
+=   DATE_AND_TIMELiteralID, '#', Digits, '-', Digits, '-', Digits, '-', Digits, ':', Digits, ':', DecimalFloatingPointLiteral 
+	;
+	
+GLOBALBOOLLiteral = 'M', Digits, '.', Digit;

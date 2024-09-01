@@ -1,0 +1,25 @@
+{
+    "title": "DWORD rising edge counting",
+    "name": "LGF_CountRisInDWord",
+    "description": "The function analyzes a variable of the type DWORD and outputs how often a 0-1 sequence (rising edge) occurs in the variable.",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "value",
+            "type": "DWord",
+            "description": "Input Double word in which the rising edges are counted"
+        }
+    ],
+    "output": [
+        {
+            "name": "numberOfEdges",
+            "type": "Int",
+            "description": "Number of rising edges in the DWord"
+        }
+    ],
+    "in/out": [],
+    "return_value": [],
+    "status_codes": {},
+    "user_defined_types": [],
+    "description_zh": "\n该案例代码的中文自然语言描述如下：\n\n函数块 \"LGF_CountRisInDWord\" 的主要功能是分析和计算一个 DWORD 类型的变量中 0-1 跳变（上升沿）出现的次数。它接受一个 DWORD 类型的输入变量 \"value\"，并输出一个整数类型的输出变量 \"numberOfEdges\"，表示在 DWORD 变量中上升沿的总数。\n\n在函数块的每次执行周期中，首先将临时计数器 \"tempCount\" 初始化为 0，然后将输入的 DWORD 值 \"value\" 赋值给临时 DWORD 变量 \"tempDWord\"。接着，通过一个循环来遍历 DWORD 中的每个位，检查每个位的值是否从 0 变为 1，如果是，则将临时计数器 \"tempCount\" 加 1。循环的范围是从 0 到 30，因为 DWORD 类型在 S7-1200/1500 PLC 中通常包含 32 位。\n\n在循环中，使用位操作来检查 DWORD 中的每个位。首先检查 DWORD 的最低有效位（LSB）是否从上一周期的 0 变为当前周期的 1，如果是，则表示检测到一个上升沿，将 \"tempCount\" 加 1。然后，通过一个 for 循环遍历 DWORD 中的其他位，检查每一位是否从 0 变为 1，如果是，则同样将 \"tempCount\" 加 1。在每次迭代后，将 DWORD 变量 \"tempDWord\" 向右移动一位，以便检查下一位。\n\n循环结束后，将当前周期的 DWORD 值 \"value\" 赋值给 \"statDWordPrevCycle\"，以便在下一周期中使用。最后，将临时计数器 \"tempCount\" 的值赋给输出变量 \"numberOfEdges\"，表示在输入 DWORD 变量中上升沿的总数。\n\nENO 机制在该函数块中没有使用，因此被强制设置为 true，表示没有错误发生。\n\n\n"
+}

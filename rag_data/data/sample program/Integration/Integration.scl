@@ -1,0 +1,133 @@
+﻿FUNCTION_BLOCK "Integration"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_INPUT 
+      enable : Bool;
+      value : LReal;
+      reset : Bool;
+   END_VAR
+
+   VAR_OUTPUT 
+      integral : LReal;
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR 
+      statLastTime  : DTL;
+      statInputOldValue : LReal;
+      statIntegral : LReal;
+   END_VAR
+
+   VAR_TEMP 
+      tempSysTime  : DTL;
+      tempTimeDiffrence : LReal;
+      tempCalculation : LReal;
+      tempRetval : Word;
+   END_VAR
+
+   VAR CONSTANT 
+      CLEAR_TIME  : DTL;
+      SECOND_IN_MS : LReal := 1000.0;
+      DIVIDE_BY_TWO : LReal := 2.0;
+      ZERO : LReal := 0.0;
+      STATUS_EXECUTION_FINISHED_NO_ERROR : Word := 16#0000;
+      SUB_STATUS_NO_ERROR : Word := 16#0000;
+      ERR_READ_SYS_TIME : Word := 16#8600;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	    //============================================================================
+	    // Title:            Integration
+	    // Comment/Function: Integrates the input value
+	    //                   integration by trapezoidal rule
+	    
+	    //=============================================================================
+	END_REGION Block info header
+	
+	//Reset region must be before the enable region so that even if the function disabled, the user can reset the values.
+	REGION Reset the function
+	    IF #reset THEN
+	        #statInputOldValue := #ZERO;
+	        #statIntegral := #ZERO;
+	        
+	        // Clear LastTime value.
+	        // Initial condition - first Delta time will be 0.
+	        #statLastTime := #CLEAR_TIME;
+	        
+	        #integral := #ZERO;
+	        #error := false;
+	        #status := #STATUS_EXECUTION_FINISHED_NO_ERROR;
+	        
+	        RETURN;
+	    END_IF;
+	END_REGION Reset the function
+	
+	REGION Enable/Disable integral calculation
+	    IF NOT #enable THEN
+	        #statInputOldValue := #ZERO;
+	        
+	        // Clear LastTime value.
+	        // If it is not cleared when the function is enabled again,
+	        // the first value will be multiplied with the time difference of the whole disable time
+	        // Initial condition - first Delta time will be 0.
+	        #statLastTime := #CLEAR_TIME;
+	        
+	        #integral := #statIntegral;
+	        #error := false;
+	        #status := #STATUS_EXECUTION_FINISHED_NO_ERROR;
+	        
+	        RETURN;
+	    END_IF;
+	END_REGION Enable/Disable integral calculation
+	
+	REGION Get system time
+	    // Read system time
+	    #tempRetval := INT_TO_WORD(RD_SYS_T(OUT => #tempSysTime));
+	    
+	    // Error Handling read system time
+	    IF (#tempRetval > #SUB_STATUS_NO_ERROR) THEN
+	        #integral := #statIntegral;
+	        #error := TRUE;
+	        #status := #ERR_READ_SYS_TIME;
+	       
+	        RETURN;
+	    END_IF;
+	END_REGION
+	
+	REGION Calculating the integral
+	    // Calculate time difference between last and actual time
+	    // coverting from DTL via time and DInt to Real
+	    // scale from millisecond to second
+	    #tempTimeDiffrence := DINT_TO_REAL(TIME_TO_DINT(T_DIFF(IN1 := #tempSysTime, IN2 := #statLastTime))) / #SECOND_IN_MS;
+	    
+	    // Write actual to last time
+	    #statLastTime := #tempSysTime;
+	    
+	    // integration by trapezoidal rule
+	    // add LastScalIn to ScalIn
+	    // divide by two --> avarage of both - old and actual value
+	    // multiply with time delta --> area unterneath the both borders
+	    #tempCalculation := (#value + #statInputOldValue) * #tempTimeDiffrence / #DIVIDE_BY_TWO;
+	    
+	    // Calculate new integral
+	    #statIntegral += #tempCalculation;
+	    
+	    // Save last input
+	    #statInputOldValue := #value;
+	END_REGION Calculating the integral
+	
+	REGION Write outputs
+	    #integral := #statIntegral;
+	    #error := false;
+	    #status := #STATUS_EXECUTION_FINISHED_NO_ERROR;
+	    
+	    
+	    //ENO mechanism is not used
+	    ENO := TRUE;
+	END_REGION Write outputs
+	
+END_FUNCTION_BLOCK
+

@@ -1,0 +1,579 @@
+﻿FUNCTION "LGF_BitCount" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : SiemensSIMATICSystemsSupport
+FAMILY : LGF
+NAME : LGF_BitCount
+   VAR_INPUT 
+      value : DWord;
+      numberOfBits : USInt;
+   END_VAR
+
+   VAR_OUTPUT 
+      countBitsFalse : USInt;
+      countBitsTrue : USInt;
+   END_VAR
+
+   VAR_TEMP 
+      tempBinaryValues : DWord;
+      tempLoopIndex : DInt;
+      tempCountBitsTrue : USInt;
+      tempCountBitsFalse : USInt;
+   END_VAR
+
+   VAR CONSTANT 
+      ZERO : USInt := 0;
+      INCREMENT : USInt := 1;
+      SHIFT_ON_BIT_RIGHT : USInt := 1;
+      START_INDEX : DInt := 1;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_BitCount
+	  // Comment/Function: Count bits in elementary datatype - DWord
+	  //                   count the set (TRUE) and not set (FALSE) bits in a binary datatype 
+	  //                   can be used for Word and Byte as well, by convert
+	  //                   the past paramter and the result using for e.g. Dword_to_Byte
+	  //                   "numberOfBits" number of bits in input tag "value",
+	  //                   in case of Byte=8, Word=16, Dword=32
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry
+	  // Tested with:      CPU1212C DC/DC/DC FW:V4.2
+	  // Engineering:      TIA Portal V15.1
+	  // Restrictions:     ENO not in use, set to true, no error handling
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge         | Changes applied
+	  // 01.00.00 | 06.06.2015 | Siemens Industry Support | first release
+	  // 03.00.00 | 23.04.2020 | Siemens Industry Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.02 | 19.01.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //===============================================================================
+	END_REGION
+	
+	REGION Logic
+	  // init counter tags
+	  #tempCountBitsFalse := #ZERO;
+	  #tempCountBitsTrue := #ZERO;
+	  #tempBinaryValues := #value;
+	  
+	  // iterate over input tag
+	  FOR #tempLoopIndex := #START_INDEX TO USINT_TO_DINT(#numberOfBits) DO
+	    // check if bit is true or false
+	    IF #tempBinaryValues.%X0 THEN
+	      #tempCountBitsTrue += #INCREMENT;
+	    ELSE
+	      #tempCountBitsFalse += #INCREMENT;
+	    END_IF;
+	    
+	    // shift input tag one to the right
+	    #tempBinaryValues := SHR(IN := #tempBinaryValues, N := #SHIFT_ON_BIT_RIGHT);
+	  END_FOR;
+	  
+	  // set output values
+	  #countBitsFalse := #tempCountBitsFalse;
+	  #countBitsTrue := #tempCountBitsTrue;
+	  
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_CountArrayElements" : DInt
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : 'Siemens Industry Support'
+FAMILY : LGF
+NAME : LGF_CountArrayElements
+   VAR_INPUT 
+      "array" : Variant;
+   END_VAR
+
+   VAR_TEMP 
+      tempBufferSize : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      RETURN_NO_ARRAY : DInt := -1;
+      RETURN_NO_BOOL_ARRAYS_NOT_SUPPORTED : DInt := -2;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS / (c)Copyright 2021
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_CountArrayElements
+	  // Function:         Count the number of array elements and returns the number of elements zero based (Array[0..x] of Type).
+	  // Library:          LGF(Library General Functions)
+	  // Author:           Siemens Industry Support
+	  // Tested with:      CPU 1516-3 PN/DP
+	  // Engineering:      TIA Portal V17
+	  // Restrictions:     --
+	  // Requirements:     S7-1200/1500
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge         | Changes applied
+	  //----------|------------|--------------------------|----------------------------
+	  // 01.00.00 | 10-06-2022 | Siemens Industry Support | First released version
+	  //===============================================================================
+	END_REGION
+	
+	REGION Process
+	  // Check if the #input is an ARRAY.
+	  // If so, the number of the ARRAY elements is read out.
+	  // If it is NOT an ARRAY, an Error is thrown and the result is -1 / -2
+	  IF IS_ARRAY(#array) AND TypeOfElements(#array) = Bool THEN
+	    #tempBufferSize := #RETURN_NO_BOOL_ARRAYS_NOT_SUPPORTED;
+	  ELSIF NOT IS_ARRAY(#array) THEN
+	    #tempBufferSize := #RETURN_NO_ARRAY;
+	  ELSE
+	    #tempBufferSize := UDINT_TO_DINT(CountOfElements(#array));
+	  END_IF;
+	END_REGION Process
+	
+	REGION Writing to outputs
+	  #LGF_CountArrayElements := #tempBufferSize;
+	  // no error handling by ENO needed
+	  ENO := true;
+	END_REGION Writing to outputs
+	
+END_FUNCTION
+
+FUNCTION_BLOCK "LGF_CountBooleanEdges"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Simatic_Systems_Support
+FAMILY : LGF
+NAME : LGF_CountBooleanEdges
+   VAR_INPUT 
+      trigger : Bool;
+      monitorTime : Time := T#1s;
+   END_VAR
+
+   VAR_OUTPUT 
+      single { ExternalWritable := 'False'} : Bool;
+      double { ExternalWritable := 'False'} : Bool;
+      long { ExternalWritable := 'False'} : Bool;
+      severalEdges { ExternalWritable := 'False'} : Bool;
+      noOfEdges { ExternalWritable := 'False'} : USInt;
+   END_VAR
+
+   VAR 
+      instTimer {InstructionName := 'IEC_TIMER'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : IEC_TIMER;
+      statTriggerPrevious { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      statTimeElapsedFlag { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      statTriggerCounter { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : USInt;
+   END_VAR
+
+   VAR_TEMP 
+      tempTriggerEdge : Bool;
+      tempSingle : Bool;
+      tempDouble : Bool;
+      tempLong : Bool;
+      tempSeveralEdges : Bool;
+      tempNoOfEdges : USInt;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS / (c)Copyright (2021)
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_CountBooleanEdges
+	  // Comment/Function: This function evaluates a input signal for diffrent states in a certain amount of time.
+	  //                   The states are:
+	  //                   * One edge and input present over thw whole monitoring time
+	  //                   * Single edge
+	  //                   * Double edge
+	  //                   * N-Edges in between the monitoring time
+	  //                   The Output signal is present for at least on cycle after the monitoring time hase expired, or as long as the input `trigger` remains `TRUE`
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Simatic Systems Support
+	  // Tested with:      1516F FW2.8 / S7-PLCSIM Advanced V3.0
+	  // Engineering:      TIA Portal V16 Update 4
+	  // Restrictions:     ENO not in use, set to true, no error handling
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge        | Changes applied
+	  //----------|------------|-------------------------|------------------------------
+	  // 01.00.00 | 19.01.2021 | Simatic Systems Support | First released version
+	  //===============================================================================
+	END_REGION BLOCK INFO HEADER
+	
+	REGION DESCRIPTION
+	(/**/)
+	END_REGION DESCRIPTION
+	
+	REGION INITIALISATION  
+	  // Initialize functionality
+	  // Edge detection
+	  #tempTriggerEdge := #trigger AND NOT #statTriggerPrevious;
+	  #statTriggerPrevious := #trigger;
+	END_REGION INITIALISATION  
+	
+	REGION PROGRAM LOGIC
+	  // Trigger edge dedected
+	  // Start the monitoring time and/or just increment edge counter
+	  IF #tempTriggerEdge THEN
+	    // Call timer
+	    #instTimer.TP(IN := TRUE,
+	                  PT := #monitorTime);
+	    
+	    // Each edge increments the counter
+	    #statTriggerCounter += 1;
+	  END_IF;
+	  
+	  // Monitoring time ist elapsed / over and we dedected at least on edge
+	  IF NOT #instTimer.Q THEN
+	    // Reset contition if trigger is reseted
+	    //And time elapsed flag is true
+	    IF NOT #trigger AND #statTimeElapsedFlag THEN
+	      // If no action is required, reset Outputs
+	      #tempLong :=
+	      #tempSingle :=
+	      #tempDouble :=
+	      #tempSeveralEdges := FALSE;
+	      // Reset edge counters
+	      #tempNoOfEdges :=
+	      #statTriggerCounter := 0;
+	      #statTimeElapsedFlag := FALSE;
+	      // Reset timer
+	      #instTimer.TP(IN := FALSE,
+	                    PT := #monitorTime);
+	      
+	    ELSIF (#statTriggerCounter <> 0) THEN
+	      IF #trigger AND #statTriggerCounter = 1 THEN
+	        #tempLong := TRUE;
+	      ELSIF #statTriggerCounter = 1 THEN
+	        #tempSingle := TRUE;
+	      ELSIF #statTriggerCounter = 2 THEN
+	        #tempDouble := TRUE;
+	      ELSE
+	        #tempSeveralEdges := TRUE;
+	      END_IF;
+	      #tempNoOfEdges := #statTriggerCounter;
+	      #statTimeElapsedFlag := TRUE;
+	    END_IF;
+	  END_IF;
+	END_REGION PROGRAM LOGIC
+	
+	REGION OUTPUTS
+	  // Write application specific temp values to outputs
+	  #single := #tempSingle;
+	  #double := #tempDouble;
+	  #long := #tempLong;
+	  #severalEdges := #tempSeveralEdges;
+	  #noOfEdges := #tempNoOfEdges;
+	  
+	  // ENO is not used, forced to TRUE
+	  ENO := TRUE;
+	END_REGION OUTPUTS
+	
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK "LGF_CountFalInDWord"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry_Support
+FAMILY : LGF
+NAME : LGF_CountFalInDWord
+   VAR_INPUT 
+      value { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DWord;
+   END_VAR
+
+   VAR_OUTPUT 
+      numberOfEdges { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+   END_VAR
+
+   VAR 
+      statDWordPrevCycle { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DWord;
+   END_VAR
+
+   VAR_TEMP 
+      tempCount : Int;
+      tempDWord : DWord;
+      tempIndex : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      ZERO_VALUE : Int := 0;
+      INCREMENT_VALUE : Int := 1;
+      LOOP_LOWER_BOUND : Int := 0;
+      LOOP_UPPER_BOUND : Int := 30;
+      SHIFT_BITS_NO : UInt := 1;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_CountFalInDWord
+	  // Comment/Function: This function detects and counts falling edges in variables of type DWORD
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      CPU 1515F-2 PN FW:V2.6
+	  // Engineering:      TIA Portal V15.1 Update 2
+	  // Restrictions:     ENO not in use, no error handling needed
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 16.01.2019  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 16.12.2019  Simatic Systems Support
+	  //                      Code refactoring - minimize used code memory
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 12.11.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //===============================================================================
+	END_REGION
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Initialization
+	  #tempCount := #ZERO_VALUE;
+	  #tempDWord := #value;
+	END_REGION
+	
+	REGION Count edges through loop
+	  // Check LSB from previous value and MSB from actual value for falling edge
+	  IF ((NOT #tempDWord.%X31 AND #statDWordPrevCycle.%X0)) THEN
+	    #tempCount += #INCREMENT_VALUE;
+	  END_IF;
+	  
+	  // Loop through DWord
+	  FOR #tempIndex := #LOOP_LOWER_BOUND TO #LOOP_UPPER_BOUND DO
+	    // Check if there is an edge
+	    IF ((#tempDWord.%X1 AND NOT #tempDWord.%X0)) THEN
+	      #tempCount += #INCREMENT_VALUE;
+	    END_IF;
+	    
+	    // Shift the DWord one digit to the right for next counting iteration
+	    #tempDWord := SHR(IN := #tempDWord, N := #SHIFT_BITS_NO);
+	  END_FOR;
+	  
+	  // Copy DWord actual cycle to DWord previous cycle
+	  #statDWordPrevCycle := #value;
+	END_REGION
+	
+	REGION Outputs
+	  #numberOfEdges := #tempCount;
+	  // ENO mechanism is not used, forced to true
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK "LGF_CountRisInDWord"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry_Support
+FAMILY : LGF
+NAME : LGF_CountRisInDWord
+   VAR_INPUT 
+      value { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DWord;
+   END_VAR
+
+   VAR_OUTPUT 
+      numberOfEdges { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+   END_VAR
+
+   VAR 
+      statDWordPrevCycle { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DWord;
+   END_VAR
+
+   VAR_TEMP 
+      tempCount : Int;
+      tempDWord : DWord;
+      tempIndex : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      ZERO_VALUE : Int := 0;
+      INCREMENT_VALUE : Int := 1;
+      LOOP_LOWER_BOUND : Int := 0;
+      LOOP_UPPER_BOUND : Int := 30;
+      SHIFT_BITS_NO : UInt := 1;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_CountRisInDWord
+	  // Comment/Function: This function detects and counts rising edges in variables of type DWORD
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      CPU 1515F-2 PN FW:V2.6
+	  // Engineering:      TIA Portal V15.1 Update 2
+	  // Restrictions:     ENO not in use, no error handling needed
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 16.01.2019  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 16.12.2019  Simatic Systems Support
+	  //                      Code refactoring - minimize used code memory
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 12.11.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //===============================================================================
+	END_REGION
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Initialization
+	  #tempCount := #ZERO_VALUE;
+	  #tempDWord := #value;
+	END_REGION
+	
+	REGION Count edges through loop
+	  // Check LSB from previous value and MSB from actual value for rising edge
+	  IF ((#tempDWord.%X31 AND NOT #statDWordPrevCycle.%X0)) THEN
+	    #tempCount += #INCREMENT_VALUE;
+	  END_IF;
+	  
+	  // Loop through DWord
+	  FOR #tempIndex := #LOOP_LOWER_BOUND TO #LOOP_UPPER_BOUND DO
+	    // Check if there is an edge
+	    IF ((NOT #tempDWord.%X1 AND #tempDWord.%X0)) THEN
+	      #tempCount += #INCREMENT_VALUE;
+	    END_IF;
+	    
+	    // Shift the DWord one digit to the right for next counting iteration
+	    #tempDWord := SHR(IN := #tempDWord, N := #SHIFT_BITS_NO);
+	  END_FOR;
+	  
+	  // Copy DWord actual cycle to DWord previous cycle
+	  #statDWordPrevCycle := #value;
+	END_REGION
+	
+	REGION Outputs
+	  #numberOfEdges := #tempCount;
+	  // ENO mechanism is not used, forced to true
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK "LGF_GetBitStates"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Simatic_Systems_Support
+FAMILY : LGF
+NAME : LGF_CountBitStates
+   VAR_INPUT 
+      value : DWord;
+   END_VAR
+
+   VAR_OUTPUT 
+      hasChanged { ExternalWritable := 'False'} : Bool;
+      hasRisingEdges { ExternalWritable := 'False'} : Bool;
+      risingBits { ExternalWritable := 'False'} : DWord;
+      noOfRisingBits { ExternalWritable := 'False'} : USInt;
+      hasFallingEdges { ExternalWritable := 'False'} : Bool;
+      fallingBits { ExternalWritable := 'False'} : DWord;
+      noOfFallingBits { ExternalWritable := 'False'} : USInt;
+   END_VAR
+
+   VAR 
+      statPreviousValue { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DWord;
+   END_VAR
+
+   VAR_TEMP 
+      tempRisingResult : DWord;
+      tempNoRisingBits : DWord;
+      tempFallingResult : DWord;
+      tempNoFallingBits : DWord;
+   END_VAR
+
+   VAR CONSTANT 
+      ZERO_EDGES : DWord;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //============================================================================
+	  // SIEMENS AG / (c)Copyright 2018
+	  //----------------------------------------------------------------------------
+	  // Title:            LGF_GetBitStates
+	  // Comment/Function: Check DWord for edges, falling as well as rising.  
+	  //                   Returns the number of edges, DWords with edge bits and a bool if edge(s) exists.
+	  //                   https://graphics.stanford.edu/~seander/bithacks.html#CountBitsSetParallel
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Simatic Systems Support
+	  // Tested with:      1516F FW2.8 / S7-PLCSIM Advanced V3.0
+	  // Engineering:      TIA Portal V16 Update 4
+	  // Restrictions:     ENO not in use, set to true, no error handling
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge        | Changes applied
+	  //----------|------------|-------------------------|------------------------------
+	  // 01.00.00 | 2021.01.28 | Simatic Systems Support | First released version
+	  //=============================================================================
+	END_REGION BLOCK INFO HEADER
+	
+	REGION DESCRIPTION
+	(/**/)
+	END_REGION DESCRIPTION
+	
+	REGION PROGRAM LOGIC
+	  // Get edges from input DWord and DWord from previous cycle
+	  #tempRisingResult := #value AND NOT #statPreviousValue;
+	  #tempFallingResult := NOT #value AND #statPreviousValue;
+	  
+	  // Store value for next cycle
+	  #statPreviousValue := #value;
+	  
+	  // Copy edge result into work variable for counting the number of rising edges
+	  #tempNoRisingBits := #tempRisingResult;
+	  // Count number of rising edges, algorythm descriped from: https://graphics.stanford.edu/~seander/bithacks.html#CountBitsSetParallel
+	  #tempNoRisingBits := UDINT_TO_DWORD(DWORD_TO_UDINT(#tempNoRisingBits) - DWORD_TO_UDINT(SHR(IN := #tempNoRisingBits, N := 1) AND 16#55555555));
+	  #tempNoRisingBits := UDINT_TO_DWORD(DWORD_TO_UDINT(#tempNoRisingBits & 16#33333333) + DWORD_TO_UDINT(SHR(IN := #tempNoRisingBits, N := 2) AND 16#33333333));
+	  #tempNoRisingBits := SHR(IN := UDINT_TO_DWORD(DWORD_TO_UDINT(UDINT_TO_DWORD(DWORD_TO_UDINT(#tempNoRisingBits) + DWORD_TO_UDINT(SHR(IN := #tempNoRisingBits, N := 4))) AND 16#0F0F0F0F) * DWORD_TO_UDINT(16#01010101)), N := 24);
+	  
+	  // Copy edges result into work variable for counting the number of falling edges
+	  #tempNoFallingBits := #tempFallingResult;
+	  // Count number of falling edges, algorythm descriped from: https://graphics.stanford.edu/~seander/bithacks.html#CountBitsSetParallel
+	  #tempNoFallingBits := UDINT_TO_DWORD(DWORD_TO_UDINT(#tempNoFallingBits) - DWORD_TO_UDINT(SHR(IN := #tempNoFallingBits, N := 1) AND 16#55555555));
+	  #tempNoFallingBits := UDINT_TO_DWORD(DWORD_TO_UDINT(#tempNoFallingBits & 16#33333333) + DWORD_TO_UDINT(SHR(IN := #tempNoFallingBits, N := 2) AND 16#33333333));
+	  #tempNoFallingBits := SHR(IN := UDINT_TO_DWORD(DWORD_TO_UDINT(UDINT_TO_DWORD(DWORD_TO_UDINT(#tempNoFallingBits) + DWORD_TO_UDINT(SHR(IN := #tempNoFallingBits, N := 4))) AND 16#0F0F0F0F) * DWORD_TO_UDINT(16#01010101)), N := 24);
+	END_REGION PROGRAM LOGIC
+	
+	REGION OUTPUTS
+	  #hasChanged := (#tempRisingResult > #ZERO_EDGES) OR (#tempFallingResult > #ZERO_EDGES);
+	  #hasRisingEdges := #tempRisingResult > #ZERO_EDGES;
+	  #risingBits := #tempRisingResult;
+	  #noOfRisingBits := DWORD_TO_USINT(#tempNoRisingBits);
+	  
+	  #hasFallingEdges := #tempFallingResult > #ZERO_EDGES;
+	  #fallingBits := #tempFallingResult;
+	  #noOfFallingBits := DWORD_TO_USINT(#tempNoFallingBits);
+	  
+	  // ENO not needed, no error evaluation needed
+	  ENO := FALSE;
+	END_REGION OUTPUTS
+	
+END_FUNCTION_BLOCK
+

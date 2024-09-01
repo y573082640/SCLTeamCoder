@@ -1,0 +1,68 @@
+FUNCTION "LGF_SplitWordToBits" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_SplitWordToBits
+   VAR_INPUT 
+      "word" : Word;
+   END_VAR
+
+   VAR_OUTPUT 
+      bit15 : Bool;
+      bit14 : Bool;
+      bit13 : Bool;
+      bit12 : Bool;
+      bit11 : Bool;
+      bit10 : Bool;
+      bit9 : Bool;
+      bit8 : Bool;
+      bit7 : Bool;
+      bit6 : Bool;
+      bit5 : Bool;
+      bit4 : Bool;
+      bit3 : Bool;
+      bit2 : Bool;
+      bit1 : Bool;
+      bit0 : Bool;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_SplitWordToBits
+	  // Comment/Function: This function splits a Word variable into 16 Boolean / 16 Bit variables.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V14 Update 1
+	  // Restrictions:     ENO disabled - no error handling, no failure possible.
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  //=============================================================================
+	END_REGION
+	
+	REGION OUTPUT
+	  #bit15 := #word.%X15;
+	  #bit14 := #word.%X14;
+	  #bit13 := #word.%X13;
+	  #bit12 := #word.%X12;
+	  #bit11 := #word.%X11;
+	  #bit10 := #word.%X10;
+	  #bit9 := #word.%X9;
+	  #bit8 := #word.%X8;
+	  #bit7 := #word.%X7;
+	  #bit6 := #word.%X6;
+	  #bit5 := #word.%X5;
+	  #bit4 := #word.%X4;
+	  #bit3 := #word.%X3;
+	  #bit2 := #word.%X2;
+	  #bit1 := #word.%X1;
+	  #bit0 := #word.%X0;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION

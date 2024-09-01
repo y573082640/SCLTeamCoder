@@ -1,0 +1,32 @@
+```cpp
+1.#include <iostream>
+2.using namespace std;
+3.
+4.int main()
+5.{
+6.    cout << "Hello" << endl;
+7.    int x = 1;
+8.    y = 2;
+9.    int k = x + y;
+10.    k = k * (x / y);
+11.    k = k % x;
+12.    k = k % y;
+13.    cout << k << endl;
+14.    return 0;
+15.}
+```
+该段代码当中存在的错误为：
+1.变量 y 未声明，应先声明再赋值。
+&&&&&&&&&&&&&&&&&&&&&&&&&&
+<root>
+<patch>
+--- a/example.cpp
++++ b/example.cpp
+@@ -6,4 +6,5 @@
+     cout << "Hello" << endl;
+     int x = 1;
++    int y;
+     y = 2;
+     int k = x + y;
+</patch>
+</root>

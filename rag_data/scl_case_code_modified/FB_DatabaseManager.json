@@ -1,0 +1,52 @@
+{
+    "title": "PLC数据库数据存储与管理系统",
+    "description": "在一些自动化应用中，PLC需要收集和存储大量的数据，例如传感器读数、生产计数或其他过程变量。这些数据通常存储在PLC的内部数据库或外部数据库系统中。\n控制要求：\n系统需要接收一组数据dataInput，以字节数组构建，这组数据的第一个字节dataInput[0]表示要存入的数据字节长度。\n数据的存储操作由输入storeTrigger触发。\n数据需要依次存入数据库，每组数据长度可能不同。\n当数据库剩余空间不足以存入新的一组数据时，系统应触发报错error。\n系统应提供一个复位功能，通过输入resetTrigger来清空数据库，并重置error。\n系统应能够输出数据库的当前使用情况和剩余空间。\n说明：\n1. 当存储信号storeTrigger触发时，首先检查数据输入长度信息（即数组的首字节dataInput[0]）是否非法，如果小于等于0或大于5，则输出错误状态error=true和错误代码status=16#8001。如果数据库剩余空间不足以存入新数据，则输出错误状态error=true和错误代码status=16#8002。如果没有这些错误，则根据长度信息，把从输入数组的第二字节开始的数据取出，并存入数据库。存入时不能覆盖数据库原有的数据，从原有数据之后依次存入。\n2. 当复位信号resetTrigger触发时，清空数据库中所有数据，并复位错误状态error=0和status=0。\n3. 数据库已使用空间和剩余空间分别通过usedSpace和remainingSpace输出。",
+    "type": "FUNCTION_BLOCK",
+    "name": "FB_DatabaseManager",
+    "input": [
+        {
+            "name": "dataInput",
+            "type": "Array[0..5] of Byte",
+            "description": "数据输入，字节数组"
+        },
+        {
+            "name": "storeTrigger",
+            "type": "Bool",
+            "description": "存储触发信号"
+        },
+        {
+            "name": "resetTrigger",
+            "type": "Bool",
+            "description": "复位触发信号"
+        }
+    ],
+    "output": [
+        {
+            "name": "usedSpace",
+            "type": "Int",
+            "description": "数据库已使用空间"
+        },
+        {
+            "name": "remainingSpace",
+            "type": "Int",
+            "description": "数据库剩余空间"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "错误状态指示\nFALSE:没有发生错误\nTRUE:执行出错"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "状态代码"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "dataBase",
+            "type": "Array[1..20] of Byte",
+            "description": "数据库，字节数组"
+        }
+    ]
+}

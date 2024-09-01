@@ -1,0 +1,38 @@
+```cpp
+1.#include <iostream>
+2.using namespace std;
+3.
+4.int mian()
+5.{
+6.    cout << "Hello" << endl;
+7.    int x := 1;
+8.    int y = 2;
+9.    int k = x + y;
+10.    k = k * (x / y);
+11.    k = k % x;
+12.    k = k % y;
+13.    cout << k << endl;
+14.    return 0;
+15.}
+```
+该段代码当中存在的错误为：
+1.函数名应为 `main`，而不是 `mian`。
+2.变量赋值应使用 `=`，而不是 `:=`。
+&&&&&&&&&&&&&&&&&&&&&&&&&&
+<root>
+<patch>
+--- a/example.cpp
++++ b/example.cpp
+@@ -1,8 +1,8 @@
+ #include <iostream>
+ using namespace std;
+ 
+-int mian()
++int main()
+ {
+     cout << "Hello" << endl;
+-    int x := 1;
++    int x = 1;
+     int y = 2;
+</patch>
+</root>

@@ -1,0 +1,101 @@
+FUNCTION "LGF_SplitDWordToBits" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_SplitDWordToBits
+   VAR_INPUT 
+      doubleWord : DWord;
+   END_VAR
+
+   VAR_OUTPUT 
+      bit31 : Bool;
+      bit30 : Bool;
+      bit29 : Bool;
+      bit28 : Bool;
+      bit27 : Bool;
+      bit26 : Bool;
+      bit25 : Bool;
+      bit24 : Bool;
+      bit23 : Bool;
+      bit22 : Bool;
+      bit21 : Bool;
+      bit20 : Bool;
+      bit19 : Bool;
+      bit18 : Bool;
+      bit17 : Bool;
+      bit16 : Bool;
+      bit15 : Bool;
+      bit14 : Bool;
+      bit13 : Bool;
+      bit12 : Bool;
+      bit11 : Bool;
+      bit10 : Bool;
+      bit9 : Bool;
+      bit8 : Bool;
+      bit7 : Bool;
+      bit6 : Bool;
+      bit5 : Bool;
+      bit4 : Bool;
+      bit3 : Bool;
+      bit2 : Bool;
+      bit1 : Bool;
+      bit0 : Bool;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2018
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_SplitDWordToBits
+	  // Comment/Function: This function splits a DWord variable into 32 Boolean / 32 Bit variables
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V14 / V14SP1
+	  // Restrictions:     ENO disabled - no error handling, no failure possible.
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  //=============================================================================
+	END_REGION
+	
+	REGION OUTPUT
+	  // get the bits by slice access
+	  #bit31 := #doubleWord.%X31;
+	  #bit30 := #doubleWord.%X30;
+	  #bit29 := #doubleWord.%X29;
+	  #bit28 := #doubleWord.%X28;
+	  #bit27 := #doubleWord.%X27;
+	  #bit26 := #doubleWord.%X26;
+	  #bit25 := #doubleWord.%X25;
+	  #bit24 := #doubleWord.%X24;
+	  #bit23 := #doubleWord.%X23;
+	  #bit22 := #doubleWord.%X22;
+	  #bit21 := #doubleWord.%X21;
+	  #bit20 := #doubleWord.%X20;
+	  #bit19 := #doubleWord.%X19;
+	  #bit18 := #doubleWord.%X18;
+	  #bit17 := #doubleWord.%X17;
+	  #bit16 := #doubleWord.%X16;
+	  #bit15 := #doubleWord.%X15;
+	  #bit14 := #doubleWord.%X14;
+	  #bit13 := #doubleWord.%X13;
+	  #bit12 := #doubleWord.%X12;
+	  #bit11 := #doubleWord.%X11;
+	  #bit10 := #doubleWord.%X10;
+	  #bit9 := #doubleWord.%X9;
+	  #bit8 := #doubleWord.%X8;
+	  #bit7 := #doubleWord.%X7;
+	  #bit6 := #doubleWord.%X6;
+	  #bit5 := #doubleWord.%X5;
+	  #bit4 := #doubleWord.%X4;
+	  #bit3 := #doubleWord.%X3;
+	  #bit2 := #doubleWord.%X2;
+	  #bit1 := #doubleWord.%X1;
+	  #bit0 := #doubleWord.%X0;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION

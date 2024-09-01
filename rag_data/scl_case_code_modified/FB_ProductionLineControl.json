@@ -1,0 +1,70 @@
+{
+    "title": "自动化生产线控制",
+    "description": "一个简单的自动化生产线由三个工作站组成：工作站A、工作站B和工作站C。产品需要经过这三个站的依次加工后才算全部完成。生产线有一个电机，负责将产品从一个工作站移动到下一个工作站，生成线的顺序是从工作站A到工作站B，再到工作站C。每个工作站都有一个传感器（用于检测产品是否到达）以及一个按钮（用于触发本站加工完成信号）。\n控制要求：\n1. 模式切换：转换开关（Mode）用于切换生产线的手动和自动模式。\n2. 手动模式：在手动模式下，电机正转按钮（ForwardButton）控制电机正转，电机反转按钮（ReverseButton）控制电机反转，正反转操作需要互锁，不能同时进行。\n3. 自动模式：\n   - 产品到达工作站A，SensorA检测到产品，操作员通过ButtonA触发加工完成信号后，电机启动正转，将产品移动到工作站B。\n   - 产品到达工作站B，SensorB检测到产品，电机停止，操作员通过ButtonB触发加工完成信号后，电机启动正转，将产品移动到工作站C。\n   - 产品到达工作站C，SensorC检测到产品，电机停止，操作员通过ButtonC触发加工完成信号后，加工完成指示灯（CompletionLight）亮起，指示产品加工完成。当产品被取走，也就是SensorC检测不到产品了，加工完成指示灯（CompletionLight）熄灭。",
+    "type": "FUNCTION_BLOCK",
+    "name": "FB_ProductionLineControl",
+    "input": [
+        {
+            "name": "Mode",
+            "type": "Bool",
+            "description": "用于切换生产线的手动和自动模式，0=手动模式，1=自动模式"
+        },
+        {
+            "name": "ForwardButton",
+            "type": "Bool",
+            "description": "正转按钮"
+        },
+        {
+            "name": "ReverseButton",
+            "type": "Bool",
+            "description": "反转按钮"
+        },
+        {
+            "name": "SensorA",
+            "type": "Bool",
+            "description": "传感器A"
+        },
+        {
+            "name": "SensorB",
+            "type": "Bool",
+            "description": "传感器B"
+        },
+        {
+            "name": "SensorC",
+            "type": "Bool",
+            "description": "传感器C"
+        },
+        {
+            "name": "ButtonA",
+            "type": "Bool",
+            "description": "按钮A"
+        },
+        {
+            "name": "ButtonB",
+            "type": "Bool",
+            "description": "按钮B"
+        },
+        {
+            "name": "ButtonC",
+            "type": "Bool",
+            "description": "按钮C"
+        }
+    ],
+    "output": [
+        {
+            "name": "MotorForward",
+            "type": "Bool",
+            "description": "电机正转输出"
+        },
+        {
+            "name": "MotorReverse",
+            "type": "Bool",
+            "description": "电机反转输出"
+        },
+        {
+            "name": "CompletionLight",
+            "type": "Bool",
+            "description": "产品加工完成指示灯"
+        }
+    ]
+}

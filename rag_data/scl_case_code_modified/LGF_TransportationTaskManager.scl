@@ -1,0 +1,73 @@
+FUNCTION_BLOCK "LGF_TransportationTaskManager"
+{ S7_Optimized_Access := 'TRUE' }
+VAR_INPUT
+    taskCars : ARRAY[0..8] of Byte; 
+    storeTaskTrigger : Bool; 
+    resetTrigger : Bool; 
+END_VAR
+
+VAR_OUTPUT
+    usedSpace : Int; 
+    remainingSpace : Int; 
+    error : Bool; 
+    status : Word; 
+END_VAR
+
+VAR_IN_OUT 
+    taskCarsQueue : Array[1..10] of Byte;
+END_VAR
+
+VAR_TEMP 
+    tempDataLength : Int;
+    tempIter : Int;
+END_VAR
+
+VAR
+    queueIndex : Int := 0; // static variable to keep last free index here
+END_VAR
+
+VAR CONSTANT
+    STATUS_OK : Word := 0;
+    STATUS_INVALID_DATA_LENGTH : Word := 16#8001;
+    STATUS_QUEUE_FULL : Word := 16#8002;
+    TASK_QUEUE_SIZE : Int := 10;
+END_VAR
+
+BEGIN
+    REGION Calculate
+        // use static variable to get usedSpace and remainingSpace
+        #usedSpace := #queueIndex;
+        #remainingSpace := #TASK_QUEUE_SIZE - #queueIndex;
+        #error := FALSE;
+        #status := #STATUS_OK;
+    END_REGION
+
+    REGION Main Logic
+        IF #storeTaskTrigger THEN
+            #tempDataLength := #taskCars[0];
+            IF #tempDataLength <= 0 OR #tempDataLength > 8 THEN
+                #error := TRUE;
+                #status := #STATUS_INVALID_DATA_LENGTH;
+                RETURN;
+            END_IF;
+            IF #remainingSpace < #tempDataLength THEN
+                #error := TRUE;
+                #status := #STATUS_QUEUE_FULL;
+                RETURN;
+            END_IF;
+            
+            FOR #tempIter := 1 TO #tempDataLength DO
+                #taskCarsQueue[#queueIndex + 1] := #taskCars[#tempIter];
+                #queueIndex += 1;
+            END_FOR;
+        ELSIF #resetTrigger THEN
+            #queueIndex := 0;
+            FOR #tempIter := 1 TO #TASK_QUEUE_SIZE DO
+                taskCarsQueue[#tempIter] := 0; 
+            END_FOR;
+        END_IF;
+        #usedSpace := #queueIndex;
+        #remainingSpace := #TASK_QUEUE_SIZE - #queueIndex;
+    END_REGION
+
+END_FUNCTION_BLOCK

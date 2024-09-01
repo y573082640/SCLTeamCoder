@@ -1,0 +1,40 @@
+{
+    "title": "灯控程序",
+    "description": "编写一个函数块FB，实现一个灯控功能。\n某控制台有3个指示灯，要求通过3个按钮开关进行控制。\n\n1. 输入参数#button1~#button3表示3个按钮开关，输出参数#greenLight、#redLight、#yellowLight表示指示灯。\n2. 当#button1=0时，表示手动模式，指示灯根据#button2和#button3的操作组合进行不同状态显示：\n   - 当#button2和#button3都为0时，所有指示灯熄灭（#greenLight、#redLight、#yellowLight都为0）。\n   - 当#button2为1且#button3为0时，#greenLight常亮，并且#redLight以0.5Hz的频率闪烁，即1秒灭，1秒亮。\n   - 当#button2为0且#button3为1时，#redLight常亮，并且#yellowLight以1Hz的频率闪烁，即1秒灭，1秒亮。\n   - 当#button2和#button3都为1时，#yellowLight常亮，并且#greenLight以1Hz的频率闪烁，即1秒灭，1秒亮。\n3. 当#button1=1时，表示自动模式，指示灯自动按照如下说明循环执行：\n   - 首先#greenLight亮，保持1秒。\n   - 然后#greenLight熄灭，#redLight亮，保持1秒。\n   - 然后#redLight熄灭，#yellowLight亮，保持1秒。\n   - 然后回到初始状态#greenLight亮，保持1秒，如此循环。",
+    "type": "FUNCTION_BLOCK",
+    "name": "FB_LightsControl",
+    "input": [
+        {
+            "name": "button1",
+            "type": "Bool",
+            "description": "按钮1"
+        },
+        {
+            "name": "button2",
+            "type": "Bool",
+            "description": "按钮2"
+        },
+        {
+            "name": "button3",
+            "type": "Bool",
+            "description": "按钮3"
+        }
+    ],
+    "output": [
+        {
+            "name": "greenLight",
+            "type": "Bool",
+            "description": "绿灯"
+        },
+        {
+            "name": "redLight",
+            "type": "Bool",
+            "description": "红灯"
+        },
+        {
+            "name": "yellowLight",
+            "type": "Bool",
+            "description": "黄灯"
+        }
+    ]
+}

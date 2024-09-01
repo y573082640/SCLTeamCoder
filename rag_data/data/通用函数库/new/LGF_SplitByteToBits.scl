@@ -1,0 +1,53 @@
+FUNCTION "LGF_SplitByteToBits" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_SplitByteToBits
+   VAR_INPUT 
+      "byte" : Byte;
+   END_VAR
+
+   VAR_OUTPUT 
+      bit7 : Bool;
+      bit6 : Bool;
+      bit5 : Bool;
+      bit4 : Bool;
+      bit3 : Bool;
+      bit2 : Bool;
+      bit1 : Bool;
+      bit0 : Bool;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2018
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_SplitByteToBits
+	  // Comment/Function: This function splits a Byte variable into 8 Boolean / 8 Bit variables
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V14 / V14SP1
+	  // Restrictions:     ENO disabled - no error handling, no failure possible.
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  //=============================================================================
+	END_REGION
+	
+	REGION OUTPUT
+	  // get the bits by slice access
+	  #bit7 := #byte.%X7;
+	  #bit6 := #byte.%X6;
+	  #bit5 := #byte.%X5;
+	  #bit4 := #byte.%X4;
+	  #bit3 := #byte.%X3;
+	  #bit2 := #byte.%X2;
+	  #bit1 := #byte.%X1;
+	  #bit0 := #byte.%X0;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION

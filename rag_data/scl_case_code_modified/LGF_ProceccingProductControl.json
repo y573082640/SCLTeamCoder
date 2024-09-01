@@ -1,0 +1,70 @@
+{
+  "title": "Product Production Line Control",
+  "description": "The production line consists of three processing stations: Processing Station A, Processing Station B, and Processing Station C. The product needs to pass through A, B, and C sequentially for processing. The production line has a motor responsible for moving the product from one processing station to the next. Each processing station has a sensor (to detect if the product has arrived) and a processing completion indicator light. Control requirements: - The product arrives at Processing Station A, Sensor_A detects the product, and after the processing completion indicator light Finished_Light_A lights up, the motor starts forward rotation to move the product to Processing Station B. - The product arrives at Processing Station B, Sensor_B detects the product, the motor stops, and after the processing completion indicator light Finished_Light_B lights up, the motor starts forward rotation to move the product to Processing Station C. - The product arrives at Processing Station C, Sensor_C detects the product, the motor stops, and after the processing completion indicator light Finished_Light_C lights up, the pickup indicator light (SortCompletionLight) lights up. When the product is picked up, meaning Sensor_C no longer detects the product, the pickup indicator light (CompletionLight) turns off. Additionally, it allows operators to manually switch the exhaust fan (Exhaust_Fan_Button) and intake fan (Intake_Fan_Button) via buttons, which are interlocked and cannot be turned on simultaneously. A program is required to control the motor, exhaust fan, intake fan, and pickup indicator light.",
+  "type": "FUNCTION_BLOCK",
+  "name": "LGF_ProceccingProductControl",
+  "input": [
+    {
+      "name": "Exhaust_Fan_Button",
+      "type": "Bool",
+      "description": "Exhaust fan button"
+    },
+    {
+      "name": "Intake_Fan_Button",
+      "type": "Bool",
+      "description": "Intake fan button"
+    },
+    {
+      "name": "Sensor_A",
+      "type": "Bool",
+      "description": "Sensor for Processing Station A"
+    },
+    {
+      "name": "Sensor_B",
+      "type": "Bool",
+      "description": "Sensor for Processing Station B"
+    },
+    {
+      "name": "Sensor_C",
+      "type": "Bool",
+      "description": "Sensor for Processing Station C"
+    },
+    {
+      "name": "Finished_Light_A",
+      "type": "Bool",
+      "description": "Processing completion indicator light for Processing Station A"
+    },
+    {
+      "name": "Finished_Light_B",
+      "type": "Bool",
+      "description": "Processing completion indicator light for Processing Station B"
+    },
+    {
+      "name": "Finished_Light_C",
+      "type": "Bool",
+      "description": "Processing completion indicator light for Processing Station C"
+    }
+  ],
+  "output": [
+    {
+      "name": "MotorForward",
+      "type": "Bool",
+      "description": "Motor forward control output"
+    },
+    {
+      "name": "Exhaust_Fan",
+      "type": "Bool",
+      "description": "Exhaust fan control output"
+    },
+    {
+      "name": "Intake_Fan",
+      "type": "Bool",
+      "description": "Intake fan control output"
+    },
+    {
+      "name": "CompletionLight",
+      "type": "Bool",
+      "description": "Pickup indicator light"
+    }
+  ]
+}

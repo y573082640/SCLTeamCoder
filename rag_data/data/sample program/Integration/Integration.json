@@ -1,0 +1,40 @@
+﻿{
+    "title": "积分功能",
+    "description": "编写一个函数块FB，该函数块实现输入信号的积分功能，并带有启动和复位功能。积分是对输入信号随时间的累积求和，通常用于计算流量、位移等物理量的累积值。启动功能用于开始积分计算，而复位功能用于将积分值重置为零。\n当读取系统时间出错时，则输出错误状态和错误代码。\n状态代码：\n16#0000：执行FB没有出错\n16#8600：读取系统时间错误",
+    "type": "FUNCTION_BLOCK",
+    "name": "Integration",
+    "input": [
+        {
+            "name": "enable",
+            "type": "Bool",
+            "description": "启动信号，当该信号为TRUE时，启用积分计算；如果为FALSE，积分计算将停止，integral输出将显示最后一次计算的值。"
+        },
+        {
+            "name": "value",
+            "type": "LReal",
+            "description": "需要积分的输入信号值"
+        },
+        {
+            "name": "reset",
+            "type": "Bool",
+            "description": "复位信号，当该信号为TRUE时，将积分值重置为零"
+        }
+    ],
+    "output": [
+        {
+            "name": "integral",
+            "type": "LReal",
+            "description": "积分值"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: 没有发生错误; TRUE: 执行FB时出错"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "状态代码"
+        }
+    ]
+}

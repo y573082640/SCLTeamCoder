@@ -1,0 +1,30 @@
+{
+    "title": "控制台指示灯顺序控制",
+    "description": "某控制台装有3个指示灯，分别为绿色、红色和黄色。需要通过一个控制按钮来循环控制这些灯的状态。\n控制要求：\n使用一个输入参数controlButton表示控制按钮的状态，该按钮为脉冲信号，每次触发时产生一个从0到1的跳变。\n使用三个输出参数greenLight、redLight、yellowLight分别来控制对应的绿色、红色和黄色指示灯。\n控制按钮触发的顺序和对应指示灯的状态如下：\n第1次触发：只有绿灯greenLight亮。\n第2次触发：只有红灯redLight亮。\n第3次触发：只有黄灯yellowLight亮。\n第4次触发：3个灯都亮。\n第5次触发：3个灯都灭。\n第6次触发及以后：重复上述循环。",
+    "type": "FUNCTION_BLOCK",
+    "name": "FB_ColorLightControl",
+    "input": [
+        {
+            "name": "controlButton",
+            "type": "Bool",
+            "description": "控制按钮开关，脉冲信号"
+        }
+    ],
+    "output": [
+        {
+            "name": "greenLight",
+            "type": "Bool",
+            "description": "绿色指示灯"
+        },
+        {
+            "name": "redLight",
+            "type": "Bool",
+            "description": "红色指示灯"
+        },
+        {
+            "name": "yellowLight",
+            "type": "Bool",
+            "description": "黄色指示灯"
+        }
+    ]
+}

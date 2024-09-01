@@ -1,0 +1,65 @@
+{
+    "title": "自动化灌装生产线控制",
+    "description": "一个自动化灌装生产线负责对瓶子进行清洗、灌装、封盖和包装。生产线的每个步骤都由PLC控制，并且由传感器和操作员的输入信号触发。\n控制要求：\n当传感器bottleSensor检测到瓶子时，触发清洗泵启动并持续工作。\n清洗完成后，由操作员操作按钮cleaningConfirmButton触发清洗完成信号，自动启动灌装阀进行灌装。\n灌装完成后，由操作员操作按钮fillingConfirmButton触发灌装完成信号，自动启动封盖机进行封盖。\n封盖完成后，由操作员操作按钮cappingConfirmButton触发封盖完成信号，启动包装机进行包装。\n包装完成后，由操作员操作按钮packingConfirmButton触发包装完成信号，点亮包装完成指示灯。\n操作员取走包装好的瓶子后，按下确认按钮finishedButton复位指示灯，并为下一个瓶子的生产循环做准备。",
+    "type": "FUNCTION_BLOCK",
+    "name": "FB_BottleProcessing",
+    "input": [
+        {
+            "name": "bottleSensor",
+            "type": "Bool",
+            "description": "瓶子到达传感器，检测到瓶子时触发信号"
+        },
+        {
+            "name": "cleaningConfirmButton",
+            "type": "Bool",
+            "description": "操作员确认按钮，用于确认清洗工序完成"
+        },
+        {
+            "name": "fillingConfirmButton",
+            "type": "Bool",
+            "description": "操作员确认按钮，用于确认灌装工序完成"
+        },
+        {
+            "name": "cappingConfirmButton",
+            "type": "Bool",
+            "description": "操作员确认按钮，用于确认封盖工序完成"
+        },
+        {
+            "name": "packingConfirmButton",
+            "type": "Bool",
+            "description": "操作员确认按钮，用于确认包装工序完成"
+        },
+        {
+            "name": "finishedButton",
+            "type": "Bool",
+            "description": "操作员确认按钮，用于确认瓶子已取走"
+        }
+    ],
+    "output": [
+        {
+            "name": "Pump_Motor",
+            "type": "Bool",
+            "description": "控制清洗泵电机的运行输出"
+        },
+        {
+            "name": "Filling_Valve",
+            "type": "Bool",
+            "description": "控制灌装阀的运行输出"
+        },
+        {
+            "name": "Capping_Machine",
+            "type": "Bool",
+            "description": "控制封盖机的运行输出"
+        },
+        {
+            "name": "Packing_Machine",
+            "type": "Bool",
+            "description": "控制包装机的运行输出"
+        },
+        {
+            "name": "Completion_Light",
+            "type": "Bool",
+            "description": "包装完成指示灯"
+        }
+    ]
+}

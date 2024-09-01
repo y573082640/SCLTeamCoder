@@ -1,0 +1,46 @@
+FUNCTION  <name of function, necessary> : <return type, optional>
+{ S7_Optimized_Access := 'TRUE' }
+
+    VAR_INPUT 
+        // define input variable here
+    END_VAR
+
+    VAR_OUTPUT 
+        // define output variable here
+    END_VAR
+
+	VAR_IN_OUT 
+		// define variable both in input and output here
+	END_VAR
+
+    VAR_TEMP
+        // define temp variable here
+    END_VAR
+
+    VAR CONSTANT 
+        // define constant variable here
+    END_VAR
+
+    VAR
+        // define other variable here
+    END_VAR
+
+BEGIN
+    REGION initialization
+        // initialize your variable here if necessary
+    END_REGION
+
+    REGION Validation of inputs and outputs 
+	  // validate input and output here if necessary
+	END_REGION
+
+    // your function logic here
+    REGION <name>
+        // your function logic here
+        // you should name the REGION properly
+    END_REGION
+
+    REGION Writting to outputs
+        // assign your output variable here
+    END_REGION
+END_FUNCTION

@@ -1,0 +1,45 @@
+FUNCTION "LGF_SplitDWordToBytes" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_SplitDWordToBytes
+   VAR_INPUT 
+      doubleWord : DWord;
+   END_VAR
+
+   VAR_OUTPUT 
+      byte3 : Byte;
+      byte2 : Byte;
+      byte1 : Byte;
+      byte0 : Byte;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2018
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_SplitDWordToBytes
+	  // Comment/Function: This function splits a DWord variable into 4 Byte variables.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V14 / V14SP1
+	  // Restrictions:     ENO disabled - no error handling, no failure possible.
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  //=============================================================================
+	END_REGION
+	
+	REGION OUTPUT
+	  // get the bytes by slice access
+	  #byte3 := #doubleWord.%B3;
+	  #byte2 := #doubleWord.%B2;
+	  #byte1 := #doubleWord.%B1;
+	  #byte0 := #doubleWord.%B0;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION

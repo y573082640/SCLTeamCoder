@@ -1,0 +1,99 @@
+FUNCTION_BLOCK "LGF_ProductAssembly"
+{ S7_Optimized_Access := 'TRUE' }
+    VAR_INPUT 
+        productSensor : Bool; // 产品到达传感器，检测到产品时触发信号 
+        inspectionConfirmButton : Bool; // 操作员确认按钮，用于确认检查工序完成 
+        assemblyConfirmButton : Bool; // 操作员确认按钮，用于确认装配工序完成 
+        testingConfirmButton : Bool; // 操作员确认按钮，用于确认测试工序完成 
+        packingConfirmButton : Bool; // 操作员确认按钮，用于确认打包工序完成 
+        resetButton : Bool; // 操作员确认按钮，用于确认产品已取走 
+    END_VAR
+
+    VAR_OUTPUT 
+        Inspection_Device : Bool; // 控制检查装置的运行输出 
+        Assembly_Device : Bool; // 控制装配装置的运行输出 
+        Testing_Device : Bool; // 控制测试装置的运行输出 
+        Packing_Device : Bool; // 控制打包装置的运行输出 
+        Packed_Light : Bool; // 打包完成指示灯 
+    END_VAR
+
+    VAR
+        "state" : INT;
+    END_VAR
+
+    VAR_TEMP
+        tempExitStateLoop : BOOL;
+    END_VAR
+
+BEGIN
+    REGION state machine
+        REPEAT
+            // reset #tempExitStateLoop := TRUE; as its defined auto_state to prevent endless loop
+            #tempExitStateLoop := TRUE; // 只有在不发生状态转移下才退出
+            // State machine of FB
+            CASE #state OF
+                0:
+                    #Inspection_Device := FALSE;
+                    #Assembly_Device := FALSE;
+                    #Testing_Device := FALSE;
+                    #Packing_Device := FALSE;
+                    #Packed_Light := FALSE;
+                    IF #productSensor THEN
+                        #state := 1; // Transition to Inspection
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+                1:
+                    #Inspection_Device := TRUE;
+                    #Assembly_Device := FALSE;
+                    #Testing_Device := FALSE;
+                    #Packing_Device := FALSE;
+                    #Packed_Light := FALSE;
+                    IF #inspectionConfirmButton THEN
+                        #state := 2; // Transition to Assembly
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+                2:
+                    #Inspection_Device := FALSE;
+                    #Assembly_Device := TRUE;
+                    #Testing_Device := FALSE;
+                    #Packing_Device := FALSE;
+                    #Packed_Light := FALSE;
+                    IF #assemblyConfirmButton THEN
+                        #state := 3; // Transition to Testing
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+                3:
+                    #Inspection_Device := FALSE;
+                    #Assembly_Device := FALSE;
+                    #Testing_Device := TRUE;
+                    #Packing_Device := FALSE;
+                    #Packed_Light := FALSE;
+                    IF #testingConfirmButton THEN
+                        #state := 4; // Transition to Packing
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+                4:
+                    #Inspection_Device := FALSE;
+                    #Assembly_Device := FALSE;
+                    #Testing_Device := FALSE;
+                    #Packing_Device := TRUE;
+                    #Packed_Light := FALSE;
+                    IF #packingConfirmButton THEN
+                        #state := 5; // Transition to Packed
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+                5:
+                    #Inspection_Device := FALSE;
+                    #Assembly_Device := FALSE;
+                    #Testing_Device := FALSE;
+                    #Packing_Device := FALSE;
+                    #Packed_Light := TRUE;
+                    IF #resetButton THEN
+                        #state := 0; // Transition to Init
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+            END_CASE;
+        UNTIL (TRUE = #tempExitStateLoop)
+        END_REPEAT;
+    END_REGION
+END_FUNCTION_BLOCK

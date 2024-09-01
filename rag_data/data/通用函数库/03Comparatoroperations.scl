@@ -1,0 +1,431 @@
+﻿FUNCTION "LGF_BinaryMaskCompare" : Bool
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Simatic_Systems_Support
+FAMILY : LGF
+NAME : LGF_BinaryMaskCompare
+   VAR_INPUT 
+      source : DWord;
+      compare : DWord;
+      mask { S7_PredefinedAssignment := '16#FFFFFFFF'; S7_HiddenAssignment := 'Show'; S7_ShowAssignmentIfParamsNotIdentical := 'false'} : DWord;
+   END_VAR
+
+   VAR CONSTANT 
+      ALL_BITS_ARE_FALSE : DWord := 16#00000000;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_BinaryMaskCompare
+	  // Comment/Function: Comparing two binary Values `source` and `compare` by a given `mask`.  
+	  //                   Both given values are masked, and the results is than compared and returned
+	  //                   Can be used for Word and Byte as well, by convert the passed parameter using for e.g. Byte_to_DWord(...)
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Simatic Systems Support
+	  // Tested with:      1516F FW2.8 / S7-PLCSIM Advanced V3.0
+	  // Engineering:      TIA Portal V16 Update 4
+	  // Restrictions:     ENO not in use, set to true, no error handling
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge        | Changes applied
+	  // 01.00.00 | 19.01.2021 | Simatic Systems Support | First released version
+	  //===============================================================================
+	END_REGION BLOCK INFO HEADER
+	
+	//Mask Compare Equal DWord
+	#LGF_BinaryMaskCompare := (((#source AND #mask) XOR (#compare AND #mask)) = #ALL_BITS_ARE_FALSE);
+	
+	// ENO is not used, forced to TRUE
+	ENO := TRUE;
+	
+END_FUNCTION
+
+FUNCTION "LGF_CompareLReal" : Bool
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_CompareLReal
+   VAR_INPUT 
+      valueA : LReal;
+      valueB : LReal;
+   END_VAR
+
+   VAR CONSTANT 
+      PRECISION : LReal := 1.0E-12;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_CompareLReal
+	  // Comment/Function: This function checks floating point numbers for equality
+	  //                   Using fixed precision by constant 1.0E-12
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry
+	  // Tested with:      CPU1212C DC/DC/DC FW:V4.2
+	  // Engineering:      TIA Portal V15.1
+	  // Restrictions:     ENO is not used, forced to TRUE, no error handling needed
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  // 01.00.00 13.01.2017  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.00.03 03.06.2019  Simatic Systems Support
+	  //                      Refactoring and performance improvment
+	  //                      Delete Error and Status there is no need for,
+	  //                      because of changed / adjusted algorithm
+	  //                      add eno handling
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 19.01.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  // 03.00.02 21.12.2023  Simatic Systems Support
+	  //                      Fix compare error if one value is exactly zero
+	  //===============================================================================
+	END_REGION BLOCK INFO HEADER
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Approximation
+	  // the compare of fLoating point numbers is based on a precison 1.0E-12
+	  // difference of the input values A and B has to be smaller than
+	  // the precision multiplied with one of the two given inputs
+	  #LGF_CompareLReal := FALSE
+	  OR ((#valueA = 0.0) AND (ABS(#valueB) <= #PRECISION))
+	  OR ((#valueB = 0.0) AND (ABS(#valueA) <= #PRECISION))
+	  OR (ABS(#valueA - #valueB) <= (#PRECISION * ABS(#valueA)));
+	  
+	  // ENO is not used, forced to TRUE, no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_CompareLRealByPrecision" : Bool
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_CompareLRealByPrecision
+   VAR_INPUT 
+      valueA : LReal;
+      valueB : LReal;
+      precision : LReal;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_CompareLRealByPrecision
+	  // Comment/Function: This function checks floating point numbers for equality
+	  //                   Using a given precision by parameter
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry
+	  // Tested with:      CPU1212C DC/DC/DC FW:V4.2
+	  // Engineering:      TIA Portal V15.1
+	  // Restrictions:     ENO is not used, forced to TRUE, no error handling needed
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  // 01.00.00 03.06.2019  Simatic Systems Support
+	  //                      First released version
+	  //                      function besad on `LGF_CompareLReal`
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 19.01.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  // 03.00.02 21.12.2023  Simatic Systems Support
+	  //                      Fix compare error if one value is exactly zero
+	  //===============================================================================
+	END_REGION BLOCK INFO HEADER
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Approximation
+	  // the compare of fLoating point numbers is based on a given precison, for e.g. 1.0E-6
+	  // difference of the input values A and B has to be smaller than
+	  // the precision multiplied with one of the two given inputs
+	  #LGF_CompareLRealByPrecision := FALSE
+	  OR ((#valueA = 0.0) AND (ABS(#valueB) <= #precision))
+	  OR ((#valueB = 0.0) AND (ABS(#valueA) <= #precision))
+	  OR (ABS(#valueA - #valueB) <= (#precision * ABS(#valueA)));
+	  
+	  // ENO is not used, forced to TRUE, no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_CompareString" : SInt
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : 'Siemens Industry Support'
+FAMILY : LGF
+NAME : LGF_CompareString
+   VAR_IN_OUT 
+      left : String;
+      right : String;
+   END_VAR
+
+   VAR_TEMP 
+      tempResult : SInt;
+   END_VAR
+
+   VAR CONSTANT 
+      RETURN_STRINGS_ARE_EQUAL : SInt := 0;
+      RETURN_STRING_LEFT_LESS_THAN_RIGHT : SInt := -1;
+      RETURN_STRING_LEFT_GREATER_THAN_RIGHT : SInt := 1;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS / (c)Copyright 2021
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_CompareString
+	  // Function:         Compares two strings and returns a number which indicates the result of the comparison.
+	  // Library:          LGF(Library General Functions)
+	  // Author:           Siemens Industry Support
+	  // Tested with:      CPU 1516-3 PN/DP
+	  // Engineering:      TIA Portal V17
+	  // Restrictions:     --
+	  // Requirements:     S7-1200/1500
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge         | Changes applied
+	  //----------|------------|--------------------------|----------------------------
+	  // 01.00.00 | 10-06-2022 | Siemens Industry Support | First released version
+	  //===============================================================================
+	END_REGION
+	
+	REGION Process
+	  // Check left string less than the right string
+	  IF #left < #right THEN
+	    #tempResult := #RETURN_STRING_LEFT_LESS_THAN_RIGHT;
+	    
+	    // Check left string greater than the right string
+	  ELSIF #left > #right THEN
+	    #tempResult := #RETURN_STRING_LEFT_GREATER_THAN_RIGHT;
+	    
+	  ELSE // Strings are equal
+	    #tempResult := #RETURN_STRINGS_ARE_EQUAL;
+	  END_IF;
+	  
+	  // return the result
+	  #LGF_CompareString := #tempResult;
+	  ENO := FALSE;
+	END_REGION Process
+	
+END_FUNCTION
+
+FUNCTION "LGF_CompareVariant" : Bool
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_CompareVariant
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+      subFunctionStatus : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      variableA : Variant;
+      variableB : Variant;
+   END_VAR
+
+   VAR_TEMP 
+      tempVariableASize : DInt;
+      tempVariableBSize : DInt;
+      tempindex : DInt;
+      tempVariableAToBytes : Array[0..#MAX_LENGTH] of Byte;
+      tempVariableBToBytes : Array[0..#MAX_LENGTH] of Byte;
+      tempSerializeRet : Word;
+   END_VAR
+
+   VAR CONSTANT 
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_INPUT_TYPES_MUST_MATCH : Word := 16#8201;
+      ERR_INPUT_TYPES_LENGTH_NOT_EQUAL : Word := 16#8202;
+      ERR_SERIALIZE_VARIABLE_A : Word := 16#8601;
+      ERR_SERIALIZE_VARIABLE_B : Word := 16#8602;
+      MAX_LENGTH : Int := 200;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_CompareVariant
+	  // Comment/Function: Compare arrays or plc datatypes and their values 
+	  //                   up to a max lengh of 200 Bytes of the connected variables.
+	  //                   If at least one value of an element is not identical -->
+	  //                   set function result = false
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry
+	  // Tested with:      CPU1212C DC/DC/DC FW:V4.2
+	  // Engineering:      TIA Portal V15.1
+	  // Restrictions:     The attached structure must not include Strings
+	  //                   The attached structure can not exceed 200 bytes,
+	  //                   because of the internal buffer size
+	  //                   --> extend: cut from type, adjust "MAX_LENGHT" constant
+	  //                   ENO disabled - error handling done with error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  // 01.00.00 03.09.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 11.02.2015  Siemens Industry Online Support
+	  //                      Bug fix
+	  // 01.00.02 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA V14 Update 1
+	  // 01.00.03 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.04 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.00.05 03.06.2019  Simatic Systems Support
+	  //                      Refactoring and performance improvment
+	  //                      Change error handling to status and subFctStatus
+	  //                      update serialize instruction
+	  //                      add eno handling
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 19.01.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //===============================================================================
+	END_REGION BLOCK INFO HEADER
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Initialisation
+	  // init temporary variables
+	  #tempVariableASize := 0;
+	  #tempVariableBSize := 0;
+	  #tempindex := 0;
+	  
+	  // Set "No current job" #status
+	  #error := FALSE;
+	  #status := #STATUS_NO_ERROR;
+	  #subFunctionStatus := #STATUS_NO_ERROR;
+	  
+	  // Initialisation of function result
+	  #LGF_CompareVariant := FALSE;
+	END_REGION Initialisation
+	
+	REGION Processing
+	  
+	  REGION Check input types
+	    // Check if the datatypes of the connected tags are identical
+	    IF TypeOf(#variableA) <> TypeOf(#variableB) THEN
+	      #error := TRUE;
+	      #status := #ERR_INPUT_TYPES_MUST_MATCH;
+	      #subFunctionStatus := #STATUS_NO_ERROR;
+	      // no error handling needed
+	      ENO := TRUE;
+	      RETURN; // Finish function if conversion fails
+	    END_IF;
+	  END_REGION
+	  
+	  REGION Serialize Input Variable A
+	    // convert variableA Values to serialised binary array of byte
+	    #tempSerializeRet := INT_TO_WORD(
+	                                     Serialize(SRC_VARIABLE := #variableA,
+	                                               DEST_ARRAY => #tempVariableAToBytes,
+	                                               POS := #tempVariableASize)
+	    );
+	    
+	    // Check return value of SERIALIZE
+	    // if not zero - error happend, write error codes and end/leave function
+	    IF #tempSerializeRet <> #STATUS_NO_ERROR THEN
+	      #error := TRUE;
+	      #status := #ERR_SERIALIZE_VARIABLE_A;
+	      #subFunctionStatus := #tempSerializeRet;
+	      // no error handling needed
+	      ENO := TRUE;
+	      RETURN; // Finish function if conversion fails
+	    END_IF;
+	  END_REGION
+	  
+	  REGION Serialize Input Variable A
+	    // convert variableB Values to serialised binary array of byte
+	    #tempSerializeRet := INT_TO_WORD(
+	                                     Serialize(SRC_VARIABLE := #variableB,
+	                                               DEST_ARRAY => #tempVariableBToBytes,
+	                                               POS := #tempVariableBSize)
+	    );
+	    
+	    // Check return value of SERIALIZE
+	    // if not zero - error happend, write error codes and end/leave function
+	    IF #tempSerializeRet <> #STATUS_NO_ERROR THEN
+	      #error := TRUE;
+	      #status := #ERR_SERIALIZE_VARIABLE_B;
+	      #subFunctionStatus := #tempSerializeRet;
+	      // no error handling needed
+	      ENO := TRUE;
+	      RETURN; // Finish function if conversion fails
+	    END_IF;
+	  END_REGION
+	  
+	  REGION Check if serialized sizes are equal
+	    // Compare size of both variables
+	    IF #tempVariableASize <> #tempVariableBSize THEN
+	      #error := TRUE;
+	      #status := #ERR_INPUT_TYPES_LENGTH_NOT_EQUAL;
+	      #subFunctionStatus := DINT_TO_WORD(#tempVariableASize - #tempVariableBSize);
+	      // no error handling needed
+	      ENO := TRUE;
+	      RETURN; // Finish function if conversion fails
+	    END_IF;
+	  END_REGION
+	  
+	  REGION Compare
+	    // Compare values of temp. array elements of bytes
+	    WHILE #tempindex < #tempVariableASize DO
+	      
+	      // Compare bytes till difference detected
+	      IF #tempVariableAToBytes[#tempindex] = #tempVariableBToBytes[#tempindex] THEN
+	        // if equal increment index
+	        #tempindex += 1; // Or end of array reached
+	      ELSE
+	        // if values diffrent (content missmatch) --> exit loop
+	        EXIT;
+	      END_IF;
+	    END_WHILE;
+	    
+	  END_REGION
+	END_REGION Processing
+	
+	REGION Output
+	  // Assign function result - if index is equal to size = TRUE
+	  #LGF_CompareVariant := (#tempindex = #tempVariableASize);
+	  
+	  // ENO is not used, forced to TRUE
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+

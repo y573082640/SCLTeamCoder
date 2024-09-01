@@ -1,0 +1,26 @@
+{
+    "title": "Automatic Door Control System",
+    "description": "An automatic door control system is controlled by a single control button. The system has one control button and three states: open state, closed state, and fault state. Control requirements: The doorControlButton represents the state of the control button, and the transition from 0 to 1 triggers a change in the state of the automatic door. Two output parameters, doorState and errorStateLight, are used to control the state of the automatic door and the fault indicator light respectively. The sequence of control button triggers and the corresponding states are as follows: 1st trigger: The automatic door opens. 2nd trigger: The automatic door closes. 3rd trigger: The fault state indicator light errorStateLight turns on. 4th trigger: The fault state indicator light errorStateLight turns off. 5th trigger and onwards: The above cycle repeats.",
+    "type": "FUNCTION_BLOCK",
+    "name": "LGF_AutomaticDoorControl",
+    "input": [
+      {
+        "name": "doorControlButton",
+        "type": "Bool",
+        "description": "Control button switch, pulse signal"
+      }
+    ],
+    "output": [
+      {
+        "name": "doorState",
+        "type": "Bool",
+        "description": "State of the automatic door. True means the door is open, False means the door is closed. Initially False."
+      },
+      {
+        "name": "errorStateLight",
+        "type": "Bool",
+        "description": "Fault state indicator light. True means the indicator light is on, False means the indicator light is off. Initially False."
+      }
+    ]
+  }
+  

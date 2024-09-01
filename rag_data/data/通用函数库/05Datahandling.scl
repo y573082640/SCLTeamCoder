@@ -1,0 +1,4005 @@
+﻿FUNCTION_BLOCK "LGF_ShellSort_LReal"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Industry_Support
+FAMILY : LGF
+NAME : LGF_ShellSort_LReal
+   VAR_INPUT 
+      sortDirection : Bool;
+   END_VAR
+
+   VAR_OUTPUT 
+      error { ExternalWritable := 'False'} : Bool;
+      status { ExternalWritable := 'False'} : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      "array" : Array[*] of LReal;
+   END_VAR
+
+   VAR 
+      tempArray { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Array[1..#MAX_ARRAY_ELEMENTS] of LReal;
+   END_VAR
+
+   VAR_TEMP 
+      tempLowerLimit : DInt;
+      tempUpperLimit : DInt;
+      tempNoOfElements : DInt;
+      tempGap : DInt;
+      tempLoopIndex : DInt;
+      tempExchangeIndex : DInt;
+      tempExchangeVariable : LReal;
+      tempArrayOffset : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      ARRAY_FIRST_DIMENSION : UInt := 1;
+      ARRAY_START_INDEX : UInt := 1;
+      SINGLE_ARRAY_ELEMENT : DInt := 1;
+      GAP_INIT : Int := 1;
+      GAP_THRESHOLD : Int := 1;
+      GAP_RATIO : DInt := 3;
+      INCREMENT : Int := 1;
+      ELEMENTS_COUNT_CORRECTION : DInt := 1;
+      MAX_ARRAY_ELEMENTS : Int := 1000;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_NO_ARRAY : Word := 16#8200;
+      ERR_TOO_MANY_ELEMENTS : Word := 16#8201;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_ShellSort_DInt
+	  // Comment/Function: This block sorts an array with any number of elements (max. 1000)
+	  //                   in ascending or descending order and returns the sorted version of the array in the same variable.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      CPU 1515F-2 PN FW:V2.6
+	  // Engineering:      TIA Portal V15.1 Update 2
+	  // Restrictions:     ENO disabled - error handling done with error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 19.08.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.01.00 19.05.2016  Siemens Industry Online Support
+	  //                      New function: reverse sort
+	  // 01.01.01 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA Portal V14 Update 1
+	  // 01.01.02 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.01.03 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 02.00.00 29.01.2019  Siemens Industry Online Support
+	  //                      Output "done" removed (not necessary, because only one cycle)
+	  // 02.00.01 15.10.2019  Simatic Systems Support
+	  //                      Code refactoring, comments added,
+	  //                      change data type from Real to LReal
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 15.02.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Special description
+	  // Space note: If you wish to reduce the space of this block, you may reduce the
+	  // size OF the tempArray<Type> TO one just big enough FOR your specific purpose
+	  // It is not recommended to increase the size significantly.
+	END_REGION
+	
+	REGION Initialization and input data processing
+	  // Input array size calculation
+	  #tempLowerLimit := LOWER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  #tempUpperLimit := UPPER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  
+	  // Array elements calculation
+	  // (for example: 6 - 2 = 4; but real number of elements is 5)
+	  #tempNoOfElements := #tempUpperLimit - #tempLowerLimit + #ELEMENTS_COUNT_CORRECTION;
+	  
+	  // Shift array index to range 1..MAX_ARRAY_ELEMENTS
+	  #tempArrayOffset := - #tempLowerLimit + #ARRAY_START_INDEX;
+	  
+	  // Check whether the array contains less than the maximum possible amount of elements
+	  IF #tempNoOfElements > #MAX_ARRAY_ELEMENTS THEN
+	    #error := true;
+	    #status := #ERR_TOO_MANY_ELEMENTS;
+	    RETURN;
+	  ELSIF #tempNoOfElements <= #SINGLE_ARRAY_ELEMENT THEN
+	    // If there are 0 elements in the array, set status to "Error: Parameter is an empty array"
+	    #error := true;
+	    #status := #ERR_NO_ARRAY;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Sorting
+	  // Read the elements of the incoming array and write into the local array
+	  FOR #tempLoopIndex := #tempLowerLimit TO #tempUpperLimit DO
+	    #tempArray[#tempLoopIndex + #tempArrayOffset] := #array[#tempLoopIndex];
+	  END_FOR;
+	  
+	  REGION Shell sort algorithm
+	    #tempGap := #GAP_INIT;
+	    
+	    // Evaluation of the maximal gap size
+	    REPEAT
+	      #tempGap := (#GAP_RATIO * #tempGap) + #INCREMENT;
+	    UNTIL #tempGap > #tempNoOfElements END_REPEAT;
+	    
+	    REPEAT
+	      #tempGap := #tempGap / #GAP_RATIO;
+	      
+	      FOR #tempLoopIndex := #tempGap + #INCREMENT TO #tempNoOfElements DO
+	        #tempExchangeVariable := #tempArray[#tempLoopIndex];
+	        #tempExchangeIndex := #tempLoopIndex;
+	        
+	        // sort descending 
+	        IF #sortDirection THEN
+	          WHILE ((#tempArray[#tempExchangeIndex - #tempGap] < #tempExchangeVariable)) DO
+	            #tempArray[#tempExchangeIndex] := #tempArray[#tempExchangeIndex - #tempGap];
+	            #tempExchangeIndex := #tempExchangeIndex - #tempGap;
+	            
+	            IF (#tempExchangeIndex <= #tempGap) THEN
+	              EXIT;
+	            END_IF;
+	          END_WHILE;
+	          
+	          // sort ascending
+	        ELSE
+	          WHILE ((#tempArray[#tempExchangeIndex - #tempGap] > #tempExchangeVariable)) DO
+	            #tempArray[#tempExchangeIndex] := #tempArray[#tempExchangeIndex - #tempGap];
+	            #tempExchangeIndex := #tempExchangeIndex - #tempGap;
+	            
+	            IF (#tempExchangeIndex <= #tempGap) THEN
+	              EXIT;
+	            END_IF;
+	          END_WHILE;
+	        END_IF;
+	        
+	        #tempArray[#tempExchangeIndex] := #tempExchangeVariable;
+	      END_FOR;
+	      
+	    UNTIL #tempGap <= #GAP_THRESHOLD END_REPEAT;
+	  END_REGION
+	  
+	  // Write the elements of the local array back to the inOut array
+	  FOR #tempLoopIndex := #tempLowerLimit TO #tempUpperLimit DO
+	    #array[#tempLoopIndex] := #tempArray[#tempLoopIndex + #tempArrayOffset];
+	  END_FOR;
+	  
+	  // Set "No error" status
+	  #error := false;
+	  #status := #STATUS_NO_ERROR;
+	  
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK "LGF_ShellSort_DInt"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Industry_Support
+FAMILY : LGF
+NAME : LGF_ShellSort_DInt
+   VAR_INPUT 
+      sortDirection : Bool;
+   END_VAR
+
+   VAR_OUTPUT 
+      error { ExternalWritable := 'False'} : Bool;
+      status { ExternalWritable := 'False'} : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      "array" : Array[*] of DInt;
+   END_VAR
+
+   VAR 
+      tempArray { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Array[1..#MAX_ARRAY_ELEMENTS] of DInt;
+   END_VAR
+
+   VAR_TEMP 
+      tempLowerLimit : DInt;
+      tempUpperLimit : DInt;
+      tempNoOfElements : DInt;
+      tempGap : DInt;
+      tempLoopIndex : DInt;
+      tempExchangeIndex : DInt;
+      tempExchangeVariable : DInt;
+      tempArrayOffset : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      ARRAY_FIRST_DIMENSION : UInt := 1;
+      ARRAY_START_INDEX : UInt := 1;
+      SINGLE_ARRAY_ELEMENT : DInt := 1;
+      GAP_INIT : Int := 1;
+      GAP_THRESHOLD : Int := 1;
+      GAP_RATIO : DInt := 3;
+      INCREMENT : Int := 1;
+      ELEMENTS_COUNT_CORRECTION : DInt := 1;
+      MAX_ARRAY_ELEMENTS : Int := 1000;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_NO_ARRAY : Word := 16#8200;
+      ERR_TOO_MANY_ELEMENTS : Word := 16#8201;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_ShellSort_DInt
+	  // Comment/Function: This block sorts an array with any number of elements (max. 1000)
+	  //                   in ascending or descending order and returns the sorted version of the array in the same variable.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      CPU 1515F-2 PN FW:V2.6
+	  // Engineering:      TIA Portal V15.1 Update 2
+	  // Restrictions:     ENO disabled - error handling done with error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 19.08.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.01.00 19.05.2016  Siemens Industry Online Support
+	  //                      New function: reverse sort
+	  // 01.01.01 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA Portal V14 Update 1
+	  // 01.01.02 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.01.03 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 02.00.00 29.01.2019  Siemens Industry Online Support
+	  //                      Output "done" removed (not necessary, because only one cycle)
+	  // 02.00.01 15.10.2019  Simatic Systems Support
+	  //                      Code refactoring, comments added,
+	  //                      change data type from Int to DInt
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 15.02.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Special description
+	  // Space note: If you wish to reduce the space of this block, you may reduce the
+	  // size OF the tempArray<Type> TO one just big enough FOR your specific purpose
+	  // It is not recommended to increase the size significantly.
+	END_REGION
+	
+	REGION Initialization and input data processing
+	  // Input array size calculation
+	  #tempLowerLimit := LOWER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  #tempUpperLimit := UPPER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  
+	  // Array elements calculation
+	  // (for example: 6 - 2 = 4; but real number of elements is 5)
+	  #tempNoOfElements := #tempUpperLimit - #tempLowerLimit + #ELEMENTS_COUNT_CORRECTION;
+	  
+	  // Shift array index to range 1..MAX_ARRAY_ELEMENTS
+	  #tempArrayOffset := - #tempLowerLimit + #ARRAY_START_INDEX;
+	  
+	  // Check whether the array contains less than the maximum possible amount of elements
+	  IF #tempNoOfElements > #MAX_ARRAY_ELEMENTS THEN
+	    #error := true;
+	    #status := #ERR_TOO_MANY_ELEMENTS;
+	    RETURN;
+	  ELSIF #tempNoOfElements <= #SINGLE_ARRAY_ELEMENT THEN
+	    // If there are 0 elements in the array, set status to "Error: Parameter is an empty array"
+	    #error := true;
+	    #status := #ERR_NO_ARRAY;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Sorting
+	  // Read the elements of the incoming array and write into the local array
+	  FOR #tempLoopIndex := #tempLowerLimit TO #tempUpperLimit DO
+	    #tempArray[#tempLoopIndex + #tempArrayOffset] := #array[#tempLoopIndex];
+	  END_FOR;
+	  
+	  REGION Shell sort algorithm
+	    #tempGap := #GAP_INIT;
+	    
+	    // Evaluation of the maximal gap size
+	    REPEAT
+	      #tempGap := (#GAP_RATIO * #tempGap) + #INCREMENT;
+	    UNTIL #tempGap > #tempNoOfElements END_REPEAT;
+	    
+	    REPEAT
+	      #tempGap := #tempGap / #GAP_RATIO;
+	      
+	      FOR #tempLoopIndex := #tempGap + #INCREMENT TO #tempNoOfElements DO
+	        #tempExchangeVariable := #tempArray[#tempLoopIndex];
+	        #tempExchangeIndex := #tempLoopIndex;
+	        
+	        // sort descending 
+	        IF #sortDirection THEN
+	          WHILE ((#tempArray[#tempExchangeIndex - #tempGap] < #tempExchangeVariable)) DO
+	            #tempArray[#tempExchangeIndex] := #tempArray[#tempExchangeIndex - #tempGap];
+	            #tempExchangeIndex := #tempExchangeIndex - #tempGap;
+	            
+	            IF (#tempExchangeIndex <= #tempGap) THEN
+	              EXIT;
+	            END_IF;
+	          END_WHILE;
+	          
+	          // sort ascending
+	        ELSE
+	          WHILE ((#tempArray[#tempExchangeIndex - #tempGap] > #tempExchangeVariable)) DO
+	            #tempArray[#tempExchangeIndex] := #tempArray[#tempExchangeIndex - #tempGap];
+	            #tempExchangeIndex := #tempExchangeIndex - #tempGap;
+	            
+	            IF (#tempExchangeIndex <= #tempGap) THEN
+	              EXIT;
+	            END_IF;
+	          END_WHILE;
+	        END_IF;
+	        
+	        #tempArray[#tempExchangeIndex] := #tempExchangeVariable;
+	      END_FOR;
+	      
+	    UNTIL #tempGap <= #GAP_THRESHOLD END_REPEAT;
+	  END_REGION
+	  
+	  // Write the elements of the local array back to the inOut array
+	  FOR #tempLoopIndex := #tempLowerLimit TO #tempUpperLimit DO
+	    #array[#tempLoopIndex] := #tempArray[#tempLoopIndex + #tempArrayOffset];
+	  END_FOR;
+	  
+	  // Set "No error" status
+	  #error := false;
+	  #status := #STATUS_NO_ERROR;
+	  
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK "LGF_ShellSort_UDInt"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Industry_Support
+FAMILY : LGF
+NAME : LGF_ShellSort_UDInt
+   VAR_INPUT 
+      sortDirection : Bool;
+   END_VAR
+
+   VAR_OUTPUT 
+      error { ExternalWritable := 'False'} : Bool;
+      status { ExternalWritable := 'False'} : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      "array" : Array[*] of UDInt;
+   END_VAR
+
+   VAR 
+      tempArray { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Array[1..#MAX_ARRAY_ELEMENTS] of UDInt;
+   END_VAR
+
+   VAR_TEMP 
+      tempLowerLimit : DInt;
+      tempUpperLimit : DInt;
+      tempNoOfElements : DInt;
+      tempGap : DInt;
+      tempLoopIndex : DInt;
+      tempExchangeIndex : DInt;
+      tempExchangeVariable : UDInt;
+      tempArrayOffset : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      ARRAY_FIRST_DIMENSION : UInt := 1;
+      ARRAY_START_INDEX : UInt := 1;
+      SINGLE_ARRAY_ELEMENT : DInt := 1;
+      GAP_INIT : Int := 1;
+      GAP_THRESHOLD : Int := 1;
+      GAP_RATIO : DInt := 3;
+      INCREMENT : Int := 1;
+      ELEMENTS_COUNT_CORRECTION : DInt := 1;
+      MAX_ARRAY_ELEMENTS : Int := 1000;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_NO_ARRAY : Word := 16#8200;
+      ERR_TOO_MANY_ELEMENTS : Word := 16#8201;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_ShellSort_DInt
+	  // Comment/Function: This block sorts an array with any number of elements (max. 1000)
+	  //                   in ascending or descending order and returns the sorted version of the array in the same variable.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      CPU 1515F-2 PN FW:V2.6
+	  // Engineering:      TIA Portal V15.1 Update 2
+	  // Restrictions:     ENO disabled - error handling done with error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 19.08.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.01.00 19.05.2016  Siemens Industry Online Support
+	  //                      New function: reverse sort
+	  // 01.01.01 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA Portal V14 Update 1
+	  // 01.01.02 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.01.03 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 02.00.00 29.01.2019  Siemens Industry Online Support
+	  //                      Output "done" removed (not necessary, because only one cycle)
+	  // 02.00.01 15.10.2019  Simatic Systems Support
+	  //                      Code refactoring, comments added,
+	  //                      change data type from UInt to UDInt
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 15.02.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Special description
+	  // Space note: If you wish to reduce the space of this block, you may reduce the
+	  // size OF the tempArray<Type> TO one just big enough FOR your specific purpose
+	  // It is not recommended to increase the size significantly.
+	END_REGION
+	
+	REGION Initialization and input data processing
+	  // Input array size calculation
+	  #tempLowerLimit := LOWER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  #tempUpperLimit := UPPER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  
+	  // Array elements calculation
+	  // (for example: 6 - 2 = 4; but real number of elements is 5)
+	  #tempNoOfElements := #tempUpperLimit - #tempLowerLimit + #ELEMENTS_COUNT_CORRECTION;
+	  
+	  // Shift array index to range 1..MAX_ARRAY_ELEMENTS
+	  #tempArrayOffset := - #tempLowerLimit + #ARRAY_START_INDEX;
+	  
+	  // Check whether the array contains less than the maximum possible amount of elements
+	  IF #tempNoOfElements > #MAX_ARRAY_ELEMENTS THEN
+	    #error := true;
+	    #status := #ERR_TOO_MANY_ELEMENTS;
+	    RETURN;
+	  ELSIF #tempNoOfElements <= #SINGLE_ARRAY_ELEMENT THEN
+	    // If there are 0 elements in the array, set status to "Error: Parameter is an empty array"
+	    #error := true;
+	    #status := #ERR_NO_ARRAY;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Sorting
+	  // Read the elements of the incoming array and write into the local array
+	  FOR #tempLoopIndex := #tempLowerLimit TO #tempUpperLimit DO
+	    #tempArray[#tempLoopIndex + #tempArrayOffset] := #array[#tempLoopIndex];
+	  END_FOR;
+	  
+	  REGION Shell sort algorithm
+	    #tempGap := #GAP_INIT;
+	    
+	    // Evaluation of the maximal gap size
+	    REPEAT
+	      #tempGap := (#GAP_RATIO * #tempGap) + #INCREMENT;
+	    UNTIL #tempGap > #tempNoOfElements END_REPEAT;
+	    
+	    REPEAT
+	      #tempGap := #tempGap / #GAP_RATIO;
+	      
+	      FOR #tempLoopIndex := #tempGap + #INCREMENT TO #tempNoOfElements DO
+	        #tempExchangeVariable := #tempArray[#tempLoopIndex];
+	        #tempExchangeIndex := #tempLoopIndex;
+	        
+	        // sort descending 
+	        IF #sortDirection THEN
+	          WHILE ((#tempArray[#tempExchangeIndex - #tempGap] < #tempExchangeVariable)) DO
+	            #tempArray[#tempExchangeIndex] := #tempArray[#tempExchangeIndex - #tempGap];
+	            #tempExchangeIndex := #tempExchangeIndex - #tempGap;
+	            
+	            IF (#tempExchangeIndex <= #tempGap) THEN
+	              EXIT;
+	            END_IF;
+	          END_WHILE;
+	          
+	          // sort ascending
+	        ELSE
+	          WHILE ((#tempArray[#tempExchangeIndex - #tempGap] > #tempExchangeVariable)) DO
+	            #tempArray[#tempExchangeIndex] := #tempArray[#tempExchangeIndex - #tempGap];
+	            #tempExchangeIndex := #tempExchangeIndex - #tempGap;
+	            
+	            IF (#tempExchangeIndex <= #tempGap) THEN
+	              EXIT;
+	            END_IF;
+	          END_WHILE;
+	        END_IF;
+	        
+	        #tempArray[#tempExchangeIndex] := #tempExchangeVariable;
+	      END_FOR;
+	      
+	    UNTIL #tempGap <= #GAP_THRESHOLD END_REPEAT;
+	  END_REGION
+	  
+	  // Write the elements of the local array back to the inOut array
+	  FOR #tempLoopIndex := #tempLowerLimit TO #tempUpperLimit DO
+	    #array[#tempLoopIndex] := #tempArray[#tempLoopIndex + #tempArrayOffset];
+	  END_FOR;
+	  
+	  // Set "No error" status
+	  #error := false;
+	  #status := #STATUS_NO_ERROR;
+	  
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION_BLOCK
+
+FUNCTION "LGF_CalcCRC8" : Byte
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Industry_Support
+FAMILY : LGF
+NAME : LGF_CRC8
+   VAR_INPUT 
+      initValue { S7_PredefinedAssignment := '16#00'} : Byte;
+      mask { S7_PredefinedAssignment := '16#00'} : Byte;
+      noOfElements { S7_PredefinedAssignment := '0'} : UInt;
+   END_VAR
+
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      "array" : Array[*] of Byte;
+   END_VAR
+
+   VAR_TEMP 
+      tempCRC : Byte;
+      tempLowerLimit : DInt;
+      tempUpperLimit : DInt;
+      tempIndexArray : DInt;
+      tempIndexCRC : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      SHIFT_ONE_BIT : UInt := 1;
+      ARRAY_FIRST_DIMENSION : UInt := 1;
+      CRC_LOOP_LOWER_LIMIT : DInt := 0;
+      CRC_LOOP_UPPER_LIMIT : DInt := 7;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_NO_OF_ELEMENTS : Word := 16#8400;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_CRC8
+	  // Comment/Function: This function makes a CRC calculation according
+	  //                   to the CRC-8 algorithm
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      CPU 1515F-2 PN FW:V2.6
+	  // Engineering:      TIA Portal V15.1 Update 2
+	  // Restrictions:     ENO disabled - no error handling, no failure possible
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 03.07.2018  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.00.03 09.10.2019  Simatic Systems Support
+	  //                      Code refactoring, comments added
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 12.11.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //                      Assign default start values to optional inputs - `initValue`, `mask`
+	  // 03.01.00 14.04.2023  Simatic Systems Support
+	  //                      Add input `noOfElements` to assign length to be converted different from array size 
+	  //                      Add outputs `error` and `status` display a wrong assignment to `noOfElements`
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Initialization and input data processing
+	  // Defining initial value for algorithm
+	  #tempCRC := #initValue;
+	  // Input array size calculation
+	  #tempLowerLimit := LOWER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  #tempUpperLimit := UPPER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  
+	  // check paramter `noOfELements`, if gretaer than zero check if fits to array size
+	  IF #noOfElements > 0 THEN
+	    IF #noOfElements > (#tempUpperLimit - #tempLowerLimit + 1) THEN
+	      #status := #ERR_NO_OF_ELEMENTS;
+	      #error := TRUE;
+	      ENO := FALSE;
+	      #LGF_CalcCRC8 := #tempCRC;
+	      RETURN;
+	    ELSE
+	      #tempUpperLimit := #tempLowerLimit + #noOfElements - 1;
+	    END_IF;
+	  END_IF;
+	END_REGION
+	
+	REGION CRC calculation
+	  FOR #tempIndexArray := #tempLowerLimit TO #tempUpperLimit DO
+	    // Perform division using XOR function for appropriate byte in array
+	    #tempCRC := #tempCRC XOR #array[#tempIndexArray];
+	    
+	    FOR #tempIndexCRC := #CRC_LOOP_LOWER_LIMIT TO #CRC_LOOP_UPPER_LIMIT DO
+	      // Check if MSB is set
+	      IF #tempCRC.%X7 THEN
+	        // Shift left and perform division by mask polynomial using XOR function
+	        #tempCRC := SHL(IN := #tempCRC, N := #SHIFT_ONE_BIT) XOR #mask;
+	      ELSE
+	        // Shift left without division
+	        #tempCRC := SHL(IN := #tempCRC, N := #SHIFT_ONE_BIT);
+	      END_IF;
+	    END_FOR;
+	    
+	  END_FOR;
+	END_REGION
+	
+	REGION Outputs assignment
+	  #LGF_CalcCRC8 := #tempCRC;
+	  
+	  #status := #STATUS_NO_ERROR;
+	  #error := FALSE;
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION_BLOCK "LGF_LIFO"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Industry_Support
+FAMILY : LGF
+NAME : LGF_LIFO
+   VAR_INPUT 
+      push : Bool := false;
+      pop : Bool := false;
+      peek : Bool := false;
+      reset : Bool;
+      clear : Bool;
+      initialItem : Variant;
+   END_VAR
+
+   VAR_OUTPUT 
+      error { ExternalWritable := 'False'} : Bool;
+      status { ExternalWritable := 'False'} : Word;
+      subFunctionStatus { ExternalWritable := 'False'} : Word;
+      elementCount { ExternalWritable := 'False'} : DInt;
+      isEmpty { ExternalWritable := 'False'} : Bool;
+   END_VAR
+
+   VAR_IN_OUT 
+      item : Variant;
+      buffer : Variant;
+   END_VAR
+
+   VAR 
+      statEdgesMem { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Struct
+         push { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         pop { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         peek { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         clear { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      END_STRUCT;
+      statLastItemIndex { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int := -1;
+   END_VAR
+
+   VAR_TEMP 
+      tempEdges : Struct
+         push : Bool;
+         pop : Bool;
+         peek : Bool;
+         clear : Bool;
+      END_STRUCT;
+      tempInternalError : Int;
+      tempBufferSize : UDInt;
+      tempSizeCounter : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      BUFFER_IS_EMPTY : Int := -1;
+      NO_INTERNAL_ERROR : Int := 0;
+      BUFFER_INITIALIZED : Int := -1;
+      EMPTY_INITIALIZED : Int := 0;
+      INDEX_BEGINNING : Int := 0;
+      COUNT_ELEMENTS : UDInt := 1;
+      INCREMENT : Int := 1;
+      BUFFER_SIZE_CORRECTION : UDInt := 1;
+      COUNTER_LOWER_LIMIT : Int := 0;
+      ZERO_ELEMENTS : DInt := 0;
+      STATUS_NO_ERROR : Word := 16#0000;
+      STATUS_NO_CURRENT_JOBS : Word := 16#7000;
+      ERR_BUFFER_EMPTY : Word := 16#8001;
+      ERR_BUFFER_FULL : Word := 16#8002;
+      ERR_NO_ARRAY : Word := 16#8200;
+      ERR_WRONG_TYPE_ITEM : Word := 16#8201;
+      ERR_WRONG_TYPE_INITIAL_ITEM : Word := 16#8202;
+      ERR_CLEAR_BUFFER : Word := 16#8610;
+      ERR_RETURN_LAST_ENTRY : Word := 16#8611;
+      ERR_POP_REPLACE_ITEM_BY_INIT_VALUE : Word := 16#8612;
+      ERR_WRITE_ENTRY : Word := 16#8613;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_LIFO
+	  // Comment/Function: LIFO (Last In First Out)
+	  //                   Stack buffer memory
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      CPU 1515F-2 PN FW:V2.6
+	  // Engineering:      TIA Portal V15.1 Update 2
+	  // Restrictions:     ENO disabled - error handling done with error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 10.07.2018  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 02.00.00 29.01.2019  Siemens Industry Online Support
+	  //                      Output "done" removed (not necessary, because block works synchron)
+	  // 03.00.00 22.10.2019  Simatic Systems Support
+	  //                      Code refactoring, comments added
+	  //                      Interface change (push, pop, peek etc.)
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 15.02.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Block execution control
+	  // collect edges
+	  #tempEdges.push := #push AND NOT #statEdgesMem.push;
+	  #tempEdges.pop := #pop AND NOT #statEdgesMem.pop;
+	  #tempEdges.peek := #peek AND NOT #statEdgesMem.peek;
+	  #tempEdges.clear := #clear AND NOT #statEdgesMem.clear;
+	  // store values for edge detection
+	  #statEdgesMem.push := #push;
+	  #statEdgesMem.pop := #pop;
+	  #statEdgesMem.peek := #peek;
+	  #statEdgesMem.clear := #clear;
+	  
+	  // This program code section is only executed if no trigger input is active
+	  IF NOT (#push OR #pop OR #peek OR #reset OR #clear) THEN
+	    // If an error occurred during program execution,
+	    // the status "No Current Job" is used 16#7000 afterwarts wehn the triggers are reseted
+	    #error := false;
+	    #status := #STATUS_NO_CURRENT_JOBS;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    // the program processing OF the FB is terminated
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Validation of inputs
+	  // check whether the ring #buffer is an ARRAY.
+	  // IF so, the number OF the ARRAY elements is read out.
+	  // IF it is NOT an ARRAY, the program execution is terminated at this point
+	  IF IS_ARRAY(#buffer) THEN
+	    #tempBufferSize := CountOfElements(#buffer);
+	  ELSE
+	    #error := TRUE;
+	    #status := #ERR_NO_ARRAY;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	  
+	  // check whether the data type OF the ARRAY elements matches
+	  // the data type OF the entry (#item). IF the data types DO NOT match,
+	  // the program execution is terminated at this point
+	  IF (TypeOf(#item) <> TypeOfElements(#buffer)) THEN
+	    #error := TRUE;
+	    #status := #ERR_WRONG_TYPE_ITEM;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	  
+	  // check whether the initial value OF the ring #buffer
+	  // matches the entry (tag #item). IF the data types DO NOT match,
+	  // the program execution is terminated at this point
+	  IF (TypeOf(#item) <> TypeOf(#initialItem)) THEN
+	    #error := TRUE;
+	    #status := #ERR_WRONG_TYPE_INITIAL_ITEM;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	  
+	  // If resetBuffer is "TRUE", the buffer counters are reset
+	  IF #reset THEN
+	    #statLastItemIndex := #BUFFER_INITIALIZED;
+	    #elementCount := #EMPTY_INITIALIZED;
+	    #isEmpty := true;
+	    RETURN;
+	  END_IF;
+	  
+	  // If clearBuffer has rising edge, the buffer is initialized by initial values
+	  IF #tempEdges.clear THEN
+	    FOR #tempSizeCounter := #COUNTER_LOWER_LIMIT TO UDINT_TO_INT(#tempBufferSize - #BUFFER_SIZE_CORRECTION) DO
+	      
+	      #tempInternalError := MOVE_BLK_VARIANT(SRC := #initialItem,
+	                                             COUNT := #COUNT_ELEMENTS,
+	                                             SRC_INDEX := #INDEX_BEGINNING,
+	                                             DEST_INDEX := #tempSizeCounter,
+	                                             DEST => #buffer);
+	    END_FOR;
+	    
+	    // checks whether a local error has occurred.
+	    IF (#tempInternalError <> #NO_INTERNAL_ERROR) THEN
+	      #error := true;
+	      #status := #ERR_CLEAR_BUFFER;
+	      #subFunctionStatus := INT_TO_WORD(#tempInternalError);
+	    END_IF;
+	    
+	    // reset counters
+	    #statLastItemIndex := #BUFFER_INITIALIZED;
+	    #elementCount := #EMPTY_INITIALIZED;
+	    #isEmpty := true;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION LIFO algorithm
+	  IF #tempEdges.pop OR #tempEdges.peek THEN
+	    REGION Pop or Peek
+	      // checks whether the ring #buffer is empty.
+	      // IF this is the CASE, program execution is terminated at this point
+	      IF (#statLastItemIndex <= #BUFFER_IS_EMPTY) THEN
+	        #error := TRUE;
+	        #status := #ERR_BUFFER_EMPTY;
+	        #subFunctionStatus := #STATUS_NO_ERROR;
+	        RETURN;
+	      END_IF;
+	      
+	      // returning the last entry of the ring buffer
+	      #tempInternalError := MOVE_BLK_VARIANT(SRC := #buffer,
+	                                             COUNT := #COUNT_ELEMENTS,
+	                                             SRC_INDEX := #statLastItemIndex,
+	                                             DEST_INDEX := #INDEX_BEGINNING,
+	                                             DEST => #item);
+	      
+	      // checks whether a local error has occurred.
+	      IF (#tempInternalError <> #NO_INTERNAL_ERROR) THEN
+	        #error := true;
+	        #status := #ERR_RETURN_LAST_ENTRY;
+	        #subFunctionStatus := INT_TO_WORD(#tempInternalError);
+	        RETURN;
+	      END_IF;
+	      
+	      REGION Pop
+	        // is POP - delete element in buffer
+	        // The value is initialized just if the "pop" input is triggered
+	        // If the "peek" input is triggered, stack is not changed
+	        IF #tempEdges.pop THEN
+	          #tempInternalError := MOVE_BLK_VARIANT(SRC := #initialItem,
+	                                                 COUNT := #COUNT_ELEMENTS,
+	                                                 SRC_INDEX := #INDEX_BEGINNING,
+	                                                 DEST_INDEX := #statLastItemIndex,
+	                                                 DEST => #buffer);
+	          
+	          // This program code section checks whether a local error has occurred.
+	          IF (#tempInternalError <> #NO_INTERNAL_ERROR) THEN
+	            #error := true;
+	            #status := #ERR_POP_REPLACE_ITEM_BY_INIT_VALUE;
+	            #subFunctionStatus := INT_TO_WORD(#tempInternalError);
+	            RETURN;
+	          END_IF;
+	          
+	          // This program code section decrements the index by 1 for reading and writing.
+	          #statLastItemIndex -= #INCREMENT;
+	        END_IF;
+	      END_REGION Pop
+	    END_REGION Pop or Peek
+	    
+	  ELSIF #tempEdges.push THEN
+	    REGION Push
+	      // this program code section checks whether the ring #buffer is full.
+	      // IF this is the CASE, program execution is terminated at this point
+	      IF ((#statLastItemIndex + #INCREMENT) >= #tempBufferSize) THEN
+	        #error := TRUE;
+	        #status := #ERR_BUFFER_FULL;
+	        #subFunctionStatus := #STATUS_NO_ERROR;
+	        RETURN;
+	      END_IF;
+	      
+	      // This program code section writes the entry to the ring buffer.   
+	      #tempInternalError := MOVE_BLK_VARIANT(SRC := #item,
+	                                             COUNT := #COUNT_ELEMENTS,
+	                                             SRC_INDEX := #INDEX_BEGINNING,
+	                                             DEST_INDEX := #statLastItemIndex + #INCREMENT,
+	                                             DEST => #buffer);
+	      
+	      // This program code section checks whether a local error has occurred.
+	      IF (#tempInternalError <> #NO_INTERNAL_ERROR) THEN
+	        #error := true;
+	        #status := #ERR_WRITE_ENTRY;
+	        #subFunctionStatus := INT_TO_WORD(#tempInternalError);
+	        RETURN;
+	      ELSE
+	        // This program code section increments the index by 1 for reading and writing.        
+	        #statLastItemIndex += #INCREMENT;
+	      END_IF;
+	    END_REGION Push
+	  END_IF;
+	END_REGION
+	
+	REGION Writing to outputs
+	  // indexing starts with zero, therefor the count is allways one more than the last item index
+	  #elementCount := #statLastItemIndex + #INCREMENT;
+	  #isEmpty := #statLastItemIndex < #ZERO_ELEMENTS;
+	  
+	  #error := false;
+	  #status := #STATUS_NO_ERROR;
+	  #subFunctionStatus := #STATUS_NO_ERROR;
+	  // no error handling by ENO needed
+	  ENO := TRUE;
+	END_REGION
+	
+	
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK "LGF_FileWrite"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : 'Siemens SIMATIC Systems Support'
+FAMILY : LGF
+NAME : LGF_FileWrite
+   VAR_INPUT 
+      execute : Bool;
+      fileName : String;
+   END_VAR
+
+   VAR_OUTPUT 
+      done { ExternalWritable := 'False'} : Bool;
+      busy { ExternalWritable := 'False'} : Bool;
+      error { ExternalWritable := 'False'} : Bool;
+      status { ExternalWritable := 'False'} : Word := #STATUS_NO_CALL;
+      dataLength { ExternalWritable := 'False'} : DInt;
+      diagnostics { ExternalWritable := 'False'} : "LGF_typeDiagnostics";
+   END_VAR
+
+   VAR_IN_OUT 
+      bufferByteArray : Array[*] of Byte;
+      data : Variant;
+   END_VAR
+
+   VAR 
+      statInternal { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Struct
+         executePrevious { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         done { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         busy { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         error { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         diagnostics { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : "LGF_typeDiagnostics" := (#STATUS_NO_CALL, (), ());
+         emptyDiagnostics { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : "LGF_typeDiagnostics" := (#STATUS_NO_CALL, (), ());
+      END_STRUCT;
+      instFileWrite {InstructionName := 'FileWriteC'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : FileWriteC;
+      statMainState { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DInt := #FB_STATE_NO_PROCESSING;
+      statParameterDataIsByteArray { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      statAsynchronusMode { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      statBufferSize { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DInt;
+      statLengthData { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DInt;
+      statLengthFile { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DInt := 0;
+   END_VAR
+
+   VAR_TEMP 
+      tempExecute : Bool;
+      tempExitStateLoop : Bool;
+      tempResult : Word;
+      tempBufferPosition : DInt;
+      tempPathPrefix : String;
+   END_VAR
+
+   VAR CONSTANT 
+      PATH_PREFIX : String := 'UserFiles/';
+      FB_STATE_NO_PROCESSING : DInt := 0;
+      FB_STATE_INIT : DInt := 1;
+      FB_STATE_PARAMETER : DInt := 2;
+      FB_STATE_FILE_WRITE : DInt := 3;
+      STATUS_EXECUTION_FINISHED : Word := 16#0000;
+      STATUS_NO_CALL : Word := 16#7000;
+      STATUS_FIRST_CALL : Word := 16#7001;
+      STATUS_SUBSEQUENT_CALL : Word := 16#7002;
+      ERR_UNDEFINED_STATE : Word := 16#8600;
+      "- - - Application Error codes" : Word;
+      ERR_BUFFER_LOWERBOUND : Word := 16#8201;
+      ERR_BUFFER_ARRAY_TO_SMALL_TO_COPY : Word := 16#8202;
+      ERR_FILE_PATH : Word := 16#8401;
+      ERR_MOVE_BLK_VARIANT : Word := 16#8601;
+      ERR_DATA_SERIALIZE : Word := 16#8603;
+      ERR_FILE_WRITE_INIT : Word := 16#8604;
+      ERR_FILE_WRITE : Word := 16#8605;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //================================================================================
+	  // SIEMENS AG
+	  // (c)Copyright 2017 All Rights Reserved
+	  //--------------------------------------------------------------------------------
+	  // Library:       LGF (Library General Functions)
+	  // Tested with:   S7-1510SP-F
+	  // Engineering:   TIA Portal V15
+	  // Restrictions:  ---
+	  // Requirements:  S7-1500/S7-1500T FW 2.5
+	  // Functionality: This function block offers writing data as binary / serialized data stream
+	  //                to a file which is then stored on the PLC's memory card in the folder `UserFiles`.
+	  //--------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge        | Changes applied
+	  //----------|------------|-------------------------|------------------------------
+	  // 01.00.00 | 19.02.2023 | Simatic Systems Support | First released version
+	  //================================================================================
+	END_REGION
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION TRIGGERING
+	  #tempExecute := #execute; // Work with temporary value / create process image
+	  IF (#tempExecute = TRUE) AND (#statInternal.executePrevious = FALSE) // Check if FB is triggered
+	    // FB shall finish current job before new job can be started with rising edge OF #execute
+	    AND (#statInternal.diagnostics.status = #STATUS_NO_CALL)
+	  THEN // First call; initialize FB
+	    #statInternal.done := FALSE;
+	    #statInternal.busy := TRUE;
+	    #statInternal.error := FALSE;
+	    
+	    #statMainState := #FB_STATE_INIT; // State machine - start processing
+	    // Initialize functionality: reset of variables, diagnostics, etc.
+	    #statInternal.diagnostics := #statInternal.emptyDiagnostics;
+	    #statInternal.diagnostics.status := #STATUS_FIRST_CALL;
+	    #diagnostics := #statInternal.emptyDiagnostics;
+	    
+	    // Initialize functionality: call subsidiary FBs with FALSE
+	    #instFileWrite(REQ := FALSE);
+	    
+	  ELSIF (#statInternal.diagnostics.status = #STATUS_FIRST_CALL) THEN
+	    #statInternal.diagnostics.status := #STATUS_SUBSEQUENT_CALL;
+	  END_IF;
+	  
+	  // Edge detection 'execute' input
+	  #statInternal.executePrevious := #tempExecute;
+	END_REGION TRIGGERING
+	
+	IF (#statInternal.diagnostics.status = #STATUS_NO_CALL) THEN // Nothing to do -> End here to reduce "system load"
+	  RETURN;
+	END_IF;
+	
+	REGION STATE_MACHINE
+	  // if one ore more runs in the same cycle are necessary, set #tempStateChangeActive := TRUE;
+	  REPEAT
+	    // reset #tempExitStateLoop := TRUE; as its defined state to prevent endless loop
+	    #tempExitStateLoop := TRUE;
+	    
+	    // State machine of FB
+	    CASE #statMainState OF
+	      #FB_STATE_NO_PROCESSING: // No processing active (Note: this state must always be present and left empty)
+	        ;
+	        
+	      #FB_STATE_INIT:
+	        REGION Init
+	          REGION Verify File Path
+	            #tempPathPrefix := #PATH_PREFIX;
+	            
+	            FOR #tempBufferPosition := 1 TO DINT_TO_INT(LEN(#tempPathPrefix)) DO
+	              IF #fileName[#tempBufferPosition] <> #tempPathPrefix[#tempBufferPosition] THEN
+	                // Characters arenÄt identiacal
+	                #statInternal.diagnostics.status := #ERR_FILE_PATH;
+	                #statInternal.diagnostics.subfunctionStatus := DINT_TO_WORD(#tempBufferPosition);
+	                // stop execution and leave block
+	                EXIT;
+	              END_IF;
+	            END_FOR;
+	            
+	            IF #statInternal.diagnostics.status.%X15 THEN
+	              EXIT;
+	            END_IF;
+	          END_REGION
+	          
+	          REGION Verify buffer boundary
+	            // check buffer size
+	            // check lower boundary
+	            #tempResult := DINT_TO_WORD(LOWER_BOUND(ARR := #bufferByteArray, DIM := 1));
+	            
+	            IF 0 <> #tempResult THEN
+	              // ERROR: buffer lowerbound has to be 0
+	              #statInternal.diagnostics.status := #ERR_BUFFER_LOWERBOUND;
+	              #statInternal.diagnostics.subfunctionStatus := #tempResult;
+	              // stop execution and leave block
+	              EXIT;
+	            ELSE
+	              ; // nothing to do, just proceed
+	            END_IF;
+	            
+	            // get upper boundary and calc size of buffer
+	            #statBufferSize := UPPER_BOUND(ARR := #bufferByteArray, DIM := 1) + 1;
+	          END_REGION
+	          
+	          // verify parameter data types
+	          REGION Verify parameter data types
+	            // check type of Parameter attached to IN/OUT
+	            // if Array proceed here, Array limits checked by move block variant
+	            IF IS_ARRAY(#data) AND TypeOfElements(#data) = Byte THEN
+	              // data type match - nothing to do
+	              #statParameterDataIsByteArray := TRUE;
+	              // get array size
+	              #statLengthData := UDINT_TO_DINT(CountOfElements(#data));
+	              
+	              // verify if buffer is big enough to store data
+	              IF #statBufferSize < #statLengthData THEN
+	                // ERROR: buffer array is to small for data array
+	                #statInternal.diagnostics.status := #ERR_BUFFER_ARRAY_TO_SMALL_TO_COPY;
+	                #statInternal.diagnostics.subfunctionStatus := 16#0000;
+	                // stop execution and leave block
+	                EXIT;
+	              ELSE
+	                ; // nothing to do, just proceed
+	              END_IF;
+	              
+	            ELSE
+	              #statParameterDataIsByteArray := FALSE;
+	              #statLengthData := 0;
+	            END_IF;
+	          END_REGION
+	          
+	          REGION File handler init
+	            // init file write with false
+	            #instFileWrite(REQ := FALSE);
+	            
+	            IF #instFileWrite.Error THEN
+	              #statInternal.diagnostics.status := #ERR_FILE_WRITE_INIT;
+	              #statInternal.diagnostics.subfunctionStatus := #instFileWrite.Status;
+	              // stop execution and leave block
+	              EXIT;
+	            ELSE //IF TRUE = #instFileWriteC.Done THEN
+	              // next state
+	              #statMainState := #FB_STATE_PARAMETER;
+	              // ASYNCRONUS - set to true:
+	              #tempExitStateLoop := #statAsynchronusMode;
+	            END_IF;
+	          END_REGION
+	        END_REGION
+	        
+	      #FB_STATE_PARAMETER:
+	        REGION Parameter handling
+	          // if paramter is byte array - just copy
+	          IF #statParameterDataIsByteArray THEN
+	            // copy paramter array into buffer array
+	            #tempResult := INT_TO_WORD(
+	                                       MOVE_BLK_VARIANT(SRC := #data,
+	                                                        COUNT := DINT_TO_UDINT(#statLengthData),
+	                                                        SRC_INDEX := DINT#0,
+	                                                        DEST_INDEX := DINT#0,
+	                                                        DEST => #bufferByteArray)
+	            );
+	            
+	            // check if move parameter structure was successful, otherwise set ERROR
+	            IF 16#0000 <> #tempResult THEN
+	              #statInternal.diagnostics.status := #ERR_MOVE_BLK_VARIANT;
+	              #statInternal.diagnostics.subfunctionStatus := #tempResult;
+	              // stop execution and leave block
+	              EXIT;
+	              
+	            ELSE
+	              // next state
+	              #statMainState := #FB_STATE_FILE_WRITE;
+	              // ASYNCRONUS - set to true:
+	              #tempExitStateLoop := #statAsynchronusMode;
+	            END_IF;
+	            
+	            // elsif paramter is NOT byte array - DESERIALZE
+	          ELSE
+	            // init buffer size/position pointer
+	            #tempBufferPosition := 0;
+	            // serialize data into buffer
+	            #tempResult := INT_TO_WORD(
+	                                       Serialize(SRC_VARIABLE := #data,
+	                                                 DEST_ARRAY => #bufferByteArray,
+	                                                 POS := #tempBufferPosition)
+	            );
+	            
+	            // check if serialize parameter structure was successful, otherwise set ERROR
+	            IF 16#0000 <> #tempResult THEN
+	              #statInternal.diagnostics.status := #ERR_DATA_SERIALIZE;
+	              #statInternal.diagnostics.subfunctionStatus := #tempResult;
+	              // stop execution and leave block
+	              EXIT;
+	            ELSE
+	              // after serialize, set array size pointer to numer of serialized elements
+	              #statLengthData := #tempBufferPosition;
+	              // next state
+	              #statMainState := #FB_STATE_FILE_WRITE;
+	              // ASYNCRONUS - set to true:
+	              #tempExitStateLoop := #statAsynchronusMode;
+	            END_IF;
+	          END_IF;
+	        END_REGION
+	        
+	      #FB_STATE_FILE_WRITE:
+	        REGION File handling
+	          // set file handler request to true
+	          #instFileWrite(REQ    := TRUE,
+	                         Name   := #fileName,
+	                         Offset := UDINT#0,
+	                         Length := DINT_TO_UDINT(#statLengthData),
+	                         Data   := #bufferByteArray);
+	          
+	          IF #instFileWrite.Error THEN
+	            #statLengthFile := UDINT_TO_DINT(#instFileWrite.ResultLength);
+	            #statInternal.diagnostics.status := #ERR_FILE_WRITE;
+	            #statInternal.diagnostics.subfunctionStatus := #instFileWrite.Status;
+	            // stop execution and leave block
+	            EXIT;
+	            
+	          ELSIF #instFileWrite.Done THEN
+	            #statLengthFile := UDINT_TO_DINT(#instFileWrite.ResultLength);
+	            // next state switched by status
+	            #statInternal.diagnostics.status := #STATUS_EXECUTION_FINISHED;
+	            #statInternal.diagnostics.subfunctionStatus := 16#0000;
+	            
+	          ELSE
+	            ; // nothing to do, just proceed
+	          END_IF;
+	        END_REGION
+	        
+	      ELSE // Undefined state in state machine reached
+	        #statInternal.diagnostics.status := #ERR_UNDEFINED_STATE;
+	        #statInternal.diagnostics.subfunctionStatus := 16#0000;
+	    END_CASE;
+	    // if one ore more runs in the same cycle are necessary, set #tempExitStateLoop := FALSE;
+	    // check state, if condition = TRUE --> #tempExitStateLoop = TRUE --> LEAVE LOOP
+	  UNTIL (TRUE = #tempExitStateLoop)
+	  END_REPEAT;
+	END_REGION STATE_MACHINE
+	
+	REGION OUTPUTS
+	  // Write outputs
+	  IF (#statInternal.diagnostics.status = #STATUS_EXECUTION_FINISHED) AND (#statInternal.done = FALSE) THEN // Execution finished without errors
+	    #statInternal.done := TRUE;
+	    #statInternal.busy := FALSE;
+	    #statInternal.error := FALSE;
+	    #statMainState := #FB_STATE_NO_PROCESSING; // Switch state machine to "no processing"
+	    
+	  ELSIF (#statInternal.diagnostics.status.%X15 = TRUE) AND (#statInternal.error = FALSE) THEN // Error occurred (#statStatus is 16#8000 to 16#FFFF)
+	    #statInternal.done := FALSE;
+	    #statInternal.busy := FALSE;
+	    #statInternal.error := TRUE;
+	    // Write diagnostics
+	    #statInternal.diagnostics.stateNumber := #statMainState;
+	    #diagnostics := #statInternal.diagnostics;
+	    #statMainState := #FB_STATE_NO_PROCESSING; // Switch state machine to "no processing"
+	    
+	  ELSIF (#tempExecute = FALSE) AND ((#statInternal.done = TRUE) OR (#statInternal.error = TRUE)) THEN // Reset outputs
+	    #statInternal.done := FALSE;
+	    #statInternal.busy := FALSE;
+	    #statInternal.error := FALSE;
+	    #statInternal.diagnostics.status := #STATUS_NO_CALL;
+	    #statLengthData := 0;
+	    #statLengthFile := 0;
+	  END_IF;
+	  
+	  // Write static values to outputs
+	  #done := #statInternal.done;
+	  #busy := #statInternal.busy;
+	  #error := #statInternal.error;
+	  #status := #statInternal.diagnostics.status;
+	  
+	  #dataLength := #statLengthData;
+	  ENO := #statInternal.error;
+	END_REGION OUTPUTS
+	
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK "LGF_FileRead"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : 'Siemens SIMATIC Systems Support'
+FAMILY : LGF
+NAME : LGF_FileRead
+   VAR_INPUT 
+      execute : Bool;
+      dataLengthMustMatch : Bool;
+      fileName : String;
+   END_VAR
+
+   VAR_OUTPUT 
+      done { ExternalWritable := 'False'} : Bool;
+      busy { ExternalWritable := 'False'} : Bool;
+      error { ExternalWritable := 'False'} : Bool;
+      status { ExternalWritable := 'False'} : Word := #STATUS_NO_CALL;
+      dataLength { ExternalWritable := 'False'} : DInt;
+      diagnostics { ExternalWritable := 'False'} : "LGF_typeDiagnostics";
+   END_VAR
+
+   VAR_IN_OUT 
+      bufferByteArray : Array[*] of Byte;
+      data : Variant;
+   END_VAR
+
+   VAR 
+      statInternal { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Struct
+         executePrevious { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         done { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         busy { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         error { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         diagnostics { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : "LGF_typeDiagnostics" := (#STATUS_NO_CALL, (), ());
+         emptyDiagnostics { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : "LGF_typeDiagnostics" := (#STATUS_NO_CALL, (), ());
+      END_STRUCT;
+      instFileRead {InstructionName := 'FileReadC'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : FileReadC;
+      statMainState { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DInt := #FB_STATE_NO_PROCESSING;
+      statParameterDataIsByteArray { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      statAsynchronusMode { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      statBufferSize { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DInt;
+      statLengthData { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DInt;
+      statLengthFile { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DInt := 0;
+   END_VAR
+
+   VAR_TEMP 
+      tempExecute : Bool;
+      tempExitStateLoop : Bool;
+      tempResult : Word;
+      tempBufferPosition : DInt;
+      tempPathPrefix : String;
+   END_VAR
+
+   VAR CONSTANT 
+      PATH_PREFIX : String := 'UserFiles/';
+      FB_STATE_NO_PROCESSING : DInt := 0;
+      FB_STATE_INIT : DInt := 1;
+      FB_STATE_FILE_READ : DInt := 2;
+      FB_STATE_PARAMETER_TO_INTERFACE : DInt := 3;
+      STATUS_EXECUTION_FINISHED : Word := 16#0000;
+      STATUS_NO_CALL : Word := 16#7000;
+      STATUS_FIRST_CALL : Word := 16#7001;
+      STATUS_SUBSEQUENT_CALL : Word := 16#7002;
+      ERR_UNDEFINED_STATE : Word := 16#8600;
+      "- - - Application Error codes" : Word;
+      ERR_BUFFER_LOWERBOUND : Word := 16#8201;
+      ERR_BUFFER_ARRAY_TO_SMALL_TO_COPY : Word := 16#8202;
+      ERR_FILE_PATH : Word := 16#8401;
+      ERR_FILE_SIZE_GRATER_THEN_DATA_SIZE : Word := 16#8411;
+      ERR_FILE_SIZE_LESS_THEN_DATA_SIZE : Word := 16#8412;
+      ERR_MOVE_BLK_VARIANT : Word := 16#8601;
+      ERR_DATA_SERIALIZE : Word := 16#8602;
+      ERR_DATA_DESERIALIZE : Word := 16#8603;
+      ERR_FILE_READ_INIT : Word := 16#8604;
+      ERR_FILE_READ : Word := 16#8605;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //================================================================================
+	  // SIEMENS AG
+	  // (c)Copyright 2017 All Rights Reserved
+	  //--------------------------------------------------------------------------------
+	  // Library:       LGF (Library General Functions) 
+	  // Tested with:   S7-1510SP-F
+	  // Engineering:   TIA Portal V15
+	  // Restrictions:  ---
+	  // Requirements:  S7-1500/S7-1500T FW 2.5
+	  // Functionality: This function block offers reading data as binary / serialized data stream
+	  //                from files stored on the PLC's memory card in the folder `UserFiles`.
+	  //--------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge        | Changes applied
+	  //----------|------------|-------------------------|------------------------------
+	  // 01.00.00 | 19.02.2023 | Simatic Systems Support | First released version
+	  //================================================================================
+	END_REGION
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION TRIGGERING
+	  #tempExecute := #execute; // Work with temporary value / create process image
+	  IF (#tempExecute = TRUE) AND (#statInternal.executePrevious = FALSE) // Check if FB is triggered
+	    // FB shall finish current job before new job can be started with rising edge of execute
+	    AND (#statInternal.diagnostics.status = #STATUS_NO_CALL)
+	  THEN // First call; initialize FB
+	    #statInternal.done := FALSE;
+	    #statInternal.busy := TRUE;
+	    #statInternal.error := FALSE;
+	    
+	    #statMainState := #FB_STATE_INIT; // State machine - start processing
+	    // Initialize functionality: reset of variables, diagnostics, etc.
+	    #statInternal.diagnostics := #statInternal.emptyDiagnostics;
+	    #statInternal.diagnostics.status := #STATUS_FIRST_CALL;
+	    #diagnostics := #statInternal.emptyDiagnostics;
+	    
+	    // Initialize functionality: call subsidiary FBs with FALSE
+	    #instFileRead(REQ := FALSE);
+	    
+	  ELSIF (#statInternal.diagnostics.status = #STATUS_FIRST_CALL) THEN
+	    #statInternal.diagnostics.status := #STATUS_SUBSEQUENT_CALL;
+	  END_IF;
+	  
+	  // Edge detection 'execute' input
+	  #statInternal.executePrevious := #tempExecute;
+	END_REGION TRIGGERING
+	
+	IF (#statInternal.diagnostics.status = #STATUS_NO_CALL) THEN // Nothing to do -> End here to reduce "system load"
+	  RETURN;
+	END_IF;
+	
+	REGION STATE_MACHINE
+	  // if one ore more runs in the same cycle are necessary, set #tempStateChangeActive := TRUE;
+	  REPEAT
+	    // reset #tempExitStateLoop := TRUE; as its defined state to prevent endless loop
+	    #tempExitStateLoop := TRUE;
+	    
+	    // State machine of FB
+	    CASE #statMainState OF
+	      #FB_STATE_NO_PROCESSING: // No processing active (Note: this state must always be present and left empty)
+	        ;
+	        
+	      #FB_STATE_INIT:
+	        REGION Init
+	          REGION Verify File Path
+	            #tempPathPrefix := #PATH_PREFIX;
+	            
+	            FOR #tempBufferPosition := 1 TO DINT_TO_INT(LEN(#tempPathPrefix)) DO
+	              IF #fileName[#tempBufferPosition] <> #tempPathPrefix[#tempBufferPosition] THEN
+	                // Characters arenÄt identiacal
+	                #statInternal.diagnostics.status := #ERR_FILE_PATH;
+	                #statInternal.diagnostics.subfunctionStatus := DINT_TO_WORD(#tempBufferPosition);
+	                // stop execution and leave block
+	                EXIT;
+	              END_IF;
+	            END_FOR;
+	            
+	            IF #statInternal.diagnostics.status.%X15 THEN
+	              EXIT;
+	            END_IF;
+	          END_REGION
+	          
+	          REGION Verify buffer boundary
+	            // check buffer size
+	            // check lower boundary
+	            #tempResult := DINT_TO_WORD(LOWER_BOUND(ARR := #bufferByteArray, DIM := 1));
+	            
+	            IF 0 <> #tempResult THEN
+	              // ERROR: buffer lowerbound has to be 0
+	              #statInternal.diagnostics.status := #ERR_BUFFER_LOWERBOUND;
+	              #statInternal.diagnostics.subfunctionStatus := #tempResult;
+	              // stop execution and leave block
+	              EXIT;
+	            ELSE
+	              ; // nothing to do, just proceed
+	            END_IF;
+	            
+	            // get upper boundary and calc size of buffer
+	            #statBufferSize := UPPER_BOUND(ARR := #bufferByteArray, DIM := 1) + 1;
+	          END_REGION
+	          
+	          // verify parameter data types
+	          REGION Verify parameter data types
+	            // check type of Parameter attached to IN/OUT
+	            // if Array proceed here, Array limits checked by move block variant
+	            IF IS_ARRAY(#data) AND TypeOfElements(#data) = Byte THEN
+	              // data type match - nothing to do
+	              #statParameterDataIsByteArray := TRUE;
+	              // get array size
+	              #statLengthData := UDINT_TO_DINT(CountOfElements(#data));
+	              
+	              // verify if buffer is big enough to store data
+	              IF #statBufferSize < #statLengthData THEN
+	                // ERROR: buffer array is to small for data array
+	                #statInternal.diagnostics.status := #ERR_BUFFER_ARRAY_TO_SMALL_TO_COPY;
+	                #statInternal.diagnostics.subfunctionStatus := 16#0000;
+	                // stop execution and leave block
+	                EXIT;
+	              ELSE
+	                ; // nothing to do, just proceed
+	              END_IF;
+	              
+	            ELSE
+	              #statParameterDataIsByteArray := FALSE;
+	              #statLengthData := 0;
+	              #tempResult := INT_TO_WORD(
+	                                         Serialize(SRC_VARIABLE := #data,
+	                                                   DEST_ARRAY => #bufferByteArray,
+	                                                   POS := #statLengthData));
+	              
+	              // check if serialize parameter structure was successful, otherwise set ERROR
+	              IF 16#0000 <> #tempResult THEN
+	                #statInternal.diagnostics.status := #ERR_DATA_SERIALIZE;
+	                #statInternal.diagnostics.subfunctionStatus := #tempResult;
+	                // stop execution and leave block
+	                EXIT;
+	              ELSE
+	                ; // nothing to do, just proceed
+	              END_IF;
+	            END_IF;
+	          END_REGION
+	          
+	          REGION File handler init
+	            // Set length for FileRead call
+	            IF #dataLengthMustMatch THEN
+	              #instFileRead.Length := 0;
+	            ELSE
+	              #instFileRead.Length := DINT_TO_UDINT(#statLengthData);
+	            END_IF;
+	            
+	            // init file read with false
+	            #instFileRead(REQ := FALSE);
+	            
+	            IF #instFileRead.Error THEN
+	              #statInternal.diagnostics.status := #ERR_FILE_READ_INIT;
+	              #statInternal.diagnostics.subfunctionStatus := #instFileRead.Status;
+	              // stop execution and leave block
+	              EXIT;
+	            ELSE //IF TRUE = #instFileReadC.Done THEN
+	              // next state
+	              #statMainState := #FB_STATE_FILE_READ;
+	              // ASYNCRONUS - set to true:
+	              #tempExitStateLoop := #statAsynchronusMode;
+	            END_IF;
+	          END_REGION
+	        END_REGION
+	        
+	      #FB_STATE_FILE_READ:
+	        REGION File handling
+	          // set file handler request to true
+	          #instFileRead(REQ    := TRUE,
+	                        Name   := #fileName,
+	                        Offset := UDINT#0,
+	                        Data   := #bufferByteArray);
+	          
+	          IF #instFileRead.Error THEN
+	            #statLengthFile := UDINT_TO_DINT(#instFileRead.ResultLength);
+	            #statInternal.diagnostics.status := #ERR_FILE_READ;
+	            #statInternal.diagnostics.subfunctionStatus := #instFileRead.Status;
+	            // stop execution and leave block
+	            EXIT;
+	            
+	          ELSIF #instFileRead.Done THEN
+	            #statLengthFile := UDINT_TO_DINT(#instFileRead.ResultLength);
+	            // Check file length parameter
+	            IF TRUE
+	              AND #dataLengthMustMatch
+	              AND (#statLengthFile > #statLengthData)
+	            THEN
+	              #statInternal.diagnostics.status := #ERR_FILE_SIZE_GRATER_THEN_DATA_SIZE;
+	              #statInternal.diagnostics.subfunctionStatus := DINT_TO_WORD(#statLengthData);
+	              // stop execution and leave block
+	              EXIT;
+	              
+	            ELSIF TRUE
+	              AND #dataLengthMustMatch
+	              AND (#statLengthFile < #statLengthData)
+	            THEN
+	              #statInternal.diagnostics.status := #ERR_FILE_SIZE_LESS_THEN_DATA_SIZE;
+	              #statInternal.diagnostics.subfunctionStatus := DINT_TO_WORD(#statLengthData);
+	              // stop execution and leave block
+	              EXIT;
+	              
+	            ELSE
+	              // next state
+	              #statMainState := #FB_STATE_PARAMETER_TO_INTERFACE;
+	              // ASYNCRONUS - set to true:
+	              #tempExitStateLoop := #statAsynchronusMode;
+	            END_IF;
+	            
+	          ELSE
+	            ; // nothing to do, just proceed
+	          END_IF;
+	        END_REGION
+	        
+	      #FB_STATE_PARAMETER_TO_INTERFACE:
+	        REGION Parameter handling 
+	          // if paramter is byte array - just copy
+	          IF #statParameterDataIsByteArray THEN
+	            // copy buffer array into paramter array
+	            #tempResult := INT_TO_WORD(
+	                                       MOVE_BLK_VARIANT(SRC := #bufferByteArray,
+	                                                        COUNT := DINT_TO_UDINT(#statLengthData),
+	                                                        SRC_INDEX := DINT#0,
+	                                                        DEST_INDEX := DINT#0,
+	                                                        DEST => #data)
+	            );
+	            
+	            // check if move parameter structure was successful, otherwise set ERROR
+	            IF 16#0000 <> #tempResult THEN
+	              #statInternal.diagnostics.status := #ERR_MOVE_BLK_VARIANT;
+	              #statInternal.diagnostics.subfunctionStatus := #tempResult;
+	              // stop execution and leave block
+	              EXIT;
+	            ELSE
+	              // next state switched by status
+	              #statInternal.diagnostics.status := #STATUS_EXECUTION_FINISHED;
+	              #statInternal.diagnostics.subfunctionStatus := 16#0000;
+	            END_IF;
+	            
+	          ELSE
+	            // elsif paramter is NOT byte array - DESERIALZE
+	            // init buffer size/position pointer
+	            #tempBufferPosition := 0;
+	            // deserialize data from buffer
+	            #tempResult := INT_TO_WORD(
+	                                       Deserialize(
+	                                                   SRC_ARRAY := #bufferByteArray,
+	                                                   DEST_VARIABLE => #data,
+	                                                   POS := #tempBufferPosition)
+	            );
+	            
+	            // check if serialize parameter structure was successful, otherwise set ERROR
+	            IF 16#0000 <> #tempResult THEN
+	              #statInternal.diagnostics.status := #ERR_DATA_DESERIALIZE;
+	              #statInternal.diagnostics.subfunctionStatus := #tempResult;
+	              // stop execution and leave block
+	              EXIT;
+	            ELSE
+	              // next state switched by status
+	              #statInternal.diagnostics.status := #STATUS_EXECUTION_FINISHED;
+	              #statInternal.diagnostics.subfunctionStatus := 16#0000;
+	            END_IF;
+	          END_IF;
+	        END_REGION
+	        
+	      ELSE // Undefined state in state machine reached
+	        #statInternal.diagnostics.status := #ERR_UNDEFINED_STATE;
+	    END_CASE;
+	    // if one ore more runs in the same cycle are necessary, set #tempExitStateLoop := FALSE;
+	    // check state, if condition = TRUE --> #tempExitStateLoop = TRUE --> LEAVE LOOP
+	  UNTIL (TRUE = #tempExitStateLoop)
+	  END_REPEAT;
+	END_REGION STATE_MACHINE
+	
+	REGION OUTPUTS
+	  // Write outputs
+	  IF (#statInternal.diagnostics.status = #STATUS_EXECUTION_FINISHED) AND (#statInternal.done = FALSE) THEN // Execution finished without errors
+	    #statInternal.done := TRUE;
+	    #statInternal.busy := FALSE;
+	    #statInternal.error := FALSE;
+	    #statMainState := #FB_STATE_NO_PROCESSING; // Switch state machine to "no processing"
+	    
+	  ELSIF (#statInternal.diagnostics.status.%X15 = TRUE) AND (#statInternal.error = FALSE) THEN // Error occurred (#statStatus is 16#8000 to 16#FFFF)
+	    #statInternal.done := FALSE;
+	    #statInternal.busy := FALSE;
+	    #statInternal.error := TRUE;
+	    // Write diagnostics
+	    #statInternal.diagnostics.stateNumber := #statMainState;
+	    #diagnostics := #statInternal.diagnostics;
+	    #statMainState := #FB_STATE_NO_PROCESSING; // Switch state machine to "no processing"
+	    
+	  ELSIF (#tempExecute = FALSE) AND ((#statInternal.done = TRUE) OR (#statInternal.error = TRUE)) THEN // Reset outputs
+	    #statInternal.done := FALSE;
+	    #statInternal.busy := FALSE;
+	    #statInternal.error := FALSE;
+	    #statInternal.diagnostics.status := #STATUS_NO_CALL;
+	    #statLengthData := 0;
+	    #statLengthFile := 0;
+	  END_IF;
+	  
+	  // Write static values to outputs
+	  #done := #statInternal.done;
+	  #busy := #statInternal.busy;
+	  #error := #statInternal.error;
+	  #status := #statInternal.diagnostics.status;
+	  
+	  #dataLength := #statLengthData;
+	  ENO := #statInternal.error;
+	END_REGION OUTPUTS
+	
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK "LGF_FIFO"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Industry_Support
+FAMILY : LGF
+NAME : LGF_FIFO
+   VAR_INPUT 
+      enqueue : Bool := false;
+      dequeue : Bool := false;
+      reset : Bool;
+      clear : Bool;
+      initialItem : Variant;
+   END_VAR
+
+   VAR_OUTPUT 
+      error { ExternalWritable := 'False'} : Bool;
+      status { ExternalWritable := 'False'} : Word;
+      subFunctionStatus { ExternalWritable := 'False'} : Word;
+      elementCount { ExternalWritable := 'False'} : DInt := 0;
+      isEmpty { ExternalWritable := 'False'} : Bool := false;
+   END_VAR
+
+   VAR_IN_OUT 
+      item : Variant;
+      buffer : Variant;
+   END_VAR
+
+   VAR 
+      statEdgesMem { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Struct
+         enqueue { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         dequeue { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         clear { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      END_STRUCT;
+      statFirstItemIndex { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int := -1;
+      statNextEmptyItemIndex { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int := 0;
+      statElementCount { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DInt;
+   END_VAR
+
+   VAR_TEMP 
+      tempEdges : Struct
+         enqueue : Bool;
+         dequeue : Bool;
+         clear : Bool;
+      END_STRUCT;
+      tempInternalError : Int;
+      tempNewFirstItemIndex : Int;
+      tempNewNextEmptyItemIndex : Int;
+      tempBufferSize : UDInt;
+      tempCounter : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      BUFFER_IS_EMPTY : Int := -1;
+      NO_INTERNAL_ERROR : Int := 0;
+      BUFFER_INITIALIZED : Int := -1;
+      EMPTY_INITIALIZED : Int := 0;
+      INDEX_BEGINNING : Int := 0;
+      COUNT_ELEMENTS : UDInt := 1;
+      INCREMENT : Int := 1;
+      BUFFER_SIZE_CORRECTION : UDInt := 1;
+      COUNTER_LOWER_LIMIT : Int := 0;
+      ZERO_ELEMENTS : DInt := 0;
+      STATUS_NO_ERROR : Word := 16#0000;
+      STATUS_NO_CURRENT_JOBS : Word := 16#7000;
+      ERR_BUFFER_EMPTY : Word := 16#8001;
+      ERR_BUFFER_FULL : Word := 16#8002;
+      ERR_NO_ARRAY : Word := 16#8200;
+      ERR_WRONG_TYPE_ITEM : Word := 16#8201;
+      ERR_WRONG_TYPE_INITIAL_ITEM : Word := 16#8202;
+      ERR_INDEX_IN_ARRAY_LIMITS_1 : Word := 16#8601;
+      ERR_INDEX_IN_ARRAY_LIMITS_2 : Word := 16#8602;
+      ERR_CLEAR_BUFFER : Word := 16#8610;
+      ERR_RETURN_FIRST_ENTRY : Word := 16#8611;
+      ERR_REPLACE_ITEM_BY_INIT_VALUE : Word := 16#8612;
+      ERR_WRITE_ENTRY : Word := 16#8613;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_FIFO
+	  // Comment/Function: FIFO (First In First Out)
+	  //                   Queue / ring buffer memory
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      CPU 1515F-2 PN FW:V2.6
+	  // Engineering:      TIA Portal V15.1 Update 2
+	  // Restrictions:     ENO disabled - error handling done with error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 19.08.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 16.11.2015  Siemens Industry Online Support
+	  //                      Bug fix resetBuffer
+	  // 01.00.02 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA Portal V14 Update 1
+	  // 01.00.03 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.04 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 02.00.00 29.01.2019  Siemens Industry Online Support
+	  //                      Output "done" removed (not necessary, because block works synchronous)
+	  // 03.00.00 22.10.2019  Simatic Systems Support
+	  //                      Code refactoring, comments added
+	  //                      Interface change (enqueue, dequeue etc.)
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 15.02.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Block execution control
+	  // collect edges
+	  #tempEdges.enqueue := #enqueue AND NOT #statEdgesMem.enqueue;
+	  #tempEdges.dequeue := #dequeue AND NOT #statEdgesMem.dequeue;
+	  #tempEdges.clear := #clear AND NOT #statEdgesMem.clear;
+	  // store values for edge detection
+	  #statEdgesMem.enqueue := #enqueue;
+	  #statEdgesMem.dequeue := #dequeue;
+	  #statEdgesMem.clear := #clear;
+	  
+	  // This program code section is only executed if no trigger input is active
+	  IF NOT (#enqueue OR #dequeue OR #reset OR #clear) THEN
+	    // If an error occurred during program execution,
+	    // the status "No Current Job" is used 16#7000 afterwarts when the triggers are reseted
+	    #error := false;
+	    #status := #STATUS_NO_CURRENT_JOBS;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    // the program processing OF the FB is terminated
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Validation of inputs
+	  // check whether the ring #buffer is an ARRAY.
+	  // IF so, the number OF the ARRAY elements is read out.
+	  // IF it is NOT an ARRAY, the program execution is terminated at this point
+	  IF IS_ARRAY(#buffer) THEN
+	    #tempBufferSize := CountOfElements(#buffer);
+	  ELSE
+	    #error := true;
+	    #status := #ERR_NO_ARRAY;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	  
+	  // check whether the data type OF the ARRAY elements matches
+	  // the data type OF the entry (#item). IF the data types DO NOT match,
+	  // the program execution is terminated at this point
+	  IF (TypeOf(#item) <> TypeOfElements(#buffer)) THEN
+	    #error := true;
+	    #status := #ERR_WRONG_TYPE_ITEM;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	  
+	  // check whether the initial value OF the ring #buffer
+	  // matches the entry (tag #item). IF the data types DO NOT match,
+	  // the program execution is terminated at this point
+	  IF (TypeOf(#item) <> TypeOf(#initialItem)) THEN
+	    #error := true;
+	    #status := #ERR_WRONG_TYPE_INITIAL_ITEM;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	  
+	  // check whether the variable indices are within the ARRAY limits.
+	  // IF they are NOT, the program execution is terminated at this point
+	  IF (#statNextEmptyItemIndex >= #tempBufferSize) THEN
+	    #error := true;
+	    #status := #ERR_INDEX_IN_ARRAY_LIMITS_1;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	  ELSIF (#statFirstItemIndex >= #tempBufferSize) THEN
+	    #error := true;
+	    #status := #ERR_INDEX_IN_ARRAY_LIMITS_2;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	  
+	  // If resetBuffer is "TRUE", the buffer counters are reset
+	  IF #reset THEN
+	    #statFirstItemIndex := #BUFFER_INITIALIZED;
+	    #statNextEmptyItemIndex := #EMPTY_INITIALIZED;
+	    #statElementCount := #EMPTY_INITIALIZED;
+	    #elementCount := #EMPTY_INITIALIZED;
+	    #isEmpty := true;
+	    RETURN;
+	  END_IF;
+	  
+	  // If clearBuffer has rising edge, the buffer is initialized by initial values
+	  IF #tempEdges.clear THEN
+	    FOR #tempCounter := #COUNTER_LOWER_LIMIT TO UDINT_TO_INT(#tempBufferSize - #BUFFER_SIZE_CORRECTION) DO
+	      
+	      #tempInternalError := MOVE_BLK_VARIANT(SRC := #initialItem,
+	                                             COUNT := #COUNT_ELEMENTS,
+	                                             SRC_INDEX := #INDEX_BEGINNING,
+	                                             DEST_INDEX := #tempCounter,
+	                                             DEST => #buffer);
+	    END_FOR;
+	    
+	    // checks whether a local error has occurred.
+	    IF (#tempInternalError <> #NO_INTERNAL_ERROR) THEN
+	      #error := true;
+	      #status := #ERR_CLEAR_BUFFER;
+	      #subFunctionStatus := INT_TO_WORD(#tempInternalError);
+	    END_IF;
+	    
+	    // reset counters
+	    #statFirstItemIndex := #BUFFER_INITIALIZED;
+	    #statNextEmptyItemIndex := #EMPTY_INITIALIZED;
+	    #statElementCount := #EMPTY_INITIALIZED;
+	    #elementCount := #EMPTY_INITIALIZED;
+	    #isEmpty := true;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION FIFO algorithm  
+	  IF #tempEdges.dequeue THEN
+	    REGION dequeue
+	      // check whether the ring #buffer is empty
+	      // IF this is the CASE, program execution is terminated at this point
+	      IF (#statFirstItemIndex = #BUFFER_IS_EMPTY) THEN
+	        #error := true;
+	        #status := #ERR_BUFFER_EMPTY;
+	        #subFunctionStatus := #STATUS_NO_ERROR;
+	        RETURN;
+	      END_IF;
+	      
+	      // return the first entry of the ring buffer
+	      #tempInternalError := MOVE_BLK_VARIANT(SRC := #buffer,
+	                                             COUNT := #COUNT_ELEMENTS,
+	                                             SRC_INDEX := #statFirstItemIndex,
+	                                             DEST_INDEX := #INDEX_BEGINNING,
+	                                             DEST => #item);
+	      
+	      // check whether a local error has occurred
+	      IF (#tempInternalError <> #NO_INTERNAL_ERROR) THEN
+	        #error := true;
+	        #status := #ERR_RETURN_FIRST_ENTRY;
+	        #subFunctionStatus := INT_TO_WORD(#tempInternalError);
+	        RETURN;
+	      END_IF;
+	      
+	      // check whether the ring #buffer contains ARRAY elements
+	      // IF it does, the first entry is passed further on and the index is incremented BY 1
+	      #tempInternalError := MOVE_BLK_VARIANT(SRC := #initialItem,
+	                                             COUNT := #COUNT_ELEMENTS,
+	                                             SRC_INDEX := #INDEX_BEGINNING,
+	                                             DEST_INDEX := #statFirstItemIndex,
+	                                             DEST => #buffer);
+	      
+	      // check whether a local error has occurred
+	      IF (#tempInternalError <> #NO_INTERNAL_ERROR) THEN
+	        #error := true;
+	        #status := #ERR_REPLACE_ITEM_BY_INIT_VALUE;
+	        #subFunctionStatus := INT_TO_WORD(#tempInternalError);
+	        RETURN;
+	      END_IF;
+	      
+	      // calculate the new index of the first entry
+	      #tempNewFirstItemIndex := #statFirstItemIndex + #INCREMENT;
+	      #tempNewFirstItemIndex := #tempNewFirstItemIndex MOD UDINT_TO_INT(#tempBufferSize);
+	      
+	      // check whether the ring buffer is empty
+	      IF (#statNextEmptyItemIndex = #tempNewFirstItemIndex) THEN
+	        // If the ring buffer is empty, the index is set to 0
+	        #statFirstItemIndex := #BUFFER_INITIALIZED;
+	        #statNextEmptyItemIndex := #EMPTY_INITIALIZED;
+	      ELSE
+	        // The index of the first entry is changed
+	        #statFirstItemIndex := #tempNewFirstItemIndex;
+	      END_IF;
+	      
+	      // Evaluation of the number of elements in the stack
+	      #statElementCount -= #INCREMENT;
+	      
+	    END_REGION dequeue
+	    
+	  ELSIF #tempEdges.enqueue THEN
+	    REGION enqueue
+	      // check whether the ring #buffer is full
+	      // IF this is the CASE, program execution is terminated at this point
+	      IF (#statNextEmptyItemIndex = #statFirstItemIndex) THEN
+	        #error := true;
+	        #status := #ERR_BUFFER_FULL;
+	        #subFunctionStatus := #STATUS_NO_ERROR;
+	        RETURN;
+	      END_IF;
+	      
+	      // write the entry to the ring buffer
+	      #tempInternalError := MOVE_BLK_VARIANT(SRC := #item,
+	                                             COUNT := #COUNT_ELEMENTS,
+	                                             SRC_INDEX := #INDEX_BEGINNING,
+	                                             DEST_INDEX := #statNextEmptyItemIndex,
+	                                             DEST => #buffer);
+	      
+	      // check whether a local error has occurred
+	      IF (#tempInternalError <> #NO_INTERNAL_ERROR) THEN
+	        #error := true;
+	        #status := #ERR_WRITE_ENTRY;
+	        #subFunctionStatus := INT_TO_WORD(#tempInternalError);
+	        RETURN;
+	      END_IF;
+	      
+	      // increment the index by 1 and calculates the new empty entry index
+	      #tempNewNextEmptyItemIndex := (#statNextEmptyItemIndex + #INCREMENT) MOD UDINT_TO_INT(#tempBufferSize);
+	      #statNextEmptyItemIndex := #tempNewNextEmptyItemIndex;
+	      
+	      // check which index the "#firstItemIndex" tag has
+	      // IF the number = -1, the ring buffer is initialized
+	      // AND the entry is written TO the ring #buffer
+	      // Therefore, "0" must be assigned TO the tag
+	      IF (#statFirstItemIndex = #BUFFER_INITIALIZED) THEN
+	        #statFirstItemIndex := #INDEX_BEGINNING;
+	      END_IF;
+	      
+	      // Evaluation of the number of elements in the stack
+	      #statElementCount += #INCREMENT;
+	    END_REGION enqueue
+	  END_IF;
+	END_REGION
+	
+	REGION Writing to outputs
+	  #elementCount := #statElementCount;
+	  #isEmpty := #statElementCount <= #ZERO_ELEMENTS;
+	  
+	  #error := false;
+	  #status := #STATUS_NO_ERROR;
+	  #subFunctionStatus := #STATUS_NO_ERROR;
+	  // no error handling by ENO needed
+	  ENO := TRUE;
+	END_REGION
+	
+	
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK "LGF_DataLogC"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Industry_Support
+FAMILY : LGF
+NAME : LGF_DataLogC
+   VAR_INPUT 
+      enable : Bool;
+      "name" : String := 'DefaultDataLog';
+      triggerLogEntry : Bool;
+      clearLog : Bool;
+      deleteLog : Bool;
+      parameter { S7_HiddenAssignment := 'Hide'} : "LGF_typeDataLogParameter";
+   END_VAR
+
+   VAR_OUTPUT 
+      valid { ExternalWritable := 'False'} : Bool;
+      busy { ExternalWritable := 'False'} : Bool;
+      error { ExternalWritable := 'False'} : Bool;
+      status { ExternalWritable := 'False'} : Word := #STATUS_NO_CALL;
+      writeEntryDone { ExternalWritable := 'False'} : Bool;
+      clearLogDone { ExternalWritable := 'False'} : Bool;
+      deleteLogDone { ExternalWritable := 'False'} : Bool;
+      lastEntryReached { ExternalWritable := 'False'} : Bool;
+      noOfEntries { ExternalWritable := 'False'} : UDInt;
+      diagnostics { ExternalWritable := 'False'} : "LGF_typeDiagnostics";
+   END_VAR
+
+   VAR_IN_OUT 
+      data : Variant;
+   END_VAR
+
+   VAR 
+      statDataLogCommands { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Struct
+         "name" { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : String;
+         header { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : String;
+         id { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DWord;
+         noOfRecords { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : UDInt;
+         timestampFormat { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : USInt;
+         loggingInterval { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+         clearOnOpen { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : UInt;
+         enableRingBuffer { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         isLoggingByInterval { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         edgeOnTriggerLogEntry { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         clearLogPrevious { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         deleteLogPrevious { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      END_STRUCT;
+      instIntervalTimer {InstructionName := 'IEC_TIMER'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : IEC_TIMER;
+      instDataLogCreate {InstructionName := 'DataLogCreate'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : DataLogCreate;
+      instDataLogOpen {InstructionName := 'DataLogOpen'; LibVersion := '1.1'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : DataLogOpen;
+      instDataLogClose {InstructionName := 'DataLogClose'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : DataLogClose;
+      instDataLogWrite {InstructionName := 'DataLogWrite'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : DataLogWrite;
+      instDataLogClear {InstructionName := 'DataLogClear'; LibVersion := '1.1'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : DataLogClear;
+      instDataLogDelete {InstructionName := 'DataLogDelete'; LibVersion := '1.1'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : DataLogDelete;
+      statInternal { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Struct
+         enablePrevious { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         valid { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         busy { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         error { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         errorUserCleared { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         errorAutoCleared { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         disablingCompleted { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         diagnostics { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : "LGF_typeDiagnostics" := (#STATUS_NO_CALL, (), ());
+         emptyDiagnostics { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : "LGF_typeDiagnostics";
+      END_STRUCT;
+      statMainState { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DInt := #FB_STATE_NO_PROCESSING;
+   END_VAR
+   VAR RETAIN
+      statNoOfEntries { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : UDInt := 0;
+      statLlastEntryReached { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+   END_VAR
+   VAR 
+      statWriteEntryDone { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      tempEnable : Bool;
+      tempExitStateLoop : Bool;
+   END_VAR
+
+   VAR CONSTANT 
+      FB_STATE_NO_PROCESSING : DInt := 0;
+      FB_STATE_DL_OPEN : DInt := 20;
+      FB_STATE_DL_CREATE : DInt := 21;
+      FB_STATE_DL_NEW : DInt := 22;
+      FB_STATE_DL_WAIT_FOR_TRIGGER : DInt := 30;
+      FB_STATE_DL_WAIT_FOR_WRITE_CYCLE : DInt := 31;
+      FB_STATE_DL_WRITE : DInt := 40;
+      FB_STATE_DL_CLEAR : DInt := 51;
+      FB_STATE_DL_CLEAR_DONE : DInt := 52;
+      FB_STATE_DL_DELETE : DInt := 53;
+      FB_STATE_DL_DELETE_DONE : DInt := 54;
+      FB_STATE_DISABLING : DInt := 90;
+      FB_STATE_DISABLING_COMPLETED : DInt := 91;
+      STATUS_NO_CALL : Word := 16#7000;
+      STATUS_FIRST_CALL : Word := 16#7001;
+      STATUS_SUBSEQUENT_CALL : Word := 16#7002;
+      STATUS_MAX_ENTRIES_REACHED : Word := 16#7010;
+      STATUS_FINISHED_NO_ERROR : Word := 16#0000;
+      SUB_STATUS_NO_ERROR : Word := 16#0000;
+      ERR_UNDEFINED_STATE : Word := 16#8600;
+      ERR_WRONG_COMMAND_CALL_ORDER : Word := 16#8401;
+      ERR_DATALOG_OPEN : Word := 16#8601;
+      ERR_DATALOG_CREATE : Word := 16#8602;
+      ERR_DATALOG_CLOSE : Word := 16#8603;
+      ERR_DATALOG_WRITE : Word := 16#8604;
+      ERR_DATALOG_CLEAR : Word := 16#8605;
+      ERR_DATALOG_DELETE : Word := 16#8605;
+      "//- internal Error codes from sub functions" : Word;
+      SUB_ERR_DATALOG_DOSE_NOT_EXIST : Word := 16#8092;
+      "//- internal constants" : Word;
+      DATALOG_DEFAULT_ID : Word := 16#0000;
+      DATALOG_NO_TIMESTAMP_FORMAT : USInt := 0;
+      DATALOG_LAST_ENTRY_WRITTEN : Word := 16#0001;
+      DATALOG_DELETE_OLD_ENTRIES : UInt := 1;
+      DATALOG_KEEP_OLD_ENTRIES : UInt := 0;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // Siemens / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_DataLogC
+	  // Comment/Function: LGF_DataLogC function integrates all the datalog system functions and can be used as standalone data logger (C -> Compact). 
+	  // Library/Family:   LGF - library of general functions
+	  // Author:           Simatic Systems Support
+	  // Tested with:      S7-1200 V4.3 / S7-1500 V2.8
+	  // Engineering:      TIA Portal (V16)
+	  // Restrictions:     Just one datalog is possible, after the log is full, a new one has to be created
+	  //                   or using the log as ringbuffer and overwrite the oldest entries
+	  //                   ENO not active because of Error and Status output
+	  // Requirements:     -
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge        | Changes applied
+	  //----------|------------|-------------------------|------------------------------
+	  // 01.00.00 | 19.02.2022 | Simatic Systems Support | First released version
+	  //===============================================================================
+	END_REGION
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION ENABLING/DISABLING
+	  #tempEnable := #enable; // Work with temporary value / create process image
+	  IF TRUE // wrong command call order during enabled
+	    AND #tempEnable
+	    AND (#statInternal.diagnostics.status = #STATUS_NO_CALL)
+	    AND (#deleteLog OR #clearLog)
+	  THEN
+	    // set error in case of wrong command call order....
+	    #statInternal.diagnostics.status := #ERR_WRONG_COMMAND_CALL_ORDER;
+	    #statInternal.diagnostics.subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	    #statInternal.diagnostics.stateNumber := #statMainState;
+	    #statInternal.errorAutoCleared := TRUE;
+	    #statInternal.disablingCompleted := FALSE;
+	    
+	  ELSIF #tempEnable AND NOT #statInternal.enablePrevious AND (#statInternal.diagnostics.status = #STATUS_NO_CALL) THEN // Enable FB
+	    // First call; initialize FB
+	    #statInternal.valid := TRUE;
+	    #statInternal.busy := TRUE;
+	    #statInternal.error := FALSE;
+	    #statInternal.errorUserCleared := FALSE;
+	    #statInternal.errorAutoCleared := FALSE;
+	    #statInternal.diagnostics.status := #STATUS_FIRST_CALL;
+	    #statInternal.diagnostics.subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	    #statInternal.diagnostics.stateNumber := 0;
+	    #diagnostics := #statInternal.emptyDiagnostics;
+	    #statInternal.disablingCompleted := FALSE;
+	    // State machine - start functionality
+	    #statMainState := #FB_STATE_DL_OPEN;
+	    
+	    REGION Init block parameter
+	      // Initialize functionality: reset of variables, diagnostics, etc.
+	      // check all parameter if valid or not
+	      #statWriteEntryDone := FALSE;
+	      #statDataLogCommands.name := #name;
+	      #statDataLogCommands.header := #parameter.header;
+	      #statDataLogCommands.noOfRecords := #parameter.maxNumberOfEntries;
+	      #statDataLogCommands.loggingInterval := #parameter.loggingInterval;
+	      #statDataLogCommands.isLoggingByInterval := #parameter.loggingByInterval;
+	      
+	      // reset internal parameter
+	      #statDataLogCommands.id := #DATALOG_DEFAULT_ID;
+	      
+	      #statDataLogCommands.timestampFormat := #parameter.timestampFormat;
+	      //#statDataLogCommands.timestampFormat := #DATALOG_NO_TIMESTAMP_FORMAT;
+	      
+	      // check if datalog entries should be deleted on open file
+	      IF #parameter.clearOnOpen THEN
+	        #statDataLogCommands.clearOnOpen := #DATALOG_DELETE_OLD_ENTRIES;
+	        // if Datalog has to be cleared, DataLogFull has to be reset as well
+	        #statLlastEntryReached := FALSE;
+	        #statNoOfEntries := 0;
+	      ELSE
+	        #statDataLogCommands.clearOnOpen := #DATALOG_KEEP_OLD_ENTRIES;
+	      END_IF;
+	      
+	      #statDataLogCommands.enableRingBuffer := #parameter.enableRingBuffer;
+	      // check if ringbuffer is deactivated and buffer is full
+	      // if that is the case, do not overwrite and leave function here...
+	      IF NOT #parameter.enableRingBuffer AND #statLlastEntryReached THEN
+	        // set flag
+	        #statInternal.diagnostics.status := #STATUS_MAX_ENTRIES_REACHED;
+	        #statMainState := #FB_STATE_NO_PROCESSING;
+	      END_IF;
+	    END_REGION Init block parameter
+	    
+	    REGION Init subFunction calls
+	      // just if previous parameter-check was successful
+	      IF (#statMainState <> #FB_STATE_NO_PROCESSING) THEN
+	        #instDataLogCreate(REQ := FALSE);
+	        #instDataLogOpen(REQ := FALSE);
+	        #instDataLogClose(REQ := FALSE);
+	        #instDataLogWrite(REQ := FALSE);
+	        #instDataLogClear(REQ := FALSE);
+	        #instDataLogDelete(REQ := FALSE);
+	      END_IF;
+	    END_REGION Init subFunction calls
+	    
+	  ELSIF (#tempEnable = FALSE) AND (#statInternal.enablePrevious = TRUE) THEN // Disable FB 
+	    #statMainState := #FB_STATE_DISABLING;
+	    
+	  ELSIF (#statInternal.diagnostics.status = #STATUS_FIRST_CALL) THEN // Set status identifier of subsequent call
+	    #statInternal.diagnostics.status := #STATUS_SUBSEQUENT_CALL;
+	  END_IF;
+	  
+	  // Edge detection 'enable' input
+	  #statInternal.enablePrevious := #tempEnable;
+	END_REGION ENABLING/DISABLING
+	
+	IF (#statInternal.diagnostics.status = #STATUS_NO_CALL) THEN // Nothing to do -> End here to reduce "system load"
+	  RETURN;
+	END_IF;
+	
+	REGION Command evaluation
+	  IF FALSE
+	    OR #statMainState = #FB_STATE_NO_PROCESSING
+	    OR (TRUE
+	    AND #statMainState > #FB_STATE_DL_CREATE
+	    AND #statMainState < #FB_STATE_DL_DELETE
+	    )
+	  THEN
+	    // clear datalog requested
+	    IF #clearLog AND NOT #statDataLogCommands.clearLogPrevious THEN
+	      #statMainState := #FB_STATE_DL_CLEAR;
+	      #statInternal.errorUserCleared := FALSE;
+	      // delete datalog requested
+	    ELSIF #deleteLog AND NOT #statDataLogCommands.deleteLogPrevious THEN
+	      #statMainState := #FB_STATE_DL_DELETE;
+	      #statInternal.errorAutoCleared := FALSE;
+	    END_IF;
+	  END_IF;
+	END_REGION
+	
+	REGION STATE_MACHINE
+	  
+	  // if one ore more runs in the same cycle are necessary, set #tempStateChangeActive := TRUE;
+	  REPEAT
+	    // reset #tempExitStateLoop := TRUE; as its defined state to prevent endless loop
+	    #tempExitStateLoop := TRUE;
+	    
+	    CASE #statMainState OF // State machine of FB
+	      #FB_STATE_NO_PROCESSING:
+	        REGION NO Processing
+	          ; // No processing active (Note: this state must always be present and left empty)
+	        END_REGION NO Processing
+	        
+	      #FB_STATE_DL_OPEN:
+	        REGION DataLog open
+	          #instDataLogOpen(REQ  := TRUE,
+	                           MODE := #statDataLogCommands.clearOnOpen,
+	                           NAME := #statDataLogCommands.name,
+	                           ID   := #statDataLogCommands.id);
+	          
+	          // check if open DL is done successfully - goto write
+	          IF #instDataLogOpen.DONE THEN
+	            IF #statDataLogCommands.isLoggingByInterval THEN
+	              #statMainState := #FB_STATE_DL_WRITE;
+	            ELSE // is logging by trigger
+	              #statMainState := #FB_STATE_DL_WAIT_FOR_TRIGGER;
+	            END_IF;
+	            // reset instance
+	            #instDataLogOpen(REQ := FALSE);
+	            
+	            // check if error occurred
+	          ELSIF #instDataLogOpen.ERROR THEN
+	            // datalog do not exist --> Create
+	            IF (#instDataLogOpen.STATUS = #SUB_ERR_DATALOG_DOSE_NOT_EXIST) THEN
+	              #statMainState := #FB_STATE_DL_CREATE;
+	              
+	            ELSE // error not known, user have to act - leave block
+	              #statInternal.diagnostics.status := #ERR_DATALOG_OPEN;
+	              #statInternal.diagnostics.subfunctionStatus := #instDataLogOpen.STATUS;
+	              #statInternal.diagnostics.stateNumber := #FB_STATE_DL_OPEN;
+	              #statInternal.errorUserCleared := TRUE;
+	            END_IF;
+	            // reset instance
+	            #instDataLogOpen(REQ := FALSE);
+	          END_IF;
+	        END_REGION DataLog open
+	        
+	      #FB_STATE_DL_CREATE:
+	        REGION DataLog create
+	          #instDataLogCreate(REQ       := TRUE,
+	                             RECORDS   := #statDataLogCommands.noOfRecords,
+	                             TIMESTAMP := #statDataLogCommands.timestampFormat,
+	                             NAME      := #statDataLogCommands.name,
+	                             ID        := #statDataLogCommands.id,
+	                             HEADER    := #statDataLogCommands.header,
+	                             DATA      := #data);
+	          
+	          // check if creating and opening DL is done successfully - goto write
+	          IF #instDataLogCreate.DONE THEN
+	            IF (#statDataLogCommands.isLoggingByInterval = TRUE) THEN
+	              #statMainState := #FB_STATE_DL_WRITE;
+	            ELSE // is logging by trigger
+	              #statMainState := #FB_STATE_DL_WAIT_FOR_TRIGGER;
+	            END_IF;
+	            // reset instance
+	            #instDataLogCreate(REQ := FALSE);
+	            
+	            // check if error occurred
+	          ELSIF #instDataLogCreate.ERROR THEN
+	            // error not known, user have to act
+	            #statInternal.diagnostics.status := #ERR_DATALOG_CREATE;
+	            #statInternal.diagnostics.subfunctionStatus := #instDataLogCreate.STATUS;
+	            #statInternal.diagnostics.stateNumber := #FB_STATE_DL_OPEN;
+	            #statInternal.errorUserCleared := TRUE;
+	            // reset instance
+	            #instDataLogCreate(REQ := FALSE);
+	          END_IF;
+	        END_REGION DataLog create
+	        
+	      #FB_STATE_DL_WAIT_FOR_TRIGGER,
+	      #FB_STATE_DL_WAIT_FOR_WRITE_CYCLE:
+	        REGION Wait for trigger
+	          // reset flags
+	          #statLlastEntryReached := FALSE;
+	          #statInternal.diagnostics.status := #STATUS_SUBSEQUENT_CALL;
+	          
+	          IF TRUE // if trigger has a rising edge
+	            AND (#triggerLogEntry AND NOT #statDataLogCommands.edgeOnTriggerLogEntry)
+	            AND (#statMainState = #FB_STATE_DL_WAIT_FOR_TRIGGER)
+	          THEN
+	            #statMainState := #FB_STATE_DL_WRITE;
+	            
+	          ELSIF TRUE // if interval is over
+	            AND #instIntervalTimer.Q
+	            AND (#statMainState = #FB_STATE_DL_WAIT_FOR_WRITE_CYCLE)
+	          THEN
+	            #statMainState := #FB_STATE_DL_WRITE;
+	          END_IF;
+	        END_REGION Wait for trigger 
+	        
+	      #FB_STATE_DL_WRITE:
+	        REGION DataLog write
+	          #instDataLogWrite(REQ := TRUE,
+	                            ID  := #statDataLogCommands.id);
+	          
+	          // check if datalog is at its last entry
+	          IF (#instDataLogWrite.STATUS = #DATALOG_LAST_ENTRY_WRITTEN) THEN
+	            // set flag
+	            #statLlastEntryReached := TRUE;
+	            #statInternal.diagnostics.status := #STATUS_MAX_ENTRIES_REACHED;
+	            // increment counter
+	            #statNoOfEntries += 1;
+	            #statWriteEntryDone := TRUE;
+	            
+	            // check if datalog should be overwritten or not
+	            IF #statDataLogCommands.enableRingBuffer THEN
+	              // is logging by interval
+	              IF #statDataLogCommands.isLoggingByInterval THEN
+	                #statMainState := #FB_STATE_DL_WAIT_FOR_WRITE_CYCLE;
+	                
+	              ELSE // is logging by trigger
+	                #statMainState := #FB_STATE_DL_WAIT_FOR_TRIGGER;
+	              END_IF;
+	              
+	            ELSE // do not overwrite - disable and leave block
+	              #statMainState := #FB_STATE_NO_PROCESSING;
+	            END_IF;
+	            // reset instance
+	            #instDataLogWrite(REQ := FALSE);
+	            #tempExitStateLoop := FALSE;
+	            
+	            // check if open DL is done successfully - goto write
+	          ELSIF #instDataLogWrite.DONE THEN
+	            // increment counter
+	            #statNoOfEntries += 1;
+	            #statWriteEntryDone := TRUE;
+	            
+	            IF #statDataLogCommands.isLoggingByInterval = TRUE THEN
+	              #statMainState := #FB_STATE_DL_WAIT_FOR_WRITE_CYCLE;
+	            ELSE // is logging by trigger
+	              #statMainState := #FB_STATE_DL_WAIT_FOR_TRIGGER;
+	            END_IF;
+	            // reset instance
+	            #instDataLogWrite(REQ := FALSE);
+	            #tempExitStateLoop := FALSE;
+	            
+	            // check if error occurred
+	          ELSIF #instDataLogWrite.ERROR THEN
+	            // error not known, user have to act
+	            #statInternal.diagnostics.status := #ERR_DATALOG_WRITE;
+	            #statInternal.diagnostics.subfunctionStatus := #instDataLogWrite.STATUS;
+	            #statInternal.diagnostics.stateNumber := #FB_STATE_DL_WRITE;
+	            #statInternal.errorAutoCleared := TRUE;
+	            #statMainState := #FB_STATE_NO_PROCESSING;
+	            // reset instance
+	            #instDataLogWrite(REQ := FALSE);
+	          END_IF;
+	        END_REGION DataLog write
+	        
+	      #FB_STATE_DL_CLEAR:
+	        REGION DataLog clear
+	          #instDataLogClear(REQ := TRUE,
+	                            ID  := #statDataLogCommands.id);
+	          
+	          // check if open DL is done successfully - goto write
+	          IF #instDataLogClear.DONE THEN
+	            #statMainState := #FB_STATE_DL_CLEAR_DONE;
+	            // reset flag
+	            #statLlastEntryReached := FALSE;
+	            #statNoOfEntries := 0;
+	            // reset instance
+	            #instDataLogClear(REQ := FALSE);
+	            
+	            // check if error occurred
+	          ELSIF #instDataLogClear.ERROR THEN
+	            // error not known, user have to act
+	            #statInternal.diagnostics.status := #ERR_DATALOG_CLEAR;
+	            #statInternal.diagnostics.subfunctionStatus := #instDataLogClear.STATUS;
+	            #statInternal.diagnostics.stateNumber := #FB_STATE_DL_CLEAR;
+	            #statInternal.errorAutoCleared := TRUE;
+	            #statMainState := #FB_STATE_NO_PROCESSING;
+	            // reset instance
+	            #instDataLogWrite(REQ := FALSE);
+	          END_IF;
+	        END_REGION DataLog clear
+	        
+	      #FB_STATE_DL_CLEAR_DONE:
+	        REGION DataLog clear done
+	          IF NOT #clearLog THEN
+	            IF #statDataLogCommands.isLoggingByInterval THEN
+	              #statMainState := #FB_STATE_DL_WRITE;
+	            ELSE
+	              #statMainState := #FB_STATE_DL_WAIT_FOR_TRIGGER;
+	            END_IF;
+	          END_IF;
+	        END_REGION DataLog clear
+	        
+	      #FB_STATE_DL_DELETE:
+	        REGION DataLog delete
+	          #instDataLogDelete(REQ     := TRUE,
+	                             NAME    := #statDataLogCommands.name,
+	                             DelFile := #parameter.deleteFile,
+	                             ID      := #statDataLogCommands.id);
+	          
+	          // check if delete DL is done successfully - goto disable completed
+	          IF #instDataLogDelete.DONE THEN
+	            #statMainState := #FB_STATE_DL_DELETE_DONE;
+	            // reset flag
+	            #statLlastEntryReached := FALSE;
+	            #statNoOfEntries := 0;
+	            // reset instance
+	            #instDataLogDelete(REQ := FALSE);
+	            
+	            // check if error occurred
+	          ELSIF #instDataLogDelete.ERROR THEN
+	            // error not known, user have to act
+	            #statInternal.diagnostics.status := #ERR_DATALOG_DELETE;
+	            #statInternal.diagnostics.subfunctionStatus := #instDataLogDelete.STATUS;
+	            #statInternal.diagnostics.stateNumber := #FB_STATE_DL_DELETE;
+	            #statInternal.errorAutoCleared := TRUE;
+	            #statMainState := #FB_STATE_NO_PROCESSING;
+	            // reset instance
+	            #instDataLogDelete(REQ := FALSE);
+	          END_IF;
+	        END_REGION DataLog delete
+	        
+	      #FB_STATE_DL_DELETE_DONE:
+	        REGION DataLog delete done
+	          IF NOT #deleteLog THEN
+	            #statMainState := #FB_STATE_DISABLING_COMPLETED;
+	          END_IF;
+	        END_REGION DataLog delete
+	        
+	      #FB_STATE_DISABLING: // Disabling active
+	        REGION Disabling
+	          // closing DataLog
+	          #instDataLogClose(REQ := TRUE,
+	                            ID  := #statDataLogCommands.id);
+	          
+	          // check if datalog is closed
+	          IF FALSE
+	            OR #instDataLogClose.DONE
+	            OR #instDataLogClose.STATUS = #SUB_ERR_DATALOG_DOSE_NOT_EXIST
+	          THEN
+	            #statMainState := #FB_STATE_DISABLING_COMPLETED;
+	            #statInternal.diagnostics.status := #STATUS_FINISHED_NO_ERROR;
+	            
+	            // if closing ends with error - report this as well
+	          ELSIF #instDataLogClose.ERROR THEN
+	            // error occurred - copy to outputs
+	            #statInternal.diagnostics.status := #ERR_DATALOG_CLOSE;
+	            #statInternal.diagnostics.subfunctionStatus := #instDataLogClose.STATUS;
+	            #statInternal.diagnostics.stateNumber := #FB_STATE_DISABLING;
+	            #statInternal.errorAutoCleared := TRUE;// next state
+	            #statMainState := #FB_STATE_DISABLING_COMPLETED;
+	          END_IF;
+	        END_REGION Disabling
+	        
+	      #FB_STATE_DISABLING_COMPLETED:
+	        REGION Disabling completed
+	          // reset instance
+	          #instDataLogClose(REQ := FALSE);
+	          // When disabling is complete the bit #statDisablingCompleted must be set
+	          #statInternal.disablingCompleted := TRUE;
+	        END_REGION Disabling completed
+	        
+	      ELSE // Undefined state in state machine reached
+	        REGION Undefined state        
+	          #statInternal.diagnostics.status := #ERR_UNDEFINED_STATE;
+	          #statInternal.diagnostics.subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	          #statInternal.diagnostics.stateNumber := #statMainState;
+	          #statInternal.errorUserCleared := TRUE;
+	        END_REGION Undefined state
+	    END_CASE;
+	    
+	    // call interval timer
+	    #instIntervalTimer.TON(IN := (#statMainState = #FB_STATE_DL_WAIT_FOR_WRITE_CYCLE),
+	                           PT := #statDataLogCommands.loggingInterval);    // if one ore more runs in the same cycle are necessary, set #tempExitStateLoop := FALSE;
+	    // check state, if condition = TRUE --> #tempExitStateLoop = TRUE --> LEAVE LOOP
+	  UNTIL (TRUE = #tempExitStateLoop)
+	  END_REPEAT;
+	END_REGION STATE_MACHINE
+	
+	REGION Edge memory
+	  // store/ reset edge memory
+	  #statDataLogCommands.edgeOnTriggerLogEntry := #triggerLogEntry;
+	  #statDataLogCommands.clearLogPrevious := #clearLog;
+	  #statDataLogCommands.deleteLogPrevious := #deleteLog;
+	END_REGION
+	
+	REGION OUTPUTS
+	  // Write outputs
+	  IF (#statInternal.disablingCompleted = TRUE) THEN
+	    REGION disabling
+	      // Reset outputs if disabling completed
+	      #statInternal.valid := FALSE;
+	      #statInternal.busy := FALSE;
+	      #statInternal.error := FALSE;
+	      #statInternal.errorUserCleared := FALSE;
+	      #statInternal.errorAutoCleared := FALSE;
+	      #statInternal.diagnostics.status := #STATUS_NO_CALL;
+	      // Reset application specific outputs
+	      #statWriteEntryDone := FALSE;
+	    END_REGION disabling
+	    
+	  ELSIF (#statInternal.errorUserCleared = TRUE) AND (#statInternal.error = FALSE) THEN
+	    REGION error user cleared
+	      // Error can only be cleared by user; rising edge at enable input is needed to continue 
+	      #statInternal.valid := FALSE;
+	      #statInternal.busy := FALSE;
+	      #statInternal.error := TRUE;
+	      // Write diagnostics
+	      #diagnostics := #statInternal.diagnostics;
+	      // Reset application specific outputs
+	      #statWriteEntryDone := FALSE;
+	      // execution aborted --> set state no processing
+	      #statMainState := #FB_STATE_NO_PROCESSING;
+	    END_REGION error user cleared
+	    
+	  ELSIF (#statInternal.errorAutoCleared = TRUE) AND (#statInternal.error = FALSE) THEN
+	    REGION error auto cleared
+	      // Error can be reset by FB automatically
+	      #statInternal.valid := FALSE;
+	      #statInternal.busy := TRUE;
+	      #statInternal.error := TRUE;
+	      // Write diagnostics
+	      #diagnostics := #statInternal.diagnostics;
+	      // Reset application specific outputs
+	      #statWriteEntryDone := FALSE;
+	    END_REGION error auto cleared
+	    
+	  ELSIF (#statInternal.errorAutoCleared = FALSE) AND (#statInternal.errorUserCleared = FALSE) AND (#statInternal.error = TRUE) THEN
+	    REGION after user/auto cleared
+	      // If autocleared error is acknowledged
+	      #statInternal.valid := TRUE;
+	      #statInternal.busy := TRUE;
+	      #statInternal.error := FALSE;
+	      // remove this line if more detailed status information is used instead of "#STATUS_SUBSEQUENT_CALL"
+	      #statInternal.diagnostics.status := #STATUS_SUBSEQUENT_CALL;
+	    END_REGION after user/auto cleared
+	  END_IF;
+	  
+	  REGION Write static values to outputs
+	    #valid := #statInternal.valid;
+	    #busy := #statInternal.busy;
+	    #error := #statInternal.error;
+	    #status := #statInternal.diagnostics.status;
+	    // if ENO mechanism is not used / not wanted replace the following line by --> ENO := TRUE;
+	    ENO := NOT #statInternal.error;
+	    // Write application specific static values to outputs
+	    #lastEntryReached := #statLlastEntryReached;
+	    #noOfEntries := #statNoOfEntries;
+	    
+	    #writeEntryDone := #statWriteEntryDone;
+	    #statWriteEntryDone := FALSE;
+	    
+	    #clearLogDone := #statMainState = #FB_STATE_DL_CLEAR_DONE;
+	    #deleteLogDone := #statMainState = #FB_STATE_DL_DELETE_DONE;
+	  END_REGION Write static values to outputs
+	END_REGION OUTPUTS
+	
+END_FUNCTION_BLOCK
+
+FUNCTION "LGF_IsParityOdd" : Bool
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_SIMATIC_Systems_Support
+FAMILY : LGF
+NAME : LGF_IsParityOdd
+   VAR_INPUT 
+      doubleWord : DWord;
+   END_VAR
+
+   VAR_TEMP 
+      tempDword : DWord;
+   END_VAR
+
+   VAR CONSTANT 
+      SHIFT_ONE_BIT : USInt := 1;
+      SHIFT_TWO_BIT : USInt := 2;
+      SHIFT_TO_RESULT : USInt := 28;
+      MASK_FOR_RESULT : DWord := 16#11111111;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //============================================================================
+	  // SIEMENS AG / (c)Copyright 2018
+	  //----------------------------------------------------------------------------
+	  // Title:            LGF_IsParityOdd
+	  // Comment/Function: check if parity in input tag is odd
+	  //                   if number of bits is odd, return TRUE
+	  //                   https://graphics.stanford.edu/~seander/bithacks.html#ParityMultiply
+	  //                   ENO not needed, no error possible
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO not needed, no error possible
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 2019.11.28 | Simatic Systems Support
+	  //                         First released version
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 12.11.2020 | Simatic Systems Support
+	  //                         Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Logic
+	  #tempDword := #doubleWord; // 32-bit word
+	  #tempDword := #tempDword XOR SHR(IN := #tempDword, N := #SHIFT_ONE_BIT);
+	  #tempDword := #tempDword XOR SHR(IN := #tempDword, N := #SHIFT_TWO_BIT);
+	  
+	  #tempDword := UDINT_TO_DWORD(DWORD_TO_UDINT(#tempDword AND #MASK_FOR_RESULT) * DWORD_TO_UDINT(#MASK_FOR_RESULT));
+	  
+	  #tempDword := SHR(IN := #tempDword, N := #SHIFT_TO_RESULT);
+	  
+	  // result is stored in LSB
+	  #LGF_IsParityOdd := #tempDword.%X0;
+	  
+	  // eno not needed, no error possible
+	  ENO := FALSE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_CalcCRC32Advanced" : DWord
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Industry_Support
+FAMILY : LGF
+NAME : LGF_CRC32Advanced
+   VAR_INPUT 
+      initValue { S7_PredefinedAssignment := '16#00'} : DWord;
+      mask { S7_PredefinedAssignment := '16#00'} : DWord;
+      finalXorValue { S7_PredefinedAssignment := '16#00'} : DWord;
+      reflectInput { S7_PredefinedAssignment := 'FALSE'} : Bool;
+      reflectResult { S7_PredefinedAssignment := 'FALSE'} : Bool;
+      noOfElements { S7_PredefinedAssignment := '0'} : UInt;
+   END_VAR
+
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      "array" : Array[*] of Byte;
+   END_VAR
+
+   VAR_TEMP 
+      tempInput : Byte;
+      tempCRC : DWord;
+      tempInvCRC : DWord;
+      tempLowerLimit : DInt;
+      tempUpperLimit : DInt;
+      tempIndexArray : DInt;
+      tempIndexCRC : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      SHIFT_ONE_BIT : UInt := 1;
+      SHIFT_THREE_BYTE : UInt := 24;
+      ARRAY_FIRST_DIMENSION : UInt := 1;
+      CRC_LOOP_LOWER_LIMIT : DInt := 0;
+      CRC_LOOP_UPPER_LIMIT : DInt := 7;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_NO_OF_ELEMENTS : Word := 16#8400;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_CRC32Advanced
+	  // Comment/Function: This function makes a CRC calculation according
+	  //                   to the CRC-32 algorithm
+	  //                   advanced because of reflect In/Out and final XOR combination
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      CPU 1515F-2 PN FW:V2.6
+	  // Engineering:      TIA Portal V15.1 Update 2
+	  // Restrictions:     ENO disabled - no error handling, no failure possible
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 03.07.2018  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.00.03 09.10.2019  Simatic Systems Support
+	  //                      Code refactoring, comments added
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 12.11.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //                      Assign default start values to optional inputs - `initValue`, `mask`, `finalXorValue`, `reflectInput`, `reflectResult`
+	  // 03.01.00 14.04.2023  Simatic Systems Support
+	  //                      Add input `noOfElements` to assign length to be converted different from array size 
+	  //                      Add outputs `error` and `status` display a wrong assignment to `noOfElements`
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Initialization and input data processing
+	  // Defining initial value for algorithm
+	  #tempCRC := #initValue;
+	  // Input array size calculation
+	  #tempLowerLimit := LOWER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  #tempUpperLimit := UPPER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  
+	  // check paramter `noOfELements`, if gretaer than zero check if fits to array size
+	  IF #noOfElements > 0 THEN
+	    IF #noOfElements > (#tempUpperLimit - #tempLowerLimit + 1) THEN
+	      #status := #ERR_NO_OF_ELEMENTS;
+	      #error := TRUE;
+	      ENO := FALSE;
+	      #LGF_CalcCRC32Advanced := #tempCRC;
+	      RETURN;
+	    ELSE
+	      #tempUpperLimit := #tempLowerLimit + #noOfElements - 1;
+	    END_IF;
+	  END_IF;
+	END_REGION
+	
+	REGION CRC calculation
+	  FOR #tempIndexArray := #tempLowerLimit TO #tempUpperLimit DO
+	    
+	    IF #reflectInput THEN
+	      // Reverse bit order in input byte
+	      #tempInput.%X7 := #array[#tempIndexArray].%X0;
+	      #tempInput.%X6 := #array[#tempIndexArray].%X1;
+	      #tempInput.%X5 := #array[#tempIndexArray].%X2;
+	      #tempInput.%X4 := #array[#tempIndexArray].%X3;
+	      #tempInput.%X3 := #array[#tempIndexArray].%X4;
+	      #tempInput.%X2 := #array[#tempIndexArray].%X5;
+	      #tempInput.%X1 := #array[#tempIndexArray].%X6;
+	      #tempInput.%X0 := #array[#tempIndexArray].%X7;
+	    ELSE
+	      #tempInput := #array[#tempIndexArray];
+	    END_IF;
+	    
+	    // Perform division using XOR function for appropriate DWord in array (with shift byte into MSB of 32bit CRC)
+	    #tempCRC := #tempCRC XOR SHL(IN := BYTE_TO_DWORD(#tempInput), N := #SHIFT_THREE_BYTE);
+	    
+	    FOR #tempIndexCRC := #CRC_LOOP_LOWER_LIMIT TO #CRC_LOOP_UPPER_LIMIT DO
+	      // Check if MSB is set
+	      IF #tempCRC.%X31 THEN
+	        // Shift left and perform division by mask polynomial using XOR function
+	        #tempCRC := SHL(IN := #tempCRC, N := #SHIFT_ONE_BIT) XOR #mask;
+	      ELSE
+	        // Shift left without division
+	        #tempCRC := SHL(IN := #tempCRC, N := #SHIFT_ONE_BIT);
+	      END_IF;
+	    END_FOR;
+	    
+	  END_FOR;
+	END_REGION
+	
+	REGION Outputs assignment
+	  IF #reflectResult THEN
+	    // Reverse bit order in CRC checksum
+	    #tempInvCRC.%X31 := #tempCRC.%X0;
+	    #tempInvCRC.%X30 := #tempCRC.%X1;
+	    #tempInvCRC.%X29 := #tempCRC.%X2;
+	    #tempInvCRC.%X28 := #tempCRC.%X3;
+	    #tempInvCRC.%X27 := #tempCRC.%X4;
+	    #tempInvCRC.%X26 := #tempCRC.%X5;
+	    #tempInvCRC.%X25 := #tempCRC.%X6;
+	    #tempInvCRC.%X24 := #tempCRC.%X7;
+	    #tempInvCRC.%X23 := #tempCRC.%X8;
+	    #tempInvCRC.%X22 := #tempCRC.%X9;
+	    #tempInvCRC.%X21 := #tempCRC.%X10;
+	    #tempInvCRC.%X20 := #tempCRC.%X11;
+	    #tempInvCRC.%X19 := #tempCRC.%X12;
+	    #tempInvCRC.%X18 := #tempCRC.%X13;
+	    #tempInvCRC.%X17 := #tempCRC.%X14;
+	    #tempInvCRC.%X16 := #tempCRC.%X15;
+	    #tempInvCRC.%X15 := #tempCRC.%X16;
+	    #tempInvCRC.%X14 := #tempCRC.%X17;
+	    #tempInvCRC.%X13 := #tempCRC.%X18;
+	    #tempInvCRC.%X12 := #tempCRC.%X19;
+	    #tempInvCRC.%X11 := #tempCRC.%X20;
+	    #tempInvCRC.%X10 := #tempCRC.%X21;
+	    #tempInvCRC.%X9 := #tempCRC.%X22;
+	    #tempInvCRC.%X8 := #tempCRC.%X23;
+	    #tempInvCRC.%X7 := #tempCRC.%X24;
+	    #tempInvCRC.%X6 := #tempCRC.%X25;
+	    #tempInvCRC.%X5 := #tempCRC.%X26;
+	    #tempInvCRC.%X4 := #tempCRC.%X27;
+	    #tempInvCRC.%X3 := #tempCRC.%X28;
+	    #tempInvCRC.%X2 := #tempCRC.%X29;
+	    #tempInvCRC.%X1 := #tempCRC.%X30;
+	    #tempInvCRC.%X0 := #tempCRC.%X31;
+	    
+	    #LGF_CalcCRC32Advanced := #tempInvCRC XOR #finalXorValue;
+	  ELSE
+	    #LGF_CalcCRC32Advanced := #tempCRC XOR #finalXorValue;
+	  END_IF;
+	  
+	  #status := #STATUS_NO_ERROR;
+	  #error := FALSE;
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_CalcCRC32" : DWord
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Industry_Support
+FAMILY : LGF
+NAME : LGF_CRC32
+   VAR_INPUT 
+      initValue { S7_PredefinedAssignment := '16#00'} : DWord;
+      mask { S7_PredefinedAssignment := '16#00'} : DWord;
+      noOfElements { S7_PredefinedAssignment := '0'} : UInt;
+   END_VAR
+
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      "array" : Array[*] of Byte;
+   END_VAR
+
+   VAR_TEMP 
+      tempCRC : DWord;
+      tempLowerLimit : DInt;
+      tempUpperLimit : DInt;
+      tempIndexArray : DInt;
+      tempIndexCRC : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      SHIFT_ONE_BIT : UInt := 1;
+      SHIFT_THREE_BYTES : UInt := 24;
+      ARRAY_FIRST_DIMENSION : UInt := 1;
+      CRC_LOOP_LOWER_LIMIT : DInt := 0;
+      CRC_LOOP_UPPER_LIMIT : DInt := 7;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_NO_OF_ELEMENTS : Word := 16#8400;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_CRC32
+	  // Comment/Function: This function makes a CRC calculation according
+	  //                   to the CRC-32 algorithm
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      CPU 1515F-2 PN FW:V2.6
+	  // Engineering:      TIA Portal V15.1 Update 2
+	  // Restrictions:     ENO disabled - no error handling, no failure possible
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 03.07.2018  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.00.03 09.10.2019  Simatic Systems Support
+	  //                      Code refactoring, comments added
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 12.11.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //                      Assign default start values to optional inputs - `initValue`, `mask`
+	  // 03.01.00 14.04.2023  Simatic Systems Support
+	  //                      Add input `noOfElements` to assign length to be converted different from array size 
+	  //                      Add outputs `error` and `status` display a wrong assignment to `noOfElements`
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Initialization and input data processing
+	  // Defining initial value for algorithm
+	  #tempCRC := #initValue;
+	  // Input array size calculation
+	  #tempLowerLimit := LOWER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  #tempUpperLimit := UPPER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  
+	  // check paramter `noOfELements`, if gretaer than zero check if fits to array size
+	  IF #noOfElements > 0 THEN
+	    IF #noOfElements > (#tempUpperLimit - #tempLowerLimit + 1) THEN
+	      #status := #ERR_NO_OF_ELEMENTS;
+	      #error := TRUE;
+	      ENO := FALSE;
+	      #LGF_CalcCRC32 := #tempCRC;
+	      RETURN;
+	    ELSE
+	      #tempUpperLimit := #tempLowerLimit + #noOfElements - 1;
+	    END_IF;
+	  END_IF;
+	END_REGION
+	
+	REGION CRC calculation
+	  FOR #tempIndexArray := #tempLowerLimit TO #tempUpperLimit DO
+	    // Perform division using XOR function for appropriate word in array (with shift byte into MSB of 32bit CRC)
+	    #tempCRC := #tempCRC XOR SHL(IN := BYTE_TO_DWORD(#array[#tempIndexArray]), N := #SHIFT_THREE_BYTES);
+	    
+	    FOR #tempIndexCRC := #CRC_LOOP_LOWER_LIMIT TO #CRC_LOOP_UPPER_LIMIT DO
+	      // Check if MSB is set
+	      IF #tempCRC.%X31 THEN
+	        // Shift left and perform division by mask polynomial using XOR function
+	        #tempCRC := SHL(IN := #tempCRC, N := #SHIFT_ONE_BIT) XOR #mask;
+	      ELSE
+	        // Shift left without division
+	        #tempCRC := SHL(IN := #tempCRC, N := #SHIFT_ONE_BIT);
+	      END_IF;
+	    END_FOR;
+	    
+	  END_FOR;
+	END_REGION
+	
+	REGION Outputs assignment
+	  #LGF_CalcCRC32 := #tempCRC;
+	  
+	  #status := #STATUS_NO_ERROR;
+	  #error := FALSE;
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_CalcCRC16Advanced" : Word
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Industry_Support
+FAMILY : LGF
+NAME : LGF_CRC16Advanced
+   VAR_INPUT 
+      initValue { S7_PredefinedAssignment := '16#00'} : Word;
+      mask { S7_PredefinedAssignment := '16#00'} : Word;
+      finalXorValue { S7_PredefinedAssignment := '16#00'} : Word;
+      reflectInput { S7_PredefinedAssignment := 'FALSE'} : Bool;
+      reflectResult { S7_PredefinedAssignment := 'FALSE'} : Bool;
+      noOfElements { S7_PredefinedAssignment := '0'} : UInt;
+   END_VAR
+
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      "array" : Array[*] of Byte;
+   END_VAR
+
+   VAR_TEMP 
+      tempInput : Byte;
+      tempCRC : Word;
+      tempInvCRC : Word;
+      tempLowerLimit : DInt;
+      tempUpperLimit : DInt;
+      tempIndexArray : DInt;
+      tempIndexCRC : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      SHIFT_ONE_BIT : UInt := 1;
+      SHIFT_ONE_BYTE : UInt := 8;
+      ARRAY_FIRST_DIMENSION : UInt := 1;
+      CRC_LOOP_LOWER_LIMIT : DInt := 0;
+      CRC_LOOP_UPPER_LIMIT : DInt := 7;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_NO_OF_ELEMENTS : Word := 16#8400;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_CRC16Advanced
+	  // Comment/Function: This function makes a CRC calculation according
+	  //                   to the CRC-16 advanced algorithm
+	  //                   advanced because of reflect In/Out and final XOR combination
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      CPU 1515F-2 PN FW:V2.6
+	  // Engineering:      TIA Portal V15.1 Update 2
+	  // Restrictions:     ENO disabled - no error handling, no failure possible
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 16.12.2019  Simatic Systems Support
+	  //                      first release, copied from "LGF_CalcCRC32Advanced"
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 12.11.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //                      Assign default start values to optional inputs - `initValue`, `mask`, `finalXorValue`, `reflectInput`, `reflectResult`
+	  // 03.01.00 14.04.2023  Simatic Systems Support
+	  //                      Add input `noOfElements` to assign length to be converted different from array size 
+	  //                      Add outputs `error` and `status` display a wrong assignment to `noOfElements`
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Initialization and input data processing
+	  // Defining initial value for algorithm
+	  #tempCRC := #initValue;
+	  // Input array size calculation
+	  #tempLowerLimit := LOWER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  #tempUpperLimit := UPPER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  
+	  // check paramter `noOfELements`, if gretaer than zero check if fits to array size
+	  IF #noOfElements > 0 THEN
+	    IF #noOfElements > (#tempUpperLimit - #tempLowerLimit + 1) THEN
+	      #status := #ERR_NO_OF_ELEMENTS;
+	      #error := TRUE;
+	      ENO := FALSE;
+	      #LGF_CalcCRC16Advanced := #tempCRC;
+	      RETURN;
+	    ELSE
+	      #tempUpperLimit := #tempLowerLimit + #noOfElements - 1;
+	    END_IF;
+	  END_IF;
+	END_REGION
+	
+	REGION CRC calculation
+	  FOR #tempIndexArray := #tempLowerLimit TO #tempUpperLimit DO
+	    
+	    IF #reflectInput THEN
+	      // Reverse bit order in input byte
+	      #tempInput.%X7 := #array[#tempIndexArray].%X0;
+	      #tempInput.%X6 := #array[#tempIndexArray].%X1;
+	      #tempInput.%X5 := #array[#tempIndexArray].%X2;
+	      #tempInput.%X4 := #array[#tempIndexArray].%X3;
+	      #tempInput.%X3 := #array[#tempIndexArray].%X4;
+	      #tempInput.%X2 := #array[#tempIndexArray].%X5;
+	      #tempInput.%X1 := #array[#tempIndexArray].%X6;
+	      #tempInput.%X0 := #array[#tempIndexArray].%X7;
+	    ELSE
+	      #tempInput := #array[#tempIndexArray];
+	    END_IF;
+	    
+	    // Perform division using XOR function for appropriate Word in array (with shift byte into MSB of 16bit CRC)
+	    #tempCRC := #tempCRC XOR SHL(IN := BYTE_TO_WORD(#tempInput), N := #SHIFT_ONE_BYTE);
+	    
+	    FOR #tempIndexCRC := #CRC_LOOP_LOWER_LIMIT TO #CRC_LOOP_UPPER_LIMIT DO
+	      // Check if MSB is set
+	      IF #tempCRC.%X15 THEN
+	        // Shift left and perform division by mask polynomial using XOR function
+	        #tempCRC := SHL(IN := #tempCRC, N := #SHIFT_ONE_BIT) XOR #mask;
+	      ELSE
+	        // Shift left without division
+	        #tempCRC := SHL(IN := #tempCRC, N := #SHIFT_ONE_BIT);
+	      END_IF;
+	    END_FOR;
+	    
+	  END_FOR;
+	END_REGION
+	
+	REGION Outputs assignment
+	  IF #reflectResult THEN
+	    // Reverse bit order in CRC checksum
+	    #tempInvCRC.%X15 := #tempCRC.%X0;
+	    #tempInvCRC.%X14 := #tempCRC.%X1;
+	    #tempInvCRC.%X13 := #tempCRC.%X2;
+	    #tempInvCRC.%X12 := #tempCRC.%X3;
+	    #tempInvCRC.%X11 := #tempCRC.%X4;
+	    #tempInvCRC.%X10 := #tempCRC.%X5;
+	    #tempInvCRC.%X9 := #tempCRC.%X6;
+	    #tempInvCRC.%X8 := #tempCRC.%X7;
+	    #tempInvCRC.%X7 := #tempCRC.%X8;
+	    #tempInvCRC.%X6 := #tempCRC.%X9;
+	    #tempInvCRC.%X5 := #tempCRC.%X10;
+	    #tempInvCRC.%X4 := #tempCRC.%X11;
+	    #tempInvCRC.%X3 := #tempCRC.%X12;
+	    #tempInvCRC.%X2 := #tempCRC.%X13;
+	    #tempInvCRC.%X1 := #tempCRC.%X14;
+	    #tempInvCRC.%X0 := #tempCRC.%X15;
+	    
+	    #LGF_CalcCRC16Advanced := #tempInvCRC XOR #finalXorValue;
+	  ELSE
+	    #LGF_CalcCRC16Advanced := #tempCRC XOR #finalXorValue;
+	  END_IF;
+	  
+	  #status := #STATUS_NO_ERROR;
+	  #error := FALSE;
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_CalcCRC16" : Word
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Industry_Support
+FAMILY : LGF
+NAME : LGF_CRC16
+   VAR_INPUT 
+      initValue { S7_PredefinedAssignment := '16#00'} : Word;
+      mask { S7_PredefinedAssignment := '16#00'} : Word;
+      noOfElements { S7_PredefinedAssignment := '0'} : UInt;
+   END_VAR
+
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      "array" : Array[*] of Byte;
+   END_VAR
+
+   VAR_TEMP 
+      tempCRC : Word;
+      tempLowerLimit : DInt;
+      tempUpperLimit : DInt;
+      tempIndexArray : DInt;
+      tempIndexCRC : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      SHIFT_ONE_BIT : UInt := 1;
+      SHIFT_ONE_BYTE : UInt := 8;
+      ARRAY_FIRST_DIMENSION : UInt := 1;
+      CRC_LOOP_LOWER_LIMIT : DInt := 0;
+      CRC_LOOP_UPPER_LIMIT : DInt := 7;
+      ERR_NO_OF_ELEMENTS : Word := 16#8400;
+      STATUS_NO_ERROR : Word := 16#0000;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_CRC16
+	  // Comment/Function: This function makes a CRC calculation according
+	  //                   to the CRC-16 algorithm
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      CPU 1515F-2 PN FW:V2.6
+	  // Engineering:      TIA Portal V15.1 Update 2
+	  // Restrictions:     ENO disabled - no error handling, no failure possible
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 03.07.2018  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.00.03 09.10.2019  Simatic Systems Support
+	  //                      Code refactoring, comments added
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 12.11.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //                      Assign default start values to optional inputs - `initValue`, `mask`
+	  // 03.01.00 14.04.2023  Simatic Systems Support
+	  //                      Add input `noOfElements` to assign length to be converted different from array size 
+	  //                      Add outputs `error` and `status` display a wrong assignment to `noOfElements`
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Initialization and input data processing
+	  // Defining initial value for algorithm
+	  #tempCRC := #initValue;
+	  // Input array size calculation
+	  #tempLowerLimit := LOWER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  #tempUpperLimit := UPPER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  
+	  // check paramter `noOfELements`, if gretaer than zero check if fits to array size
+	  IF #noOfElements > 0 THEN
+	    IF #noOfElements > (#tempUpperLimit - #tempLowerLimit + 1) THEN
+	      #status := #ERR_NO_OF_ELEMENTS;
+	      #error := TRUE;
+	      ENO := FALSE;
+	      #LGF_CalcCRC16 := #tempCRC;
+	      RETURN;
+	    ELSE
+	      #tempUpperLimit := #tempLowerLimit + #noOfElements - 1;
+	    END_IF;
+	  END_IF;
+	END_REGION
+	
+	REGION CRC calculation
+	  FOR #tempIndexArray := #tempLowerLimit TO #tempUpperLimit DO
+	    // Perform division using XOR function for appropriate word in array (with shift byte into MSB of 16bit CRC)
+	    #tempCRC := #tempCRC XOR SHL(IN := BYTE_TO_WORD(#array[#tempIndexArray]), N := #SHIFT_ONE_BYTE);
+	    
+	    FOR #tempIndexCRC := #CRC_LOOP_LOWER_LIMIT TO #CRC_LOOP_UPPER_LIMIT DO
+	      // Check if MSB is set
+	      IF #tempCRC.%X15 THEN
+	        // Shift left and perform division by mask polynomial using XOR function
+	        #tempCRC := SHL(IN := #tempCRC, N := #SHIFT_ONE_BIT) XOR #mask;
+	      ELSE
+	        // Shift left without division
+	        #tempCRC := SHL(IN := #tempCRC, N := #SHIFT_ONE_BIT);
+	      END_IF;
+	    END_FOR;
+	    
+	  END_FOR;
+	END_REGION
+	
+	REGION Outputs assignment
+	  #LGF_CalcCRC16 := #tempCRC;
+	  
+	  #status := #STATUS_NO_ERROR;
+	  #error := FALSE;
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_CalcCRC8For1Byte" : Byte
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Industry_Support
+FAMILY : LGF
+NAME : LGF_CRC8For1Byte
+   VAR_INPUT 
+      initValue { S7_PredefinedAssignment := '16#00'} : Byte;
+      mask { S7_PredefinedAssignment := '16#00'} : Byte;
+      value : Byte;
+   END_VAR
+
+   VAR_TEMP 
+      tempCRC : Byte;
+      tempIndexCRC : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      SHIFT_ONE_BIT : UInt := 1;
+      CRC_LOOP_LOWER_LIMIT : DInt := 0;
+      CRC_LOOP_UPPER_LIMIT : DInt := 7;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_CRC8For1Byte
+	  // Comment/Function: This function makes a CRC calculation according
+	  //                   to the CRC-8 algorithm for 1 byte
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      CPU 1515F-2 PN FW:V2.6
+	  // Engineering:      TIA Portal V15.1 Update 2
+	  // Restrictions:     ENO disabled - no error handling, no failure possible
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 03.07.2018  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.00.03 09.10.2019  Simatic Systems Support
+	  //                      Code refactoring, comments added
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 12.11.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //                      Assign default start values to optional inputs - `initValue`, `mask`
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Initialization and input data processing
+	  // Defining initial value for algorithm
+	  #tempCRC := #initValue XOR #value;
+	END_REGION
+	
+	REGION CRC calculation
+	  FOR #tempIndexCRC := #CRC_LOOP_LOWER_LIMIT TO #CRC_LOOP_UPPER_LIMIT DO
+	    // Check if MSB is set
+	    IF #tempCRC.%X7 THEN
+	      // Shift left and perform division by mask polynomial using XOR function
+	      #tempCRC := SHL(IN := #tempCRC, N := #SHIFT_ONE_BIT) XOR #mask;
+	    ELSE
+	      // Shift left without division
+	      #tempCRC := SHL(IN := #tempCRC, N := #SHIFT_ONE_BIT);
+	    END_IF;
+	  END_FOR;
+	END_REGION
+	
+	REGION Outputs assignment
+	  #LGF_CalcCRC8For1Byte := #tempCRC;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_CalcCRC8Advanced" : Byte
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Industry_Support
+FAMILY : LGF
+NAME : LGF_CRC8Advanced
+   VAR_INPUT 
+      initValue { S7_PredefinedAssignment := '16#00'} : Byte;
+      mask { S7_PredefinedAssignment := '16#00'} : Byte;
+      finalXorValue { S7_PredefinedAssignment := '16#00'} : Byte;
+      reflectInput { S7_PredefinedAssignment := 'FALSE'} : Bool;
+      reflectResult { S7_PredefinedAssignment := 'FALSE'} : Bool;
+      noOfElements { S7_PredefinedAssignment := '0'} : UInt;
+   END_VAR
+
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      "array" : Array[*] of Byte;
+   END_VAR
+
+   VAR_TEMP 
+      tempInput : Byte;
+      tempCRC : Byte;
+      tempInvCRC : Byte;
+      tempLowerLimit : DInt;
+      tempUpperLimit : DInt;
+      tempIndexArray : DInt;
+      tempIndexCRC : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      SHIFT_ONE_BIT : UInt := 1;
+      ARRAY_FIRST_DIMENSION : UInt := 1;
+      CRC_LOOP_LOWER_LIMIT : DInt := 0;
+      CRC_LOOP_UPPER_LIMIT : DInt := 7;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_NO_OF_ELEMENTS : Word := 16#8400;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_CRC8Advanced
+	  // Comment/Function: This function makes a CRC calculation according
+	  //                   to the CRC-8 advanced algorithm
+	  //                   advanced because of reflect In/Out and final XOR combination
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      CPU 1515F-2 PN FW:V2.6
+	  // Engineering:      TIA Portal V15.1 Update 2
+	  // Restrictions:     ENO disabled - no error handling, no failure possible
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 16.12.2019  Simatic Systems Support
+	  //                      first release, copied from "LGF_CalcCRC32Advanced"
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 12.11.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //                      Assign default start values to optional inputs - `initValue`, `mask`, `finalXorValue`, `reflectInput`, `reflectResult`
+	  // 03.01.00 14.04.2023  Simatic Systems Support
+	  //                      Add input `noOfElements` to assign length to be converted different from array size 
+	  //                      Add outputs `error` and `status` display a wrong assignment to `noOfElements`
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Initialization and input data processing
+	  // Defining initial value for algorithm
+	  #tempCRC := #initValue;
+	  // Input array size calculation
+	  #tempLowerLimit := LOWER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  #tempUpperLimit := UPPER_BOUND(ARR := #array, DIM := #ARRAY_FIRST_DIMENSION);
+	  
+	  // check paramter `noOfELements`, if gretaer than zero check if fits to array size
+	  IF #noOfElements > 0 THEN
+	    IF #noOfElements > (#tempUpperLimit - #tempLowerLimit + 1) THEN
+	      #status := #ERR_NO_OF_ELEMENTS;
+	      #error := TRUE;
+	      ENO := FALSE;
+	      #LGF_CalcCRC8Advanced := #tempCRC;
+	      RETURN;
+	    ELSE
+	      #tempUpperLimit := #tempLowerLimit + #noOfElements - 1;
+	    END_IF;
+	  END_IF;
+	END_REGION
+	
+	REGION CRC calculation
+	  FOR #tempIndexArray := #tempLowerLimit TO #tempUpperLimit DO
+	    
+	    IF #reflectInput THEN
+	      // Reverse bit order in input byte
+	      #tempInput.%X7 := #array[#tempIndexArray].%X0;
+	      #tempInput.%X6 := #array[#tempIndexArray].%X1;
+	      #tempInput.%X5 := #array[#tempIndexArray].%X2;
+	      #tempInput.%X4 := #array[#tempIndexArray].%X3;
+	      #tempInput.%X3 := #array[#tempIndexArray].%X4;
+	      #tempInput.%X2 := #array[#tempIndexArray].%X5;
+	      #tempInput.%X1 := #array[#tempIndexArray].%X6;
+	      #tempInput.%X0 := #array[#tempIndexArray].%X7;
+	    ELSE
+	      #tempInput := #array[#tempIndexArray];
+	    END_IF;
+	    
+	    // Perform division using XOR function for appropriate byte in the array
+	    #tempCRC := #tempCRC XOR #tempInput;
+	    
+	    FOR #tempIndexCRC := #CRC_LOOP_LOWER_LIMIT TO #CRC_LOOP_UPPER_LIMIT DO
+	      // Check if MSB is set
+	      IF #tempCRC.%X7 THEN
+	        // Shift left and perform division by mask polynomial using XOR function
+	        #tempCRC := SHL(IN := #tempCRC, N := #SHIFT_ONE_BIT) XOR #mask;
+	      ELSE
+	        // Shift left without division
+	        #tempCRC := SHL(IN := #tempCRC, N := #SHIFT_ONE_BIT);
+	      END_IF;
+	    END_FOR;
+	    
+	  END_FOR;
+	END_REGION
+	
+	REGION Outputs assignment
+	  IF #reflectResult THEN
+	    // Reverse bit order in CRC checksum
+	    #tempInvCRC.%X7 := #tempCRC.%X0;
+	    #tempInvCRC.%X6 := #tempCRC.%X1;
+	    #tempInvCRC.%X5 := #tempCRC.%X2;
+	    #tempInvCRC.%X4 := #tempCRC.%X3;
+	    #tempInvCRC.%X3 := #tempCRC.%X4;
+	    #tempInvCRC.%X2 := #tempCRC.%X5;
+	    #tempInvCRC.%X1 := #tempCRC.%X6;
+	    #tempInvCRC.%X0 := #tempCRC.%X7;
+	    
+	    #LGF_CalcCRC8Advanced := #tempInvCRC XOR #finalXorValue;
+	  ELSE
+	    #LGF_CalcCRC8Advanced := #tempCRC XOR #finalXorValue;
+	  END_IF;
+	  
+	  #status := #STATUS_NO_ERROR;
+	  #error := FALSE;
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_IsParityEven" : Bool
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_SIMATIC_Systems_Support
+FAMILY : LGF
+NAME : LGF_IsParityEven
+   VAR_INPUT 
+      doubleWord : DWord;
+   END_VAR
+
+   VAR_TEMP 
+      tempDword : DWord;
+   END_VAR
+
+   VAR CONSTANT 
+      SHIFT_ONE_BIT : USInt := 1;
+      SHIFT_TWO_BIT : USInt := 2;
+      SHIFT_TO_RESULT : USInt := 28;
+      MASK_FOR_RESULT : DWord := 16#11111111;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //============================================================================
+	  // SIEMENS AG / (c)Copyright 2018
+	  //----------------------------------------------------------------------------
+	  // Title:            LGF_IsParityEven
+	  // Comment/Function: check if parity in input tag is even
+	  //                   if number of bits is even, return TRUE
+	  //                   https://graphics.stanford.edu/~seander/bithacks.html#ParityMultiply
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO not needed, no error possible
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 2019.11.28 | Simatic Systems Support
+	  //                         First released version
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 12.11.2020 | Simatic Systems Support
+	  //                         Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Logic
+	  #tempDword := #doubleWord; // 32-bit word
+	  #tempDword := #tempDword XOR SHR(IN := #tempDword, N := #SHIFT_ONE_BIT);
+	  #tempDword := #tempDword XOR SHR(IN := #tempDword, N := #SHIFT_TWO_BIT);
+	  #tempDword := UDINT_TO_DWORD(DWORD_TO_UDINT(#tempDword AND #MASK_FOR_RESULT) * DWORD_TO_UDINT(#MASK_FOR_RESULT));
+	  
+	  #tempDword := SHR(IN := #tempDword, N := #SHIFT_TO_RESULT);
+	  
+	  // result is stored in LSB
+	  #LGF_IsParityEven := NOT #tempDword.%X0;
+	  
+	  // ENO not needed, no error possible
+	  ENO := FALSE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION_BLOCK "LGF_ShiftRegister"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry_Support
+FAMILY : LGF
+NAME : LGF_ShiftRegister
+   VAR_INPUT 
+      shiftLeft : Bool;
+      shiftRight : Bool;
+      shiftRange { S7_PredefinedAssignment := '1'; S7_HiddenAssignment := 'HideIfNoParamAssigned'} : UInt := 1;
+      clear : Bool;
+      fill : Bool;
+      initialItem { S7_PredefinedAssignment := 'NULL'} : Variant;
+   END_VAR
+
+   VAR_OUTPUT 
+      error { ExternalWritable := 'False'} : Bool;
+      status { ExternalWritable := 'False'} : Word;
+      subFunctionStatus { ExternalWritable := 'False'} : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      bufferRegister : Variant;
+   END_VAR
+
+   VAR 
+      statEdgesMem { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Struct
+         shiftCommand { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+         clear { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      END_STRUCT;
+   END_VAR
+
+   VAR_TEMP 
+      tempEdges : Struct
+         shiftLeft : Bool;
+         shiftRight : Bool;
+         clear : Bool;
+      END_STRUCT;
+      tempInternalError : Int;
+      tempBufferSize : UDInt;
+      tempCounter : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      NO_INTERNAL_ERROR : Int := 16#0000;
+      INDEX_BEGINNING : Int := 0;
+      ONE_ELEMENT : UDInt := 1;
+      BUFFER_SIZE_CORRECTION : UDInt := 1;
+      STATUS_NO_ERROR : Word := 16#0000;
+      STATUS_NO_CURRENT_JOBS : Word := 16#7000;
+      ERR_NO_ARRAY : Word := 16#8200;
+      ERR_CLEARING_WITHOUT_INITIAL_ITEM : Word := 16#8201;
+      ERR_FILL_WITHOUT_INITIAL_ITEM : Word := 16#8202;
+      ERR_WRONG_TYPE_INITIAL_ITEM : Word := 16#8203;
+      ERR_MORE_THAN_ONE_COMMAND : Word := 16#8401;
+      ERR_IN_SHIFT_RANGE : Word := 16#8402;
+      ERR_CLEAR_BUFFER : Word := 16#8610;
+      ERR_SHIFT_BUFFER_LEFT : Word := 16#8611;
+      ERR_SHIFT_BUFFER_LEFT_FILL : Word := 16#8612;
+      ERR_SHIFT_BUFFER_RIGHT : Word := 16#8622;
+      ERR_SHIFT_BUFFER_RIGHT_FILL : Word := 16#8622;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_ShiftRegister
+	  // Comment/Function: The Function represnts a shift register for any kind of Datatype (using `variant`) - it can be used as a kind of a ring buffer.
+	  //                   It is possible to shift the register array left (index `array[n]:=array[n+1]`) or right (index a`array[n]:=array[n-1]`).
+	  //                   As this is a real shift operation, it may causes some runtime effects while using big array sizes to move.
+	  //                   It could be used for pusing the material traking UDT trouf the maschin, e.g. a rotary indexing table
+	  //                   Please consider that a FIFO  or LIFO storage, based on indexes, could be used as well for most applications.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      CPU 1515F-2 PN FW:V2.6
+	  // Engineering:      TIA Portal V16 Update 4
+	  // Restrictions:     ENO disabled - error handling done with error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 03.07.2018  Siemens Industry Online Support
+	  //                      First released version
+	  // 03.00.00 09.04.2021  Simatic Systems Support
+	  //                      Refactoring and alignment to Datatype Variant
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Block execution control
+	  // Collect edges
+	  #tempEdges.shiftLeft := #shiftLeft AND NOT #statEdgesMem.shiftCommand;
+	  #tempEdges.shiftRight := #shiftRight AND NOT #statEdgesMem.shiftCommand;
+	  #tempEdges.clear := #clear AND NOT #statEdgesMem.clear;
+	  // Store values for edge detection
+	  #statEdgesMem.shiftCommand := #shiftLeft OR #shiftRight;
+	  #statEdgesMem.clear := #clear;
+	  
+	  // This program code section is only executed if no trigger input is active
+	  IF NOT (#shiftLeft OR #shiftRight OR #clear) THEN
+	    // If an error occurred during program execution,
+	    // the status "No Current Job" is used 16#7000 afterwarts when the triggers are reseted
+	    #error := FALSE;
+	    #status := #STATUS_NO_CURRENT_JOBS;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	    
+	  ELSIF ((BOOL_TO_USINT(#shiftLeft) + BOOL_TO_USINT(#shiftRight) + BOOL_TO_USINT(#clear)) > 1) THEN
+	    #error := TRUE;
+	    #status := #ERR_MORE_THAN_ONE_COMMAND;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	END_REGION Block execution control
+	
+	REGION Validation of inputs
+	  // Check whether the ring #buffer is an ARRAY.
+	  // IF so, the number OF the ARRAY elements is read out.
+	  // IF it is NOT an ARRAY, the program execution is terminated at this point
+	  IF IS_ARRAY(#bufferRegister) THEN
+	    #tempBufferSize := CountOfElements(#bufferRegister);
+	  ELSE
+	    #error := TRUE;
+	    #status := #ERR_NO_ARRAY;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	  
+	  // Check if number of movements is in a plausible and valid range
+	  // -> Has to be lees than the buffer size
+	  IF #shiftRange >= #tempBufferSize THEN
+	    #error := TRUE;
+	    #status := #ERR_IN_SHIFT_RANGE;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	  
+	  // If clearBuffer has rising edge, the buffer is initialized by initial values
+	  // Check whether the initial value OF the ring #buffer
+	  // matches the entry (tag #item). IF the data types DO NOT match,
+	  // the program execution is terminated at this point
+	  IF (#tempEdges.clear AND #initialItem = NULL) THEN
+	    #error := TRUE;
+	    #status := #ERR_CLEARING_WITHOUT_INITIAL_ITEM;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	    
+	    // If Fill is activatet, an inital item has to be presnt
+	  ELSIF (#fill AND #initialItem = NULL) THEN
+	    #error := TRUE;
+	    #status := #ERR_FILL_WITHOUT_INITIAL_ITEM;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	    
+	    // If clearing or filling is selected, the input types must match
+	  ELSIF ((#tempEdges.clear OR #fill) AND #initialItem <> NULL)
+	    AND (TypeOfElements(#bufferRegister) <> TypeOf(#initialItem))
+	  THEN
+	    #error := TRUE;
+	    #status := #ERR_WRONG_TYPE_INITIAL_ITEM;
+	    #subFunctionStatus := #STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	END_REGION Validation of inputs
+	
+	REGION Clear Buffer
+	  // If clearBuffer has rising edge, the buffer is initialized by initial values
+	  IF #tempEdges.clear THEN
+	    // Run through buffer and overwrite all elements with its initial item element
+	    FOR #tempCounter := #INDEX_BEGINNING TO UDINT_TO_INT(#tempBufferSize - #BUFFER_SIZE_CORRECTION) DO
+	      #tempInternalError := MOVE_BLK_VARIANT(SRC := #initialItem,
+	                                             COUNT := #ONE_ELEMENT,
+	                                             SRC_INDEX := #INDEX_BEGINNING,
+	                                             DEST_INDEX := #tempCounter,
+	                                             DEST => #bufferRegister);
+	    END_FOR;
+	    
+	    // Check whether a local error has occurred.
+	    IF (#tempInternalError <> #NO_INTERNAL_ERROR) THEN
+	      #error := TRUE;
+	      #status := #ERR_CLEAR_BUFFER;
+	      #subFunctionStatus := INT_TO_WORD(#tempInternalError);
+	      RETURN;
+	    END_IF;
+	  END_IF;
+	END_REGION Clear Buffer
+	
+	REGION Shift register algorithm
+	  REGION Shift left
+	    IF #tempEdges.shiftLeft THEN
+	      // Shift whole array elemnts from N --> N-1
+	      #tempInternalError :=
+	      MOVE_BLK_VARIANT(SRC := #bufferRegister,
+	                       COUNT := #tempBufferSize - #shiftRange,
+	                       SRC_INDEX := #shiftRange,
+	                       DEST_INDEX := 0,
+	                       DEST => #bufferRegister);
+	      
+	      // Check whether a local error has occurred
+	      IF (#tempInternalError <> #NO_INTERNAL_ERROR) THEN
+	        #error := TRUE;
+	        #status := #ERR_SHIFT_BUFFER_LEFT;
+	        #subFunctionStatus := INT_TO_WORD(#tempInternalError);
+	        RETURN;
+	      END_IF;
+	      
+	      REGION Fill after shift left
+	        IF #fill THEN
+	          // Run through buffer and overwrite all elements with its initial item element
+	          FOR #tempCounter := UINT_TO_INT(#shiftRange) TO UDINT_TO_INT(#tempBufferSize - #BUFFER_SIZE_CORRECTION) DO
+	            // Overwrite the "old" values after shift
+	            #tempInternalError := MOVE_BLK_VARIANT(SRC := #initialItem,
+	                                                   COUNT := #ONE_ELEMENT,
+	                                                   SRC_INDEX := #INDEX_BEGINNING,
+	                                                   DEST_INDEX := #tempCounter,
+	                                                   DEST => #bufferRegister);
+	            
+	            // Check whether a local error has occurred
+	            IF (#tempInternalError <> #NO_INTERNAL_ERROR) THEN
+	              #error := TRUE;
+	              #status := #ERR_SHIFT_BUFFER_LEFT_FILL;
+	              #subFunctionStatus := INT_TO_WORD(#tempInternalError);
+	              RETURN;
+	            END_IF;
+	          END_FOR;
+	        END_IF;
+	      END_REGION Fill after shift left
+	    END_IF;
+	  END_REGION Shift left
+	  
+	  REGION Shift right
+	    IF #tempEdges.shiftRight THEN
+	      // Shift whole array elemnsts from N --> N+1
+	      #tempInternalError := MOVE_BLK_VARIANT(SRC := #bufferRegister,
+	                                             COUNT := #tempBufferSize - #shiftRange,
+	                                             SRC_INDEX := 0,
+	                                             DEST_INDEX := #shiftRange,
+	                                             DEST => #bufferRegister);
+	      
+	      // Check whether a local error has occurred
+	      IF (#tempInternalError <> #NO_INTERNAL_ERROR) THEN
+	        #error := TRUE;
+	        #status := #ERR_SHIFT_BUFFER_RIGHT;
+	        #subFunctionStatus := INT_TO_WORD(#tempInternalError);
+	        RETURN;
+	      END_IF;
+	      
+	      REGION Fill after shift right
+	        IF #fill THEN
+	          // Run through buffer and overwrite all elements with its initial item element
+	          FOR #tempCounter := #INDEX_BEGINNING TO UDINT_TO_INT(#shiftRange - #BUFFER_SIZE_CORRECTION) DO
+	            // Overwrite the "old" values after shift
+	            #tempInternalError := MOVE_BLK_VARIANT(SRC := #initialItem,
+	                                                   COUNT := #ONE_ELEMENT,
+	                                                   SRC_INDEX := #INDEX_BEGINNING,
+	                                                   DEST_INDEX := #tempCounter,
+	                                                   DEST => #bufferRegister);
+	            
+	            // Check whether a local error has occurred
+	            IF (#tempInternalError <> #NO_INTERNAL_ERROR) THEN
+	              #error := TRUE;
+	              #status := #ERR_SHIFT_BUFFER_LEFT_FILL;
+	              #subFunctionStatus := INT_TO_WORD(#tempInternalError);
+	              RETURN;
+	            END_IF;
+	          END_FOR;
+	        END_IF;
+	      END_REGION Fill after shift right
+	    END_IF;
+	  END_REGION Shift right
+	END_REGION Shift register algorithm
+	
+	REGION Writing to outputs
+	  #error := FALSE;
+	  #status := #STATUS_NO_ERROR;
+	  #subFunctionStatus := #STATUS_NO_ERROR;
+	  // No error handling by ENO needed
+	  ENO := TRUE;
+	END_REGION Writing to outputs
+	
+END_FUNCTION_BLOCK
+

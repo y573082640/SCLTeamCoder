@@ -1,0 +1,4 @@
+{
+    "constant_assign":"仔细检查常量赋值的方式.只允许 '<variable_name> : Word := 16#0000;' 或 '<variable_name> : Int := 1;'",
+    "variableDefinition":"仔细检查变量定义的方式.只允许 '<variable_name> : <type>;' 或者 '<variable_name> : <type> := <constant>;'"
+}

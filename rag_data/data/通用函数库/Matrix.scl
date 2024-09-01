@@ -1,0 +1,1075 @@
+﻿FUNCTION "LGF_MatrixAddition" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_MatrixAddition
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      matrix1 : Array[*, *] of LReal;
+      matrix2 : Array[*, *] of LReal;
+      matrixResult : Array[*, *] of LReal;
+   END_VAR
+
+   VAR_TEMP 
+      tempMatrix1LowerBoundRows : DInt;
+      tempMatrix1LowerBoundColumns : DInt;
+      tempMatrix1UpperBoundRows : DInt;
+      tempMatrix1UpperBoundColumns : DInt;
+      tempMatrix2LowerBoundRows : DInt;
+      tempMatrix2LowerBoundColumns : DInt;
+      tempMatrix2UpperBoundRows : DInt;
+      tempMatrix2UpperBoundColumns : DInt;
+      tempResultMatrixLowerBoundRows : DInt;
+      tempResultMatrixLowerBoundColumns : DInt;
+      tempResultMatrixUpperBoundRows : DInt;
+      tempResultMatrixUpperBoundColumns : DInt;
+      tempCounterRows : DInt;
+      tempCounterColumns : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      ROWS : UInt := 1;
+      COLUMNS : UInt := 2;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_MATR1_LOWBOUND_ROWS_MATR2_LOWBOUND_ROWS : Word := 16#8200;
+      ERR_MATR1_LOWBOUND_ROWS_RESMATR_LOWBOUND_ROWS : Word := 16#8201;
+      ERR_MATR1_LOWBOUND_COLUMNS_MATR2_LOWBOUND_COLUMNS : Word := 16#8202;
+      ERR_MATR1_LOWBOUND_COLUMNS_RESMATR_LOWBOUND_COLUMNS : Word := 16#8203;
+      ERR_MATR1_UPPBOUND_ROWS_MATR2_UPPBOUND_ROWS : Word := 16#8204;
+      ERR_MATR1_UPPBOUND_ROWS_RESMATR_UPPBOUND_ROWS : Word := 16#8205;
+      ERR_MATR1_UPPBOUND_COLUMNS_MATR2_UPPBOUND_COLUMNS : Word := 16#8206;
+      ERR_MATR1_UPPBOUND_COLUMNS_RESMATR_UPPBOUND_COLUMNS : Word := 16#8207;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_MatrixAddition
+	  // Comment/Function: Caluclates the sum of two matrices
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 19.08.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA Portal V14 Update 1
+	  // 02.00.00 06.02.2017  Siemens Industry Online Support
+	  //                      Functionality using Array[*,*]
+	  // 02.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 02.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 02.00.08 13.11.2019  Simatic Systems Support
+	  //                      Regions, comments and constants are added
+	  //                      Moved matrices to IO field.
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 02.02.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION Getting matrices size
+	  //Determine the size of the matrices
+	  // Lower bound rows
+	  #tempMatrix1LowerBoundRows := LOWER_BOUND(ARR := #matrix1, DIM := #ROWS);
+	  #tempMatrix2LowerBoundRows := LOWER_BOUND(ARR := #matrix2, DIM := #ROWS);
+	  #tempResultMatrixLowerBoundRows := LOWER_BOUND(ARR := #matrixResult, DIM := #ROWS);
+	  // Lower bound columns
+	  #tempMatrix1LowerBoundColumns := LOWER_BOUND(ARR := #matrix1, DIM := #COLUMNS);
+	  #tempMatrix2LowerBoundColumns := LOWER_BOUND(ARR := #matrix2, DIM := #COLUMNS);
+	  #tempResultMatrixLowerBoundColumns := LOWER_BOUND(ARR := #matrixResult, DIM := #COLUMNS);
+	  
+	  // Upper bound rows
+	  #tempMatrix1UpperBoundRows := UPPER_BOUND(ARR := #matrix1, DIM := #ROWS);
+	  #tempMatrix2UpperBoundRows := UPPER_BOUND(ARR := #matrix2, DIM := #ROWS);
+	  #tempResultMatrixUpperBoundRows := UPPER_BOUND(ARR := #matrixResult, DIM := #ROWS);
+	  // Upper bound columns
+	  #tempMatrix1UpperBoundColumns := UPPER_BOUND(ARR := #matrix1, DIM := #COLUMNS);
+	  #tempMatrix2UpperBoundColumns := UPPER_BOUND(ARR := #matrix2, DIM := #COLUMNS);
+	  #tempResultMatrixUpperBoundColumns := UPPER_BOUND(ARR := #matrixResult, DIM := #COLUMNS);
+	END_REGION
+	
+	REGION Error evaluation of matrixes dimentions
+	  //Check the lower bound of all matrices
+	  IF (#tempMatrix1LowerBoundRows <> #tempMatrix2LowerBoundRows) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_LOWBOUND_ROWS_MATR2_LOWBOUND_ROWS;
+	    RETURN;
+	  ELSIF (#tempMatrix1LowerBoundRows <> #tempResultMatrixLowerBoundRows) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_LOWBOUND_ROWS_RESMATR_LOWBOUND_ROWS;
+	    RETURN;
+	  ELSIF (#tempMatrix1LowerBoundColumns <> #tempMatrix2LowerBoundColumns) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_LOWBOUND_COLUMNS_MATR2_LOWBOUND_COLUMNS;
+	    RETURN;
+	  ELSIF (#tempMatrix1LowerBoundColumns <> #tempResultMatrixLowerBoundColumns) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_LOWBOUND_COLUMNS_RESMATR_LOWBOUND_COLUMNS;
+	    RETURN;
+	  END_IF;
+	  //Check the upper bound of all matrices
+	  IF (#tempMatrix1UpperBoundRows <> #tempMatrix2UpperBoundRows) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_UPPBOUND_ROWS_MATR2_UPPBOUND_ROWS;
+	    RETURN;
+	  ELSIF (#tempMatrix1UpperBoundRows <> #tempResultMatrixUpperBoundRows) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_UPPBOUND_ROWS_RESMATR_UPPBOUND_ROWS;
+	    RETURN;
+	  ELSIF (#tempMatrix1UpperBoundColumns <> #tempMatrix2UpperBoundColumns) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_UPPBOUND_COLUMNS_MATR2_UPPBOUND_COLUMNS;
+	    RETURN;
+	  ELSIF (#tempMatrix1UpperBoundColumns <> #tempResultMatrixUpperBoundColumns) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_UPPBOUND_COLUMNS_RESMATR_UPPBOUND_COLUMNS;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Addition of the matrices and writting to output
+	  FOR #tempCounterRows := #tempMatrix1LowerBoundRows TO #tempMatrix1UpperBoundRows DO
+	    FOR #tempCounterColumns := #tempMatrix1LowerBoundColumns TO #tempMatrix1UpperBoundColumns DO
+	      #matrixResult[#tempCounterRows, #tempCounterColumns] := #matrix1[#tempCounterRows, #tempCounterColumns] + #matrix2[#tempCounterRows, #tempCounterColumns];
+	    END_FOR;
+	  END_FOR;
+	  
+	  #error := false;
+	  #status := #STATUS_NO_ERROR;
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_MatrixCompare" : Bool
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_MatrixCompare
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      matrix1 : Array[*, *] of LReal;
+      matrix2 : Array[*, *] of LReal;
+   END_VAR
+
+   VAR_TEMP 
+      tempMatrix1LowerBoundRows : DInt;
+      tempMatrix1LowerBoundColumns : DInt;
+      tempMatrix1UpperBoundRows : DInt;
+      tempMatrix1UpperBoundColumns : DInt;
+      tempMatrix2LowerBoundRows : DInt;
+      tempMatrix2LowerBoundColumns : DInt;
+      tempMatrix2UpperBoundRows : DInt;
+      tempMatrix2UpperBoundColumns : DInt;
+      tempCounterRows : DInt;
+      tempCounterColumns : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      ROWS : UInt := 1;
+      COLUMNS : UInt := 2;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_MATR1_LOWBOUND_ROWS_MATR2_LOWBOUND_ROWS : Word := 16#8200;
+      ERR_MATR1_LOWBOUND_COLUMNS_MATR2_LOWBOUND_COLUMNS : Word := 16#8201;
+      ERR_MATR1_UPPBOUND_ROWS_MATR2_UPPBOUND_ROWS : Word := 16#8202;
+      ERR_MATR1_UPPBOUND_COLUMNS_MATR2_UPPBOUND_COLUMNS : Word := 16#8203;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_MatrixCompare
+	  // Comment/Function: Compares two matrices
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 13.11.2019  Simatic Systems Support
+	  //                      First release
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 02.02.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION Getting matrices size
+	  //Determine the size of the matrices
+	  // Lower bound rows
+	  #tempMatrix1LowerBoundRows := LOWER_BOUND(ARR := #matrix1, DIM := #ROWS);
+	  #tempMatrix2LowerBoundRows := LOWER_BOUND(ARR := #matrix2, DIM := #ROWS);
+	  // Lower bound columns
+	  #tempMatrix1LowerBoundColumns := LOWER_BOUND(ARR := #matrix1, DIM := #COLUMNS);
+	  #tempMatrix2LowerBoundColumns := LOWER_BOUND(ARR := #matrix2, DIM := #COLUMNS);
+	  
+	  // Upper bound rows
+	  #tempMatrix1UpperBoundRows := UPPER_BOUND(ARR := #matrix1, DIM := #ROWS);
+	  #tempMatrix2UpperBoundRows := UPPER_BOUND(ARR := #matrix2, DIM := #ROWS);
+	  // Upper bound columns
+	  #tempMatrix1UpperBoundColumns := UPPER_BOUND(ARR := #matrix1, DIM := #COLUMNS);
+	  #tempMatrix2UpperBoundColumns := UPPER_BOUND(ARR := #matrix2, DIM := #COLUMNS);
+	END_REGION
+	
+	REGION Error evaluation of matrixes dimentions
+	  //Check the lower bound of the matrices
+	  IF (#tempMatrix1LowerBoundRows <> #tempMatrix2LowerBoundRows) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_LOWBOUND_ROWS_MATR2_LOWBOUND_ROWS;
+	    #LGF_MatrixCompare := false;
+	    RETURN;
+	  ELSIF (#tempMatrix1LowerBoundColumns <> #tempMatrix2LowerBoundColumns) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_LOWBOUND_COLUMNS_MATR2_LOWBOUND_COLUMNS;
+	    #LGF_MatrixCompare := false;
+	    RETURN;
+	  END_IF;
+	  //Check the upper bound of the matrices
+	  IF (#tempMatrix1UpperBoundRows <> #tempMatrix2UpperBoundRows) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_UPPBOUND_ROWS_MATR2_UPPBOUND_ROWS;
+	    #LGF_MatrixCompare := false;
+	    RETURN;
+	  ELSIF (#tempMatrix1UpperBoundColumns <> #tempMatrix2UpperBoundColumns) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_UPPBOUND_COLUMNS_MATR2_UPPBOUND_COLUMNS;
+	    #LGF_MatrixCompare := false;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Comparison of the matices
+	  FOR #tempCounterRows := #tempMatrix1LowerBoundRows TO #tempMatrix1UpperBoundRows DO
+	    FOR #tempCounterColumns := #tempMatrix1LowerBoundColumns TO #tempMatrix1UpperBoundColumns DO
+	      //Each element must be equal to the corresponding element from the other matrix
+	      IF #matrix1[#tempCounterRows, #tempCounterColumns] <> #matrix2[#tempCounterRows, #tempCounterColumns] THEN
+	        // elelmts do not match, return false 
+	        #LGF_MatrixCompare := false;
+	        #error := false;
+	        #status := #STATUS_NO_ERROR;
+	        RETURN;
+	      END_IF;
+	    END_FOR;
+	  END_FOR;
+	  
+	  // loop runs trough all array places, all are identical
+	  #LGF_MatrixCompare := true;
+	  
+	  #error := false;
+	  #status := #STATUS_NO_ERROR;
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_MatrixInverse" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_MatrixInverse
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      matrix : Array[*, *] of LReal;
+      matrixResult : Array[*, *] of LReal;
+   END_VAR
+
+   VAR_TEMP 
+      tempMatrix1LowerBoundRows : DInt;
+      tempMatrix1LowerBoundColumns : DInt;
+      tempMatrix1UpperBoundRows : DInt;
+      tempMatrix1UpperBoundColumns : DInt;
+      tempResultMatrixLowerBoundRows : DInt;
+      tempResultMatrixLowerBoundColumns : DInt;
+      tempResultMatrixUpperBoundRows : DInt;
+      tempResultMatrixUpperBoundColumns : DInt;
+      tempCounterRows : DInt;
+      tempCounterColumns : DInt;
+      tempColumns : DInt;
+      tempRows : DInt;
+      tempK : DInt;
+      tempI : DInt;
+      tempJ : DInt;
+      tempMatrixElement : LReal;
+   END_VAR
+
+   VAR CONSTANT 
+      PRECISION : LReal := 1.0E-10;
+      NEGATIVE_NUMERATOR : LReal := -1.0;
+      ZERO : UInt := 0;
+      ONE : UInt := 1;
+      ROWS : UInt := 1;
+      COLUMNS : UInt := 2;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_NOT_SQUARE_MATRIX : Word := 16#8200;
+      ERR_ALGORITHM_NOT_POSSIBLE : Word := 16#8201;
+      ERR_MATR1_LOWBOUND_ROWS_RESMATR_LOWBOUND_ROWS : Word := 16#8202;
+      ERR_MATR1_LOWBOUND_COLUMNS_RESMATR_LOWBOUND_COLUMNS : Word := 16#8203;
+      ERR_MATR1_UPPBOUND_ROWS_RESMATR_UPPBOUND_ROWS : Word := 16#8204;
+      ERR_MATR1_UPPBOUND_COLUMNS_RESMATR_UPPBOUND_COLUMNS : Word := 16#8205;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_MatrixInverse
+	  // Comment/Function: Caluclates an inverted version of a matrix
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 19.08.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA Portal V14 Update 1
+	  // 02.00.00 06.02.2017  Siemens Industry Online Support
+	  //                      Functionality using Array[*,*]
+	  // 02.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 02.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 02.00.05 13.11.2019  Simatic Systems Support
+	  //                      Regions, comments and constants are added
+	  //                      Moved matrices to IO field.
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 02.02.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //=================================================================================
+	END_REGION Block info header
+	
+	REGION Determine the size of the matrices
+	  // Lower bound rows
+	  #tempMatrix1LowerBoundRows := LOWER_BOUND(ARR := #matrix, DIM := #ROWS);
+	  #tempResultMatrixLowerBoundRows := LOWER_BOUND(ARR := #matrixResult, DIM := #ROWS);
+	  // Lower bound columns
+	  #tempMatrix1LowerBoundColumns := LOWER_BOUND(ARR := #matrix, DIM := #COLUMNS);
+	  #tempResultMatrixLowerBoundColumns := LOWER_BOUND(ARR := #matrixResult, DIM := #COLUMNS);
+	  // Upper bound rows
+	  #tempMatrix1UpperBoundRows := UPPER_BOUND(ARR := #matrix, DIM := #ROWS);
+	  #tempResultMatrixUpperBoundRows := UPPER_BOUND(ARR := #matrixResult, DIM := #ROWS);
+	  // Upper bound columns
+	  #tempMatrix1UpperBoundColumns := UPPER_BOUND(ARR := #matrix, DIM := #COLUMNS);
+	  #tempResultMatrixUpperBoundColumns := UPPER_BOUND(ARR := #matrixResult, DIM := #COLUMNS);
+	END_REGION
+	
+	REGION Count the columns and rows of input matrix
+	  // Count the columns
+	  IF #tempMatrix1LowerBoundColumns = #ZERO THEN
+	    #tempColumns := #tempMatrix1UpperBoundColumns + #ONE;
+	  ELSE
+	    #tempColumns := (#tempMatrix1UpperBoundColumns - #tempMatrix1LowerBoundColumns) + #ONE;
+	  END_IF;
+	  // Count the rows
+	  IF #tempMatrix1LowerBoundRows = #ZERO THEN
+	    #tempRows := #tempMatrix1UpperBoundRows + #ONE;
+	  ELSE
+	    #tempRows := (#tempMatrix1UpperBoundRows - #tempMatrix1LowerBoundRows) + #ONE;
+	  END_IF;
+	END_REGION
+	
+	REGION Error validation
+	  // Check whether input matrix is a square matrix
+	  IF #tempRows <> #tempColumns THEN
+	    #error := TRUE;
+	    #status := #ERR_NOT_SQUARE_MATRIX;
+	    RETURN;
+	  END_IF;
+	  
+	  // Output matrix must have same lower bounds as the input matrix. (Same array size)
+	  IF (#tempMatrix1LowerBoundRows <> #tempResultMatrixLowerBoundRows) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_LOWBOUND_ROWS_RESMATR_LOWBOUND_ROWS;
+	    RETURN;
+	  ELSIF (#tempMatrix1LowerBoundColumns <> #tempResultMatrixLowerBoundColumns) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_LOWBOUND_COLUMNS_RESMATR_LOWBOUND_COLUMNS;
+	    RETURN;
+	  END_IF;
+	  // Output matrix must have same upper bounds as the input matrix. (Same array size)
+	  IF (#tempMatrix1UpperBoundRows <> #tempResultMatrixUpperBoundRows) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_UPPBOUND_ROWS_RESMATR_UPPBOUND_ROWS;
+	    RETURN;
+	  ELSIF (#tempMatrix1UpperBoundColumns <> #tempResultMatrixUpperBoundColumns) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_UPPBOUND_COLUMNS_RESMATR_UPPBOUND_COLUMNS;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Calculation of the inversed matrix
+	  #matrixResult[#tempMatrix1LowerBoundRows, #tempMatrix1LowerBoundColumns] := #ZERO;
+	  // Negate the input matrix and copy to output matrix.
+	  FOR #tempCounterRows := #tempMatrix1LowerBoundRows TO #tempMatrix1UpperBoundRows DO
+	    FOR #tempCounterColumns := #tempMatrix1LowerBoundColumns TO #tempMatrix1UpperBoundColumns DO
+	      #matrixResult[#tempCounterRows, #tempCounterColumns] := - #matrix[#tempCounterRows, #tempCounterColumns];
+	    END_FOR;
+	  END_FOR;
+	  
+	  //Outside loop - relegation of "Main" diagonal
+	  FOR #tempK := #tempMatrix1LowerBoundColumns TO #tempMatrix1UpperBoundColumns DO
+	    // Avoid a division by zero --> Error: Algorithm does not work for the input matrix.
+	    
+	    #tempMatrixElement := #matrixResult[#tempK, #tempK];
+	    IF ABS(#tempMatrixElement - #ZERO) <= (#PRECISION * ABS(#tempMatrixElement)) THEN
+	      #error := TRUE;
+	      #status := #ERR_ALGORITHM_NOT_POSSIBLE;
+	      RETURN;
+	    END_IF;
+	    
+	    //Calculation of Pivot-element
+	    #tempMatrixElement := (#NEGATIVE_NUMERATOR / #tempMatrixElement);
+	    #matrixResult[#tempK, #tempK] := #tempMatrixElement;
+	    
+	    //Calculation of elemente in the Pivot-column.
+	    FOR #tempI := #tempMatrix1LowerBoundColumns TO #tempMatrix1UpperBoundColumns DO
+	      IF #tempI <> #tempK THEN
+	        #matrixResult[#tempI, #tempK] :=
+	        #matrixResult[#tempI, #tempK] * #matrixResult[#tempK, #tempK];
+	      END_IF;
+	    END_FOR;
+	    
+	    // Convert-calculation of elements, which are NOT in the Pivot-rolumn AND NOT in the Pivot-row.
+	    FOR #tempI := #tempMatrix1LowerBoundRows TO #tempMatrix1UpperBoundRows DO
+	      IF #tempI <> #tempK THEN
+	        FOR #tempJ := #tempMatrix1LowerBoundColumns TO #tempMatrix1UpperBoundColumns DO
+	          IF #tempJ <> #tempK THEN
+	            #matrixResult[#tempI, #tempJ] :=
+	            #matrixResult[#tempI, #tempJ] + #matrixResult[#tempI, #tempK] * #matrixResult[#tempK, #tempJ];
+	          END_IF;
+	        END_FOR;
+	      END_IF;
+	    END_FOR;
+	    
+	    //Calculation of elements in the Pivot-row.
+	    FOR #tempJ := #tempMatrix1LowerBoundColumns TO #tempMatrix1UpperBoundColumns DO
+	      IF #tempJ <> #tempK THEN
+	        #matrixResult[#tempK, #tempJ] :=
+	        #matrixResult[#tempK, #tempJ] * #matrixResult[#tempK, #tempK];
+	      END_IF;
+	    END_FOR;
+	  END_FOR;
+	  
+	  #error := false;
+	  #status := #STATUS_NO_ERROR;
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_MatrixMultiplication" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_MatrixMultiplication
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      matrix1 : Array[*, *] of LReal;
+      matrix2 : Array[*, *] of LReal;
+      matrixResult : Array[*, *] of LReal;
+   END_VAR
+
+   VAR_TEMP 
+      tempMatrix1LowerBoundRows : DInt;
+      tempMatrix1LowerBoundColumns : DInt;
+      tempMatrix1UpperBoundRows : DInt;
+      tempMatrix1UpperBoundColumns : DInt;
+      tempMatrix2LowerBoundRows : DInt;
+      tempMatrix2LowerBoundColumns : DInt;
+      tempMatrix2UpperBoundRows : DInt;
+      tempMatrix2UpperBoundColumns : DInt;
+      tempResultMatrixLowerBoundRows : DInt;
+      tempResultMatrixLowerBoundColumns : DInt;
+      tempResultMatrixUpperBoundRows : DInt;
+      tempResultMatrixUpperBoundColumns : DInt;
+      tempJ : DInt;
+      tempK : DInt;
+      tempL : DInt;
+      tempResult : LReal;
+   END_VAR
+
+   VAR CONSTANT 
+      ZERO : Real := 0.0;
+      ROWS : UInt := 1;
+      COLUMNS : UInt := 2;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_MATR1_LOWBOUND_COLUMNS_MATR2_LOWBOUND_ROWS : Word := 16#8200;
+      ERR_MATR1_UPPBOUND_COLUMNS_MATR2_UPPBOUND_ROWS : Word := 16#8201;
+      ERR_MATR1_LOWBOUND_ROWS_RESMATR_LOWBOUND_ROWS : Word := 16#8202;
+      ERR_MATR2_LOWBOUND_COLUMNS_RESMATR_LOWBOUND_COLUMNS : Word := 16#8203;
+      ERR_MATR1_UPPBOUND_ROWS_RESMATR_UPPBOUND_ROWS : Word := 16#8204;
+      ERR_MATR2_UPPBOUND_COLUMNS_RESMATR_UPPBOUND_COLUMNS : Word := 16#8205;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_MatrixMultiplication
+	  // Comment/Function: Caluclates the multiplication of two matrices
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 19.08.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA Portal V14 Update 1
+	  // 02.00.00 06.02.2017  Siemens Industry Online Support
+	  //                      Functionality using Array[*,*]
+	  // 02.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 02.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 02.00.06 13.11.2019  Simatic Systems Support
+	  //                      Regions, comments and constants are added
+	  //                      Moved matrices to IO field.
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 02.02.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //=================================================================================
+	END_REGION Block info header
+	
+	REGION Getting matrices size
+	  //Determine the size of the matrices
+	  // Lower bound rows
+	  #tempMatrix1LowerBoundRows := LOWER_BOUND(ARR := #matrix1, DIM := #ROWS);
+	  #tempMatrix2LowerBoundRows := LOWER_BOUND(ARR := #matrix2, DIM := #ROWS);
+	  #tempResultMatrixLowerBoundRows := LOWER_BOUND(ARR := #matrixResult, DIM := #ROWS);
+	  // Lower bound columns
+	  #tempMatrix1LowerBoundColumns := LOWER_BOUND(ARR := #matrix1, DIM := #COLUMNS);
+	  #tempMatrix2LowerBoundColumns := LOWER_BOUND(ARR := #matrix2, DIM := #COLUMNS);
+	  #tempResultMatrixLowerBoundColumns := LOWER_BOUND(ARR := #matrixResult, DIM := #COLUMNS);
+	  
+	  // Upper bound rows
+	  #tempMatrix1UpperBoundRows := UPPER_BOUND(ARR := #matrix1, DIM := #ROWS);
+	  #tempMatrix2UpperBoundRows := UPPER_BOUND(ARR := #matrix2, DIM := #ROWS);
+	  #tempResultMatrixUpperBoundRows := UPPER_BOUND(ARR := #matrixResult, DIM := #ROWS);
+	  // Upper bound columns
+	  #tempMatrix1UpperBoundColumns := UPPER_BOUND(ARR := #matrix1, DIM := #COLUMNS);
+	  #tempMatrix2UpperBoundColumns := UPPER_BOUND(ARR := #matrix2, DIM := #COLUMNS);
+	  #tempResultMatrixUpperBoundColumns := UPPER_BOUND(ARR := #matrixResult, DIM := #COLUMNS);
+	END_REGION
+	
+	REGION Error evaluation of matrices dimentions
+	  // Matrix one must have the same count of rows as matrix two has columns. Else the multiplication is not possible.
+	  IF #tempMatrix1LowerBoundColumns <> #tempMatrix2LowerBoundRows THEN
+	    #error := true;
+	    #status := #ERR_MATR1_LOWBOUND_COLUMNS_MATR2_LOWBOUND_ROWS;
+	    RETURN;
+	  ELSIF #tempMatrix1UpperBoundColumns <> #tempMatrix2UpperBoundRows THEN
+	    #error := true;
+	    #status := #ERR_MATR1_UPPBOUND_COLUMNS_MATR2_UPPBOUND_ROWS;
+	    RETURN;
+	  END_IF;
+	  // Result matrix must have the same number of rows as matrix 1 and the same number of columns as the matrix 2.
+	  IF (#tempMatrix1LowerBoundRows <> #tempResultMatrixLowerBoundRows) THEN
+	    #error := true;
+	    #status := #ERR_MATR1_LOWBOUND_ROWS_RESMATR_LOWBOUND_ROWS;
+	    RETURN;
+	  ELSIF (#tempMatrix1UpperBoundRows <> #tempResultMatrixUpperBoundRows) THEN
+	    #error := true;
+	    #status := #ERR_MATR1_UPPBOUND_ROWS_RESMATR_UPPBOUND_ROWS;
+	    RETURN;
+	  ELSIF (#tempMatrix2LowerBoundColumns <> #tempResultMatrixLowerBoundColumns) THEN
+	    #error := true;
+	    #status := #ERR_MATR2_LOWBOUND_COLUMNS_RESMATR_LOWBOUND_COLUMNS;
+	    RETURN;
+	  ELSIF (#tempMatrix2UpperBoundColumns <> #tempResultMatrixUpperBoundColumns) THEN
+	    #error := true;
+	    #status := #ERR_MATR2_UPPBOUND_COLUMNS_RESMATR_UPPBOUND_COLUMNS;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Multiplication
+	  //Multiplies each row with each column
+	  FOR #tempJ := #tempMatrix1LowerBoundRows TO #tempMatrix1UpperBoundRows DO
+	    FOR #tempK := #tempMatrix2LowerBoundColumns TO #tempMatrix2UpperBoundColumns DO
+	      #tempResult := #ZERO;
+	      FOR #tempL := #tempMatrix1LowerBoundColumns TO #tempMatrix1UpperBoundColumns DO
+	        #tempResult := #tempResult + #matrix1[#tempJ, #tempL] * #matrix2[#tempL, #tempK];
+	      END_FOR;
+	      #matrixResult[#tempJ, #tempK] := #tempResult;
+	    END_FOR;
+	  END_FOR;
+	  
+	  #error := false;
+	  #status := #STATUS_NO_ERROR;
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_MatrixScalarMultiplication" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_MatrixScalarMultiplication
+   VAR_INPUT 
+      scalar : LReal;
+   END_VAR
+
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      matrixInput : Array[*, *] of LReal;
+      matrixResult : Array[*, *] of LReal;
+   END_VAR
+
+   VAR_TEMP 
+      tempMatrixInLowerBoundRows : DInt;
+      tempMatrixInLowerBoundColumns : DInt;
+      tempMatrixInUpperBoundRows : DInt;
+      tempMatrixInUpperBoundColumns : DInt;
+      tempResultMatrixLowerBoundRows : DInt;
+      tempResultMatrixLowerBoundColumns : DInt;
+      tempResultMatrixUpperBoundRows : DInt;
+      tempResultMatrixUpperBoundColumns : DInt;
+      tempRowIndex : DInt;
+      tempColumIndex : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      ROWS : UInt := 1;
+      COLUMNS : UInt := 2;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_MATRICES_LOWER_BOUND_ROWS_DONT_MATCH : Word := 16#8201;
+      ERR_MATRICES_UPPER_BOUND_ROWS_DONT_MATCH : Word := 16#8202;
+      ERR_MATRICES_LOWER_BOUND_COLUMNS_DONT_MATCH : Word := 16#8203;
+      ERR_MATRICES_UPPER_BOUND_COLUMNS_DONT_MATCH : Word := 16#8204;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_MatrixScalarMultiplication
+	  // Comment/Function: Caluclates the multiplication of one matrix and a scalar value
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 11.12.2019  Simatic Systems Support
+	  //                      First released version
+	  //                      based on "LGF_MatrixMultiplication"
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 02.02.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //=================================================================================
+	END_REGION Block info header
+	
+	REGION Getting matrices size
+	  //Determine the size of the matrices
+	  // Lower bound rows
+	  #tempMatrixInLowerBoundRows := LOWER_BOUND(ARR := #matrixInput, DIM := #ROWS);
+	  #tempResultMatrixLowerBoundRows := LOWER_BOUND(ARR := #matrixResult, DIM := #ROWS);
+	  // Lower bound columns
+	  #tempMatrixInLowerBoundColumns := LOWER_BOUND(ARR := #matrixInput, DIM := #COLUMNS);
+	  #tempResultMatrixLowerBoundColumns := LOWER_BOUND(ARR := #matrixResult, DIM := #COLUMNS);
+	  
+	  // Upper bound rows
+	  #tempMatrixInUpperBoundRows := UPPER_BOUND(ARR := #matrixInput, DIM := #ROWS);
+	  #tempResultMatrixUpperBoundRows := UPPER_BOUND(ARR := #matrixResult, DIM := #ROWS);
+	  // Upper bound columns
+	  #tempMatrixInUpperBoundColumns := UPPER_BOUND(ARR := #matrixInput, DIM := #COLUMNS);
+	  #tempResultMatrixUpperBoundColumns := UPPER_BOUND(ARR := #matrixResult, DIM := #COLUMNS);
+	END_REGION
+	
+	REGION Error evaluation of matrices dimentions
+	  // Result matrix must have the same number of rows as matrix 1 and the same number of columns as the matrix 2.
+	  IF (#tempMatrixInLowerBoundRows <> #tempResultMatrixLowerBoundRows) THEN
+	    #error := true;
+	    #status := #ERR_MATRICES_LOWER_BOUND_ROWS_DONT_MATCH;
+	    RETURN;
+	  ELSIF (#tempMatrixInUpperBoundRows <> #tempResultMatrixUpperBoundRows) THEN
+	    #error := true;
+	    #status := #ERR_MATRICES_UPPER_BOUND_ROWS_DONT_MATCH;
+	    RETURN;
+	  ELSIF (#tempMatrixInLowerBoundColumns <> #tempResultMatrixLowerBoundColumns) THEN
+	    #error := true;
+	    #status := #ERR_MATRICES_LOWER_BOUND_COLUMNS_DONT_MATCH;
+	    RETURN;
+	  ELSIF (#tempMatrixInUpperBoundColumns <> #tempResultMatrixUpperBoundColumns) THEN
+	    #error := true;
+	    #status := #ERR_MATRICES_UPPER_BOUND_COLUMNS_DONT_MATCH;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Multiplication
+	  //Multiplies each row with each column
+	  FOR #tempRowIndex := #tempMatrixInLowerBoundRows TO #tempMatrixInUpperBoundRows DO
+	    FOR #tempColumIndex := #tempMatrixInLowerBoundColumns TO #tempMatrixInUpperBoundColumns DO
+	      // result is input matrix element multiplied with the scalar
+	      #matrixResult[#tempRowIndex, #tempColumIndex] *= #scalar;
+	    END_FOR;
+	  END_FOR;
+	  
+	  #error := false;
+	  #status := #STATUS_NO_ERROR;
+	  //ENO mechanism is not used - forced to true.
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_MatrixSubtraction" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_MatrixSubtraction
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      matrix1 : Array[*, *] of LReal;
+      matrix2 : Array[*, *] of LReal;
+      matrixResult : Array[*, *] of LReal;
+   END_VAR
+
+   VAR_TEMP 
+      tempMatrix1LowerBoundRows : DInt;
+      tempMatrix1LowerBoundColumns : DInt;
+      tempMatrix1UpperBoundRows : DInt;
+      tempMatrix1UpperBoundColumns : DInt;
+      tempMatrix2LowerBoundRows : DInt;
+      tempMatrix2LowerBoundColumns : DInt;
+      tempMatrix2UpperBoundRows : DInt;
+      tempMatrix2UpperBoundColumns : DInt;
+      tempResultMatrixLowerBoundRows : DInt;
+      tempResultMatrixLowerBoundColumns : DInt;
+      tempResultMatrixUpperBoundRows : DInt;
+      tempResultMatrixUpperBoundColumns : DInt;
+      tempCounterRows : DInt;
+      tempCounterColumns : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      ROWS : UInt := 1;
+      COLUMNS : UInt := 2;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_MATR1_LOWBOUND_ROWS_MATR2_LOWBOUND_ROWS : Word := 16#8200;
+      ERR_MATR1_LOWBOUND_ROWS_RESMATR_LOWBOUND_ROWS : Word := 16#8201;
+      ERR_MATR1_LOWBOUND_COLUMNS_MATR2_LOWBOUND_COLUMNS : Word := 16#8202;
+      ERR_MATR1_LOWBOUND_COLUMNS_RESMATR_LOWBOUND_COLUMNS : Word := 16#8203;
+      ERR_MATR1_UPPBOUND_ROWS_MATR2_UPPBOUND_ROWS : Word := 16#8204;
+      ERR_MATR1_UPPBOUND_ROWS_RESMATR_UPPBOUND_ROWS : Word := 16#8205;
+      ERR_MATR1_UPPBOUND_COLUMNS_MATR2_UPPBOUND_COLUMNS : Word := 16#8206;
+      ERR_MATR1_UPPBOUND_COLUMNS_RESMATR_UPPBOUND_COLUMNS : Word := 16#8207;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_MatrixSubtraction
+	  // Comment/Function: Caluclates the difference of two matrices with same boundries
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 19.08.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA Portal V14 Update 1
+	  // 02.00.00 06.02.2017  Siemens Industry Online Support
+	  //                      Functionality using Array[*,*]
+	  // 02.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 02.00.06 07.10.2019  Simatic Systems Support
+	  //                      Regions, comments and constants are added
+	  //                      Moved matrices to IO field.
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 02.02.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION Getting matrices size
+	  //Determine the size of the matrices
+	  // Lower bound rows
+	  #tempMatrix1LowerBoundRows := LOWER_BOUND(ARR := #matrix1, DIM := #ROWS);
+	  #tempMatrix2LowerBoundRows := LOWER_BOUND(ARR := #matrix2, DIM := #ROWS);
+	  #tempResultMatrixLowerBoundRows := LOWER_BOUND(ARR := #matrixResult, DIM := #ROWS);
+	  // Lower bound columns
+	  #tempMatrix1LowerBoundColumns := LOWER_BOUND(ARR := #matrix1, DIM := #COLUMNS);
+	  #tempMatrix2LowerBoundColumns := LOWER_BOUND(ARR := #matrix2, DIM := #COLUMNS);
+	  #tempResultMatrixLowerBoundColumns := LOWER_BOUND(ARR := #matrixResult, DIM := #COLUMNS);
+	  
+	  // Upper bound rows
+	  #tempMatrix1UpperBoundRows := UPPER_BOUND(ARR := #matrix1, DIM := #ROWS);
+	  #tempMatrix2UpperBoundRows := UPPER_BOUND(ARR := #matrix2, DIM := #ROWS);
+	  #tempResultMatrixUpperBoundRows := UPPER_BOUND(ARR := #matrixResult, DIM := #ROWS);
+	  // Upper bound columns
+	  #tempMatrix1UpperBoundColumns := UPPER_BOUND(ARR := #matrix1, DIM := #COLUMNS);
+	  #tempMatrix2UpperBoundColumns := UPPER_BOUND(ARR := #matrix2, DIM := #COLUMNS);
+	  #tempResultMatrixUpperBoundColumns := UPPER_BOUND(ARR := #matrixResult, DIM := #COLUMNS);
+	END_REGION
+	
+	REGION Error evaluation of matrixes dimentions
+	  // Check the lower bound of all matrices
+	  IF #tempMatrix1LowerBoundRows <> #tempMatrix2LowerBoundRows THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_LOWBOUND_ROWS_MATR2_LOWBOUND_ROWS;
+	    RETURN;
+	  ELSIF #tempMatrix1LowerBoundRows <> #tempResultMatrixLowerBoundRows THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_LOWBOUND_ROWS_RESMATR_LOWBOUND_ROWS;
+	    RETURN;
+	  ELSIF #tempMatrix1LowerBoundColumns <> #tempMatrix2LowerBoundColumns THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_LOWBOUND_COLUMNS_MATR2_LOWBOUND_COLUMNS;
+	    RETURN;
+	  ELSIF #tempMatrix1LowerBoundColumns <> #tempResultMatrixLowerBoundColumns THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_LOWBOUND_COLUMNS_RESMATR_LOWBOUND_COLUMNS;
+	    RETURN;
+	  END_IF;
+	  
+	  // Check the upper bound of all matrices
+	  IF (#tempMatrix1UpperBoundRows <> #tempMatrix2UpperBoundRows) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_UPPBOUND_ROWS_MATR2_UPPBOUND_ROWS;
+	    RETURN;
+	  ELSIF (#tempMatrix1UpperBoundRows <> #tempResultMatrixUpperBoundRows) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_UPPBOUND_ROWS_RESMATR_UPPBOUND_ROWS;
+	    RETURN;
+	  ELSIF (#tempMatrix1UpperBoundColumns <> #tempMatrix2UpperBoundColumns) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_UPPBOUND_COLUMNS_MATR2_UPPBOUND_COLUMNS;
+	    RETURN;
+	  ELSIF (#tempMatrix1UpperBoundColumns <> #tempResultMatrixUpperBoundColumns) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_UPPBOUND_COLUMNS_RESMATR_UPPBOUND_COLUMNS;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Subtraction of the matrices and writting to output
+	  FOR #tempCounterRows := #tempMatrix1LowerBoundRows TO #tempMatrix1UpperBoundRows DO
+	    FOR #tempCounterColumns := #tempMatrix1LowerBoundColumns TO #tempMatrix1UpperBoundColumns DO
+	      #matrixResult[#tempCounterRows, #tempCounterColumns] := #matrix1[#tempCounterRows, #tempCounterColumns] - #matrix2[#tempCounterRows, #tempCounterColumns];
+	    END_FOR;
+	  END_FOR;
+	  
+	  #error := false;
+	  #status := #STATUS_NO_ERROR;
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_MatrixTranspose" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_MatrixTranspose
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      matrix : Array[*, *] of LReal;
+      matrixTranspose : Array[*, *] of LReal;
+   END_VAR
+
+   VAR_TEMP 
+      tempMatrix1LowerBoundRows : DInt;
+      tempMatrix1LowerBoundColumns : DInt;
+      tempMatrix1UpperBoundRows : DInt;
+      tempMatrix1UpperBoundColumns : DInt;
+      tempResultMatrixLowerBoundRows : DInt;
+      tempResultMatrixLowerBoundColumns : DInt;
+      tempResultMatrixUpperBoundRows : DInt;
+      tempResultMatrixUpperBoundColumns : DInt;
+      tempCounterRow : DInt;
+      tempCounterColumn : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      ROWS : UInt := 1;
+      COLUMNS : UInt := 2;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_MATR1_LOWBOUND_ROWS_RESMATR_LOWBOUND_COLUMNS : Word := 16#8200;
+      ERR_MATR1_LOWBOUND_COLUMNS_RESMATR_LOWBOUND_ROWS : Word := 16#8201;
+      ERR_MATR1_UPPBOUND_ROWS_RESMATR_UPPBOUND_COLUMNS : Word := 16#8202;
+      ERR_MATR1_UPPBOUND_COLUMNS_RESMATR_UPPBOUND_ROWS : Word := 16#8203;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_MatrixTranspose
+	  // Comment/Function: Caluclates the transposed matrix of the input matrix
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 19.08.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA Portal V14 Update 1
+	  // 02.00.00 06.02.2017  Siemens Industry Online Support
+	  //                      Functionality using Array[*,*]
+	  // 02.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 02.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 02.00.07 13.11.2019  Simatic Systems Support
+	  //                      Regions, comments and constants are added
+	  //                      Moved matrices to IO field.
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 02.02.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //=================================================================================
+	END_REGION Block info header
+	
+	REGION Determine the size of the matrices
+	  // Lower bound rows
+	  #tempMatrix1LowerBoundRows := LOWER_BOUND(ARR := #matrix, DIM := #ROWS);
+	  #tempResultMatrixLowerBoundRows := LOWER_BOUND(ARR := #matrixTranspose, DIM := #ROWS);
+	  // Lower bound columns
+	  #tempMatrix1LowerBoundColumns := LOWER_BOUND(ARR := #matrix, DIM := #COLUMNS);
+	  #tempResultMatrixLowerBoundColumns := LOWER_BOUND(ARR := #matrixTranspose, DIM := #COLUMNS);
+	  // Upper bound rows
+	  #tempMatrix1UpperBoundRows := UPPER_BOUND(ARR := #matrix, DIM := #ROWS);
+	  #tempResultMatrixUpperBoundRows := UPPER_BOUND(ARR := #matrixTranspose, DIM := #ROWS);
+	  // Upper bound columns
+	  #tempMatrix1UpperBoundColumns := UPPER_BOUND(ARR := #matrix, DIM := #COLUMNS);
+	  #tempResultMatrixUpperBoundColumns := UPPER_BOUND(ARR := #matrixTranspose, DIM := #COLUMNS);
+	END_REGION
+	
+	REGION Error validation
+	  // Input matrix lower bound rows must be equal to output matrix lower bound columns.
+	  IF (#tempMatrix1LowerBoundRows <> #tempResultMatrixLowerBoundColumns) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_LOWBOUND_ROWS_RESMATR_LOWBOUND_COLUMNS;
+	    RETURN;
+	    // Input matrix lower bound columns must be equal to output matrix lower bound rows. 
+	  ELSIF (#tempMatrix1LowerBoundColumns <> #tempResultMatrixLowerBoundRows) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_LOWBOUND_COLUMNS_RESMATR_LOWBOUND_ROWS;
+	    RETURN;
+	    // Input matrix upper bound rows must be equal to output matrix upper bound columns
+	  ELSIF (#tempMatrix1UpperBoundRows <> #tempResultMatrixUpperBoundColumns) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_UPPBOUND_ROWS_RESMATR_UPPBOUND_COLUMNS;
+	    RETURN;
+	    // Input matrix upper bound columns must be equal to output matrix upper bound rows.
+	  ELSIF (#tempMatrix1UpperBoundColumns <> #tempResultMatrixUpperBoundRows) THEN
+	    #error := TRUE;
+	    #status := #ERR_MATR1_UPPBOUND_COLUMNS_RESMATR_UPPBOUND_ROWS;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Calculation of the transposed matrix
+	  FOR #tempCounterRow := #tempMatrix1LowerBoundRows TO #tempMatrix1UpperBoundRows DO
+	    FOR #tempCounterColumn := #tempMatrix1LowerBoundColumns TO #tempMatrix1UpperBoundColumns DO
+	      #matrixTranspose[#tempCounterColumn, #tempCounterRow] := #matrix[#tempCounterRow, #tempCounterColumn];
+	    END_FOR;
+	  END_FOR;
+	  
+	  #error := false;
+	  #status := #STATUS_NO_ERROR;
+	  //Set ENO to true
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+

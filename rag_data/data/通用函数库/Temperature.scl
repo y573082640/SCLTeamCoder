@@ -1,0 +1,593 @@
+﻿FUNCTION "LGF_CelsiusToFahrenheit" : Real
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry_Support
+FAMILY : LGF
+NAME : LGF_CelsiusToFahrenheit
+   VAR_INPUT 
+      value : Real;
+   END_VAR
+
+   VAR_TEMP 
+      tempFahrenheitTemperature : Real;
+   END_VAR
+
+   VAR CONSTANT 
+      TEMPERATURE_GAIN : Real := 1.8;
+      TEMPERATURE_OFFSET : Real := 32.0;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_CelsiusToFahrenheit
+	  // Comment/Function: This function converts a temperature value - from °Celsius to °Fahrenheit 
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15.1
+	  // Restrictions:     ENO disabled - no error handling
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //===============================================================================
+	END_REGION
+	
+	REGION CONVERT
+	  #tempFahrenheitTemperature := #value * #TEMPERATURE_GAIN + #TEMPERATURE_OFFSET;
+	END_REGION
+	
+	REGION OUTPUTS
+	  #LGF_CelsiusToFahrenheit := #tempFahrenheitTemperature;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_CelsiusToKelvin" : Real
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry_Support
+FAMILY : LGF
+NAME : LGF_CelsiusToKelvin
+   VAR_INPUT 
+      value : Real;
+   END_VAR
+
+   VAR_TEMP 
+      tempKelvinTemperature : Real;
+   END_VAR
+
+   VAR CONSTANT 
+      TEMPERATURE_OFFSET : Real := 273.15;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_CelsiusToKelvin
+	  // Comment/Function: This function converts a temperature value - from °Celsius to °Kelvin
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15.1
+	  // Restrictions:     ENO disabled - no error handling
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //===============================================================================
+	END_REGION
+	
+	REGION CONVERT
+	  #tempKelvinTemperature := #value + #TEMPERATURE_OFFSET;
+	END_REGION
+	
+	REGION OUTPUTS
+	  #LGF_CelsiusToKelvin := #tempKelvinTemperature;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_ConvertTemperature" : Real
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry_Support
+FAMILY : LGF
+NAME : LGF_ConvertTemperature
+   VAR_INPUT 
+      mode : Int;
+      value : Real;
+   END_VAR
+
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_TEMP 
+      tempConversionResult : Real;
+   END_VAR
+
+   VAR CONSTANT 
+      CELSIUS_TO_FAHRENHEIT : Int := 1;
+      CELSIUS_TO_FAHRENHEIT_GAIN : Real := 1.8;
+      CELSIUS_TO_FAHRENHEIT_OFFSET : Real := 32.0;
+      FAHRENHEIT_TO_CELSIUS : Int := 2;
+      FAHRENHEIT_TO_CELSIUS_GAIN : Real := 1.8;
+      FAHRENHEIT_TO_CELSIUS_OFFSET : Real := 32.0;
+      CELSIUS_TO_KELVIN : Int := 3;
+      CELSIUS_TO_KELVIN_OFFSET : Real := 273.15;
+      KELVIN_TO_CELSIUS : Int := 4;
+      KELVIN_TO_CELSIUS_OFFSET : Real := 273.15;
+      FAHRENHEIT_TO_KELVIN : Int := 5;
+      FAHRENHEIT_TO_KELVIN_GAIN : Real := 1.8;
+      FAHRENHEIT_TO_KELVIN_OFFSET_FAHRENHEIT : Real := 273.15;
+      FAHRENHEIT_TO_KELVIN_OFFSET : Real := 32.0;
+      KELVIN_TO_FAHRENHEIT : Int := 6;
+      KELVIN_TO_FAHRENHEIT_GAIN : Real := 1.8;
+      KELVIN_TO_FAHRENHEIT_OFFSET_KELVIN : Real := 273.15;
+      KELVIN_TO_FAHRENHEIT_OFFSET : Real := 32.0;
+      RANKINE_TO_KELVIN : Int := 7;
+      RANKINE_TO_KELVIN_GAIN_NUMERATOR : Real := 5.0;
+      RANKINE_TO_KELVIN_GAIN_DENOMINATOR : Real := 9.0;
+      KELVIN_TO_RANKINE : Int := 8;
+      KELVIN_TO_RANKINE_FACTOR : Real := 1.8;
+      NO_ERROR : Word := 16#0000;
+      ERR_WRONG_MODE : Word := 16#8200;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_ConvertTemperature
+	  // Comment/Function: This function converts the temperature in another unit by using an appropriate mode
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      CPU1212C DC/DC/DC FW:V4.2
+	  // Engineering:      TIA Portal V15.1
+	  // Restrictions:     ENO disabled - error handling done with done and status (just for a wrong mode)
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 19.08.2015   Siemens Industry Online Support
+	  //                         First released version
+	  // 01.00.01 | 02.01.2017 | Siemens Industry Online Support
+	  //                         Upgrade: TIA Portal V14 Update 1
+	  // 01.00.02 | 17.08.2018 | Siemens Industry Online Support
+	  //                         Upgrade: TIA V15 Update 2
+	  // 01.00.03 | 23.11.2018 | Siemens Industry Online Support
+	  //                         Upgrade: TIA V15.1
+	  // 02.00.00 | 16.12.2018 | Simatic Systems Support
+	  //                         Rename from "LGF_TemperatureConvert" to "LGF_ConvertTemperature"
+	  //                         to start with the verb
+	  //                         include the Rankine conversion
+	  //                         Code refactoring, regions, commends and constants
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //===============================================================================
+	END_REGION
+	
+	REGION CONVERT
+	  CASE #mode OF
+	    #CELSIUS_TO_FAHRENHEIT:
+	      // F = C * 1.8 + 32
+	      #tempConversionResult := #value * #CELSIUS_TO_FAHRENHEIT_GAIN + #CELSIUS_TO_FAHRENHEIT_OFFSET;
+	      
+	    #FAHRENHEIT_TO_CELSIUS:
+	      // C = (F - 32) / 1.8
+	      #tempConversionResult := (#value - #FAHRENHEIT_TO_CELSIUS_OFFSET) / #FAHRENHEIT_TO_CELSIUS_GAIN;
+	      
+	    #CELSIUS_TO_KELVIN:
+	      // K = C + 273.15
+	      #tempConversionResult := #value + #CELSIUS_TO_KELVIN_OFFSET;
+	      
+	    #KELVIN_TO_CELSIUS:
+	      // C = K - 273.15
+	      #tempConversionResult := #value - #KELVIN_TO_CELSIUS_OFFSET;
+	      
+	    #FAHRENHEIT_TO_KELVIN:
+	      // K := ((C - 32.0) / 1.8) + 273.15
+	      #tempConversionResult := ((#value - #FAHRENHEIT_TO_KELVIN_OFFSET) / #FAHRENHEIT_TO_KELVIN_GAIN) + #FAHRENHEIT_TO_KELVIN_OFFSET_FAHRENHEIT;
+	      
+	    #KELVIN_TO_FAHRENHEIT:
+	      // F := (K - 273.15) * 1.8 + 32.0
+	      #tempConversionResult := ((#value - #KELVIN_TO_FAHRENHEIT_OFFSET_KELVIN) * #KELVIN_TO_FAHRENHEIT_GAIN) + #KELVIN_TO_FAHRENHEIT_OFFSET;
+	      
+	    #RANKINE_TO_KELVIN:
+	      // K =  5 / 9 *R
+	      #tempConversionResult := #RANKINE_TO_KELVIN_GAIN_NUMERATOR * #value / #RANKINE_TO_KELVIN_GAIN_DENOMINATOR;
+	      
+	    #KELVIN_TO_RANKINE:
+	      // R = 9 / 5 * K
+	      #tempConversionResult := #KELVIN_TO_RANKINE_FACTOR * #value;
+	      
+	    ELSE
+	      // no/ wrong mode selected
+	      #LGF_ConvertTemperature := 0.0;
+	      #error := TRUE;
+	      #status := #ERR_WRONG_MODE;
+	      RETURN;
+	  END_CASE;
+	END_REGION
+	
+	REGION OUTPUTS
+	  #LGF_ConvertTemperature := #tempConversionResult;
+	  #error := FALSE;
+	  #status := #NO_ERROR;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+END_FUNCTION
+
+FUNCTION "LGF_FahrenheitToCelsius" : Real
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry_Support
+FAMILY : LGF
+NAME : LGF_FahrenheitToCelsius
+   VAR_INPUT 
+      value : Real;
+   END_VAR
+
+   VAR_TEMP 
+      tempCelsiusTemperature : Real;
+   END_VAR
+
+   VAR CONSTANT 
+      TEMPERATURE_GAIN : Real := 1.8;
+      TEMPERATURE_OFFSET : Real := 32.0;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_FahrenheitToCelsius
+	  // Comment/Function: This function converts a temperature value - from °Fahrenheit to °Celsius
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15.1
+	  // Restrictions:     ENO disabled - no error handling
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //===============================================================================
+	END_REGION
+	
+	REGION CONVERT
+	  #tempCelsiusTemperature := (#value - #TEMPERATURE_OFFSET) / #TEMPERATURE_GAIN;
+	END_REGION
+	
+	REGION OUTPUTS
+	  #LGF_FahrenheitToCelsius := #tempCelsiusTemperature;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_FahrenheitToKelvin" : Real
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry_Support
+FAMILY : LGF
+NAME : LGF_FahrenheitToKelvin
+   VAR_INPUT 
+      value : Real;
+   END_VAR
+
+   VAR_TEMP 
+      tempKelvinTemperature : Real;
+   END_VAR
+
+   VAR CONSTANT 
+      TEMPERATURE_GAIN : Real := 1.8;
+      TEMPERATURE_OFFSET_FAHRENHEIT : Real := 273.15;
+      TEMPERATURE_OFFSET : Real := 32.0;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_FahrenheitToKelvin
+	  // Comment/Function: This function converts the Fahrenheit to Kelvin temperature
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15.1
+	  // Restrictions:     ENO disabled - no error handling
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //===============================================================================
+	END_REGION
+	
+	REGION CONVERT
+	  #tempKelvinTemperature := ((#value - #TEMPERATURE_OFFSET) / #TEMPERATURE_GAIN) + #TEMPERATURE_OFFSET_FAHRENHEIT;
+	END_REGION
+	
+	REGION OUTPUTS
+	  #LGF_FahrenheitToKelvin := #tempKelvinTemperature;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_KelvinToCelsius" : Real
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry_Support
+FAMILY : LGF
+NAME : LGF_KelvinToCelsius
+   VAR_INPUT 
+      value : Real;
+   END_VAR
+
+   VAR_TEMP 
+      tempCelsiusTemperature : Real;
+   END_VAR
+
+   VAR CONSTANT 
+      TEMPERATURE_OFFSET : Real := 273.15;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_KelvinToCelsius
+	  // Comment/Function: This function converts a temperature value - from °Kelvin to °Celsius
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15.1
+	  // Restrictions:     ENO disabled - no error handling
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //===============================================================================
+	END_REGION
+	
+	REGION CONVERT
+	  #tempCelsiusTemperature := #value - #TEMPERATURE_OFFSET;
+	END_REGION
+	
+	REGION OUTPUTS
+	  #LGF_KelvinToCelsius := #tempCelsiusTemperature;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_KelvinToFahrenheit" : Real
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry_Support
+FAMILY : LGF
+NAME : LGF_KelvinToFahrenheit
+   VAR_INPUT 
+      value : Real;
+   END_VAR
+
+   VAR_TEMP 
+      tempFahrenheitTemperature : Real;
+   END_VAR
+
+   VAR CONSTANT 
+      TEMPERATURE_GAIN : Real := 1.8;
+      TEMPERATURE_OFFSET_KELVIN : Real := 273.15;
+      TEMPERATURE_OFFSET : Real := 32.0;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_FahrenheitToKelvin
+	  // Comment/Function: This function converts a temperature value - from °Kelvin to °Fahrenheit
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15.1
+	  // Restrictions:     ENO disabled - no error handling
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //===============================================================================
+	END_REGION
+	
+	REGION CONVERT
+	  #tempFahrenheitTemperature := ((#value - #TEMPERATURE_OFFSET_KELVIN) * #TEMPERATURE_GAIN) + #TEMPERATURE_OFFSET;
+	END_REGION
+	
+	REGION OUTPUTS
+	  #LGF_KelvinToFahrenheit := #tempFahrenheitTemperature;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_KelvinToRankine" : Real
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry_Support
+FAMILY : LGF
+NAME : LGF_KelvinToRankine
+   VAR_INPUT 
+      value : Real;
+   END_VAR
+
+   VAR_TEMP 
+      tempRankineTemperature : Real;
+   END_VAR
+
+   VAR CONSTANT 
+      TEMPERATURE_GAIN : Real := 1.8;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_KelvinToRankine
+	  // Comment/Function: This function converts a temperature value - from °Kelvin to °Rankine
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15.1
+	  // Restrictions:     ENO disabled - no error handling
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //===============================================================================
+	END_REGION
+	
+	REGION CONVERT
+	  #tempRankineTemperature := #value * #TEMPERATURE_GAIN;
+	END_REGION
+	
+	REGION OUTPUTS
+	  #LGF_KelvinToRankine := #tempRankineTemperature;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_RankineToKelvin" : Real
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry_Support
+FAMILY : LGF
+NAME : LGF_RankineToKelvin
+   VAR_INPUT 
+      value : Real;
+   END_VAR
+
+   VAR_TEMP 
+      tempKelvinTemperature : Real;
+   END_VAR
+
+   VAR CONSTANT 
+      TEMPERATURE_GAIN_NUMERATOR : Real := 5.0;
+      TEMPERATURE_GAIN_DENOMINATOR : Real := 9.0;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_RankineToKelvin
+	  // Comment/Function: This function converts a temperature value - from °Rankine to °Kelvin
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15.1
+	  // Restrictions:     ENO disabled - no error handling
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //===============================================================================
+	END_REGION
+	
+	
+	REGION CONVERT
+	  #tempKelvinTemperature := (#TEMPERATURE_GAIN_NUMERATOR / #TEMPERATURE_GAIN_DENOMINATOR) * #value;
+	END_REGION
+	
+	REGION OUTPUTS
+	  #LGF_RankineToKelvin := #tempKelvinTemperature;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+

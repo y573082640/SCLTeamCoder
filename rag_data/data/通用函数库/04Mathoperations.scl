@@ -1,0 +1,2728 @@
+﻿FUNCTION "LGF_CalcDistance_2D" : LReal
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_CalcDistance_2D
+   VAR_INPUT 
+      x1 : LReal;
+      y1 : LReal;
+      x2 : LReal;
+      y2 : LReal;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // Siemens AG / (c)Copyright 2017
+	  //-----------------------------------------------------------------------------
+	  // Title:            LGF_CalcDistance_2D
+	  // Comment/Function: Calculates the distance between two points in 2D space
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - ENO mechanism is not used
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 06.07.2018  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.02.00 04.10.2019  Simatic Systems Support
+	  //                      renamed from "Distance" to "CalcDistance_2D"
+	  //                      Data type changed to LREAL
+	  //                      Data type changed to LREAL
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 12.11.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Program
+	  // Calculating the distance
+	  #LGF_CalcDistance_2D := SQRT(SQR(#x2 - #x1) + SQR(#y2 - #y1));
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION_BLOCK "LGF_Integration"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_Integration
+   VAR_INPUT 
+      enable : Bool;
+      value : LReal;
+      reset : Bool;
+   END_VAR
+
+   VAR_OUTPUT 
+      integral { ExternalWritable := 'False'} : LReal;
+      error { ExternalWritable := 'False'} : Bool;
+      status { ExternalWritable := 'False'} : Word;
+      subfunctionStatus { ExternalWritable := 'False'} : Word;
+   END_VAR
+
+   VAR 
+      statLastTime {InstructionName := 'DTL'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DTL;
+      statInputOldValue { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : LReal;
+      statIntegral { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : LReal;
+   END_VAR
+
+   VAR_TEMP 
+      tempSysTime {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;
+      tempTimeDiffrence : LReal;
+      tempCalculation : LReal;
+      tempRetval : Word;
+   END_VAR
+
+   VAR CONSTANT 
+      CLEAR_TIME {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;
+      SECOND_IN_MS : LReal := 1000.0;
+      DIVIDE_BY_TWO : LReal := 2.0;
+      ZERO : LReal := 0.0;
+      STATUS_EXECUTION_FINISHED_NO_ERROR : Word := 16#0000;
+      SUB_STATUS_NO_ERROR : Word := 16#0000;
+      ERR_READ_SYS_TIME : Word := 16#8600;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //----------------------------------------------------------------------------
+	  // Title:            LGF_Integration
+	  // Comment/Function: Integrates the input value
+	  //                   integration by trapezoidal rule
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V3.0 / S7-1215
+	  // Engineering:      TIA Portal V16 Update 4
+	  // Restrictions:     ENO disabled - no error handling by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //----------|------------|------------------------|----------------------------
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|----------------------------
+	  // 01.00.00 17.02.2017  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.01.00 12.11.2019  Simatic Systems Support
+	  //                      Regions, comments and constants are added, code refactored
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 09.02.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  // 03.00.02 07.06.2021  Simatic Systems Support
+	  //                      Fix bug - incompatibility with S7-1200 and LTIME
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	//Reset region must be before the enable region so that even if the function disabled, the user can reset the values.
+	REGION Reset the function
+	  IF #reset THEN
+	    #statInputOldValue := #ZERO;
+	    #statIntegral := #ZERO;
+	    
+	    // Clear LastTime value.
+	    // Initial condition - first Delta time will be 0.
+	    #statLastTime := #CLEAR_TIME;
+	    
+	    #integral := #ZERO;
+	    #error := false;
+	    #status := #STATUS_EXECUTION_FINISHED_NO_ERROR;
+	    #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	END_REGION Reset the function
+	
+	REGION Enable/Disable integral calculation
+	  IF NOT #enable THEN
+	    #statInputOldValue := #ZERO;
+	    
+	    // Clear LastTime value.
+	    // If it is not cleared when the function is enabled again,
+	    // the first value will be multiplied with the time difference of the whole disable time
+	    // Initial condition - first Delta time will be 0.
+	    #statLastTime := #CLEAR_TIME;
+	    
+	    #integral := #statIntegral;
+	    #error := false;
+	    #status := #STATUS_EXECUTION_FINISHED_NO_ERROR;
+	    #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	END_REGION Enable/Disable integral calculation
+	
+	REGION Get system time
+	  // Read system time
+	  #tempRetval := INT_TO_WORD(RD_SYS_T(OUT => #tempSysTime));
+	  
+	  // Error Handling read system time
+	  IF (#tempRetval > #SUB_STATUS_NO_ERROR) THEN
+	    #integral := #statIntegral;
+	    #error := TRUE;
+	    #status := #ERR_READ_SYS_TIME;
+	    #subfunctionStatus := #tempRetval;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Calculating the integral
+	  // Calculate time difference between last and actual time
+	  // coverting from DTL via time and DInt to Real
+	  // scale from millisecond to second
+	  #tempTimeDiffrence := DINT_TO_REAL(TIME_TO_DINT(T_DIFF(IN1 := #tempSysTime, IN2 := #statLastTime))) / #SECOND_IN_MS;
+	  
+	  // Write actual to last time
+	  #statLastTime := #tempSysTime;
+	  
+	  // integration by trapezoidal rule
+	  // add LastScalIn to ScalIn
+	  // divide by two --> avarage of both - old and actual value
+	  // multiply with time delta --> area unterneath the both borders
+	  #tempCalculation := (#value + #statInputOldValue) * #tempTimeDiffrence / #DIVIDE_BY_TWO;
+	  
+	  // Calculate new integral
+	  #statIntegral += #tempCalculation;
+	  
+	  // Save last input
+	  #statInputOldValue := #value;
+	END_REGION Calculating the integral
+	
+	REGION Write outputs
+	  #integral := #statIntegral;
+	  #error := false;
+	  #status := #STATUS_EXECUTION_FINISHED_NO_ERROR;
+	  #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	  
+	  //ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION Write outputs
+	
+END_FUNCTION_BLOCK
+
+FUNCTION "LGF_SearchMinMax_UDInt" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_SearchMinMax_DInt
+   VAR_OUTPUT 
+      minValue : UDInt;
+      minValueIndex : DInt;
+      maxValue : UDInt;
+      maxValueIndex : DInt;
+   END_VAR
+
+   VAR_IN_OUT 
+      values : Array[*] of UDInt;
+   END_VAR
+
+   VAR_TEMP 
+      tempArrayLowerBound : DInt;
+      tempArrayUpperBound : DInt;
+      tempCounter : DInt;
+      tempArrayIndexMax : DInt;
+      tempArrayIndexMin : DInt;
+      tempActValue : UDInt;
+      tempMinValue : UDInt;
+      tempMaxValue : UDInt;
+   END_VAR
+
+   VAR CONSTANT 
+      START_FROM_SECOND_ELEMENT : Int := 1;
+      DIMENSION_ONE : UInt := 1;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // Siemens AG / (c)Copyright 2019
+	  //-----------------------------------------------------------------------------
+	  // Title:            LGF_SearchMinMax_DInt
+	  // Comment/Function: Searches an array for the minimum and maximum number and
+	  //                   outputs the position and values of those numbers for
+	  //                   array of unsigned double integers
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - Error handling not needed, using whole array
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 11.11.2019  Simatic Systems Support
+	  //                      First release
+	  //                      copied from "LGF_SearchMinMax" and reworked to array[*]
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 09.02.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Validation of inputs and outputs 
+	  // Lower bound
+	  #tempArrayLowerBound := LOWER_BOUND(ARR := #values, DIM := #DIMENSION_ONE);
+	  // Upper bound 
+	  #tempArrayUpperBound := UPPER_BOUND(ARR := #values, DIM := #DIMENSION_ONE);
+	END_REGION
+	
+	REGION Searching the array 
+	  //Assign first value as min / max
+	  #tempMaxValue := #values[#tempArrayLowerBound];
+	  #tempMinValue := #tempMaxValue;
+	  
+	  //Search the Array for min/max values
+	  FOR #tempCounter := (#tempArrayLowerBound + #START_FROM_SECOND_ELEMENT) TO #tempArrayUpperBound DO
+	    
+	    #tempActValue := #values[#tempCounter];
+	    
+	    // check for min
+	    IF #tempActValue < #tempMinValue THEN
+	      #tempMinValue := #tempActValue;
+	      #tempArrayIndexMin := #tempCounter;
+	      // check for max
+	    ELSIF #tempActValue > #tempMaxValue THEN
+	      #tempMaxValue := #tempActValue;
+	      #tempArrayIndexMax := #tempCounter;
+	    END_IF;
+	  END_FOR;
+	END_REGION
+	
+	REGION Writting to outputs
+	  //Copy found values to outputs
+	  //Copy Minimum value
+	  #minValue := #values[#tempArrayIndexMin];
+	  //Copy Maximum value
+	  #maxValue := #values[#tempArrayIndexMax];
+	  
+	  //Write found indexes to outputs
+	  #minValueIndex := #tempArrayIndexMin;
+	  #maxValueIndex := #tempArrayIndexMax;
+	  
+	  //ENO mechanism is not used, no error possible
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_SearchMinMax_LReal" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_SearchMinMax_LReal
+   VAR_OUTPUT 
+      minValue : LReal;
+      minValueIndex : DInt;
+      maxValue : LReal;
+      maxValueIndex : DInt;
+   END_VAR
+
+   VAR_IN_OUT 
+      values : Array[*] of LReal;
+   END_VAR
+
+   VAR_TEMP 
+      tempArrayLowerBound : DInt;
+      tempArrayUpperBound : DInt;
+      tempCounter : DInt;
+      tempArrayIndexMax : DInt;
+      tempArrayIndexMin : DInt;
+      tempActValue : LReal;
+      tempMinValue : LReal;
+      tempMaxValue : LReal;
+   END_VAR
+
+   VAR CONSTANT 
+      START_FROM_SECOND_ELEMENT : Int := 1;
+      DIMENSION_ONE : UInt := 1;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // Siemens AG / (c)Copyright 2019
+	  //-----------------------------------------------------------------------------
+	  // Title:            LGF_SearchMinMax_LReal
+	  // Comment/Function: Searches an array for the minimum and maximum number and
+	  //                   outputs the position and values of those numbers for
+	  //                   array of long real
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - Error handling not needed, using whole array
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 11.11.2019  Simatic Systems Support
+	  //                      First release
+	  //                      copied from "LGF_SearchMinMax" and reworked to array[*]
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 09.02.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  // 03.00.02 14.11.2022  Simatic Systems Support
+	  //                      Fix loop start index (start from lower Bound + 1)
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Validation of inputs and outputs 
+	  // Lower bound
+	  #tempArrayLowerBound := LOWER_BOUND(ARR := #values, DIM := #DIMENSION_ONE);
+	  // Upper bound 
+	  #tempArrayUpperBound := UPPER_BOUND(ARR := #values, DIM := #DIMENSION_ONE);
+	END_REGION
+	
+	REGION Searching the array 
+	  //Assign first value as min / max
+	  #tempMaxValue := #values[#tempArrayLowerBound];
+	  #tempMinValue := #tempMaxValue;
+	  
+	  //Search the Array for min/max values
+	  FOR #tempCounter := (#tempArrayLowerBound + #START_FROM_SECOND_ELEMENT) TO #tempArrayUpperBound DO
+	    
+	    #tempActValue := #values[#tempCounter];
+	    
+	    // check for min
+	    IF #tempActValue < #tempMinValue THEN
+	      #tempMinValue := #tempActValue;
+	      #tempArrayIndexMin := #tempCounter;
+	      // check for max
+	    ELSIF #tempActValue > #tempMaxValue THEN
+	      #tempMaxValue := #tempActValue;
+	      #tempArrayIndexMax := #tempCounter;
+	    END_IF;
+	  END_FOR;
+	END_REGION
+	
+	REGION Writting to outputs
+	  //Copy found values to outputs
+	  //Copy Minimum value
+	  #minValue := #values[#tempArrayIndexMin];
+	  //Copy Maximum value
+	  #maxValue := #values[#tempArrayIndexMax];
+	  
+	  //Write found indexes to outputs
+	  #minValueIndex := #tempArrayIndexMin;
+	  #maxValueIndex := #tempArrayIndexMax;
+	  
+	  //ENO mechanism is not used, no error possible
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_SearchMinMax_DInt" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_SearchMinMax_DInt
+   VAR_OUTPUT 
+      minValue : DInt;
+      minValueIndex : DInt;
+      maxValue : DInt;
+      maxValueIndex : DInt;
+   END_VAR
+
+   VAR_IN_OUT 
+      values : Array[*] of DInt;
+   END_VAR
+
+   VAR_TEMP 
+      tempArrayLowerBound : DInt;
+      tempArrayUpperBound : DInt;
+      tempCounter : DInt;
+      tempArrayIndexMax : DInt;
+      tempArrayIndexMin : DInt;
+      tempActValue : DInt;
+      tempMinValue : DInt;
+      tempMaxValue : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      START_FROM_SECOND_ELEMENT : Int := 1;
+      DIMENSION_ONE : UInt := 1;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // Siemens AG / (c)Copyright 2019
+	  //-----------------------------------------------------------------------------
+	  // Title:            LGF_SearchMinMax_DInt
+	  // Comment/Function: Searches an array for the minimum and maximum number and
+	  //                   outputs the position and values of those numbers for
+	  //                   array of double integers
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - Error handling not needed, using whole array
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 11.11.2019  Simatic Systems Support
+	  //                      First release
+	  //                      copied from "LGF_SearchMinMax" and reworked to array[*]
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 09.02.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  // 03.00.02 14.11.2022  Simatic Systems Support
+	  //                      Fix loop start index (start from lower Bound + 1)
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Validation of inputs and outputs 
+	  // Lower bound
+	  #tempArrayLowerBound := LOWER_BOUND(ARR := #values, DIM := #DIMENSION_ONE);
+	  // Upper bound 
+	  #tempArrayUpperBound := UPPER_BOUND(ARR := #values, DIM := #DIMENSION_ONE);
+	END_REGION
+	
+	REGION Searching the array 
+	  // Assign first value as min / max
+	  #tempMinValue := #tempMaxValue := #values[#tempArrayLowerBound];
+	  
+	  // Search the Array for min/max values
+	  FOR #tempCounter := (#tempArrayLowerBound + #START_FROM_SECOND_ELEMENT) TO #tempArrayUpperBound DO
+	    
+	    #tempActValue := #values[#tempCounter];
+	    
+	    // check for min
+	    IF #tempActValue < #tempMinValue THEN
+	      #tempMinValue := #tempActValue;
+	      #tempArrayIndexMin := #tempCounter;
+	      // check for max
+	    ELSIF #tempActValue > #tempMaxValue THEN
+	      #tempMaxValue := #tempActValue;
+	      #tempArrayIndexMax := #tempCounter;
+	    END_IF;
+	  END_FOR;
+	END_REGION
+	
+	REGION Writting to outputs
+	  // Copy found values to outputs
+	  // Copy Minimum value
+	  #minValue := #values[#tempArrayIndexMin];
+	  // Copy Maximum value
+	  #maxValue := #values[#tempArrayIndexMax];
+	  
+	  // Write found indexes to outputs
+	  #minValueIndex := #tempArrayIndexMin;
+	  #maxValueIndex := #tempArrayIndexMax;
+	  
+	  // ENO mechanism is not used, no error possible
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_SearchMinMax" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_SearchMinMax
+   VAR_INPUT 
+      variableArray : Variant;
+   END_VAR
+
+   VAR_OUTPUT 
+      minValue : Variant;
+      minValueIndex : DInt;
+      maxValue : Variant;
+      maxValueIndex : DInt;
+      error : Bool;
+      status : Word;
+      subfunctionStatus : Word;
+   END_VAR
+
+   VAR_TEMP 
+      tempArrayEndIndex : DInt;
+      tempCounter : DInt;
+      tempSubfunctionErr : Int;
+      tempArrayIndexMax : DInt;
+      tempArrayIndexMin : DInt;
+      tempActValueInt : Int;
+      tempMinInt : Int;
+      tempMaxInt : Int;
+      tempActValueUInt : UInt;
+      tempMinUInt : UInt;
+      tempMaxUInt : UInt;
+      tempActValueDInt : DInt;
+      tempMinDInt : DInt;
+      tempMaxDInt : DInt;
+      tempActValueUDInt : UDInt;
+      tempMinUDInt : UDInt;
+      tempMaxUDInt : UDInt;
+      tempActValueUSInt : USInt;
+      tempMinUSInt : USInt;
+      tempMaxUSInt : USInt;
+      tempActValueSInt : SInt;
+      tempMinSInt : SInt;
+      tempMaxSInt : SInt;
+      tempActValueReal : Real;
+      tempMinReal : Real;
+      tempMaxReal : Real;
+      tempActValueLReal : LReal;
+      tempMinLReal : LReal;
+      tempMaxLReal : LReal;
+   END_VAR
+
+   VAR CONSTANT 
+      DECREMNT_BY_ONE : DInt := 1;
+      START_FROM_SECOND_ELEMENT : Int := 1;
+      SUBFUNCTION_NO_ERROR : Int := 0;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_NO_ARRAY : Word := 16#8200;
+      ERR_WRONG_TYPE : Word := 16#8201;
+      ERR_NOT_EQUAL_TYPES : Word := 16#8202;
+      ERR_MOVE_BLK_VARIANT : Word := 16#8203;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // Siemens AG / (c)Copyright 2017
+	  //-----------------------------------------------------------------------------
+	  // Title:            LGF_SearchMinMax
+	  // Comment/Function: Searches an array for the minimum and maximum number and
+	  //                   outputs the position and values of those numbers
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - Error handling with error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 19.08.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA Portal V14 Update 1
+	  // 01.00.02 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.03 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.01.00 08.11.2019  Siemens Industry Presales Support
+	  //                      Code refactoring, regions and more comments added
+	  // 03.00.00 23.04.2020  Siemens Industry Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 09.02.2021  Simatic Systems Support
+	  //                      Rework constants and comments
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Initialization
+	  #error := false;
+	  #status := #STATUS_NO_ERROR;
+	  #subfunctionStatus := INT_TO_WORD(#SUBFUNCTION_NO_ERROR);
+	  #tempSubfunctionErr := #SUBFUNCTION_NO_ERROR;
+	END_REGION
+	
+	REGION Validation of inputs and outputs 
+	  // Check if the variant-variable is an array if yes cout the elements of the array
+	  IF NOT (IS_ARRAY(#variableArray)) THEN
+	    #error := true;
+	    #status := #ERR_NO_ARRAY;
+	    RETURN;
+	    // Check if the elements of the array and the variables min and max have the same datatype.
+	  ELSIF TypeOfElements(#variableArray) <> TypeOf(#minValue) OR TypeOf(#minValue) <> TypeOf(#maxValue) THEN
+	    #error := true;
+	    #status := #ERR_NOT_EQUAL_TYPES;
+	    RETURN;
+	  ELSE
+	    #tempArrayEndIndex := (UDINT_TO_DINT(CountOfElements(#variableArray)) - #DECREMNT_BY_ONE);
+	  END_IF;
+	  //No need for validation for array max length. It cannot exceed DInt
+	END_REGION
+	
+	REGION Searching the array based on data type
+	  CASE TypeOfElements(#variableArray) OF
+	    Int:
+	      REGION Search Array of Integers
+	        //assign first value as min/max
+	        #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                                COUNT := 1,
+	                                                SRC_INDEX := 0,
+	                                                DEST_INDEX := 0,
+	                                                DEST => #tempMaxInt);
+	        //Checking return value of subfunction
+	        IF #tempSubfunctionErr <> #SUBFUNCTION_NO_ERROR THEN
+	          #error := true;
+	          #subfunctionStatus := INT_TO_WORD(#tempSubfunctionErr);
+	          #status := #ERR_MOVE_BLK_VARIANT;
+	          RETURN;
+	        END_IF;
+	        
+	        //Initializa Minimum value
+	        #tempMinInt := #tempMaxInt;
+	        //Search the Array for min/max values
+	        FOR #tempCounter := #START_FROM_SECOND_ELEMENT TO #tempArrayEndIndex DO
+	          //Read the next element of the array
+	          #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                                  COUNT := 1,
+	                                                  SRC_INDEX := #tempCounter,
+	                                                  DEST_INDEX := 0,
+	                                                  DEST => #tempActValueInt);
+	          // check for min
+	          IF #tempActValueInt < #tempMinInt THEN
+	            #tempMinInt := #tempActValueInt;
+	            #tempArrayIndexMin := #tempCounter;
+	            // check for max
+	          ELSIF #tempActValueInt > #tempMaxInt THEN
+	            #tempMaxInt := #tempActValueInt;
+	            #tempArrayIndexMax := #tempCounter;
+	          END_IF;
+	        END_FOR;
+	        //Checking return value of subfunction
+	        IF #tempSubfunctionErr <> #SUBFUNCTION_NO_ERROR THEN
+	          #error := true;
+	          #subfunctionStatus := INT_TO_WORD(#tempSubfunctionErr);
+	          #status := #ERR_MOVE_BLK_VARIANT;
+	          RETURN;
+	        END_IF;
+	      END_REGION
+	      
+	    UInt:
+	      REGION Search Array of Usigned Integers
+	        //Assign first value as min / max
+	        #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                                COUNT := 1,
+	                                                SRC_INDEX := 0,
+	                                                DEST_INDEX := 0,
+	                                                DEST => #tempMaxUInt);
+	        //Checking return value of subfunction
+	        IF #tempSubfunctionErr <> #SUBFUNCTION_NO_ERROR THEN
+	          #error := true;
+	          #subfunctionStatus := INT_TO_WORD(#tempSubfunctionErr);
+	          #status := #ERR_MOVE_BLK_VARIANT;
+	          RETURN;
+	        END_IF;
+	        
+	        //Initializa Minimum value
+	        #tempMinUInt := #tempMaxUInt;
+	        //Search the Array for min/max values
+	        FOR #tempCounter := #START_FROM_SECOND_ELEMENT TO #tempArrayEndIndex DO
+	          //Read the next element of the array
+	          #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                                  COUNT := 1,
+	                                                  SRC_INDEX := #tempCounter,
+	                                                  DEST_INDEX := 0,
+	                                                  DEST => #tempActValueUInt);
+	          // check for min
+	          IF #tempActValueUInt < #tempMinUInt THEN
+	            #tempMinUInt := #tempActValueUInt;
+	            #tempArrayIndexMin := #tempCounter;
+	            // check for max
+	          ELSIF #tempActValueUInt > #tempMaxUInt THEN
+	            #tempMaxUInt := #tempActValueUInt;
+	            #tempArrayIndexMax := #tempCounter;
+	          END_IF;
+	        END_FOR;
+	        //Checking return value of subfunction
+	        IF #tempSubfunctionErr <> #SUBFUNCTION_NO_ERROR THEN
+	          #error := true;
+	          #subfunctionStatus := INT_TO_WORD(#tempSubfunctionErr);
+	          #status := #ERR_MOVE_BLK_VARIANT;
+	          RETURN;
+	        END_IF;
+	      END_REGION
+	      
+	    DInt:
+	      REGION Search Array of Double Integers
+	        //Assign first value as min / max
+	        #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                                COUNT := 1,
+	                                                SRC_INDEX := 0,
+	                                                DEST_INDEX := 0,
+	                                                DEST => #tempMaxDInt);
+	        //Checking return value of subfunction
+	        IF #tempSubfunctionErr <> #SUBFUNCTION_NO_ERROR THEN
+	          #error := true;
+	          #subfunctionStatus := INT_TO_WORD(#tempSubfunctionErr);
+	          #status := #ERR_MOVE_BLK_VARIANT;
+	          RETURN;
+	        END_IF;
+	        
+	        //Initializa Minimum value
+	        #tempMinDInt := #tempMaxDInt;
+	        //Search the Array for min/max values
+	        FOR #tempCounter := #START_FROM_SECOND_ELEMENT TO #tempArrayEndIndex DO
+	          //Read the next element of the array
+	          #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                                  COUNT := 1,
+	                                                  SRC_INDEX := #tempCounter,
+	                                                  DEST_INDEX := 0,
+	                                                  DEST => #tempActValueDInt);
+	          // check for min
+	          IF #tempActValueDInt < #tempMinDInt THEN
+	            #tempMinDInt := #tempActValueDInt;
+	            #tempArrayIndexMin := #tempCounter;
+	            // check for max
+	          ELSIF #tempActValueDInt > #tempMaxDInt THEN
+	            #tempMaxDInt := #tempActValueDInt;
+	            #tempArrayIndexMax := #tempCounter;
+	          END_IF;
+	        END_FOR;
+	        //Checking return value of subfunction
+	        IF #tempSubfunctionErr <> #SUBFUNCTION_NO_ERROR THEN
+	          #error := true;
+	          #subfunctionStatus := INT_TO_WORD(#tempSubfunctionErr);
+	          #status := #ERR_MOVE_BLK_VARIANT;
+	          RETURN;
+	        END_IF;
+	      END_REGION
+	      
+	    UDInt:
+	      REGION Search Array of Unsigned Double Integers
+	        //Assign first value as min / max
+	        #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                                COUNT := 1,
+	                                                SRC_INDEX := 0,
+	                                                DEST_INDEX := 0,
+	                                                DEST => #tempMaxUDInt);
+	        //Checking return value of subfunction
+	        IF #tempSubfunctionErr <> #SUBFUNCTION_NO_ERROR THEN
+	          #error := true;
+	          #subfunctionStatus := INT_TO_WORD(#tempSubfunctionErr);
+	          #status := #ERR_MOVE_BLK_VARIANT;
+	          RETURN;
+	        END_IF;
+	        
+	        //Initializa Minimum value
+	        #tempMinUDInt := #tempMaxUDInt;
+	        //Search the Array for min/max values
+	        FOR #tempCounter := #START_FROM_SECOND_ELEMENT TO #tempArrayEndIndex DO
+	          //Read the next element of the array
+	          #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                                  COUNT := 1,
+	                                                  SRC_INDEX := #tempCounter,
+	                                                  DEST_INDEX := 0,
+	                                                  DEST => #tempActValueUDInt);
+	          // check for min
+	          IF #tempActValueUDInt < #tempMinUDInt THEN
+	            #tempMinUDInt := #tempActValueUDInt;
+	            #tempArrayIndexMin := #tempCounter;
+	            // check for max
+	          ELSIF #tempActValueUDInt > #tempMaxUDInt THEN
+	            #tempMaxUDInt := #tempActValueUDInt;
+	            #tempArrayIndexMax := #tempCounter;
+	          END_IF;
+	        END_FOR;
+	        //Checking return value of subfunction
+	        IF #tempSubfunctionErr <> #SUBFUNCTION_NO_ERROR THEN
+	          #error := true;
+	          #subfunctionStatus := INT_TO_WORD(#tempSubfunctionErr);
+	          #status := #ERR_MOVE_BLK_VARIANT;
+	          RETURN;
+	        END_IF;
+	      END_REGION
+	      
+	    USInt:
+	      REGION Search Array of Unsigned Short Integers
+	        //Assign first value as min/max
+	        #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                                COUNT := 1,
+	                                                SRC_INDEX := 0,
+	                                                DEST_INDEX := 0,
+	                                                DEST => #tempMaxUSInt);
+	        //Checking return value of subfunction
+	        IF #tempSubfunctionErr <> #SUBFUNCTION_NO_ERROR THEN
+	          #error := true;
+	          #subfunctionStatus := INT_TO_WORD(#tempSubfunctionErr);
+	          #status := #ERR_MOVE_BLK_VARIANT;
+	          RETURN;
+	        END_IF;
+	        
+	        //Initializa Minimum value
+	        #tempMinUSInt := #tempMaxUSInt;
+	        //Search the Array for min/max values
+	        FOR #tempCounter := #START_FROM_SECOND_ELEMENT TO #tempArrayEndIndex DO
+	          //Read the next element of the array
+	          #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                                  COUNT := 1,
+	                                                  SRC_INDEX := #tempCounter,
+	                                                  DEST_INDEX := 0,
+	                                                  DEST => #tempActValueUSInt);
+	          // check for min
+	          IF #tempActValueUSInt < #tempMinUSInt THEN
+	            #tempMinUSInt := #tempActValueUSInt;
+	            #tempArrayIndexMin := #tempCounter;
+	            // check for max
+	          ELSIF #tempActValueUSInt > #tempMaxUSInt THEN
+	            #tempMaxUSInt := #tempActValueUSInt;
+	            #tempArrayIndexMax := #tempCounter;
+	          END_IF;
+	        END_FOR;
+	        //Checking return value of subfunction
+	        IF #tempSubfunctionErr <> #SUBFUNCTION_NO_ERROR THEN
+	          #error := true;
+	          #subfunctionStatus := INT_TO_WORD(#tempSubfunctionErr);
+	          #status := #ERR_MOVE_BLK_VARIANT;
+	          RETURN;
+	        END_IF;
+	      END_REGION
+	      
+	    SInt:
+	      REGION Search Array of Signed Integers
+	        //Assign first value as min / max
+	        #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                                COUNT := 1,
+	                                                SRC_INDEX := 0,
+	                                                DEST_INDEX := 0,
+	                                                DEST => #tempMaxSInt);
+	        //Checking return value of subfunction
+	        IF #tempSubfunctionErr <> #SUBFUNCTION_NO_ERROR THEN
+	          #error := true;
+	          #subfunctionStatus := INT_TO_WORD(#tempSubfunctionErr);
+	          #status := #ERR_MOVE_BLK_VARIANT;
+	          RETURN;
+	        END_IF;
+	        
+	        //Initializa Minimum value
+	        #tempMinSInt := #tempMaxSInt;
+	        //Search the Array for min/max values
+	        FOR #tempCounter := #START_FROM_SECOND_ELEMENT TO #tempArrayEndIndex DO
+	          //Read the next element of the array
+	          #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                                  COUNT := 1,
+	                                                  SRC_INDEX := #tempCounter,
+	                                                  DEST_INDEX := 0,
+	                                                  DEST => #tempActValueSInt);
+	          // check for min
+	          IF #tempActValueSInt < #tempMinSInt THEN
+	            #tempMinSInt := #tempActValueSInt;
+	            #tempArrayIndexMin := #tempCounter;
+	            // check for max
+	          ELSIF #tempActValueSInt > #tempMaxSInt THEN
+	            #tempMaxSInt := #tempActValueSInt;
+	            #tempArrayIndexMax := #tempCounter;
+	          END_IF;
+	        END_FOR;
+	        //Checking return value of subfunction
+	        IF #tempSubfunctionErr <> #SUBFUNCTION_NO_ERROR THEN
+	          #error := true;
+	          #subfunctionStatus := INT_TO_WORD(#tempSubfunctionErr);
+	          #status := #ERR_MOVE_BLK_VARIANT;
+	          RETURN;
+	        END_IF;
+	      END_REGION
+	      
+	    Real:
+	      REGION Search Array of Real
+	        //Assign first value as min / max
+	        #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                                COUNT := 1,
+	                                                SRC_INDEX := 0,
+	                                                DEST_INDEX := 0,
+	                                                DEST => #tempMinReal);
+	        //Checking return value of subfunction
+	        IF #tempSubfunctionErr <> #SUBFUNCTION_NO_ERROR THEN
+	          #error := true;
+	          #subfunctionStatus := INT_TO_WORD(#tempSubfunctionErr);
+	          #status := #ERR_MOVE_BLK_VARIANT;
+	          RETURN;
+	        END_IF;
+	        
+	        //Initializa Minimum value
+	        #tempMaxReal := #tempMinReal;
+	        //Search the Array for min/max values
+	        FOR #tempCounter := #START_FROM_SECOND_ELEMENT TO #tempArrayEndIndex DO
+	          
+	          #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                                  COUNT := 1,
+	                                                  SRC_INDEX := #tempCounter,
+	                                                  DEST_INDEX := 0,
+	                                                  DEST => #tempActValueReal);
+	          // check for min
+	          IF #tempActValueReal < #tempMinReal THEN
+	            #tempMinReal := #tempActValueReal;
+	            #tempArrayIndexMin := #tempCounter;
+	            // check for max
+	          ELSIF #tempActValueReal > #tempMaxReal THEN
+	            #tempMaxReal := #tempActValueReal;
+	            #tempArrayIndexMax := #tempCounter;
+	          END_IF;
+	        END_FOR;
+	        //Checking return value of subfunction
+	        IF #tempSubfunctionErr <> #SUBFUNCTION_NO_ERROR THEN
+	          #error := true;
+	          #subfunctionStatus := INT_TO_WORD(#tempSubfunctionErr);
+	          #status := #ERR_MOVE_BLK_VARIANT;
+	          RETURN;
+	        END_IF;
+	      END_REGION
+	      
+	    LReal:
+	      REGION Search Array of LReal
+	        //Assign first value as min / max
+	        #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                                COUNT := 1,
+	                                                SRC_INDEX := 0,
+	                                                DEST_INDEX := 0,
+	                                                DEST => #tempMinLReal);
+	        //Checking return value of subfunction
+	        IF #tempSubfunctionErr <> #SUBFUNCTION_NO_ERROR THEN
+	          #error := true;
+	          #subfunctionStatus := INT_TO_WORD(#tempSubfunctionErr);
+	          #status := #ERR_MOVE_BLK_VARIANT;
+	          RETURN;
+	        END_IF;
+	        
+	        //Initializa Minimum value
+	        #tempMaxLReal := #tempMinLReal;
+	        //Search the Array for min/max values
+	        FOR #tempCounter := #START_FROM_SECOND_ELEMENT TO #tempArrayEndIndex DO
+	          
+	          #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                                  COUNT := 1,
+	                                                  SRC_INDEX := #tempCounter,
+	                                                  DEST_INDEX := 0,
+	                                                  DEST => #tempActValueLReal);
+	          // check for min
+	          IF #tempActValueLReal < #tempMinLReal THEN
+	            #tempMinLReal := #tempActValueLReal;
+	            #tempArrayIndexMin := #tempCounter;
+	            // check for max
+	          ELSIF #tempActValueLReal > #tempMaxLReal THEN
+	            #tempMaxLReal := #tempActValueLReal;
+	            #tempArrayIndexMax := #tempCounter;
+	          END_IF;
+	        END_FOR;
+	        //Checking return value of subfunction
+	        IF #tempSubfunctionErr <> #SUBFUNCTION_NO_ERROR THEN
+	          #error := true;
+	          #subfunctionStatus := INT_TO_WORD(#tempSubfunctionErr);
+	          #status := #ERR_MOVE_BLK_VARIANT;
+	          RETURN;
+	        END_IF;
+	      END_REGION
+	      
+	    ELSE
+	      #error := true;
+	      #subfunctionStatus := INT_TO_WORD(#SUBFUNCTION_NO_ERROR);
+	      #status := #ERR_WRONG_TYPE;
+	      RETURN;
+	  END_CASE;
+	END_REGION
+	
+	REGION Writing to outputs
+	  //Copy found values to outputs
+	  //Copy Minimum value
+	  #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                          COUNT := 1,
+	                                          SRC_INDEX := #tempArrayIndexMin,
+	                                          DEST_INDEX := 0,
+	                                          DEST => #minValue);
+	  //Copy Maximum value
+	  #tempSubfunctionErr := MOVE_BLK_VARIANT(SRC := #variableArray,
+	                                          COUNT := 1,
+	                                          SRC_INDEX := #tempArrayIndexMax,
+	                                          DEST_INDEX := 0,
+	                                          DEST => #maxValue);
+	  
+	  //Checking return value of subfunction
+	  IF #tempSubfunctionErr <> #SUBFUNCTION_NO_ERROR THEN
+	    #error := true;
+	    #subfunctionStatus := INT_TO_WORD(#tempSubfunctionErr);
+	    #status := #ERR_MOVE_BLK_VARIANT;
+	    RETURN;
+	  END_IF;
+	  
+	  //Write found indexes to outputs
+	  #minValueIndex := #tempArrayIndexMin;
+	  #maxValueIndex := #tempArrayIndexMax;
+	  
+	  //ENO mechanism is not used, nerror handling via error & status
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_ScaleLinear" : LReal
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry_Support
+FAMILY : LGF
+NAME : LGF_ScaleLinear
+   VAR_INPUT 
+      x : LReal;
+      x1 : LReal;
+      y1 : LReal;
+      x2 : LReal;
+      y2 : LReal;
+      yMin : LReal;
+      yMax : LReal;
+   END_VAR
+
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_TEMP 
+      tempY : LReal;
+      tempStatus : Word;
+   END_VAR
+
+   VAR CONSTANT 
+      STATUS_FINISHED_NO_ERROR : Word := 16#0000;
+      ERR_LOW_LIM_OVER_UP_LIM : Word := 16#8200;
+      WARN_Y_LIMITED_TO_YMIN : Word := 16#6001;
+      WARN_Y_LIMITED_TO_YMAX : Word := 16#6002;
+      PRECISION : LReal := 1.0E-06;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_ScaleLinear
+	  // Comment/Function: This function scales an input variable (`LReal`) via a linear straight-line equation.
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V14 Upd 1
+	  // Restrictions:     ENO mechanism is not used, Error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 27.01.2017 | Siemens Industry Online Support
+	  //                         First released version
+	  // 01.00.01 | 17.08.2018 | Siemens Industry Online Support
+	  //                         Upgrade: TIA V15 Update 2
+	  // 01.00.02 | 23.11.2018 | Siemens Industry Online Support
+	  //                         Upgrade: TIA V15.1
+	  // 02.00.00 | 25.01.2019 | Simatic Systems Support
+	  //                         Data type changed from Variant to LReal
+	  // 02.00.01 | 25.06.2019 | Simatic Systems Support
+	  //                         Standard header and block parameters update, status parameter added
+	  //                         LReal value comparison added
+	  //                         Result parameter changed to return value of FC for use in SCL
+	  //                         Warning number changed to range of 16#6xxx
+	  //                         refactor variable handling and extract returns in between the code
+	  //                         add ENO handling
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 12.11.2020 | Simatic Systems Support
+	  //                         Insert documentation
+	  //                         Move to folder "Math operations"
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION INITIALISATION
+	  #tempY := 0.0;
+	  #tempStatus := #STATUS_FINISHED_NO_ERROR;
+	END_REGION
+	
+	REGION CONVERT
+	  // check if limits in a plausible range
+	  // --> higher limit has to be greater than lower limit
+	  IF (#yMin > #yMax) THEN
+	    #tempY := 0.0;
+	    #tempStatus := #ERR_LOW_LIM_OVER_UP_LIM;
+	    
+	  ELSE// no error, process scaling
+	    // Scale algorithm
+	    IF (ABS(#x1 - #x2) <= (#PRECISION * ABS(#x1))) THEN
+	      //The slope is approximately ZERO.
+	      //Special CASE, use a different equation, NOT "y = m*x+t", instead you use "x = y1"
+	      #tempY := #y1;
+	    ELSE
+	      // resolved equation --> F(x) = y = m*x+t, where m = slope/gradient, t = intercept
+	      #tempY := (#y2 - #y1) / (#x2 - #x1) * (#x - #x1) + #y1;
+	    END_IF;
+	    
+	    // Check if upper or lower limit is exceeded
+	    IF (#tempY < #yMin) THEN
+	      #tempY := #yMin;
+	      #tempStatus := #WARN_Y_LIMITED_TO_YMIN;  // set warning indicator
+	    ELSIF (#tempY > #yMax) THEN
+	      #tempY := #yMax;
+	      #tempStatus := #WARN_Y_LIMITED_TO_YMAX;  // set warning indicator
+	    END_IF;
+	  END_IF;
+	END_REGION
+	
+	REGION OUTPUTS  
+	  // set status and error output
+	  #status := #tempStatus;
+	  #error := #tempStatus.%X15;
+	  // set return value
+	  #LGF_ScaleLinear := #tempY;
+	  //ENO mechanism is not used - forced to true.
+	  ENO := TRUE;
+	END_REGION
+END_FUNCTION
+
+FUNCTION "LGF_RandomRange_UDInt" : UDInt
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_RandomRange_UDInt
+   VAR_INPUT 
+      minValue : UDInt;
+      maxValue : UDInt;
+   END_VAR
+
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+      subfunctionStatus : Word;
+   END_VAR
+
+   VAR_TEMP 
+      tempTime {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;
+      tempNanoSecondInDWord : DWord;
+      tempTimeStatus : Word;
+      tempRandomValue : DWord;
+      tempNormReal : Real;
+   END_VAR
+
+   VAR CONSTANT 
+      ZERO : UDInt := 0;
+      MAX_UDINT : UDInt := 4294967295 ;
+      SUB_STATUS_NO_ERROR : Word := 16#0000;
+      STATUS_FINISHED_NO_ERROR : Word := 16#0000;
+      ERR_MAX_LESS_MIN : Word := 16#8200;
+      ERR_RD_SYS_T : Word := 16#8600;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-----------------------------------------------------------------------------
+	  // Title:            LGF_RandomRange_UDInt
+	  // Comment/Function: This function generates random numbers in defined limits (Datatype UDInt)
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 11.12.2019  Simatic Systems Support
+	  //                      First released version
+	  //                      copied from "LGF_RandomRange_DInt"
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 04.02.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Validation
+	  // Check if the maximal Value is less than the minimal value
+	  IF (#minValue > #maxValue) THEN
+	    #error := true;
+	    #status := #ERR_MAX_LESS_MIN;
+	    #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	    #LGF_RandomRange_UDInt := #ZERO;
+	    RETURN;
+	  END_IF;
+	  
+	  // Read system time
+	  #tempTimeStatus := INT_TO_WORD(RD_SYS_T(#tempTime));
+	  
+	  // Check return variable for error
+	  IF (#tempTimeStatus <> #SUB_STATUS_NO_ERROR) THEN
+	    #error := true;
+	    #status := #ERR_RD_SYS_T;
+	    #subfunctionStatus := #tempTimeStatus;
+	    #LGF_RandomRange_UDInt := #ZERO;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Calculating random number
+	  // Converting to double word so individual bytes can be addressed
+	  #tempNanoSecondInDWord := UDINT_TO_DWORD(#tempTime.NANOSECOND);
+	  
+	  // Calculate a random-start-value depending on the time
+	  #tempRandomValue.%B3 := #tempNanoSecondInDWord.%B0;
+	  #tempRandomValue.%B2 := #tempNanoSecondInDWord.%B1;
+	  #tempRandomValue.%B1 := #tempNanoSecondInDWord.%B2;
+	  #tempRandomValue.%B0 := #tempNanoSecondInDWord.%B3;
+	  
+	  // Norm the calculated random number: 0.0 <= #tempNormReal <= 1.0
+	  #tempNormReal := UDINT_TO_REAL(DWORD_TO_UDINT(#tempRandomValue)) / UDINT_TO_REAL(#MAX_UDINT);
+	  
+	  // Scale the tempNormReal to be in the range of maxValue and minValue
+	  #LGF_RandomRange_UDInt := REAL_TO_UDINT((#tempNormReal * UDINT_TO_REAL(#maxValue - #minValue) + UDINT_TO_REAL(#minValue)));
+	  
+	  #error := false;
+	  #status := #STATUS_FINISHED_NO_ERROR;
+	  #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_RandomRange_Real" : Real
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_RandomRange_Real
+   VAR_INPUT 
+      minValue : Real;
+      maxValue : Real;
+   END_VAR
+
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+      subfunctionStatus : Word;
+   END_VAR
+
+   VAR_TEMP 
+      tempTime {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;
+      tempNanoSecondInDWord : DWord;
+      tempTimeStatus : Word;
+      tempRandomValue : DWord;
+      tempNormReal : Real;
+   END_VAR
+
+   VAR CONSTANT 
+      ZERO : Real := 0.0;
+      MAX_UDINT : UDInt := 4294967295;
+      SUB_STATUS_NO_ERROR : Word := 16#0000;
+      STATUS_FINISHED_NO_ERROR : Word := 16#0000;
+      ERR_MAX_LESS_MIN : Word := 16#8200;
+      ERR_RD_SYS_T : Word := 16#8600;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-----------------------------------------------------------------------------
+	  // Title:            LGF_RandomRange_Real
+	  // Comment/Function: This function generates random numbers in defined limits (Datatype Real)
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 19.08.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA Portal V14 Update 1
+	  // 01.00.02 02.03.2017  Siemens Industry Online Support
+	  //                      Bugfix: FC number
+	  // 01.00.03 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.04 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.01.00 13.11.2019  Simatic Systems Support
+	  //                      Renamed from "LGF_RandomReal" to "LGF_RandomRange_Real"
+	  //                      Regions, comments and constants are added
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 04.02.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Validation
+	  // Check if the maximal Value is less than the minimal value
+	  IF (#minValue > #maxValue) THEN
+	    #error := true;
+	    #status := #ERR_MAX_LESS_MIN;
+	    #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	    #LGF_RandomRange_Real := #ZERO;
+	    RETURN;
+	  END_IF;
+	  
+	  // Read system time
+	  #tempTimeStatus := INT_TO_WORD(RD_SYS_T(#tempTime));
+	  
+	  // Check return variable for error
+	  IF (#tempTimeStatus <> #SUB_STATUS_NO_ERROR) THEN
+	    #error := true;
+	    #status := #ERR_RD_SYS_T;
+	    #subfunctionStatus := #tempTimeStatus;
+	    #LGF_RandomRange_Real := #ZERO;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Calculating random number
+	  // Converting to double word so individual bytes can be addressed
+	  #tempNanoSecondInDWord := UDINT_TO_DWORD(#tempTime.NANOSECOND);
+	  
+	  // Calculate a random-start-value depending on the time
+	  #tempRandomValue.%B3 := #tempNanoSecondInDWord.%B0;
+	  #tempRandomValue.%B2 := #tempNanoSecondInDWord.%B1;
+	  #tempRandomValue.%B1 := #tempNanoSecondInDWord.%B2;
+	  #tempRandomValue.%B0 := #tempNanoSecondInDWord.%B3;
+	  
+	  // Norm the calculated random number: 0.0 <= #tempNormReal <= 1.0
+	  #tempNormReal := UDINT_TO_REAL(DWORD_TO_UDINT(#tempRandomValue)) / UDINT_TO_REAL(#MAX_UDINT);
+	  
+	  // Scale the tempNormReal to be in the range of maxValue and minValue
+	  #LGF_RandomRange_Real := ((#tempNormReal * (#maxValue - #minValue) + (#minValue)));
+	  
+	  #error := false;
+	  #status := #STATUS_FINISHED_NO_ERROR;
+	  #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION_BLOCK "LGF_IsValueInToleranceByTime"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_IsValueInToleranceByTime
+   VAR_INPUT 
+      value : Real;
+      setpoint : Real;
+      lowerMinimum : Real;
+      upperMaximum : Real;
+      reset : Bool;
+      configuration { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : "LGF_typeIsValueInToleranceByTimeConfiguration";
+   END_VAR
+
+   VAR_OUTPUT 
+      overHighLimit { ExternalWritable := 'False'} : Bool;
+      belowLowLimit { ExternalWritable := 'False'} : Bool;
+      inLimits { ExternalWritable := 'False'} : Bool;
+      setpointChange { ExternalWritable := 'False'} : Bool;
+      error { ExternalWritable := 'False'} : Bool;
+      status { ExternalWritable := 'False'} : Word;
+   END_VAR
+
+   VAR 
+      instMonitorUpper {InstructionName := 'IEC_TIMER'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : IEC_TIMER;
+      instMonitorLower {InstructionName := 'IEC_TIMER'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : IEC_TIMER;
+      instMonitorChange {InstructionName := 'IEC_TIMER'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : IEC_TIMER;
+      statSetpointPrevious { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Real;
+      statResetPrev { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      statSetpointChange { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      statWasWithinTolerance { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      tempValueOverHighLimit : Bool;
+      tempValueUnderLowLimit : Bool;
+   END_VAR
+
+   VAR CONSTANT 
+      ONE : Real := 1.0;
+      ONEHUNDRED_PERCENT : Real := 100.0;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_RANGE_LIMIT_VALUE_CALC : Word := 16#8401;
+      ERR_SETPOINT_ABOVE_HIGH_LIMIT : Word := 16#8402;
+      ERR_SETPOINT_BELOW_LOW_LIMIT : Word := 16#8403;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_IsValueInTolerance
+	  // Comment/Function: Checks if a given value is within a specified tolerance in percent of a given set point.
+	  //                   The block has a configurable timing FOR set point change hiding,
+	  //                   lower limit AND as well FOR upper limit violation hiding.
+	  // Library/Family:   LGF(Library of general Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V5.0
+	  // Engineering:      TIA Portal V17
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 21.12.2023 | Siemens Industry Support
+	  //                         First released version
+	  //                         Copied snd extended from "IsValueInRange"
+	  //=============================================================================
+	END_REGION
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Initialization and limits check
+	  // Calculation of limits
+	  IF #configuration.limitsAsAbsolutValues THEN
+	    #tempValueOverHighLimit := #value > #upperMaximum;
+	    #tempValueUnderLowLimit := #value < #lowerMinimum;
+	  ELSE
+	    IF #configuration.toleranzAsAbsoluteValues THEN
+	      #tempValueOverHighLimit := #value > #setpoint + #upperMaximum;
+	      #tempValueUnderLowLimit := #value < #setpoint - #lowerMinimum;
+	    ELSE
+	      #tempValueOverHighLimit := #value > (#setpoint * (#ONE + (ABS(#upperMaximum) / #ONEHUNDRED_PERCENT)));
+	      #tempValueUnderLowLimit := #value < (#setpoint * (#ONE - (ABS(#lowerMinimum) / #ONEHUNDRED_PERCENT)));
+	    END_IF;
+	  END_IF;
+	  
+	  
+	  // Detecting a change in the setpoint, thus resetting the was in tolerance flag
+	  IF (#statSetpointPrevious <> #setpoint) THEN
+	    #statWasWithinTolerance := FALSE;
+	    #statSetpointChange := TRUE;
+	  END_IF;
+	  #statSetpointPrevious := #setpoint;
+	  
+	  IF FALSE
+	    OR #configuration.disableLimits
+	    OR (#reset AND NOT #statResetPrev)
+	  THEN
+	    #statWasWithinTolerance := FALSE;
+	    #statSetpointChange := FALSE;
+	  END_IF;
+	  #statResetPrev := #reset;
+	  
+	  IF TRUE
+	    AND NOT (#tempValueUnderLowLimit OR #tempValueOverHighLimit)
+	    AND NOT #statWasWithinTolerance
+	  THEN
+	    #statWasWithinTolerance := TRUE;
+	  END_IF;
+	  
+	  //Outside of data tolerance
+	  IF ENO = false THEN
+	    #error := true;
+	    #status := #ERR_RANGE_LIMIT_VALUE_CALC;
+	    #overHighLimit := false;
+	    #belowLowLimit := false;
+	    #inLimits := false;
+	    RETURN;
+	  ELSIF TRUE
+	    AND #configuration.limitsAsAbsolutValues
+	    AND #setpoint > #upperMaximum
+	  THEN
+	    #error := true;
+	    #status := #ERR_SETPOINT_ABOVE_HIGH_LIMIT;
+	    #overHighLimit := false;
+	    #belowLowLimit := false;
+	    #inLimits := false;
+	    RETURN;
+	  ELSIF TRUE
+	    AND #configuration.limitsAsAbsolutValues
+	    AND #setpoint < #lowerMinimum
+	  THEN
+	    #error := true;
+	    #status := #ERR_SETPOINT_BELOW_LOW_LIMIT;
+	    #overHighLimit := false;
+	    #belowLowLimit := false;
+	    #inLimits := false;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Limits evaluation
+	  // Check if the value is above the high limit
+	  // In here the upper limit monitor timer will be started once the upper limit is exceeded.
+	  // The signal is triggered once the timer expired and the process value is still not within the limit.
+	  // This requires that the process value was at least once within the limits
+	  #instMonitorUpper.TON(IN := TRUE
+	                        AND #tempValueOverHighLimit
+	                        AND (#statWasWithinTolerance OR #instMonitorChange.Q)
+	                        AND NOT #configuration.disableLimits
+	                        ,
+	                        PT := #configuration.upperLimitMonitoringTime);
+	  
+	  // Check if the value is below the low limit
+	  // As above the signal is triggered, when the lower limit is not reached within a certain time
+	  #instMonitorLower.TON(IN := TRUE
+	                        AND #tempValueUnderLowLimit
+	                        AND (#statWasWithinTolerance OR #instMonitorChange.Q)
+	                        AND NOT #configuration.disableLimits
+	                        ,
+	                        PT := #configuration.lowerLimitMonitoringTime);
+	  
+	  #instMonitorChange.TON(IN := TRUE
+	                         AND #statSetpointChange
+	                         AND NOT #statWasWithinTolerance
+	                         AND NOT #configuration.disableLimits
+	                         ,
+	                         PT := #configuration.setpointChangeMonitingTime);
+	  
+	  IF TRUE
+	    //AND #instMonitorChange.Q
+	    AND #statSetpointChange
+	    AND #statWasWithinTolerance
+	  THEN
+	    #statSetpointChange := FALSE;
+	  END_IF;
+	END_REGION
+	
+	REGION Writing to outputs
+	  // Check if the value is in range and write outputs
+	  #inLimits := TRUE
+	  AND NOT (#instMonitorLower.Q OR #instMonitorUpper.Q)
+	  AND NOT (#statSetpointChange AND NOT #instMonitorChange.Q)
+	  AND #statWasWithinTolerance;
+	  
+	  #overHighLimit := #instMonitorUpper.Q;
+	  #belowLowLimit := #instMonitorLower.Q;
+	  #setpointChange := #statSetpointChange AND NOT #statWasWithinTolerance;
+	  #error := FALSE;
+	  #status := #STATUS_NO_ERROR;
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION_BLOCK
+
+FUNCTION "LGF_RandomRange_DInt" : DInt
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_RandomRange_DInt
+   VAR_INPUT 
+      minValue : DInt;
+      maxValue : DInt;
+   END_VAR
+
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+      subfunctionStatus : Word;
+   END_VAR
+
+   VAR_TEMP 
+      tempTime {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;
+      tempNanoSecondInDWord : DWord;
+      tempTimeStatus : Word;
+      tempRandomValue : DWord;
+      tempNormReal : Real;
+   END_VAR
+
+   VAR CONSTANT 
+      ZERO : DInt := 0;
+      MAX_UDINT : UDInt := 4294967295 ;
+      SUB_STATUS_NO_ERROR : Word := 16#0000;
+      STATUS_FINISHED_NO_ERROR : Word := 16#0000;
+      ERR_MAX_LESS_MIN : Word := 16#8200;
+      ERR_RD_SYS_T : Word := 16#8600;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-----------------------------------------------------------------------------
+	  // Title:            LGF_RandomRange_DInt
+	  // Comment/Function: This function generates random numbers in defined limits (Datatype DInt)
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 19.08.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA Portal V14 Update 1
+	  // 01.00.02 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.03 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.01.00 09.10.2019  Simatic Systems Support
+	  //                      Renamed from "LGF_RandomInt" to "LGF_RandomRange_DInt"
+	  //                      change random datatype from Int to DInt
+	  //                      Regions, comments and constants are added
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 04.02.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Validation
+	  // Check if the maximal Value is less than the minimal value
+	  IF (#minValue > #maxValue) THEN
+	    #error := true;
+	    #status := #ERR_MAX_LESS_MIN;
+	    #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	    #LGF_RandomRange_DInt := #ZERO;
+	    RETURN;
+	  END_IF;
+	  
+	  // Read system time
+	  #tempTimeStatus := INT_TO_WORD(RD_SYS_T(#tempTime));
+	  
+	  // Check return variable for error
+	  IF (#tempTimeStatus <> #SUB_STATUS_NO_ERROR) THEN
+	    #error := true;
+	    #status := #ERR_RD_SYS_T;
+	    #subfunctionStatus := #tempTimeStatus;
+	    #LGF_RandomRange_DInt := #ZERO;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Calculating random number
+	  // Converting to double word so individual bytes can be addressed
+	  #tempNanoSecondInDWord := UDINT_TO_DWORD(#tempTime.NANOSECOND);
+	  
+	  // Callculate a random-start-value depending on the time
+	  #tempRandomValue.%B3 := #tempNanoSecondInDWord.%B0;
+	  #tempRandomValue.%B2 := #tempNanoSecondInDWord.%B1;
+	  #tempRandomValue.%B1 := #tempNanoSecondInDWord.%B2;
+	  #tempRandomValue.%B0 := #tempNanoSecondInDWord.%B3;
+	  
+	  // Norm the calculated random number: 0.0 <= #tempNormReal <= 1.0
+	  #tempNormReal := UDINT_TO_REAL(DWORD_TO_UDINT(#tempRandomValue)) / UDINT_TO_REAL(#MAX_UDINT);
+	  
+	  // Scale the tempNormReal to be in the range of maxValue and minValue
+	  #LGF_RandomRange_DInt := REAL_TO_DINT((#tempNormReal * DINT_TO_REAL(#maxValue - #minValue) + DINT_TO_REAL(#minValue)));
+	  
+	  #error := false;
+	  #status := #STATUS_FINISHED_NO_ERROR;
+	  #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_Random_Real" : Real
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_Random_Real
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+      subfunctionStatus : Word;
+   END_VAR
+
+   VAR_TEMP 
+      tempTime {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;
+      tempNanoSecondInDWord : DWord;
+      tempTimeStatus : Word;
+      tempRandomValue : DWord;
+   END_VAR
+
+   VAR CONSTANT 
+      ZERO : Real;
+      MAX_UDINT : UDInt := 4294967295 ;
+      SUB_STATUS_NO_ERROR : Word := 16#0000;
+      STATUS_FINISHED_NO_ERROR : Word := 16#0000;
+      ERR_RD_SYS_T : Word := 16#8600;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-----------------------------------------------------------------------------
+	  // Title:            LGF_Random_Real
+	  // Comment/Function: Generates a random real number between 0.0 and 1.0
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 27.01.2017  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.01.00 13.11.2019  Simatic Systems Support
+	  //                      Renamed from "LGF_RandomBasic" to "LGF_Random_Real"
+	  //                      Regions, comments and constants are added
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 04.02.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Validation
+	  // Read system time
+	  #tempTimeStatus := INT_TO_WORD(RD_SYS_T(#tempTime));
+	  
+	  // Check return variable for error
+	  IF (#tempTimeStatus <> #SUB_STATUS_NO_ERROR) THEN
+	    #error := true;
+	    #status := #ERR_RD_SYS_T;
+	    #subfunctionStatus := #tempTimeStatus;
+	    #LGF_Random_Real := #ZERO;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Calculating random number
+	  // Converting to double word so individual bytes can be addressed
+	  #tempNanoSecondInDWord := UDINT_TO_DWORD(#tempTime.NANOSECOND);
+	  
+	  // Calculate a random-start-value depending on the time
+	  #tempRandomValue.%B3 := #tempNanoSecondInDWord.%B0;
+	  #tempRandomValue.%B2 := #tempNanoSecondInDWord.%B1;
+	  #tempRandomValue.%B1 := #tempNanoSecondInDWord.%B2;
+	  #tempRandomValue.%B0 := #tempNanoSecondInDWord.%B3;
+	  
+	  // Norm the calculated random number: 0.0 <= Random_Real <= 1.0
+	  #LGF_Random_Real := UDINT_TO_REAL(DWORD_TO_UDINT(#tempRandomValue)) / UDINT_TO_REAL(#MAX_UDINT);
+	  
+	  #error := false;
+	  #status := #STATUS_FINISHED_NO_ERROR;
+	  #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_Random_DInt" : DInt
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_Random_DInt
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+      subfunctionStatus : Word;
+   END_VAR
+
+   VAR_TEMP 
+      tempTime {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;
+      tempNanoSecondInDWord : DWord;
+      tempTimeStatus : Word;
+      tempRandomValue : DWord;
+   END_VAR
+
+   VAR CONSTANT 
+      ZERO : DInt;
+      SUB_STATUS_NO_ERROR : Word := 16#0000;
+      STATUS_FINISHED_NO_ERROR : Word := 16#0000;
+      ERR_RD_SYS_T : Word := 16#8600;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-----------------------------------------------------------------------------
+	  // Title:            LGF_Random_DInt
+	  // Comment/Function: Generates a random number in the DInt Range
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 13.11.2019  Siemens Industry Presales Support
+	  //                      First release
+	  //                      copied from "LGF_Random_Real"
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 04.02.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Validation
+	  // Read system time
+	  #tempTimeStatus := INT_TO_WORD(RD_SYS_T(#tempTime));
+	  
+	  // Check return variable for error
+	  IF (#tempTimeStatus <> #SUB_STATUS_NO_ERROR) THEN
+	    #error := true;
+	    #status := #ERR_RD_SYS_T;
+	    #subfunctionStatus := #tempTimeStatus;
+	    #LGF_Random_DInt := #ZERO;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Calculating random number
+	  // Converting to double word so individual bytes can be addressed
+	  #tempNanoSecondInDWord := UDINT_TO_DWORD(#tempTime.NANOSECOND);
+	  
+	  // Calculate a random-start-value depending on the time
+	  #tempRandomValue.%B3 := #tempNanoSecondInDWord.%B0;
+	  #tempRandomValue.%B2 := #tempNanoSecondInDWord.%B1;
+	  #tempRandomValue.%B1 := #tempNanoSecondInDWord.%B2;
+	  #tempRandomValue.%B0 := #tempNanoSecondInDWord.%B3;
+	  
+	  #LGF_Random_DInt := DWORD_TO_DINT(#tempRandomValue);
+	  
+	  #error := false;
+	  #status := #STATUS_FINISHED_NO_ERROR;
+	  #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_NthRoot" : LReal
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_NthRoot
+   VAR_INPUT 
+      value : LReal;
+      root : LReal;
+   END_VAR
+
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR CONSTANT 
+      ZERO : LReal := 0.0;
+      ONE : LReal := 1.0;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_NEG_VAR : Word := 16#8200;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_NthRoot
+	  // Comment/Function: This function extracts the n-th root of a given value
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 19.08.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA Portal V14 Update 1
+	  // 01.00.02 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.03 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.00.04 17.01.2019  Simatic Systems Support
+	  //                      Calculation changed
+	  // 01.00.09 13.11.2019  Simatic Systems Support
+	  //                      Renamed from "LGF_XRoot" to "LGF_NthRoot"
+	  //                      Regions, comments and constants are added
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 12.11.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION
+	
+	REGION Validation
+	  // Check if the variable value is negative 
+	  IF #value < #ZERO THEN
+	    #error := true;
+	    #status := #ERR_NEG_VAR;
+	    #LGF_NthRoot := #ZERO;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Calculation of the n-th root
+	  #LGF_NthRoot := #value ** (#ONE / #root);
+	  
+	  #error := false;
+	  #status := #STATUS_NO_ERROR;
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_IsValueInTolerance" : Bool
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_IsValueInTolerance
+   VAR_INPUT 
+      value : LReal;
+      setpoint : LReal;
+      tolerance : LReal;
+   END_VAR
+
+   VAR_OUTPUT 
+      overHighLimit : Bool;
+      belowLowLimit : Bool;
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_TEMP 
+      tempHighLimit : LReal;
+      tempLowLimit : LReal;
+      tempValueOverHighLimit : Bool;
+      tempValueUnderLowLimit : Bool;
+   END_VAR
+
+   VAR CONSTANT 
+      ONE : LReal := 1.0;
+      ONEHUNDRET_PROCENT : LReal := 100.0;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_RANGE_LIMIT_VALUES : Word := 16#8401;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_IsValueInTolerance
+	  // Comment/Function: Checks if a given value is within a specified tolerance in procent of a given setpoint
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 10.12.2019  Siemens Industry Support
+	  //                      First released version
+	  //                      Copied from "IsValueInRange"
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.02 12.11.2020  Simatic Systems Support
+	  //                      Bug fix - negative setpoint verification
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Initialization and limits check
+	  // Calculation of limits
+	  IF #setpoint > 0.0 THEN
+	    #tempHighLimit := #setpoint * (#ONE + (ABS(#tolerance) / #ONEHUNDRET_PROCENT));
+	    #tempLowLimit := #setpoint * (#ONE - (ABS(#tolerance) / #ONEHUNDRET_PROCENT));
+	  ELSE
+	    #tempHighLimit := #setpoint * (#ONE - (ABS(#tolerance) / #ONEHUNDRET_PROCENT));
+	    #tempLowLimit := #setpoint * (#ONE + (ABS(#tolerance) / #ONEHUNDRET_PROCENT));
+	  END_IF;
+	  
+	  //Outside of data tolerance
+	  IF ENO = false THEN
+	    #error := true;
+	    #status := #ERR_RANGE_LIMIT_VALUES;
+	    #overHighLimit := false;
+	    #belowLowLimit := false;
+	    #LGF_IsValueInTolerance := false;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Limits evaluation
+	  // Check if the value is higher then the high limit
+	  #tempValueOverHighLimit := #value > #tempHighLimit;
+	  
+	  // Check if the value is lower then the low limit
+	  #tempValueUnderLowLimit := #value < #tempLowLimit;
+	END_REGION
+	
+	REGION Writing to outputs
+	  // Check if the value is in range and write outputs
+	  #LGF_IsValueInTolerance := NOT (#tempValueOverHighLimit OR #tempValueUnderLowLimit);
+	  #overHighLimit := #tempValueOverHighLimit;
+	  #belowLowLimit := #tempValueUnderLowLimit;
+	  
+	  #error := FALSE;
+	  #status := #STATUS_NO_ERROR;
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_IsValueInRange" : Bool
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_IsValueInRange
+   VAR_INPUT 
+      value : LReal;
+      setpoint : LReal;
+      range : LReal;
+   END_VAR
+
+   VAR_OUTPUT 
+      overHighLimit : Bool;
+      belowLowLimit : Bool;
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_TEMP 
+      tempHighLimit : LReal;
+      tempLowLimit : LReal;
+      tempValueOverHighLimit : Bool;
+      tempValueUnderLowLimit : Bool;
+   END_VAR
+
+   VAR CONSTANT 
+      HALF : LReal := 0.5;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_RANGE_LIMIT_VALUES : Word := 16#8401;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_IsValueInRange
+	  // Comment/Function: Checks if a given value is within a specified range of a given setpoint
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 30.01.2017  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.01.00 13.11.2019  Simatic Systems Support
+	  //                      renamed from "LGF_HighLowLimit" to "LGF_IsValueInRange"
+	  //                      Code refactoring
+	  //                      error values changed, regions, comments and constant’s are added
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 12.11.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Initialization and limits check
+	  // Calculation of limits 
+	  // High limit
+	  #tempHighLimit := #setpoint + (#HALF * ABS(#range));
+	  // Low limit
+	  #tempLowLimit := #setpoint - (#HALF * ABS(#range));
+	  // Outside of data range
+	  IF ENO = false THEN
+	    #error := true;
+	    #status := #ERR_RANGE_LIMIT_VALUES;
+	    #overHighLimit := false;
+	    #belowLowLimit := false;
+	    #LGF_IsValueInRange := false;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Limits evaluation
+	  // Check if the value is higher then the high limit
+	  #tempValueOverHighLimit := #value > #tempHighLimit;
+	  
+	  // Check if the value is lower then the low limit
+	  #tempValueUnderLowLimit := #value < #tempLowLimit;
+	END_REGION
+	
+	REGION Writing to outputs
+	  // Check if the value is in range and write outputs
+	  #LGF_IsValueInRange := NOT (#tempValueOverHighLimit OR #tempValueUnderLowLimit);
+	  #overHighLimit := #tempValueOverHighLimit;
+	  #belowLowLimit := #tempValueUnderLowLimit;
+	  
+	  #error := FALSE;
+	  #status := #STATUS_NO_ERROR;
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_IsValueInLimits" : Bool
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_IsValueInLimits
+   VAR_INPUT 
+      value : LReal;
+      lowLimit : LReal;
+      highLimit : LReal;
+   END_VAR
+
+   VAR_OUTPUT 
+      overHighLimit : Bool;
+      belowLowLimit : Bool;
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_TEMP 
+      tempValueOverHighLimit : Bool;
+      tempValueUnderLowLimit : Bool;
+   END_VAR
+
+   VAR CONSTANT 
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_RANGE_HIGH_BELOW_LOW_LIMIT : Word := 16#8401;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_IsValueInLimits
+	  // Comment/Function: Checks if a given value is within specified limits
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 10.12.2019  Siemens Industry Support
+	  //                      First released version
+	  //                      Copied from "IsValueInRange"
+	  // 03.00.00 23.04.2020  Siemens Industry Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 12.11.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Initialization and limits check
+	  // check if high limit is less then low limit
+	  IF #highLimit < #lowLimit THEN
+	    #error := true;
+	    #status := #ERR_RANGE_HIGH_BELOW_LOW_LIMIT;
+	    #overHighLimit := false;
+	    #belowLowLimit := false;
+	    #LGF_IsValueInLimits := false;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Limits evaluation
+	  // Check if the value is higher then the high limit
+	  #tempValueOverHighLimit := #value > #highLimit;
+	  
+	  // Check if the value is lower then the low limit
+	  #tempValueUnderLowLimit := #value < #lowLimit;
+	END_REGION
+	
+	REGION Writing to outputs
+	  // Check if the value is in range and write outputs
+	  #LGF_IsValueInLimits := NOT (#tempValueOverHighLimit OR #tempValueUnderLowLimit);
+	  #overHighLimit := #tempValueOverHighLimit;
+	  #belowLowLimit := #tempValueUnderLowLimit;
+	  
+	  #error := FALSE;
+	  #status := #STATUS_NO_ERROR;
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_GetFactorial" : DInt
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_GetFactorial
+   VAR_INPUT 
+      naturalNumber : Int;
+   END_VAR
+
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_TEMP 
+      tempFactorial : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      FACTORIAL_OF_ZERO : Int := 1;
+      FACTORIAL_OF_ONE : Int := 1;
+      FACTORIAL_OF_TWO : Int := 2;
+      FACTORIAL_OF_THREE : Int := 6;
+      FACTORIAL_OF_FOUR : Int := 24;
+      FACTORIAL_OF_FIVE : Int := 120;
+      FACTORIAL_OF_SIX : Int := 720;
+      FACTORIAL_OF_SEVEN : Int := 5040;
+      FACTORIAL_OF_EIGHT : DInt := 40320;
+      FACTORIAL_OF_NINE : DInt := 362880;
+      FACTORIAL_OF_TEN : DInt := 3628800;
+      FACTORIAL_OF_ELEVEN : DInt := 39916800;
+      FACTORIAL_OF_TWELVE : DInt := 479001600;
+      DEFAULT_ZERO : DInt;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_WRONG_VALUE_RANGE : Word := 16#8101;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // Siemens AG / (c)Copyright 2017
+	  //-----------------------------------------------------------------------------
+	  // Title:            LGF_GetFactorial
+	  // Comment/Function: Outputs the value equal to the factorial N! of a natural number between 0 and 12
+	  //                   Factorial of 12 is the maximum value fits into a DInt type
+	  //                   MAGIC numbers are okay as they stay for the number/case itself
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  //                   Case of, MAGIC numbers are okay as they stay for the number/case itself
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //----------------------------------------------------------------------------- 
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|----------------------------
+	  // 01.00.00 03.07.2018  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.01.00 23.09.2019  Siemens Industry Online Support
+	  //                      Renamed from "Factorial" to "GetFactorial"
+	  //                      Code refactoring, regions and more comments added
+	  //                      Reworked to case of, MAGIC numbers are okay as they stay for the number/case itself
+	  // 03.00.00 23.04.2020  Siemens Industry Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 12.11.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Caluclation of factorial
+	  //Validation check. Function is working with natural number between 0 and 12.
+	  // N! = 1*2*3*....*N;
+	  CASE #naturalNumber OF
+	    0:
+	      #tempFactorial := #FACTORIAL_OF_ZERO;
+	    1:
+	      #tempFactorial := #FACTORIAL_OF_ONE;
+	    2:
+	      #tempFactorial := #FACTORIAL_OF_TWO;
+	    3:
+	      #tempFactorial := #FACTORIAL_OF_THREE;
+	    4:
+	      #tempFactorial := #FACTORIAL_OF_FOUR;
+	    5:
+	      #tempFactorial := #FACTORIAL_OF_FIVE;
+	    6:
+	      #tempFactorial := #FACTORIAL_OF_SIX;
+	    7:
+	      #tempFactorial := #FACTORIAL_OF_SEVEN;
+	    8:
+	      #tempFactorial := #FACTORIAL_OF_EIGHT;
+	    9:
+	      #tempFactorial := #FACTORIAL_OF_NINE;
+	    10:
+	      #tempFactorial := #FACTORIAL_OF_TEN;
+	    11:
+	      #tempFactorial := #FACTORIAL_OF_ELEVEN;
+	    12:
+	      #tempFactorial := #FACTORIAL_OF_TWELVE;
+	    ELSE
+	      //Assigning error message when input is outside of working range
+	      #LGF_GetFactorial := #DEFAULT_ZERO;
+	      #error := TRUE;
+	      #status := #ERR_WRONG_VALUE_RANGE;
+	      RETURN;
+	  END_CASE;
+	END_REGION
+	
+	REGION Writing output  
+	  #LGF_GetFactorial := #tempFactorial;
+	  
+	  #error := FALSE;
+	  #status := #STATUS_NO_ERROR;
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_CalcDistance_3D" : LReal
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_CalcDistance_3D
+   VAR_INPUT 
+      x1 : LReal;
+      y1 : LReal;
+      z1 : LReal;
+      x2 : LReal;
+      y2 : LReal;
+      z2 : LReal;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // Siemens AG / (c)Copyright 2017
+	  //-----------------------------------------------------------------------------
+	  // Title:            LGF_CalcDistance_3D
+	  // Comment/Function: Calculates the distance between two points in 3D space
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - ENO mechanism is not used
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 04.10.2019  Siemens Industry Presales Support
+	  //                      First released version
+	  //                      derivate from "CalcDistance_2D" and extended to 3D
+	  // 03.00.00 23.04.2020  Siemens Industry Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 12.11.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Program
+	  // Calculating the distance
+	  #LGF_CalcDistance_3D := SQRT(SQR(#x2 - #x1) + SQR(#y2 - #y1) + SQR(#z2 - #z1));
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_Random_UDInt" : UDInt
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_Random_UDInt
+   VAR_OUTPUT 
+      error : Bool;
+      status : Word;
+      subfunctionStatus : Word;
+   END_VAR
+
+   VAR_TEMP 
+      tempTime {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;
+      tempNanoSecondInDWord : DWord;
+      tempTimeStatus : Word;
+      tempRandomValue : DWord;
+   END_VAR
+
+   VAR CONSTANT 
+      ZERO : UDInt := 0;
+      SUB_STATUS_NO_ERROR : Word := 16#0000;
+      STATUS_FINISHED_NO_ERROR : Word := 16#0000;
+      ERR_RD_SYS_T : Word := 16#8600;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2019
+	  //-----------------------------------------------------------------------------
+	  // Title:            LGF_Random_UDInt
+	  // Comment/Function: Generates a random number in the UDInt Range
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 11.12.2019  Simatic Systems Support
+	  //                      First release
+	  //                      copied from "LGF_Random_Real"
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 04.02.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Validation
+	  // Read system time
+	  #tempTimeStatus := INT_TO_WORD(RD_SYS_T(#tempTime));
+	  
+	  // Check return variable for error
+	  IF (#tempTimeStatus <> #SUB_STATUS_NO_ERROR) THEN
+	    #error := true;
+	    #status := #ERR_RD_SYS_T;
+	    #subfunctionStatus := #tempTimeStatus;
+	    #LGF_Random_UDInt := #ZERO;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Calculating random number
+	  // Converting to double word so individual bytes can be addressed
+	  #tempNanoSecondInDWord := UDINT_TO_DWORD(#tempTime.NANOSECOND);
+	  
+	  // Calculate a random-start-value depending on the time
+	  #tempRandomValue.%B3 := #tempNanoSecondInDWord.%B0;
+	  #tempRandomValue.%B2 := #tempNanoSecondInDWord.%B1;
+	  #tempRandomValue.%B1 := #tempNanoSecondInDWord.%B2;
+	  #tempRandomValue.%B0 := #tempNanoSecondInDWord.%B3;
+	  
+	  #LGF_Random_UDInt := DWORD_TO_UDINT(#tempRandomValue);
+	  
+	  #error := false;
+	  #status := #STATUS_FINISHED_NO_ERROR;
+	  #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION_BLOCK "LGF_StoreMinMax"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_MinMaxHistory
+   VAR_INPUT 
+      value : LReal := 0.0;
+      reset : Bool := false;
+   END_VAR
+
+   VAR_OUTPUT 
+      minValue { ExternalWritable := 'False'} : LReal := 0.0;
+      maxValue { ExternalWritable := 'False'} : LReal := 0.0;
+   END_VAR
+
+   VAR 
+      statStoreMinValue { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : LReal := #LREAL_MAX;
+      statStoreMaxValue { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : LReal := #LREAL_MIN;
+   END_VAR
+
+   VAR CONSTANT 
+      LREAL_MAX : LReal := 1.7976931348623157e+308;
+      LREAL_MIN : LReal := -1.7976931348623157e+308;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-----------------------------------------------------------------------------
+	  // Title:            LGF_MinMaxHistory
+	  // Comment/Function: This function block saves the minimum and maximum value,
+	  //                   since the start of the block.
+	  //                   ENO disabled - no error handling, no failure possible
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     -
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 19.08.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA Portal V14 Update 1
+	  //                      Code optimization
+	  // 01.00.02 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.03 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.00.04 09.10.2019  Simatic Systems Support
+	  //                      Regions, comments and constants are added
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 04.02.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION
+	
+	REGION Compare values
+	  // Save min value
+	  IF (#value < #statStoreMinValue) THEN
+	    #statStoreMinValue := #value;
+	  END_IF;
+	  
+	  // Save max value
+	  IF (#value > #statStoreMaxValue) THEN
+	    #statStoreMaxValue := #value;
+	  END_IF;
+	  
+	  // If reset is TRUE, min and max value are set to #LREAL_MAX and #LREAL_MIN respectively
+	  IF #reset THEN
+	    #statStoreMinValue := #LREAL_MAX;
+	    #statStoreMaxValue := #LREAL_MIN;
+	  END_IF;
+	END_REGION
+	
+	REGION Writting to outputs
+	  #minValue := #statStoreMinValue;
+	  #maxValue := #statStoreMaxValue;
+	  
+	  //ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+	
+END_FUNCTION_BLOCK
+

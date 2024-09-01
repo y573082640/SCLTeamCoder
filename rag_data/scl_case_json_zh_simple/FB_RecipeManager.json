@@ -1,0 +1,138 @@
+{
+    "title": "配方管理系统",
+    "description": "某工厂的生产线需要根据不同的配方生产多种产品。生产线的控制中心需要一个配方管理系统，允许操作员添加、删除、修改和查询配方数据。\n控制要求：\n配方数据应包括配方编号、原料类型、原料比例和生产温度。\n系统应允许输入新的配方数据，并将其存储在配方数据库中。\n系统应允许通过配方编号删除或修改现有的配方数据。\n系统应允许通过配方编号查询配方详情，并输出该配方。\n说明：\n1. 配方以结构体Struct数据类型构建，结构体内包括配方编号recipeID、原料类型ingredientType、原料比例ingredientRatio和生产温度productionTemperature。配方数据库最多可以存放10条配方，以数组Array[1..10] of Struct构建，配方编号不能重复，配方编号=0表示该位置空闲。\n2. 当触发查询配方请求信号queryRecipe时，首先根据输入配方recipeIn中的配方编号recipeID比对配方数据库recipe中的所有配方，如果不存在该编号，则输出错误状态error=true和错误代码status=16#8001。如果存在该编号，则把该条配方输出到配方查询结果recipeQueryResult。\n3. 当触发添加配方请求信号addRecipe时，首先根据输入配方recipeIn中的配方编号recipeID比对配方数据库recipe中的所有配方，如果存在重号，则输出错误状态error=true和错误代码status=16#8002。如果配方数据库recipe中没有空余位置，则输出错误状态error=true和错误代码status=16#8003。如果不存在这些错误，则把输入配方recipeIn存入配方数据库recipe，优先存入数组编号小的空闲位置。\n4. 当触发删除配方请求信号deleteRecipe时，首先根据输入配方recipeIn中的配方编号recipeID比对配方数据库recipe中的所有配方，如果不存在该编号，则输出错误状态error=true和错误代码status=16#8004。如果存在该编号，则删除该配方，即把配方数据库recipe中的该条配方编号recipeID置为0。\n5. 当触发修改配方请求信号modifyRecipe时，首先根据输入配方recipeIn中的配方编号recipeID比对配方数据库recipe中的所有配方，如果不存在该编号，则输出错误状态error=true和错误代码status=16#8005。如果存在该编号，则把该条配方替换为输入配方recipeIn。",
+    "type": "FUNCTION_BLOCK",
+    "name": "FB_RecipeManager",
+    "input": [
+        {
+            "name": "addRecipe",
+            "type": "Bool",
+            "description": "添加配方请求信号"
+        },
+        {
+            "name": "deleteRecipe",
+            "type": "Bool",
+            "description": "删除配方请求信号"
+        },
+        {
+            "name": "modifyRecipe",
+            "type": "Bool",
+            "description": "修改配方请求信号"
+        },
+        {
+            "name": "queryRecipe",
+            "type": "Bool",
+            "description": "查询配方请求信号"
+        },
+        {
+            "name": "recipeIn",
+            "type": "Struct",
+            "description": "输入配方",
+            "fields": [
+                {
+                    "name": "recipeID",
+                    "type": "Int",
+                    "description": "配方编号"
+                },
+                {
+                    "name": "ingredientType",
+                    "type": "Int",
+                    "description": "原料类型"
+                },
+                {
+                    "name": "ingredientRatio",
+                    "type": "Real",
+                    "description": "原料比例"
+                },
+                {
+                    "name": "productionTemperature",
+                    "type": "Real",
+                    "description": "生产温度"
+                }
+            ]
+        }
+    ],
+    "output": [
+        {
+            "name": "recipeAdded",
+            "type": "Bool",
+            "description": "配方添加成功指示"
+        },
+        {
+            "name": "recipeDeleted",
+            "type": "Bool",
+            "description": "配方删除成功指示"
+        },
+        {
+            "name": "recipeModified",
+            "type": "Bool",
+            "description": "配方修改成功指示"
+        },
+        {
+            "name": "recipeQueryResult",
+            "type": "Struct",
+            "description": "配方查询结果输出",
+            "fields": [
+                {
+                    "name": "recipeID",
+                    "type": "Int",
+                    "description": "配方编号"
+                },
+                {
+                    "name": "ingredientType",
+                    "type": "Int",
+                    "description": "原料类型"
+                },
+                {
+                    "name": "ingredientRatio",
+                    "type": "Real",
+                    "description": "原料比例"
+                },
+                {
+                    "name": "productionTemperature",
+                    "type": "Real",
+                    "description": "生产温度"
+                }
+            ]
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "错误状态指示\nFALSE: 没有发生错误\nTRUE: 执行出错"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "状态代码"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "recipe",
+            "type": "Array[1..10] of Struct",
+            "description": "配方数据库",
+            "fields": [
+                {
+                    "name": "recipeID",
+                    "type": "Int",
+                    "description": "配方编号"
+                },
+                {
+                    "name": "ingredientType",
+                    "type": "Int",
+                    "description": "原料类型"
+                },
+                {
+                    "name": "ingredientRatio",
+                    "type": "Real",
+                    "description": "原料比例"
+                },
+                {
+                    "name": "productionTemperature",
+                    "type": "Real",
+                    "description": "生产温度"
+                }
+            ]
+        }
+    ]
+}

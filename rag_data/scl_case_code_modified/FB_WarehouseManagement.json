@@ -1,0 +1,47 @@
+{
+    "title": "自动化仓库货架位置管理系统",
+    "description": "一个自动化仓库需要一个系统来管理工件的存放位置，确保工件能够高效地被存取。仓库里有一个货架，共有9层，每层编号从1到9，每层仅能存放一件工件。\n控制要求：\n1. 系统需要维护货架的存储状态，记录每层是否存放工件。\n2. 当工件入库时：\n   - 查询货架的存储状态。\n   - 如果有空闲位置，优先存放编号大的位置。\n   - 如果所有位置都被占用，则输出错误状态error=1和错误代码status16#8001。\n3. 当工件出库时：\n   - 查询货架的存储状态。\n   - 如果货架上有工件，优先取出位置编号小的工件。\n   - 如果所有位置都为空，则输出错误状态error=1和错误代码status16#8002。\n4. 系统应能输出当前工件库存数量和货架空闲位置数量。",
+    "type": "FUNCTION_BLOCK",
+    "name": "FB_WarehouseManagement",
+    "input": [
+        {
+            "name": "requestIn",
+            "type": "Bool",
+            "description": "入库请求信号"
+        },
+        {
+            "name": "requestOut",
+            "type": "Bool",
+            "description": "出库请求信号"
+        }
+    ],
+    "output": [
+        {
+            "name": "productNum",
+            "type": "Int",
+            "description": "工件库存数量"
+        },
+        {
+            "name": "libFreeNum",
+            "type": "Int",
+            "description": "货架空闲位置数量"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: 没有发生错误\nTRUE: 执行出错"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "状态代码"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "library",
+            "type": "Array[1..9] of Bool",
+            "description": "货架每层的占用状态，1表示占用，0表示空闲"
+        }
+    ]
+}

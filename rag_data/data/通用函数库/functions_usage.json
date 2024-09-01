@@ -1,0 +1,906 @@
+{
+    "LGF_SplitDWordToBits": [],
+    "LGF_MatrixInverse": [
+        "LOWER_BOUND",
+        "ABS",
+        "UPPER_BOUND"
+    ],
+    "LGF_CompareString": [],
+    "LGF_KelvinToFahrenheit": [],
+    "LGF_AstroClock": [
+        "ASIN",
+        "RD_LOC_T",
+        "UDINT_TO_REAL",
+        "REAL_TO_UDINT",
+        "TRUNC",
+        "COS",
+        "FLOOR",
+        "ABS",
+        "ACOS",
+        "DATE_TO_UDINT",
+        "DINT_TO_REAL",
+        "ATAN",
+        "RD_SYS_T",
+        "UDINT_TO_TIME",
+        "DTL_TO_DATE",
+        "TIME_TO_DINT",
+        "INT_TO_WORD",
+        "SIN",
+        "TAN",
+        "LREAL_TO_REAL",
+        "T_DIFF",
+        "degree",
+        "REAL_TO_LREAL"
+    ],
+    "LGF_NthRoot": [],
+    "LGF_DTLToString_ISO": [
+        "UINT_TO_SINT",
+        "VAL_STRG"
+    ],
+    "LGF_StringToTaddr": [
+        "INT_TO_WORD",
+        "LEN",
+        "UDINT_TO_USINT",
+        "LEFT",
+        "DELETE",
+        "STRG_VAL",
+        "FIND",
+        "UDINT_TO_UINT"
+    ],
+    "LGF_IsValueInLimits": [],
+    "LGF_CompareLReal": [
+        "ABS"
+    ],
+    "LGF_MatrixTranspose": [
+        "LOWER_BOUND",
+        "UPPER_BOUND"
+    ],
+    "LGF_DTLToString_DE": [
+        "UINT_TO_SINT",
+        "VAL_STRG"
+    ],
+    "LGF_IsValueInTolerance": [
+        "ABS"
+    ],
+    "LGF_IsBigEndian": [
+        "SHL"
+    ],
+    "LGF_JulianTimeToDTL": [
+        "LREAL_TO_DINT",
+        "DINT_TO_USINT",
+        "DINT_TO_DATE",
+        "DATE_TO_DTL"
+    ],
+    "LGF_SwapBlockDWord": [
+        "LOWER_BOUND",
+        "UPPER_BOUND"
+    ],
+    "LGF_MatrixSubtraction": [
+        "LOWER_BOUND",
+        "UPPER_BOUND"
+    ],
+    "LGF_FileRead": [
+        "TypeOfElements",
+        "INT_TO_WORD",
+        "LEN",
+        "DINT_TO_WORD",
+        "UDINT_TO_DINT",
+        "LOWER_BOUND",
+        "instFileRead",
+        "MOVE_BLK_VARIANT",
+        "DINT_TO_UDINT",
+        "Serialize",
+        "UPPER_BOUND",
+        "DINT_TO_INT",
+        "IS_ARRAY",
+        "CountOfElements",
+        "Deserialize"
+    ],
+    "LGF_FileWrite": [
+        "TypeOfElements",
+        "INT_TO_WORD",
+        "LEN",
+        "DINT_TO_WORD",
+        "UDINT_TO_DINT",
+        "LOWER_BOUND",
+        "instFileWrite",
+        "MOVE_BLK_VARIANT",
+        "DINT_TO_UDINT",
+        "Serialize",
+        "UPPER_BOUND",
+        "DINT_TO_INT",
+        "IS_ARRAY",
+        "CountOfElements"
+    ],
+    "LGF_IsValueInRange": [
+        "ABS"
+    ],
+    "LGF_DecodeUtf8": [
+        "LEN",
+        "DWORD_TO_WCHAR",
+        "MAX_LEN",
+        "LOWER_BOUND",
+        "UPPER_BOUND",
+        "CONCAT",
+        "SHL"
+    ],
+    "LGF_MatrixCompare": [
+        "LOWER_BOUND",
+        "UPPER_BOUND"
+    ],
+    "LGF_DataLogC": [
+        "instDataLogClose",
+        "instDataLogCreate",
+        "instDataLogOpen",
+        "TON",
+        "instDataLogDelete",
+        "instDataLogClear",
+        "instDataLogWrite"
+    ],
+    "LGF_DifferenceQuotientFB": [
+    ],
+    "LGF_Random_DInt": [
+        "INT_TO_WORD",
+        "DWORD_TO_DINT",
+        "RD_SYS_T",
+        "UDINT_TO_DWORD"
+    ],
+    "LGF_CalcCRC16Advanced": [
+        "BYTE_TO_WORD",
+        "LOWER_BOUND",
+        "SHL",
+        "UPPER_BOUND"
+    ],
+    "LGF_KelvinToRankine": [],
+    "LGF_Boxplot_DInt": [
+        "LREAL_TO_DINT",
+        "LOWER_BOUND",
+        "INT_TO_DINT",
+        "DINT_TO_INT",
+        "DINT_TO_LREAL",
+        "quartil",
+        "instShellSort",
+        "DINT_TO_REAL",
+        "UPPER_BOUND",
+        "x",
+        "TRUNC",
+        "FRAC_LREAL"
+    ],
+    "LGF_PulseRelay": [],
+    "LGF_CountBooleanEdges": [
+        "TP"
+    ],
+    "LGF_CalcCRC32": [
+        "BYTE_TO_DWORD",
+        "LOWER_BOUND",
+        "SHL",
+        "UPPER_BOUND"
+    ],
+    "LGF_SearchMinMax": [
+        "TypeOfElements",
+        "INT_TO_WORD",
+        "UDINT_TO_DINT",
+        "MOVE_BLK_VARIANT",
+        "TypeOf",
+        "IS_ARRAY",
+        "CountOfElements"
+    ],
+    "LGF_LimRateOfChangeCI": [
+        "INT_TO_WORD",
+        "MAX",
+        "UDINT_TO_REAL",
+        "QRY_CINT",
+        "MIN"
+    ],
+    "LGF_MergeBytesToDWord": [],
+    "LGF_ShellSort_LReal": [
+        "LOWER_BOUND",
+        "UPPER_BOUND"
+    ],
+    "LGF_TriangleCI": [
+        "INT_TO_WORD",
+        "UDINT_TO_REAL",
+        "ABS",
+        "REAL_TO_UDINT",
+        "QRY_CINT"
+    ],
+    "LGF_LIFO": [
+        "TypeOfElements",
+        "INT_TO_WORD",
+        "MOVE_BLK_VARIANT",
+        "TypeOf",
+        "IS_ARRAY",
+        "CountOfElements",
+        "UDINT_TO_INT"
+    ],
+    "LGF_MergeBitsToWord": [],
+    "LGF_TimeToString": [
+        "TIME_TO_DINT",
+        "DELETE",
+        "CONCAT",
+        "DINT_TO_STRING"
+    ],
+    "LGF_ScaleLinear": [
+        "ABS",
+        "F"
+    ],
+    "LGF_ReadPnInterfaceParameter": [
+        "instRedRec",
+        "BYTE_TO_USINT",
+        "BYTE_TO_UINT",
+        "Chars_TO_Strg",
+        "TODO"
+    ],
+    "LGF_SawTooth": [
+        "instTimer"
+    ],
+    "LGF_CalcCRC8For1Byte": [
+        "SHL"
+    ],
+    "LGF_MatrixAddition": [
+        "LOWER_BOUND",
+        "UPPER_BOUND"
+    ],
+    "LGF_CosinusCI": [
+        "COS",
+        "INT_TO_WORD",
+        "UDINT_TO_REAL",
+        "QRY_CINT"
+    ],
+    "LGF_Frequency": [
+        "RESET_TIMER",
+        "instTofTimePause",
+        "UDINT_TO_TIME",
+        "REAL_TO_UDINT",
+        "instTofTimePulse"
+    ],
+    "LGF_SmoothByPolynomFB": [
+        "y"
+    ],
+    "LGF_CountRisInDWord": [
+        "SHR"
+    ],
+    "LGF_BitSetTo": [
+        "SHL"
+    ],
+    "LGF_SmoothByPolynomFC": [
+        "LOWER_BOUND",
+        "UPPER_BOUND",
+        "DINT_TO_INT",
+        "y"
+    ],
+    "LGF_LimRateOfChangeAdvancedCI": [
+        "UDINT_TO_REAL",
+        "QRY_CINT",
+        "INT_TO_WORD"
+    ],
+    "LGF_CalcCRC16": [
+        "BYTE_TO_WORD",
+        "LOWER_BOUND",
+        "SHL",
+        "UPPER_BOUND"
+    ],
+    "LGF_StringToDTL_ISO": [
+        "MID",
+        "STRG_VAL"
+    ],
+    "LGF_08_Technology_Description": [],
+    "LGF_BitToggle": [
+        "SHL"
+    ],
+    "LGF_GetCalendarDay": [
+        "DATE_TO_DINT",
+        "DTL_TO_DATE"
+    ],
+    "LGF_ToLower": [
+        "LEN",
+        "USINT_TO_CHAR",
+        "CHAR_TO_USINT",
+        "INT_TO_UINT",
+        "CONCAT"
+    ],
+    "LGF_FIFO": [
+        "TypeOfElements",
+        "INT_TO_WORD",
+        "MOVE_BLK_VARIANT",
+        "TypeOf",
+        "IS_ARRAY",
+        "CountOfElements",
+        "UDINT_TO_INT"
+    ],
+    "LGF_GrayToBinary": [
+        "SHR"
+    ],
+    "LGF_EncodeUtf8": [
+        "LEN",
+        "WORD_TO_BYTE",
+        "LOWER_BOUND",
+        "WCHAR_TO_DWORD",
+        "WCHAR_TO_WORD",
+        "SHR",
+        "UPPER_BOUND",
+        "WCHAR_TO_BYTE"
+    ],
+    "LGF_IecTimerOnOff": [
+        "TON",
+        "TOF"
+    ],
+    "LGF_Boxplot_UDInt": [
+        "LREAL_TO_DINT",
+        "UDINT_TO_LREAL",
+        "LOWER_BOUND",
+        "INT_TO_DINT",
+        "DINT_TO_INT",
+        "quartil",
+        "DINT_TO_LREAL",
+        "instShellSort",
+        "UPPER_BOUND",
+        "x",
+        "TRUNC",
+        "FRAC_LREAL"
+    ],
+    "LGF_CountFalInDWord_1": [],
+    "LGF_StoreMinMax": [],
+    "LGF_IsValueInToleranceByTime": [
+        "TON",
+        "ABS"
+    ],
+    "LGF_Random_Real": [
+        "INT_TO_WORD",
+        "UDINT_TO_REAL",
+        "DWORD_TO_UDINT",
+        "RD_SYS_T",
+        "UDINT_TO_DWORD"
+    ],
+    "LGF_BinaryToGray": [
+        "SHR"
+    ],
+    "LGF_TimerSwitch": [
+        "INT_TO_WORD",
+        "RD_LOC_T",
+        "DTL_TO_TOD",
+        "USINT_TO_WORD"
+    ],
+    "LGF_CountFalInDWord": [
+        "SHR"
+    ],
+    "LGF_SplitDWordToWords": [],
+    "LGF_Boxplot_LReal": [
+        "LREAL_TO_DINT",
+        "LOWER_BOUND",
+        "INT_TO_DINT",
+        "DINT_TO_INT",
+        "quartil",
+        "DINT_TO_LREAL",
+        "instShellSort",
+        "UPPER_BOUND",
+        "x",
+        "TRUNC",
+        "FRAC_LREAL"
+    ],
+    "LGF_ToUpper": [
+        "LEN",
+        "USINT_TO_CHAR",
+        "CHAR_TO_USINT",
+        "INT_TO_UINT",
+        "CONCAT"
+    ],
+    "LGF_MergeBytesToWord": [],
+    "LGF_GpsDDToGps": [
+        "REAL_TO_UINT",
+        "FRAC"
+    ],
+    "LGF_CalcCRC8Advanced": [
+        "LOWER_BOUND",
+        "SHL",
+        "UPPER_BOUND"
+    ],
+    "LGF_FloatingAverage": [],
+    "LGF_MatrixScalarMultiplication": [
+        "LOWER_BOUND",
+        "UPPER_BOUND"
+    ],
+    "LGF_GetFactorial": [],
+    "LGF_Histogram_LReal": [
+        "LREAL_TO_DINT",
+        "LOWER_BOUND",
+        "DINT_TO_LREAL",
+        "instShellSort",
+        "UPPER_BOUND",
+        "DINT_TO_INT",
+        "UINT_TO_INT",
+        "INT_TO_LREAL"
+    ],
+    "LGF_CalcDistance_2D": [
+        "SQR",
+        "SQRT"
+    ],
+    "LGF_KelvinToCelsius": [],
+    "LGF_SplitWordToBits": [],
+    "LGF_IsLittleEndian": [
+        "SHL"
+    ],
+    "LGF_SimpleSmoothingFC": [
+        "LOWER_BOUND",
+        "UPPER_BOUND",
+        "DINT_TO_INT",
+        "y"
+    ],
+    "LGF_GetCalendarWeek_US": [],
+    "LGF_Random_UDInt": [
+        "INT_TO_WORD",
+        "DWORD_TO_UDINT",
+        "RD_SYS_T",
+        "UDINT_TO_DWORD"
+    ],
+    "LGF_ShellSort_DInt": [
+        "LOWER_BOUND",
+        "UPPER_BOUND"
+    ],
+    "LGF_CalcCRC8": [
+        "LOWER_BOUND",
+        "SHL",
+        "UPPER_BOUND"
+    ],
+    "LGF_ShiftRegister": [
+        "TypeOfElements",
+        "INT_TO_WORD",
+        "UDINT_TO_INT",
+        "MOVE_BLK_VARIANT",
+        "TypeOf",
+        "IS_ARRAY",
+        "CountOfElements",
+        "UINT_TO_INT",
+        "BOOL_TO_USINT"
+    ],
+    "LGF_StringToTime": [
+        "STRING_TO_DINT",
+        "LEFT",
+        "DINT_TO_TIME",
+        "DELETE",
+        "FIND"
+    ],
+    "LGF_SplitWordToBytes": [],
+    "LGF_SwapBlockWord": [
+        "LOWER_BOUND",
+        "UPPER_BOUND"
+    ],
+    "LGF_ExtractStringFromCharArray": [
+        "TypeOfElements",
+        "LEN",
+        "LEFT",
+        "MIN",
+        "FIND",
+        "IS_ARRAY",
+        "CountOfElements",
+        "UDINT_TO_UINT",
+        "Chars_TO_Strg",
+        "UINT_TO_INT"
+    ],
+    "LGF_SetTime": [
+        "INT_TO_WORD",
+        "WR_LOC_T",
+        "instSetTimeZone",
+        "WR_SYS_T"
+    ],
+    "LGF_MergeBitsToByte": [],
+    "LGF_SawToothCI": [
+        "INT_TO_WORD",
+        "UDINT_TO_REAL",
+        "REAL_TO_UDINT",
+        "QRY_CINT"
+    ],
+    "LGF_BitCount": [
+        "SHR",
+        "USINT_TO_DINT"
+    ],
+    "LGF_FindStringInCharArray": [
+        "TypeOfElements",
+        "LEN",
+        "MIN",
+        "FIND",
+        "IS_ARRAY",
+        "CountOfElements",
+        "UDINT_TO_UINT",
+        "Chars_TO_Strg",
+        "UINT_TO_INT"
+    ],
+    "LGF_ConvertTemperature": [],
+    "LGF_IsParityEven": [
+        "UDINT_TO_DWORD",
+        "SHR",
+        "DWORD_TO_UDINT"
+    ],
+    "LGF_FahrenheitToCelsius": [],
+    "LGF_SplitDWordToBytes": [],
+    "LGF_Histogram_UDInt": [
+        "UDINT_TO_REAL",
+        "INT_TO_REAL",
+        "LOWER_BOUND",
+        "instShellSort",
+        "DINT_TO_REAL",
+        "UPPER_BOUND",
+        "DINT_TO_INT",
+        "INT_TO_LREAL",
+        "UINT_TO_INT",
+        "LREAL_TO_UDINT"
+    ],
+    "LGF_SearchMinMax_DInt": [
+        "LOWER_BOUND",
+        "UPPER_BOUND"
+    ],
+    "LGF_Histogram_DInt": [
+        "LREAL_TO_DINT",
+        "LOWER_BOUND",
+        "DINT_TO_LREAL",
+        "instShellSort",
+        "UPPER_BOUND",
+        "DINT_TO_INT",
+        "UINT_TO_INT",
+        "INT_TO_LREAL"
+    ],
+    "LGF_DTLToUnixTime": [
+        "DATE_TO_DINT",
+        "DTL_TO_DATE",
+        "TOD_TO_DINT",
+        "DTL_TO_TOD"
+    ],
+    "LGF_SplitByteToBits": [],
+    "LGF_SearchMinMax_LReal": [
+        "LOWER_BOUND",
+        "UPPER_BOUND"
+    ],
+    "LGF_BitTest": [
+        "SHL"
+    ],
+    "LGF_CalcDistance_3D": [
+        "SQR",
+        "SQRT"
+    ],
+    "LGF_BitSet": [
+        "SHL"
+    ],
+    "LGF_ShellSort_UDInt": [
+        "LOWER_BOUND",
+        "UPPER_BOUND"
+    ],
+    "LGF_CelsiusToFahrenheit": [],
+    "LGF_SearchMinMax_UDInt": [
+        "LOWER_BOUND",
+        "UPPER_BOUND"
+    ],
+    "LGF_MergeWordsToDWord": [],
+    "LGF_RandomRange_Real": [
+        "INT_TO_WORD",
+        "UDINT_TO_REAL",
+        "DWORD_TO_UDINT",
+        "RD_SYS_T",
+        "UDINT_TO_DWORD"
+    ],
+    "LGF_IntToString": [
+        "VAL_STRG"
+    ],
+    "LGF_NonLinearInterpolation": [
+        "DINT_TO_INT",
+        "LOWER_BOUND",
+        "UPPER_BOUND"
+    ],
+    "LGF_SwapBlockLWord": [
+        "LOWER_BOUND",
+        "UPPER_BOUND"
+    ],
+    "LGF_Integration": [
+        "INT_TO_WORD",
+        "RD_SYS_T",
+        "T_DIFF",
+        "DINT_TO_REAL",
+        "TIME_TO_DINT"
+    ],
+    "LGF_RankineToKelvin": [],
+    "LGF_RandomRange_UDInt": [
+        "INT_TO_WORD",
+        "UDINT_TO_REAL",
+        "DWORD_TO_UDINT",
+        "RD_SYS_T",
+        "UDINT_TO_DWORD",
+        "REAL_TO_UDINT"
+    ],
+    "LGF_MergeBitsToDWord": [],
+    "LGF_CountArrayElements": [
+        "TypeOfElements",
+        "UDINT_TO_DINT",
+        "IS_ARRAY",
+        "CountOfElements"
+    ],
+    "LGF_RectangleCI": [
+        "INT_TO_WORD",
+        "REAL_TO_UDINT",
+        "QRY_CINT"
+    ],
+    "LGF_GpsToGpsDD": [
+        "UINT_TO_REAL",
+        "ABS"
+    ],
+    "LGF_UnixTimeToDTL": [
+        "DINT_TO_USINT",
+        "DINT_TO_DATE",
+        "DATE_TO_DTL"
+    ],
+    "LGF_DifferenceQuotientFC": [
+        "LOWER_BOUND",
+        "UPPER_BOUND",
+        "DINT_TO_INT",
+        "y"
+    ],
+    "LGF_BinaryMaskCompare": [
+        "Byte_to_DWord"
+    ],
+    "LGF_SimpleSmoothingFB": [],
+    "LGF_SinusCI": [
+        "INT_TO_WORD",
+        "SIN",
+        "UDINT_TO_REAL",
+        "QRY_CINT"
+    ],
+    "LGF_DTLToJulianDate": [
+        "TOD_TO_DINT",
+        "DTL_TO_TOD",
+        "DINT_TO_LREAL",
+        "DATE_TO_DINT",
+        "DTL_TO_DATE"
+    ],
+    "LGF_RampCI": [
+        "INT_TO_WORD",
+        "UDINT_TO_REAL",
+        "LOWER_BOUND",
+        "UDINT_TO_TIME",
+        "DINT_TO_REAL",
+        "QRY_CINT",
+        "UPPER_BOUND",
+        "DINT_TO_INT",
+        "TIME_TO_DINT"
+    ],
+    "LGF_CompareVariant": [
+        "TypeOf",
+        "Serialize",
+        "INT_TO_WORD",
+        "DINT_TO_WORD"
+    ],
+    "LGF_MatrixMultiplication": [
+        "LOWER_BOUND",
+        "UPPER_BOUND"
+    ],
+    "LGF_BitReset": [
+        "SHL"
+    ],
+    "LGF_ActDeactDevice": [
+        "INT_TO_WORD",
+        "GEO2LOG",
+        "DeviceStates",
+        "D_ACT_DP",
+        "TON",
+        "LOG2GEO",
+        "TOF"
+    ],
+    "LGF_GetCalendarWeek_ISO": [],
+    "LGF_StringToInt": [
+        "STRG_VAL"
+    ],
+    "LGF_RandomRange_DInt": [
+        "INT_TO_WORD",
+        "UDINT_TO_REAL",
+        "DWORD_TO_UDINT",
+        "RD_SYS_T",
+        "UDINT_TO_DWORD",
+        "DINT_TO_REAL",
+        "REAL_TO_DINT"
+    ],
+    "LGF_TaddrToString": [
+        "FIND",
+        "VAL_STRG",
+        "DELETE"
+    ],
+    "LGF_CountRisInDWord_1": [],
+    "LGF_CalcCRC32Advanced": [
+        "BYTE_TO_DWORD",
+        "LOWER_BOUND",
+        "SHL",
+        "UPPER_BOUND"
+    ],
+    "LGF_RegressionLine": [
+        "SQR",
+        "LOWER_BOUND",
+        "f",
+        "UPPER_BOUND",
+        "x",
+        "y"
+    ],
+    "LGF_IsGermanHoliday": [
+        "WORD_TO_UINT",
+        "UINT_TO_WORD",
+        "UINT_TO_USINT",
+        "SHR",
+        "DATE_TO_DINT",
+        "DTL_TO_DATE"
+    ],
+    "LGF_AverageAndDeviation": [
+        "SQR",
+        "LOWER_BOUND",
+        "DINT_TO_REAL",
+        "UPPER_BOUND",
+        "DINT_TO_INT",
+        "SQRT"
+    ],
+    "LGF_FahrenheitToKelvin": [],
+    "LGF_Impulse": [
+        "instTofTimePulse",
+        "TRUNC"
+    ],
+    "LGF_StringToDTL_DE": [
+        "MID",
+        "STRG_VAL"
+    ],
+    "LGF_CompareLRealByPrecision": [
+        "ABS"
+    ],
+    "LGF_CelsiusToKelvin": [],
+    "LGF_IsParityOdd": [
+        "UDINT_TO_DWORD",
+        "SHR",
+        "DWORD_TO_UDINT"
+    ],
+    "LGF_GetBitStates": [
+        "edge",
+        "DWORD_TO_USINT",
+        "DWORD_TO_UDINT",
+        "UDINT_TO_DWORD",
+        "SHR"
+    ],
+    "LGF_ExtractStringFromCharArrayAdv": [
+        "TypeOfElements",
+        "LEN",
+        "LEFT",
+        "MIN",
+        "FIND",
+        "IS_ARRAY",
+        "CountOfElements",
+        "UDINT_TO_UINT",
+        "Chars_TO_Strg",
+        "UINT_TO_INT"
+    ],
+    "all_used_functions": [
+        "UDINT_TO_REAL",
+        "INT_TO_REAL",
+        "DWORD_TO_WCHAR",
+        "USINT_TO_CHAR",
+        "LEFT",
+        "DINT_TO_DATE",
+        "instDataLogOpen",
+        "STRG_VAL",
+        "instTofTimePulse",
+        "instSetTimeZone",
+        "STRING_TO_DINT",
+        "DINT_TO_LREAL",
+        "f",
+        "Serialize",
+        "x",
+        "ATAN",
+        "BYTE_TO_WORD",
+        "GEO2LOG",
+        "D_ACT_DP",
+        "SHL",
+        "USINT_TO_WORD",
+        "DTL_TO_DATE",
+        "LREAL_TO_UDINT",
+        "SQRT",
+        "TypeOfElements",
+        "UDINT_TO_LREAL",
+        "USINT_TO_DINT",
+        "degree",
+        "instShellSort",
+        "WORD_TO_BYTE",
+        "Byte_to_DWord",
+        "WCHAR_TO_BYTE",
+        "DINT_TO_STRING",
+        "INT_TO_LREAL",
+        "edge",
+        "MAX",
+        "RD_LOC_T",
+        "instDataLogCreate",
+        "RESET_TIMER",
+        "IS_ARRAY",
+        "instDataLogClear",
+        "instDataLogWrite",
+        "TRUNC",
+        "TOD_TO_DINT",
+        "BYTE_TO_USINT",
+        "DINT_TO_USINT",
+        "UDINT_TO_DINT",
+        "SQR",
+        "DINT_TO_TIME",
+        "DINT_TO_REAL",
+        "DINT_TO_INT",
+        "LREAL_TO_DINT",
+        "DeviceStates",
+        "DWORD_TO_USINT",
+        "DINT_TO_WORD",
+        "LOWER_BOUND",
+        "instDataLogDelete",
+        "CountOfElements",
+        "UINT_TO_INT",
+        "UDINT_TO_INT",
+        "TODO",
+        "DWORD_TO_UDINT",
+        "instFileWrite",
+        "LREAL_TO_REAL",
+        "CHAR_TO_USINT",
+        "T_DIFF",
+        "DTL_TO_TOD",
+        "CONCAT",
+        "REAL_TO_LREAL",
+        "MIN",
+        "instDataLogClose",
+        "F",
+        "MAX_LEN",
+        "UDINT_TO_DWORD",
+        "SHR",
+        "FLOOR",
+        "ABS",
+        "ACOS",
+        "UDINT_TO_USINT",
+        "DATE_TO_UDINT",
+        "DWORD_TO_DINT",
+        "INT_TO_DINT",
+        "FIND",
+        "Chars_TO_Strg",
+        "WR_LOC_T",
+        "TAN",
+        "WCHAR_TO_DWORD",
+        "INT_TO_UINT",
+        "instFileRead",
+        "UINT_TO_USINT",
+        "VAL_STRG",
+        "BYTE_TO_DWORD",
+        "TypeOf",
+        "WR_SYS_T",
+        "BOOL_TO_USINT",
+        "ASIN",
+        "LEN",
+        "BYTE_TO_UINT",
+        "WCHAR_TO_WORD",
+        "FRAC",
+        "quartil",
+        "REAL_TO_UDINT",
+        "MID",
+        "y",
+        "COS",
+        "REAL_TO_UINT",
+        "instTimer",
+        "QRY_CINT",
+        "UPPER_BOUND",
+        "DATE_TO_DINT",
+        "LOG2GEO",
+        "TP",
+        "TOF",
+        "FRAC_LREAL",
+        "instRedRec",
+        "WORD_TO_UINT",
+        "UINT_TO_WORD",
+        "RD_SYS_T",
+        "DELETE",
+        "instTofTimePause",
+        "UDINT_TO_TIME",
+        "REAL_TO_DINT",
+        "DINT_TO_UDINT",
+        "UINT_TO_SINT",
+        "MOVE_BLK_VARIANT",
+        "TIME_TO_DINT",
+        "INT_TO_WORD",
+        "SIN",
+        "UINT_TO_REAL",
+        "DATE_TO_DTL",
+        "TON",
+        "UDINT_TO_UINT",
+        "Deserialize"
+    ]
+}

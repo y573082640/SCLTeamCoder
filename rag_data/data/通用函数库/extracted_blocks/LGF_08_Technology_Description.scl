@@ -1,0 +1,14 @@
+FUNCTION "LGF_08_Technology_Description" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+
+BEGIN
+	REGION PREAMBLE
+	  (/**/)
+	END_REGION PREAMBLE
+	                          
+	REGION APPENDIX
+	  (/**/)
+	END_REGION APPENDIX
+	                          
+END_FUNCTION

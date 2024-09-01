@@ -1,0 +1,51 @@
+{
+    "title": "双字边沿检测",
+    "description": "编写一个函数块FB，该函数块每周期检查一个双字（DWord）输入值中的每一位的上升沿和下降沿。函数块应能够检测并报告输入值中的变化、上升边沿和下降边沿。\n\n示例：\n假设输入值从2#101变为2#11011，则上升沿数量为3，上升边沿的位流为2#11010，下降沿数量为1，下降边沿的位流为2#100。",
+    "type": "FUNCTION_BLOCK",
+    "name": "GetBitStates",
+    "source_code":"",
+    "input": [
+        {
+            "name": "value",
+            "type": "DWord",
+            "description": "待检查变化和边沿触发的输入值"
+        }
+    ],
+    "output": [
+        {
+            "name": "hasChanged",
+            "type": "Bool",
+            "description": "为True时表示输入值已改变"
+        },
+        {
+            "name": "hasRisingEdges",
+            "type": "Bool",
+            "description": "为True时表示输入值出现上升边沿"
+        },
+        {
+            "name": "risingBits",
+            "type": "DWord",
+            "description": "上升边沿的位流，其中每个位表示相应位置的输入值是否发生了上升沿（1表示有上升沿，0表示无上升沿）"
+        },
+        {
+            "name": "noOfRisingBits",
+            "type": "USInt",
+            "description": "输入值中的上升边沿数量"
+        },
+        {
+            "name": "hasFallingEdges",
+            "type": "Bool",
+            "description": "为True时表示输入值出现下降边沿"
+        },
+        {
+            "name": "fallingBits",
+            "type": "DWord",
+            "description": "下降边沿的位流，其中每个位表示相应位置的输入值是否发生了下降沿（1表示有下降沿，0表示无下降沿）"
+        },
+        {
+            "name": "noOfFallingBits",
+            "type": "USInt",
+            "description": "输入值中的下降边沿数量"
+        }
+    ]
+}

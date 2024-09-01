@@ -1,0 +1,40 @@
+{
+    "title": "16位二进制数分解为四个4位二进制数",
+    "description": "在一些数据处理和通信应用中，需要将一个16位的二进制数分解成四个独立的4位二进制数。例如，在数据编码、解码或与外部系统的数据交换时，可能需要这种分解操作。\n控制要求：\n系统需要接收一个16位的二进制数InputWord作为输入。\n将输入的16位二进制数分解成四个4位的二进制数，分别对应输入数的最低位到最高位。\n输出这四个4位二进制数到独立的变量Byte0~Byte3中。\n同时对这4个变量Byte0~Byte3中非0的变量求取平均值，并输出到average。\n例如，InputWord=16#1203，则Byte0=3，Byte1=0，Byte2=2，Byte3=1，那么平均值average=(1+2+3)/3",
+    "type": "FUNCTION_BLOCK",
+    "name": "FB_SplitWordIntoBytes",
+    "input": [
+        {
+            "name": "InputWord",
+            "type": "Word",
+            "description": "16位二进制数输入"
+        }
+    ],
+    "output": [
+        {
+            "name": "Byte0",
+            "type": "Byte",
+            "description": "最低的4位二进制数输出"
+        },
+        {
+            "name": "Byte1",
+            "type": "Byte",
+            "description": "次低的4位二进制数输出"
+        },
+        {
+            "name": "Byte2",
+            "type": "Byte",
+            "description": "次高的4位二进制数输出"
+        },
+        {
+            "name": "Byte3",
+            "type": "Byte",
+            "description": "最高的4位二进制数输出"
+        },
+        {
+            "name": "average",
+            "type": "Real",
+            "description": "四个字节中非零字节的平均值"
+        }
+    ]
+}

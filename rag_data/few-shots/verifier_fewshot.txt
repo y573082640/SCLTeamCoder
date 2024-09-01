@@ -1,0 +1,615 @@
+FUNCTION_BLOCK "FB_SplitNumber"
+{ S7_Optimized_Access := 'TRUE' }
+VAR_INPUT
+    InputNumber : Int; // 四位整数输入 
+END_VAR
+
+VAR_OUTPUT
+    Thousands : Byte; // 千位数值输出 
+    Hundreds : Byte; // 百位数值输出 
+    Tens : Byte; // 十位数值输出 
+    Ones : Byte; // 个位数值输出 
+    Min : Byte; // 四个数位中的非0最小值 
+    error : Bool; // 错误状态指示
+    status : Word; // 状态代码 
+END_VAR
+
+VAR
+    // No static variables needed for this task
+END_VAR
+VAR CONSTANT
+    STATUS_INVALID_INPUT : Word := 16#8001;
+END_VAR
+VAR_TEMP
+    // Temporary variables for calculations
+    tempNumber : Int;
+END_VAR
+
+BEGIN
+    // Validation OF INPUT
+    IF (InputNumber < 0) OR (InputNumber > 9999) THEN
+        error := TRUE;
+        status := STATUS_INVALID_INPUT;
+    ELSE
+        error := FALSE;
+        status := 0;
+        
+        // Calculation OF digits
+        tempNumber := InputNumber;
+        Thousands := tempNumber DIV 1000;
+        tempNumber := tempNumber MOD 1000;
+        Hundreds := tempNumber DIV 100;
+        tempNumber := tempNumber MOD 100;
+        Tens := tempNumber DIV 10;
+        Ones := tempNumber MOD 10;
+        
+        // Calculation OF Min
+        Min := 255; // Initialize with maximum Byte value
+        IF Thousands > 0 THEN
+            tempMin := MIN(tempMin, Thousands);
+        END_IF;
+        IF Hundreds > 0 THEN
+            tempMin := MIN(tempMin, Hundreds);
+        END_IF;
+        IF Tens > 0 THEN
+            tempMin := MIN(tempMin, Tens);
+        END_IF;
+        IF Ones > 0 THEN
+            tempMin := MIN(tempMin, Ones);
+        END_IF;
+        IF InputNumber = 0 THEN
+            tempMin := 0;
+        END_IF;
+        IF (Thousands = 0) AND (Hundreds = 0) AND (Tens = 0) AND (Ones = 0) THEN
+            Min := 0;
+        END_IF;
+    END_IF;
+END_FUNCTION_BLOCK
+&&&&&
+---语法错误 No.1---
+-反馈信息: no viable alternative at input 'MIN(tempMin,'
+-代码上下文: 
+```scl
+        
+        // Find the minimum non-zero digit
+        tempMin := MAX(Byte);
+        IF Thousands > 0 THEN
+            tempMin := MIN(tempMin, Thousands);
+        END_IF;
+        IF Hundreds > 0 THEN
+            tempMin := MIN(tempMin, Hundreds);
+        END_IF;
+        IF Tens > 0 THEN
+```
+-代码可能违背的SCL语法规则(.g4格式): 
+[1] expressionName:Identifier identifierIndex? | ambiguousName '.' '%'? Identifier identifierIndex?;
+[2] constant:REALLiteral | INTLiteral | BOOLLiteral | DINTLiteral | CHARLiteral | STRINGLiteral | BYTELiteral | WORDLiteral | DWORDLiteral | DATELiteral | TIMELiteral | TIME_OF_DAYLiteral | DATE_AND_TIMELiteral | POINTERLiteral | GLOBALBOOLLiteral;
+[3] expr:expressionName '(' functionParameterExpression (',' functionParameterExpression)* ')' | expressionName '(' expr? ')' ('.' expr)* | expr '**' expr | expr '*' expr | expr '/' expr | expr '+' expr | expr '-' expr | expr 'MOD' expr | expr 'DIV' expr | expr '<' expr | expr '>' expr | expr '<=' expr | expr '>=' expr | expr '=' expr | expr '<>' expr | 'NOT' expr | expr ('AND'|'&') expr | expr 'XOR' expr | expr 'OR' expr | expressionName | constant | '+' expr | '-' expr | '(' expr ')';
+[4] functionParameterExpression:inputParameter ':=' expr | outputParameter '=>' expr;
+------
+
+---语法错误 No.2---
+-反馈信息: no viable alternative at input 'MIN(tempMin,'
+-代码上下文: 
+```scl
+        IF Thousands > 0 THEN
+            tempMin := MIN(tempMin, Thousands);
+        END_IF;
+        IF Hundreds > 0 THEN
+            tempMin := MIN(tempMin, Hundreds);
+        END_IF;
+        IF Tens > 0 THEN
+            tempMin := MIN(tempMin, Tens);
+        END_IF;
+        IF Ones > 0 THEN
+```
+-代码可能违背的SCL语法规则(.g4格式): 
+[1] expressionName:Identifier identifierIndex? | ambiguousName '.' '%'? Identifier identifierIndex?;
+[2] constant:REALLiteral | INTLiteral | BOOLLiteral | DINTLiteral | CHARLiteral | STRINGLiteral | BYTELiteral | WORDLiteral | DWORDLiteral | DATELiteral | TIMELiteral | TIME_OF_DAYLiteral | DATE_AND_TIMELiteral | POINTERLiteral | GLOBALBOOLLiteral;
+[3] expr:expressionName '(' functionParameterExpression (',' functionParameterExpression)* ')' | expressionName '(' expr? ')' ('.' expr)* | expr '**' expr | expr '*' expr | expr '/' expr | expr '+' expr | expr '-' expr | expr 'MOD' expr | expr 'DIV' expr | expr '<' expr | expr '>' expr | expr '<=' expr | expr '>=' expr | expr '=' expr | expr '<>' expr | 'NOT' expr | expr ('AND'|'&') expr | expr 'XOR' expr | expr 'OR' expr | expressionName | constant | '+' expr | '-' expr | '(' expr ')';
+[4] functionParameterExpression:inputParameter ':=' expr | outputParameter '=>' expr;
+------
+
+---语法错误 No.3---
+-反馈信息: no viable alternative at input 'MIN(tempMin,'
+-代码上下文: 
+```scl
+        IF Hundreds > 0 THEN
+            tempMin := MIN(tempMin, Hundreds);
+        END_IF;
+        IF Tens > 0 THEN
+            tempMin := MIN(tempMin, Tens);
+        END_IF;
+        IF Ones > 0 THEN
+            tempMin := MIN(tempMin, Ones);
+        END_IF;
+        IF InputNumber = 0 THEN
+```
+-代码可能违背的SCL语法规则(.g4格式): 
+[1] expressionName:Identifier identifierIndex? | ambiguousName '.' '%'? Identifier identifierIndex?;
+[2] constant:REALLiteral | INTLiteral | BOOLLiteral | DINTLiteral | CHARLiteral | STRINGLiteral | BYTELiteral | WORDLiteral | DWORDLiteral | DATELiteral | TIMELiteral | TIME_OF_DAYLiteral | DATE_AND_TIMELiteral | POINTERLiteral | GLOBALBOOLLiteral;
+[3] expr:expressionName '(' functionParameterExpression (',' functionParameterExpression)* ')' | expressionName '(' expr? ')' ('.' expr)* | expr '**' expr | expr '*' expr | expr '/' expr | expr '+' expr | expr '-' expr | expr 'MOD' expr | expr 'DIV' expr | expr '<' expr | expr '>' expr | expr '<=' expr | expr '>=' expr | expr '=' expr | expr '<>' expr | 'NOT' expr | expr ('AND'|'&') expr | expr 'XOR' expr | expr 'OR' expr | expressionName | constant | '+' expr | '-' expr | '(' expr ')';
+[4] functionParameterExpression:inputParameter ':=' expr | outputParameter '=>' expr;
+------
+
+---语法错误 No.4---
+-反馈信息: no viable alternative at input 'MIN(tempMin,'
+-代码上下文: 
+```scl
+        IF Tens > 0 THEN
+            tempMin := MIN(tempMin, Tens);
+        END_IF;
+        IF Ones > 0 THEN
+            tempMin := MIN(tempMin, Ones);
+        END_IF;
+        IF InputNumber = 0 THEN
+            tempMin := 0;
+        END_IF;
+        
+```
+-代码可能违背的SCL语法规则(.g4格式): 
+[1] expressionName:Identifier identifierIndex? | ambiguousName '.' '%'? Identifier identifierIndex?;
+[2] constant:REALLiteral | INTLiteral | BOOLLiteral | DINTLiteral | CHARLiteral | STRINGLiteral | BYTELiteral | WORDLiteral | DWORDLiteral | DATELiteral | TIMELiteral | TIME_OF_DAYLiteral | DATE_AND_TIMELiteral | POINTERLiteral | GLOBALBOOLLiteral;
+[3] expr:expressionName '(' functionParameterExpression (',' functionParameterExpression)* ')' | expressionName '(' expr? ')' ('.' expr)* | expr '**' expr | expr '*' expr | expr '/' expr | expr '+' expr | expr '-' expr | expr 'MOD' expr | expr 'DIV' expr | expr '<' expr | expr '>' expr | expr '<=' expr | expr '>=' expr | expr '=' expr | expr '<>' expr | 'NOT' expr | expr ('AND'|'&') expr | expr 'XOR' expr | expr 'OR' expr | expressionName | constant | '+' expr | '-' expr | '(' expr ')';
+[4] functionParameterExpression:inputParameter ':=' expr | outputParameter '=>' expr;
+
+&&&&&
+```plaintext
+- 修改建议 1 : 根据SCL编程规范，如果函数接受多个参数，请明确指定输入参数和输出参数。 而使用`MIN`函数时没有明确指定输入参数，应该指明输入参数如`MIN(IN1 := Min, IN2 := Thousands)`。所有使用`MIN`函数的地方均进行纠正。
+(1)
+<code_segment>
+        IF Thousands > 0 THEN
+            tempMin := MIN(tempMin, Thousands);
+        END_IF;
+        IF Hundreds > 0 THEN
+            tempMin := MIN(tempMin, Hundreds);
+        END_IF;
+        IF Tens > 0 THEN
+            tempMin := MIN(tempMin, Tens);
+        END_IF;
+        IF Ones > 0 THEN
+            tempMin := MIN(tempMin, Ones);
+        END_IF;
+</code_segment>
+<patch>
+        IF Thousands > 0 THEN
+            tempMin := MIN(IN1 := tempMin, IN2 := Thousands);
+        END_IF;
+        IF Hundreds > 0 THEN
+            tempMin := MIN(IN1 := tempMin, IN2 := Hundreds);
+        END_IF;
+        IF Tens > 0 THEN
+            tempMin := MIN(IN1 := tempMin, IN2 := Tens);
+        END_IF;
+        IF Ones > 0 THEN
+            tempMin := MIN(IN1 := tempMin, IN2 := Ones);
+        END_IF;
+</patch>
+```
+=====
+FUNCTION_BLOCK "FB_CalculateDayOfYear"
+{ S7_Optimized_Access := 'TRUE' }
+VAR_INPUT
+    Year : Int; // 年份输入 
+    Month : Int; // 月份输入 
+    Day : Int; // 日输入 
+END_VAR
+
+VAR_OUTPUT
+    DayOfYear : Int; // 一年中的第几天输出 
+    error : Bool; // 错误状态指示。FALSE: 没有发生错误。TRUE: 执行出错 
+    status : Word; // 状态代码 
+END_VAR
+
+VAR
+    DAYS_IN_MONTHS : ARRAY[1..12] OF Int := [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+END_VAR
+
+VAR CONSTANT
+    CONST_STATUS_OK : WORD := 16#0000;
+    CONST_STATUS_ERR_YEAR : WORD := 16#8001;
+    CONST_STATUS_ERR_MONTH : WORD := 16#8002;
+    CONST_STATUS_ERR_DAY : WORD := 16#8003;
+END_VAR
+
+VAR_TEMP
+    isLeapYear : Bool;
+    daySum : Int := 0;
+END_VAR
+
+BEGIN
+    REGION Validation OF INPUT and OUTPUT 
+        // validate input and output here if necessary
+    END_REGION
+
+    // main function logic here
+    REGION Validation
+        // Check if year is within the valid range
+        IF (#Year < 1000) OR (#Year > 3000) THEN
+            #error := TRUE;
+            #status := CONST_STATUS_ERR_YEAR;
+            EXIT;
+        END_IF;
+        
+        // Check if month is valid
+        IF (#Month < 1) OR (#Month > 12) THEN
+            #error := TRUE;
+            #status := CONST_STATUS_ERR_MONTH;
+            EXIT;
+        END_IF;
+        
+        // Check if day is valid considering leap year
+        #isLeapYear := ((#Year MOD 4 = 0) AND (#Year MOD 100 <> 0)) OR (#Year MOD 400 = 0);
+        IF #isLeapYear THEN
+            #DAYS_IN_MONTHS[2] := 29;
+        ELSE
+            #DAYS_IN_MONTHS[2] := 28;
+        END_IF;
+        
+        IF (#Day < 1) OR (#Day > #DAYS_IN_MONTHS[#Month]) THEN
+            #error := TRUE;
+            #status := CONST_STATUS_ERR_DAY;
+            EXIT;
+        END_IF;
+    END_REGION
+
+    REGION Calculation
+        // Calculate the day OF the year
+        FOR #TEMP_i := 1 TO #Month - 1 BY 1 DO
+            #daySum += #DAYS_IN_MONTHS[#TEMP_i];
+        END_FOR;
+        #DayOfYear := #daySum + #Day;
+    END_REGION
+
+    REGION Writting TO outputs
+        // assign your output variable here if necessary
+        #DayOfYear := #daySum + #Day;
+        #error := FALSE;
+        #status := CONST_STATUS_OK;
+    END_REGION
+END_FUNCTION_BLOCK
+&&&&&
+---静态分析错误---
+    循环变量 TEMP_i 未定义! 请先在VAR TEMP中定义该变量!
+---静态分析错误---
+&&&&&
+```plaintext
+- 修改建议 1 : 根据静态分析结果，需要在`VAR_TEMP...END_VAR`块中定义该变量 TEMP_i。如果没有该块，则需要新建一个。
+(1)
+<code_segment>
+VAR_TEMP
+    isLeapYear : Bool;
+    daySum : Int := 0;
+END_VAR
+</code_segment>
+<patch>
+VAR_TEMP
+    isLeapYear : Bool;
+    daySum : Int := 0;
+    TEMP_i : Int;
+END_VAR
+</patch>
+```
+=====
+FUNCTION_BLOCK "FB_SplitWordIntoBytes"
+{ S7_Optimized_Access := 'TRUE' }
+VAR_INPUT
+    InputWord : Word; // 16位二进制数输入 
+END_VAR
+
+VAR_OUTPUT
+    Byte0 : Byte; // 最低的4位二进制数输出 
+    Byte1 : Byte; // 次低的4位二进制数输出 
+    Byte2 : Byte; // 次高的4位二进制数输出 
+    Byte3 : Byte; // 最高的4位二进制数输出 
+    average : Real; // 四个字节中非零字节的平均值 
+END_VAR
+
+VAR_TEMP
+    sum : Int := 0; // 用于累加非零字节
+    count : Int := 0; // 用于计数非零字节
+END_VAR
+
+BEGIN
+    // 分解InputWord为四个4位的二进制数
+    Byte0 := InputWord AND 16#000F; // 获取最低的4位
+    Byte1 := (InputWord AND 16#00F0) SHR 4; // 获取次低的4位
+    Byte2 := (InputWord AND 16#0F00) SHR 8; // 获取次高的4位
+    Byte3 := (InputWord AND 16#F000) SHR 12; // 获取最高的4位
+
+    // 计算非零字节的平均值
+    IF Byte0 > 0 THEN
+        sum := sum + Byte0;
+        count := count + 1;
+    END_IF;
+    IF Byte1 > 0 THEN
+        sum := sum + Byte1;
+        count := count + 1;
+    END_IF;
+    IF Byte2 > 0 THEN
+        sum := sum + Byte2;
+        count := count + 1;
+    END_IF;
+    IF Byte3 > 0 THEN
+        sum := sum + Byte3;
+        count := count + 1;
+    END_IF;
+
+    // 如果有非零字节，计算平均值
+    IF count > 0 THEN
+        average := REAL_TO_REAL(sum / count); // 注意这里使用了REAL_TO_REAL进行类型转换
+    ELSE
+        average := 0.0; // 如果没有非零字节，平均值为0
+    END_IF;
+END_FUNCTION_BLOCK
+&&&&&
+---语法错误 No.1 ---
+-使用了不存在的SCL函数 REAL_TO_REAL() ! 
+-代码上下文 : REAL_TO_REAL() ! 
+-反馈信息 : 1.仔细分析使用该函数的目的,并替换为合适的SCL库函数。
+ 2.如果库函数列表中没有可用函数,请务必自己实现逻辑。如库函数中没有排序数组的，需要自己实现。
+ 3.使用规范的类型转换函数
+------
+
+---语法错误 No.2---
+-反馈信息: missing ';' at 'SHR'
+-代码上下文: 
+```scl
+
+BEGIN
+    // 分解InputWord为四个4位的二进制数
+    Byte0 := InputWord AND 16#000F; // 获取最低的4位
+    Byte1 := (InputWord AND 16#00F0) SHR 4; // 获取次低的4位
+    Byte2 := (InputWord AND 16#0F00) SHR 8; // 获取次高的4位
+    Byte3 := (InputWord AND 16#F000) SHR 12; // 获取最高的4位
+
+    // 计算非零字节的平均值
+    IF Byte0 > 0 THEN
+```
+-代码可能违背的SCL语法规则(.g4格式): 
+[1] stat:ifStatement ';'  | switchStatement ';' | forStatement ';' | whileStatement ';' | repeatStatement ';' | 'CONTINUE'  ';' | 'EXIT'  ';' | 'RETURN' ';' | 'GOTO' expressionName ';' | labelStatment | assignmentStatement ';' | functionStatement ';' | ';';
+[2] switchStatement:'CASE'  expr  'OF'  switchBlock+  (ELSE ':'? defualtswitchBlockStatements)? 'END_CASE';
+[3] assignmentStatement:leftHandAssignment (':='|'-='|'+=') rightHandAssignment;
+[4] repeatStatement:'REPEAT' (stat)+  'UNTIL' expr 'END_REPEAT';
+[5] ifStatement:'IF' ifCondition THEN ifBlockStatments  ('ELSIF' ifCondition THEN ifBlockStatments)* (ELSE  ifBlockStatments)? 'END_IF';
+[6] expressionName:Identifier identifierIndex? | ambiguousName '.' '%'? Identifier identifierIndex?;
+[7] functionStatement:expressionName '(' functionParameterExpression (',' functionParameterExpression)* ')' | expressionName '(' expr? ')';
+[8] forStatement:'FOR' forInitialCondition ('TO'|'to') forEndCondition ('BY' forStepCondition)? 'DO' forBlockStatements ('END_FOR'|'End_FOR');
+[9] labelStatment:expressionName ':';
+[10] whileStatement:'WHILE' whileCondition 'DO' whileBlockStatements 'END_WHILE';
+------
+
+---语法错误 No.3---
+-反馈信息: missing ';' at 'SHR'
+-代码上下文: 
+```scl
+BEGIN
+    // 分解InputWord为四个4位的二进制数
+    Byte0 := InputWord AND 16#000F; // 获取最低的4位
+    Byte1 := (InputWord AND 16#00F0) SHR 4; // 获取次低的4位
+    Byte2 := (InputWord AND 16#0F00) SHR 8; // 获取次高的4位
+    Byte3 := (InputWord AND 16#F000) SHR 12; // 获取最高的4位
+
+    // 计算非零字节的平均值
+    IF Byte0 > 0 THEN
+        sum := sum + Byte0;
+```
+-代码可能违背的SCL语法规则(.g4格式): 
+[1] stat:ifStatement ';'  | switchStatement ';' | forStatement ';' | whileStatement ';' | repeatStatement ';' | 'CONTINUE'  ';' | 'EXIT'  ';' | 'RETURN' ';' | 'GOTO' expressionName ';' | labelStatment | assignmentStatement ';' | functionStatement ';' | ';';
+[2] switchStatement:'CASE'  expr  'OF'  switchBlock+  (ELSE ':'? defualtswitchBlockStatements)? 'END_CASE';
+[3] assignmentStatement:leftHandAssignment (':='|'-='|'+=') rightHandAssignment;
+[4] repeatStatement:'REPEAT' (stat)+  'UNTIL' expr 'END_REPEAT';
+[5] ifStatement:'IF' ifCondition THEN ifBlockStatments  ('ELSIF' ifCondition THEN ifBlockStatments)* (ELSE  ifBlockStatments)? 'END_IF';
+[6] expressionName:Identifier identifierIndex? | ambiguousName '.' '%'? Identifier identifierIndex?;
+[7] functionStatement:expressionName '(' functionParameterExpression (',' functionParameterExpression)* ')' | expressionName '(' expr? ')';
+[8] forStatement:'FOR' forInitialCondition ('TO'|'to') forEndCondition ('BY' forStepCondition)? 'DO' forBlockStatements ('END_FOR'|'End_FOR');
+[9] labelStatment:expressionName ':';
+[10] whileStatement:'WHILE' whileCondition 'DO' whileBlockStatements 'END_WHILE';
+------
+
+---语法错误 No.4---
+-反馈信息: missing ';' at 'SHR'
+-代码上下文: 
+```scl
+    // 分解InputWord为四个4位的二进制数
+    Byte0 := InputWord AND 16#000F; // 获取最低的4位
+    Byte1 := (InputWord AND 16#00F0) SHR 4; // 获取次低的4位
+    Byte2 := (InputWord AND 16#0F00) SHR 8; // 获取次高的4位
+    Byte3 := (InputWord AND 16#F000) SHR 12; // 获取最高的4位
+
+    // 计算非零字节的平均值
+    IF Byte0 > 0 THEN
+        sum := sum + Byte0;
+        count := count + 1;
+```
+-代码可能违背的SCL语法规则(.g4格式): 
+[1] stat:ifStatement ';'  | switchStatement ';' | forStatement ';' | whileStatement ';' | repeatStatement ';' | 'CONTINUE'  ';' | 'EXIT'  ';' | 'RETURN' ';' | 'GOTO' expressionName ';' | labelStatment | assignmentStatement ';' | functionStatement ';' | ';';
+[2] switchStatement:'CASE'  expr  'OF'  switchBlock+  (ELSE ':'? defualtswitchBlockStatements)? 'END_CASE';
+[3] assignmentStatement:leftHandAssignment (':='|'-='|'+=') rightHandAssignment;
+[4] repeatStatement:'REPEAT' (stat)+  'UNTIL' expr 'END_REPEAT';
+[5] ifStatement:'IF' ifCondition THEN ifBlockStatments  ('ELSIF' ifCondition THEN ifBlockStatments)* (ELSE  ifBlockStatments)? 'END_IF';
+[6] expressionName:Identifier identifierIndex? | ambiguousName '.' '%'? Identifier identifierIndex?;
+[7] functionStatement:expressionName '(' functionParameterExpression (',' functionParameterExpression)* ')' | expressionName '(' expr? ')';
+[8] forStatement:'FOR' forInitialCondition ('TO'|'to') forEndCondition ('BY' forStepCondition)? 'DO' forBlockStatements ('END_FOR'|'End_FOR');
+[9] labelStatment:expressionName ':';
+[10] whileStatement:'WHILE' whileCondition 'DO' whileBlockStatements 'END_WHILE';
+------
+&&&&&
+```plaintext
+- 修改建议 1 : 根据SCL编程规范，如果函数接受多个参数，请明确指定输入参数和输出参数。 因此将`SHR`函数的用法统一为形如`#Byte1 := SHR(IN := #InputWord, N := 4) AND 16#000F;`
+- 修改建议 2 : 根据静态分析结果，需要将`REAL_TO_REAL()`换成正确的`INT_TO_REAL()`
+(1)
+<code_segment>
+    // 分解InputWord为四个4位的二进制数
+    Byte0 := InputWord AND 16#000F; // 获取最低的4位
+    Byte1 := (InputWord AND 16#00F0) SHR 4; // 获取次低的4位
+    Byte2 := (InputWord AND 16#0F00) SHR 8; // 获取次高的4位
+    Byte3 := (InputWord AND 16#F000) SHR 12; // 获取最高的4位
+</code_segment>
+<patch>
+    // 分解InputWord为四个4位的二进制数
+    Byte0 := InputWord AND 16#000F; // 获取最低的4位
+    Byte1 := SHR(IN := InputWord, N := 4) AND 16#000F; // 获取次低的4位
+    Byte2 := SHR(IN := InputWord, N := 8) AND 16#000F; // 获取次高的4位
+    Byte3 := SHR(IN := InputWord, N := 12) AND 16#000F; // 获取最高的4位
+</patch>
+
+(2)
+<code_segment>
+    // 如果有非零字节，计算平均值
+    IF count > 0 THEN
+    average := REAL_TO_REAL(sum / count); // 注意这里使用了REAL_TO_REAL进行类型转换
+    ELSE
+        average := 0.0; // 如果没有非零字节，平均值为0
+    END_IF;
+</code_segment>
+<patch>
+    // 如果有非零字节，计算平均值
+    IF count > 0 THEN
+    average := INT_TO_REAL(sum) / count; // 注意这里使用了REAL_TO_REAL进行类型转换
+    ELSE
+        average := 0.0; // 如果没有非零字节，平均值为0
+    END_IF;</patch>
+```
+=====
+
+FUNCTION_BLOCK "FB_CalculateDayOfYear"
+{ S7_Optimized_Access := 'TRUE' }
+VAR_INPUT
+    Year : Int; // 年份输入 
+    Month : Int; // 月份输入 
+    Day : Int; // 日输入 
+END_VAR
+
+VAR_OUTPUT
+    DayOfYear : Int; // 一年中的第几天输出 
+    error : Bool; // 错误状态指示。FALSE: 没有发生错误。TRUE: 执行出错 
+    status : Word; // 状态代码 
+END_VAR
+
+VAR
+    DAYS_IN_MONTHS : ARRAY[1..12] OF Int := [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    isLeapYear : Bool;
+END_VAR
+
+VAR CONSTANT
+    STATUS_OK : WORD := 16#0000;
+    STATUS_ERR_YEAR : WORD := 16#8001;
+    STATUS_ERR_MONTH : WORD := 16#8002;
+    STATUS_ERR_DAY : WORD := 16#8003;
+END_VAR
+
+VAR_TEMP
+    tempIndex : Int := 0;
+END_VAR
+
+BEGIN
+    REGION Validation OF INPUT and OUTPUT 
+        // validate input and output here if necessary
+    END_REGION
+
+    // main function logic here
+    REGION Initialisation
+        #error := FALSE;
+        #status := #STATUS_OK;
+        #DayOfYear := 0;
+        #isLeapYear := ((#Year MOD 4 = 0) AND (#Year MOD 100 <> 0)) OR (#Year MOD 400 = 0);
+        IF #Year < 1000 OR #Year > 3000 THEN
+            #error := TRUE;
+            #status := #STATUS_ERR_YEAR;
+            RETURN;
+        ELSIF #Month < 1 OR #Month > 12 THEN
+            #error := TRUE;
+            #status := #STATUS_ERR_MONTH;
+            RETURN;
+        ELSE
+            IF #Month = 2 THEN
+                IF #Day > (IF #isLeapYear THEN 29 ELSE 28) THEN
+                    #error := TRUE;
+                    #status := #STATUS_ERR_DAY;
+                    RETURN;
+                END_IF;
+            ELSE
+                IF #Day > #DAYS_IN_MONTHS[#Month] THEN
+                    #error := TRUE;
+                    #status := #STATUS_ERR_DAY;
+                    RETURN;
+                END_IF;
+            END_IF;
+        END_IF;
+    END_REGION
+
+    REGION Calculation
+        IF #Month > 1 THEN
+            FOR #tempIndex := 1 TO #Month - 1 BY 1 DO
+                #DayOfYear += #DAYS_IN_MONTHS[#tempIndex];
+            END_FOR;
+        END_IF;
+        #DayOfYear += #Day;
+    END_REGION
+
+    REGION Writting TO outputs
+        IF NOT #error THEN
+            #DayOfYear := #DayOfYear;
+        END_IF;
+    END_REGION
+END_FUNCTION_BLOCK
+&&&&&
+---语法错误 No.1---
+-反馈信息: extraneous input 'IF' expecting {'(', '-', '+', 'NOT', BOOLLiteral, BYTELiteral, CHARLiteral, STRINGLiteral, WORDLiteral, DWORDLiteral, POINTERLiteral, INTLiteral, DINTLiteral, REALLiteral, TIMELiteral, DATELiteral, TIME_OF_DAYLiteral, DATE_AND_TIMELiteral, GLOBALBOOLLiteral, Identifier}
+-代码上下文: 
+```scl
+            #status := #STATUS_ERR_MONTH;
+            RETURN;
+        ELSE
+            IF #Month = 2 THEN
+                IF #Day > (IF #isLeapYear THEN 29 ELSE 28) THEN
+                    #error := TRUE;
+                    #status := #STATUS_ERR_DAY;
+                    RETURN;
+                END_IF;
+            ELSE
+```
+-代码可能违背的SCL语法规则(.g4格式): 
+[1] constant:REALLiteral | INTLiteral | BOOLLiteral | DINTLiteral | CHARLiteral | STRINGLiteral | BYTELiteral | WORDLiteral | DWORDLiteral | DATELiteral | TIMELiteral | TIME_OF_DAYLiteral | DATE_AND_TIMELiteral | POINTERLiteral | GLOBALBOOLLiteral;
+[2] expr:expressionName '(' functionParameterExpression (',' functionParameterExpression)* ')' | expressionName '(' expr? ')' ('.' expr)* | expr '**' expr | expr '*' expr | expr '/' expr | expr '+' expr | expr '-' expr | expr 'MOD' expr | expr 'DIV' expr | expr '<' expr | expr '>' expr | expr '<=' expr | expr '>=' expr | expr '=' expr | expr '<>' expr | 'NOT' expr | expr ('AND'|'&') expr | expr 'XOR' expr | expr 'OR' expr | expressionName | constant | '+' expr | '-' expr | '(' expr ')';
+[3] expressionName:Identifier identifierIndex? | ambiguousName '.' '%'? Identifier identifierIndex?;
+[4] functionParameterExpression:inputParameter ':=' expr | outputParameter '=>' expr;
+------
+&&&&&
+```plaintext
+- 修改建议 1 : 根据编程规范，SCL不允许使用三元表达式，应该使用简单的条件表达式来代替。
+(1)
+<code_segment>
+            #status := #STATUS_ERR_MONTH;
+            RETURN;
+        ELSE
+            IF #Month = 2 THEN
+                IF #Day > (IF #isLeapYear THEN 29 ELSE 28) THEN
+                    #error := TRUE;
+                    #status := #STATUS_ERR_DAY;
+                    RETURN;
+                END_IF;
+            ELSE
+</code_segment>
+<patch>
+            #status := #STATUS_ERR_MONTH;
+            RETURN;
+        ELSE
+            IF #Month = 2 THEN
+                IF #isLeapYear THEN
+                    IF #Day > 29 THEN
+                        #error := TRUE;
+                        #status := #STATUS_ERR_DAY;
+                        RETURN;
+                    END_IF;                
+                ELSE
+                    IF #Day > 28 THEN
+                        #error := TRUE;
+                        #status := #STATUS_ERR_DAY;
+                        RETURN;
+                    END_IF;      
+                END_IF;
+            ELSE
+</patch>
+```

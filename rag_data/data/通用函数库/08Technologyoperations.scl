@@ -1,0 +1,1016 @@
+﻿FUNCTION "LGF_08_Technology_Description" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+
+BEGIN
+	REGION PREAMBLE
+	  (/**/)
+	END_REGION PREAMBLE
+	                          
+	REGION APPENDIX
+	  (/**/)
+	END_REGION APPENDIX
+	                          
+END_FUNCTION
+
+FUNCTION_BLOCK "LGF_LimRateOfChangeAdvancedCI"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_LimRateOfChangeAdvancedCI
+   VAR_INPUT 
+      autoValue : LReal;
+      manualValue : LReal;
+      setPosUpRateLim : LReal;
+      setPosDownRateLim : LReal;
+      setNegUpRateLim : LReal;
+      setNegDownRateLim : LReal;
+      setHighLim : LReal;
+      setLowLim : LReal;
+      defaultOutValue : LReal;
+      enDefaultOutValue : Bool;
+      track : Bool;
+      manOp : Bool;
+      reset : Bool;
+      callOB : OB_CYCLIC;
+   END_VAR
+
+   VAR_OUTPUT 
+      outputValue { ExternalWritable := 'False'} : LReal;
+      posUpRateLim { ExternalWritable := 'False'} : Bool;
+      posDownRateLim { ExternalWritable := 'False'} : Bool;
+      negUpRateLim { ExternalWritable := 'False'} : Bool;
+      negDownRateLim { ExternalWritable := 'False'} : Bool;
+      highLim { ExternalWritable := 'False'} : Bool;
+      lowLim { ExternalWritable := 'False'} : Bool;
+      error { ExternalWritable := 'False'} : Bool;
+      status { ExternalWritable := 'False'} : Word;
+      subfunctionStatus { ExternalWritable := 'False'} : Word;
+   END_VAR
+
+   VAR 
+      statPrevOutputValue { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : LReal := 0.0;
+      statManOp { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      tempPosUp : Bool;
+      tempPosDown : Bool;
+      tempNegUp : Bool;
+      tempNegDown : Bool;
+      tempHighLim : Bool;
+      tempLowLim : Bool;
+      tempCycleReal : LReal;
+      tempOutv : LReal;
+      tempVar : LReal;
+      tempCycleTime : UDInt;
+      tempCyclePhase : UDInt;
+      tempCycleStatus : Word;
+      tempReadTimeStatus : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      ZERO_INT : Int := 0;
+      ZERO_REAL : LReal := 0.0;
+      SECOND_IN_MICROSECONDS : LReal := 1000000.0;
+      SUB_STATUS_NO_ERROR : Word := 16#0000;
+      STATUS_FINISHED_NO_ERROR : Word := 16#0000;
+      ERR_NEG_RATE_LIM : Word := 16#8200;
+      ERR_NEG_RATE_OF_CHANGE : Word := 16#8202;
+      ERR_QRY_CINT : Word := 16#8600;
+      ERR_OB_UNAVAILABLE : Word := 16#8601;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_LimRateOfChangeAdvancedCI
+	  // Comment/Function: Generates a ramp function from a step function.
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 21.06.2016  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA Portal V14 Update 1
+	  // 01.00.02 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.03 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.00.07 15.11.2019  Simatic Systems Support
+	  //                      Regions, comments and constants are added
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 22.03.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Initialization
+	  #tempPosUp := FALSE;
+	  #tempPosDown := FALSE;
+	  #tempNegUp := FALSE;
+	  #tempNegDown := FALSE;
+	  #tempHighLim := FALSE;
+	  #tempLowLim := FALSE;
+	  #tempOutv := #autoValue;
+	  
+	  // get sample time, according to the cyclic interrupt OB number
+	  #tempReadTimeStatus := QRY_CINT(OB_NR := #callOB, CYCLE => #tempCycleTime, PHASE => #tempCyclePhase, STATUS => #tempCycleStatus);
+	  #tempCycleReal := UDINT_TO_REAL(#tempCycleTime) / #SECOND_IN_MICROSECONDS; // Time in seconds
+	END_REGION
+	
+	REGION Validation
+	  // Generate error message of the QRY_CINT function
+	  IF (#tempReadTimeStatus <> #ZERO_INT) THEN
+	    #error := TRUE;
+	    #subfunctionStatus := INT_TO_WORD(#tempReadTimeStatus);
+	    #status := #ERR_QRY_CINT;
+	    RETURN;
+	  END_IF;
+	  
+	  // Generate error message when OB unavailable
+	  IF #tempCycleStatus = #SUB_STATUS_NO_ERROR THEN
+	    #error := TRUE;
+	    #status := #ERR_OB_UNAVAILABLE;
+	    #subfunctionStatus := #STATUS_FINISHED_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	  
+	  //Check high with low limit
+	  IF #setHighLim < #setLowLim THEN
+	    #error := TRUE;
+	    #status := #ERR_NEG_RATE_LIM;
+	    #subfunctionStatus := #STATUS_FINISHED_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	  
+	  //Check rate limits for negative values
+	  IF (#setNegDownRateLim < #ZERO_REAL) OR (#setNegUpRateLim < #ZERO_REAL)
+	    OR (#setPosDownRateLim < #ZERO_REAL) OR (#setPosUpRateLim < #ZERO_REAL) THEN
+	    #error := TRUE;
+	    #status := #ERR_NEG_RATE_OF_CHANGE;
+	    #subfunctionStatus := #STATUS_FINISHED_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Function processing
+	  // RESTART
+	  // reset manual mode flag 
+	  IF #reset THEN
+	    #statManOp := FALSE;
+	    IF #enDefaultOutValue THEN
+	      // preset output
+	      #tempOutv := #defaultOutValue;
+	      // limitation of output
+	      // High limitation
+	      IF #tempOutv >= #setHighLim THEN
+	        #tempOutv := #setHighLim;
+	        #tempHighLim := TRUE;
+	      END_IF;
+	      
+	      // Low limitation
+	      IF #tempOutv <= #setLowLim THEN
+	        #tempOutv := #setLowLim;
+	        #tempLowLim := TRUE;
+	      END_IF;
+	    ELSE
+	      // reset output
+	      #tempOutv := #ZERO_REAL;
+	    END_IF;
+	  ELSE
+	    // OPERATING MODES
+	    // -------------------------------------------------------
+	    IF #manOp THEN
+	      //---// MANUAL MODE
+	      // bumples switch between manual mode and auto mode
+	      #tempOutv := #manualValue;
+	      // Keep manual mode until setpoint in the space of low and high limit
+	      #statManOp := TRUE;
+	    ELSE
+	      //---// AUTOMATIC MODE
+	      IF #enDefaultOutValue THEN
+	        // preset output by default value
+	        #tempOutv := #defaultOutValue;
+	      ELSE
+	        IF #track THEN
+	          // output has same value as input
+	          #tempOutv := #autoValue;
+	        ELSE
+	          // REGULAR FUNCTION
+	          // Negativ range
+	          IF #statPrevOutputValue < #ZERO_INT THEN
+	            IF #statPrevOutputValue > #autoValue THEN
+	              // limited rate of change
+	              #tempVar := #statPrevOutputValue - #setNegUpRateLim * #tempCycleReal;
+	              IF #autoValue < #tempVar THEN
+	                // Setpoint not reached yet
+	                // set notification for up rate limit in neg range
+	                #tempNegUp := TRUE;
+	                #tempOutv := #tempVar;
+	              END_IF;
+	            ELSE
+	              IF #setNegDownRateLim = #ZERO_REAL THEN
+	                // set notification for down rate limit in neg range
+	                #tempNegDown := TRUE;
+	                IF #autoValue <= #ZERO_REAL THEN
+	                  #tempOutv := #autoValue;
+	                ELSE
+	                  #tempOutv := #ZERO_REAL;
+	                END_IF;
+	              ELSE
+	                IF #autoValue <= #ZERO_REAL THEN
+	                  // limited rate of change
+	                  #tempVar := #statPrevOutputValue + #setNegDownRateLim * #tempCycleReal;
+	                  IF #autoValue > #tempVar THEN
+	                    // set notification for down rate limit in neg range
+	                    #tempNegDown := TRUE;
+	                    #tempOutv := #tempVar;
+	                  END_IF;
+	                ELSE
+	                  // changeover between neg. and pos. range
+	                  // period till zero-crossing
+	                  #tempVar := - #statPrevOutputValue / #setNegDownRateLim;
+	                  
+	                  IF #tempVar <= #tempCycleReal THEN
+	                    // period till zero-crossing shorten than sample time
+	                    // limited rate of change
+	                    #tempVar := (#tempCycleReal - #tempVar) * #setPosUpRateLim;
+	                    
+	                    IF #autoValue > #tempVar THEN
+	                      // set notification for rate limit 
+	                      #tempNegDown := FALSE;
+	                      #tempPosUp := TRUE;
+	                      #tempOutv := #tempVar;
+	                    END_IF;
+	                  ELSE
+	                    // set notification for rate limit
+	                    #tempNegDown := TRUE;
+	                    #tempPosUp := FALSE;
+	                    #tempOutv := #statPrevOutputValue + #tempCycleReal * #setNegDownRateLim;
+	                  END_IF;
+	                END_IF;
+	              END_IF;
+	            END_IF;
+	          ELSE
+	            // Positiv range + 0
+	            IF #statPrevOutputValue < #autoValue THEN
+	              // limited rate of change
+	              #tempVar := #statPrevOutputValue + #setPosUpRateLim * #tempCycleReal;
+	              IF #autoValue > #tempVar THEN
+	                // set notification for up rate limit in pos range
+	                #tempPosUp := TRUE;
+	                #tempOutv := #tempVar;
+	              END_IF;
+	            END_IF;
+	            
+	            IF #statPrevOutputValue >= #autoValue THEN
+	              IF #setPosDownRateLim = #ZERO_REAL THEN
+	                // set notification for down rate limit in pos range
+	                #tempPosDown := TRUE;
+	                IF #autoValue >= #ZERO_REAL THEN
+	                  #tempOutv := #autoValue;
+	                ELSE
+	                  #tempOutv := #ZERO_REAL;
+	                END_IF;
+	              ELSE
+	                IF #autoValue >= #ZERO_REAL THEN
+	                  // limited rate of change
+	                  #tempVar := #statPrevOutputValue - #setPosDownRateLim * #tempCycleReal;
+	                  IF #autoValue < #tempVar THEN
+	                    // set notification for up rate limit in pos range
+	                    #tempPosDown := TRUE;
+	                    #tempOutv := #tempVar;
+	                  END_IF;
+	                ELSE  // changeover between pos. and neg. range
+	                  // period till zero-crossing
+	                  #tempVar := #statPrevOutputValue / #setPosDownRateLim;
+	                  
+	                  IF #tempVar <= #tempCycleReal THEN
+	                    // limited rate of change
+	                    #tempVar := - (#tempCycleReal - #tempVar) * #setNegUpRateLim;
+	                    IF #autoValue < #tempVar THEN
+	                      // set notification for rate limit
+	                      #tempPosDown := False;
+	                      #tempNegUp := TRUE;
+	                      #tempOutv := #tempVar;
+	                    END_IF;
+	                  ELSE
+	                    // set notification for rate limit
+	                    #tempPosDown := TRUE;
+	                    #tempNegUp := FALSE;
+	                    #tempOutv := #statPrevOutputValue - #tempCycleReal * #setPosDownRateLim;
+	                  END_IF;
+	                END_IF;
+	              END_IF;
+	            END_IF;
+	          END_IF;
+	        END_IF;
+	      END_IF;
+	      
+	      // high/low level limitation
+	      IF #tempOutv >= #setHighLim THEN
+	        #tempHighLim := TRUE;
+	        IF NOT #statManOp THEN
+	          #tempOutv := #setHighLim;
+	          // correct up rate limit notification
+	          IF #tempOutv - #statPrevOutputValue < #setPosUpRateLim * #tempCycleReal THEN
+	            #tempPosUp := FALSE;
+	          END_IF;
+	        END_IF;
+	      ELSE
+	        IF #tempOutv <= #setLowLim THEN
+	          #tempLowLim := TRUE;
+	          IF NOT #statManOp THEN
+	            #tempOutv := #setLowLim;
+	            // correct up rate limit notification  
+	            IF #statPrevOutputValue - #tempOutv < #setNegUpRateLim * #tempCycleReal THEN
+	              #tempNegUp := FALSE;
+	            END_IF;
+	          END_IF;
+	        ELSE
+	          // reset manual mode flag when tempOutv between upper and lower limit
+	          #statManOp := FALSE;
+	        END_IF;
+	      END_IF;
+	    END_IF;
+	  END_IF;
+	  
+	  #statPrevOutputValue := #tempOutv;
+	END_REGION
+	
+	REGION writting to outputs
+	  #error := FALSE;
+	  #status := #STATUS_FINISHED_NO_ERROR;
+	  #subfunctionStatus := #STATUS_FINISHED_NO_ERROR;
+	  
+	  #outputValue := #tempOutv;
+	  #posUpRateLim := #tempPosUp;
+	  #posDownRateLim := #tempPosDown;
+	  #negUpRateLim := #tempNegUp;
+	  #negDownRateLim := #tempNegDown;
+	  #highLim := #tempHighLim;
+	  #lowLim := #tempLowLim;
+	  
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK "LGF_LimRateOfChangeCI"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_LimRateOfChangeCI
+   VAR_INPUT 
+      value : LReal;
+      setChangeRate : LReal;
+      defaultOutValue : LReal;
+      enDefaultOutValue : Bool;
+      callOB : OB_CYCLIC;
+   END_VAR
+
+   VAR_OUTPUT 
+      delayedValue { ExternalWritable := 'False'} : LReal;
+      error { ExternalWritable := 'False'} : Bool;
+      status { ExternalWritable := 'False'} : Word;
+      subfunctionStatus { ExternalWritable := 'False'} : Word;
+   END_VAR
+
+   VAR 
+      statPrevOut { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : LReal;
+   END_VAR
+
+   VAR_TEMP 
+      tempCycleTime : UDInt;
+      tempCyclePhase : UDInt;
+      tempCycleStatus : Word;
+      tempCycleTimeReal : LReal;
+      tempReadTimeStatus : Int;
+      tempOut : LReal;
+   END_VAR
+
+   VAR CONSTANT 
+      ZERO_INT : Int := 0;
+      ZERO_REAL : LReal := 0.0;
+      SECOND_IN_MICROSECONDS : LReal := 1000000.0;
+      SUB_STATUS_NO_ERROR : Word := 16#0000;
+      STATUS_FINISHED_NO_ERROR : Word := 16#0000;
+      ERR_NEG_RATE_LIM : Word := 16#8200;
+      ERR_QRY_CINT : Word := 16#8600;
+      ERR_OB_UNAVAILABLE : Word := 16#8601;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_LimRateOfChangeCI
+	  // Comment/Function: Generates a ramp function from a step function.
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 21.06.2016  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA Portal V14 Update 1
+	  // 01.00.02 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.03 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.00.06 15.11.2019  Simatic Systems Support
+	  //                      Regions, comments and constants are added
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 22.03.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Read cycle time of the call OB
+	  #tempReadTimeStatus := QRY_CINT(OB_NR := #callOB, CYCLE => #tempCycleTime, PHASE => #tempCyclePhase, STATUS => #tempCycleStatus);
+	  #tempCycleTimeReal := UDINT_TO_REAL(#tempCycleTime) / #SECOND_IN_MICROSECONDS;
+	END_REGION
+	
+	REGION Validation
+	  // Generate error message of the QRY_CINT function
+	  IF (#tempReadTimeStatus <> #ZERO_INT) THEN
+	    #error := TRUE;
+	    #subfunctionStatus := INT_TO_WORD(#tempReadTimeStatus);
+	    #status := #ERR_QRY_CINT;
+	    RETURN;
+	  END_IF;
+	  
+	  // Generate error message when OB unavailable
+	  IF #tempCycleStatus = 0 THEN
+	    #error := TRUE;
+	    #status := #ERR_OB_UNAVAILABLE;
+	    #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	  
+	  //Check ChangeRate for negative value
+	  IF #setChangeRate < #ZERO_REAL THEN
+	    #error := TRUE;
+	    #status := #ERR_NEG_RATE_LIM;
+	    #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Calculation of rate of change
+	  //Default value output option
+	  IF #enDefaultOutValue THEN
+	    #statPrevOut := #defaultOutValue;
+	    #delayedValue := #defaultOutValue;
+	    
+	    #error := false;
+	    #status := #STATUS_FINISHED_NO_ERROR;
+	    #subfunctionStatus := #STATUS_FINISHED_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	  
+	  #tempOut := #statPrevOut;
+	  
+	  // Ramp function
+	  IF #value < #tempOut THEN
+	    #tempOut := #tempOut - (#setChangeRate * #tempCycleTimeReal);
+	    #tempOut := MAX(IN1 := #tempOut, IN2 := #value);
+	    #statPrevOut := #tempOut;
+	  ELSIF #value > #tempOut THEN
+	    #tempOut := (#setChangeRate * #tempCycleTimeReal) + #tempOut;
+	    #tempOut := MIN(IN1 := #tempOut, IN2 := #value);
+	    #statPrevOut := #tempOut;
+	  END_IF;
+	END_REGION
+	
+	REGION Writting to outputs
+	  #delayedValue := #tempOut;
+	  
+	  #error := false;
+	  #status := #STATUS_FINISHED_NO_ERROR;
+	  #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	  
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK "LGF_NonLinearInterpolation"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_NonLinearInterpolationCI
+   VAR_INPUT 
+      value : LReal;
+      defaultOutValue : LReal;
+      enDefaultOutValue : Bool;
+      track : Bool;
+      reset : Bool;
+   END_VAR
+
+   VAR_OUTPUT 
+      outputValue { ExternalWritable := 'False'} : LReal;
+   END_VAR
+
+   VAR_IN_OUT 
+      setpoints : Array[*] of "LGF_typeNonLinSetpoints";
+   END_VAR
+
+   VAR 
+      statIndex { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+   END_VAR
+
+   VAR_TEMP 
+      tempValue : LReal;
+      tempEndOfSearch : Bool;
+      tempInputValueStart : LReal;
+      tempInputValueEnd : LReal;
+      tempOutputValueStart : LReal;
+      tempOutputValueEnd : LReal;
+      tempFactor : LReal;
+      tempLowerBound : Int;
+      tempUpperBound : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      ZERO : Int := 0;
+      SHIFT_STAT_INDEX_BY_ONE : Int := 1;
+      DIMENSION_ONE : UDInt := 1;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //=============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-----------------------------------------------------------------------------
+	  // Title:            LGF_NonLinearInterpolation
+	  // Comment/Function: Interpolates a charachteristic curve via pre-defined array of setpoints.
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 04.01.2017  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.00.06 15.11.2019  Simatic Systems Support
+	  //                      Regions, comments and constants are added
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 22.03.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Initialization
+	  #tempValue := #value;
+	  //Call "LOWER_BOUND" and "UPPER_BOUND" for the setpoints
+	  #tempLowerBound := DINT_TO_INT(LOWER_BOUND(ARR := #setpoints, DIM := #DIMENSION_ONE));
+	  #tempUpperBound := DINT_TO_INT(UPPER_BOUND(ARR := #setpoints, DIM := #DIMENSION_ONE));
+	  
+	  //Check index value
+	  IF (#statIndex < #tempLowerBound) OR (#statIndex > #tempUpperBound) OR (#statIndex = #ZERO) THEN
+	    #statIndex := #tempLowerBound + #SHIFT_STAT_INDEX_BY_ONE;
+	  END_IF;
+	END_REGION
+	
+	REGION Different modes
+	  IF #enDefaultOutValue THEN
+	    //Set output value
+	    #outputValue := #defaultOutValue;
+	    RETURN;
+	  ELSIF #track THEN
+	    //Set output value
+	    #outputValue := #tempValue;
+	    RETURN;
+	  ELSIF #reset THEN
+	    //Preset search index of array
+	    #statIndex := #tempLowerBound + #SHIFT_STAT_INDEX_BY_ONE;
+	    #outputValue := #ZERO;
+	    RETURN;
+	  END_IF;
+	END_REGION
+	
+	REGION Calculated polynom output
+	  //Initialize search procedure
+	  #tempEndOfSearch := False;
+	  
+	  //Search procedure
+	  REPEAT
+	    //Preset input values of polygon
+	    #tempInputValueStart := #setpoints[#statIndex - #SHIFT_STAT_INDEX_BY_ONE].inputValue;
+	    #tempInputValueEnd := #setpoints[#statIndex].inputValue;
+	    
+	    //Check actual polynom
+	    IF (#tempValue > #tempInputValueStart) THEN
+	      IF (#tempValue > #tempInputValueEnd) THEN
+	        IF (#statIndex < #tempUpperBound) THEN
+	          #tempInputValueStart := #tempInputValueEnd;
+	          #statIndex := #statIndex + #SHIFT_STAT_INDEX_BY_ONE;
+	          #tempInputValueEnd := #setpoints[#statIndex].inputValue;
+	        ELSE
+	          #tempEndOfSearch := True;
+	        END_IF;
+	      ELSE
+	        #tempEndOfSearch := True;
+	      END_IF;
+	    ELSE
+	      IF (#statIndex > (#tempLowerBound + #SHIFT_STAT_INDEX_BY_ONE)) THEN
+	        #statIndex := #statIndex - #SHIFT_STAT_INDEX_BY_ONE;
+	        #tempInputValueEnd := #tempInputValueStart;
+	        // #tempInputValueStart := #setpoints.Point[#statIndex - 1].InputValue;
+	        #tempInputValueStart := #setpoints[#statIndex].inputValue;
+	      ELSE
+	        #tempEndOfSearch := True;
+	      END_IF;
+	    END_IF;
+	  UNTIL (#tempEndOfSearch = True) END_REPEAT;
+	  
+	  // Set output values of polygon
+	  #tempOutputValueStart := #setpoints[#statIndex - #SHIFT_STAT_INDEX_BY_ONE].outputValue;
+	  #tempOutputValueEnd := #setpoints[#statIndex].outputValue;
+	  // Calculate gradient of straight line
+	  #tempFactor := (#tempOutputValueEnd - #tempOutputValueStart) / (#tempInputValueEnd - #tempInputValueStart);
+	END_REGION
+	
+	REGION Writting to outputs
+	  // Calculate output value
+	  #outputValue := (#tempFactor * #tempValue) + (#tempOutputValueStart - (#tempFactor * #tempInputValueStart));
+	  
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK "LGF_RampCI"
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industries
+FAMILY : LGF
+NAME : LGF_RampCI
+   VAR_INPUT 
+      defaultOutValue : LReal := 0.0;
+      contStepNbr : Int := 0;
+      contStepTime : Time := T#0MS;
+      enDefaulftOutValue : Bool := FALSE;
+      start : Bool := FALSE;
+      hold : Bool := FALSE;
+      continue : Bool := FALSE;
+      cyclicOP : Bool := FALSE;
+      updateTime : Bool := FALSE;
+      reset : Bool := FALSE;
+      callOB : OB_CYCLIC;
+   END_VAR
+
+   VAR_OUTPUT 
+      outputValue { ExternalWritable := 'False'} : LReal;
+      actTimeTable { ExternalWritable := 'False'} : Bool;
+      stepNumber { ExternalWritable := 'False'} : Int;
+      remainTime { ExternalWritable := 'False'} : Time;
+      totalTime { ExternalWritable := 'False'} : Time;
+      remainTotalTime { ExternalWritable := 'False'} : Time;
+      error { ExternalWritable := 'False'} : Bool;
+      status { ExternalWritable := 'False'} : Word;
+      subfunctionStatus { ExternalWritable := 'False'} : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      setpoints : Array[*] of "LGF_typeRampTimeTable";
+   END_VAR
+
+   VAR 
+      statEndValue { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : LReal;
+      statOldValue { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : LReal := 0.0;
+      statActualStep { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      statActualRestTime { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      statTotalTime { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      statRestTotalTime { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Time;
+      statStart { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      statTimeTableActiv { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      statStartMem { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      statUpdateTime { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      statReset { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      statResetMem { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      tempNewValue : LReal;
+      tempIndex : Int;
+      tempArrayLowLim : Int;
+      tempArrayUpLim : Int;
+      tempSampleTime : Time;
+      tempCycleTime : UDInt;
+      tempCyclePhase : UDInt;
+      tempCycleStatus : Word;
+      tempReadTimeStatus : Int;
+      tempStatus : Word;
+   END_VAR
+
+   VAR CONSTANT 
+      ZERO : Int := 0;
+      NO_ERROR : Int := 0;
+      RESET_TIME : Time := T#0MS;
+      CYCLIC_OB_NOT_AVAILABLE : Word := 16#0000;
+      DIMENSION_ONE : UDInt := 1;
+      SECOND_IN_MS : UDInt := 1000;
+      SUB_STATUS_NO_ERROR : Word := 16#0000;
+      STATUS_FINISHED_NO_ERROR : Word := 16#0000;
+      STATUS_NO_CALL : Word := 16#7000;
+      STATUS_FIRST_CALL : Word := 16#7001;
+      STATUS_FURTHER_CALLS : Word := 16#7002;
+      ERR_OB_UNAVAILABLE : Word := 16#8200;
+      ERR_ARRAY_LOWER_BOUND : Word := 16#8201;
+      ERR_QRY_CINT : Word := 16#8400;
+   END_VAR
+
+
+BEGIN
+	REGION Block info header
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_RampCI
+	  // Comment/Function: Generates a speed curve based on an interpolation point table.
+	  // Library/Family:   LGF(Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V15 Update 2
+	  // Restrictions:     ENO disabled - error handling done by error and status
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 03.02.2017  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 16.05.2017  Siemens Industry Online Support
+	  //                      Comment correction (REGION)
+	  // 01.00.02 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.03 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.00.06 15.11.2019  Siemens Industry Presales Support
+	  //                      Code optimization, Regions, comments and constants are added
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 22.03.2021  Simatic Systems Support
+	  //                      Insert documentation
+	  //                      Change UDT member name from `outValue` to `outputValue`
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	  (/**/)
+	END_REGION DESCRIPTION
+	
+	REGION Cycle time
+	  // get sample time, according to the cyclic interrupt OB number
+	  #tempReadTimeStatus := QRY_CINT(OB_NR := #callOB, CYCLE => #tempCycleTime, PHASE => #tempCyclePhase, STATUS => #tempCycleStatus);
+	  #tempCycleTime := #tempCycleTime / #SECOND_IN_MS; // microsecond --> milisecond 
+	  #tempSampleTime := UDINT_TO_TIME(#tempCycleTime); // Format: TIME
+	  
+	  #tempStatus := #STATUS_NO_CALL;
+	  
+	  // Generate error message of the QRY_CINT function
+	  IF (#tempReadTimeStatus <> #NO_ERROR) THEN
+	    #error := TRUE;
+	    #subfunctionStatus := INT_TO_WORD(#tempReadTimeStatus);
+	    #status := #ERR_QRY_CINT;
+	    RETURN;
+	  END_IF;
+	  
+	  // Generate error message when OB unavailable
+	  IF #tempCycleStatus = #CYCLIC_OB_NOT_AVAILABLE THEN
+	    #error := TRUE;
+	    #status := #ERR_OB_UNAVAILABLE;
+	    #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	END_REGION Cycle time
+	
+	REGION Array lower/upper bound
+	  #tempArrayLowLim := DINT_TO_INT(LOWER_BOUND(ARR := #setpoints, DIM := #DIMENSION_ONE));
+	  #tempArrayUpLim := DINT_TO_INT(UPPER_BOUND(ARR := #setpoints, DIM := #DIMENSION_ONE));
+	  
+	  IF #tempArrayLowLim <> #ZERO THEN
+	    #error := TRUE;
+	    #status := #ERR_ARRAY_LOWER_BOUND;
+	    #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	    RETURN;
+	  END_IF;
+	END_REGION Array lower/upper bound
+	
+	REGION Function  
+	  REGION First Call
+	    // START by positive edge
+	    IF #start AND NOT #statStartMem THEN
+	      #tempStatus := #STATUS_FIRST_CALL;
+	      #statStart := TRUE;
+	      #statTotalTime := #RESET_TIME; // reset total time 
+	      
+	      FOR #tempIndex := #tempArrayLowLim TO #tempArrayUpLim DO // calculate total time 
+	        #statTotalTime := #statTotalTime + #setpoints[#tempIndex]."time"; // total time 
+	      END_FOR;
+	      #statRestTotalTime := #statTotalTime;
+	      #statReset := FALSE;
+	    ELSIF NOT #start THEN
+	      #error := false;
+	      #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	      #status := #STATUS_FINISHED_NO_ERROR;
+	    END_IF;
+	    // store old value for edge detection
+	    #statStartMem := #start;
+	  END_REGION First Call
+	  
+	  REGION Reset    
+	    // RESET by positiv edge on reset
+	    IF #reset AND NOT #statResetMem THEN
+	      #tempStatus := #STATUS_FINISHED_NO_ERROR;
+	      #statTotalTime := #RESET_TIME; // reset total time 
+	      
+	      FOR #tempIndex := #tempArrayLowLim TO #tempArrayUpLim DO // calculate total time 
+	        #statTotalTime := #statTotalTime + #setpoints[#tempIndex]."time"; // total time 
+	      END_FOR;
+	      
+	      #tempNewValue := #ZERO;                   // output outValue = 0 
+	      #statRestTotalTime := #statTotalTime;     // update remaining total time 
+	      #statEndValue := #ZERO;                   // reset statEndValue    
+	      #statActualStep := #ZERO;                 // reset statActualStep  
+	      #statActualRestTime := #RESET_TIME;       // reset statActualTime 
+	      #statStart := TRUE;                       // set start condition 
+	      #statTimeTableActiv := FALSE;             // reset statTimeTableActive 
+	      #statReset := TRUE;
+	    END_IF;
+	    // store old value for edge detection
+	    #statResetMem := #reset;
+	  END_REGION Reset
+	  
+	  REGION Operation 
+	    IF #start AND NOT #statReset THEN
+	      // start function ramp soak 
+	      IF #statStart THEN
+	        // Set up start conditions 
+	        #tempNewValue := #setpoints[#tempArrayLowLim].outputValue;
+	        #statEndValue := #setpoints[#tempArrayLowLim + 1].outputValue;
+	        #statActualRestTime := #setpoints[#tempArrayLowLim]."time";
+	        #statRestTotalTime := #statTotalTime;
+	        #statActualStep := 1;
+	        #statStart := FALSE;
+	        #statTimeTableActiv := TRUE;
+	      ELSE
+	        IF #hold THEN
+	          // Freeze operation 
+	          #statTimeTableActiv := FALSE;
+	          #tempNewValue := #statOldValue;
+	          
+	          IF #continue THEN
+	            // Set up continue conditions 
+	            // Continue step and remaining time untill continue step
+	            #statEndValue := #setpoints[#contStepNbr].outputValue;
+	            #statRestTotalTime := #contStepTime;
+	            #statActualRestTime := #contStepTime;
+	            #statActualStep := #contStepNbr;
+	            
+	            FOR #tempIndex := #statActualStep TO #tempArrayUpLim DO // calculating remaining total time  
+	              #statRestTotalTime := #statRestTotalTime + #setpoints[#tempIndex]."time"; // Remaining total time
+	            END_FOR;
+	          END_IF;
+	        ELSE
+	          // normal operation 
+	          // remaining time until actual step 
+	          IF #statActualRestTime > #tempSampleTime THEN
+	            // calculate new output value, if remaining time has not yet expired
+	            #tempNewValue := #statOldValue + (#statEndValue - #statOldValue) / DINT_TO_REAL(TIME_TO_DINT(#statActualRestTime)) * UDINT_TO_REAL(#tempCycleTime);
+	            // update remaining time till actual step 
+	            #statActualRestTime := #statActualRestTime - #tempSampleTime;
+	            // update remaining total time 
+	            #statRestTotalTime := #statRestTotalTime - #tempSampleTime;
+	          ELSE
+	            // remaining actual rest time expired 
+	            #statActualRestTime := #RESET_TIME;
+	            // End of step numbers not reached yet    
+	            IF #statActualStep < #tempArrayUpLim THEN
+	              // set new end value 
+	              #statEndValue := #setpoints[#statActualStep + 1].outputValue;
+	              // set new output value 
+	              #tempNewValue := #setpoints[#statActualStep].outputValue;
+	              // new remaining actual time 
+	              #statActualRestTime := #setpoints[#statActualStep]."time";
+	              #statActualStep := #statActualStep + 1;
+	              #statTimeTableActiv := TRUE;
+	              #statRestTotalTime := #statRestTotalTime - #tempSampleTime;
+	            ELSE
+	              // end of step numbers reached 
+	              #tempStatus := #SUB_STATUS_NO_ERROR;
+	              #statRestTotalTime := #RESET_TIME;
+	              // cyclic operation
+	              IF #cyclicOP THEN
+	                #statStart := TRUE;
+	                #tempStatus := #STATUS_FURTHER_CALLS;
+	              ELSE
+	                #statTimeTableActiv := FALSE;
+	              END_IF;
+	              // set new output value 
+	              #tempNewValue := #setpoints[#statActualStep].outputValue;
+	            END_IF;
+	          END_IF;
+	        END_IF;
+	      END_IF;
+	    ELSE
+	      #tempNewValue := #ZERO;
+	      // time table not active 
+	      #statTimeTableActiv := FALSE;
+	    END_IF;
+	  END_REGION Operation 
+	  
+	  REGION Update time
+	    // Update total time and remaining total time
+	    // Positive edge detection of update time input
+	    IF #updateTime AND NOT #statUpdateTime THEN
+	      #statTotalTime := #RESET_TIME; // reset total time 
+	      #statRestTotalTime := #statActualRestTime; // copy remaining actual time to remaining total time
+	      
+	      FOR #tempIndex := #tempArrayLowLim TO #tempArrayUpLim DO // calculate totel time 
+	        #statTotalTime := #statTotalTime + #setpoints[#tempIndex]."time"; // total time 
+	      END_FOR;
+	      
+	      FOR #tempIndex := #statActualStep TO #tempArrayUpLim DO // calculate remaining total time 
+	        #statRestTotalTime := #statRestTotalTime + #setpoints[#tempIndex]."time"; // remaining total time 
+	      END_FOR;
+	    END_IF;
+	    // store old value for edge detection
+	    #statUpdateTime := #updateTime;
+	  END_REGION Update time
+	  
+	  REGION Default output
+	    // default value activated: overwrite output by default value
+	    IF #enDefaulftOutValue THEN
+	      #tempNewValue := #defaultOutValue; // preset output 
+	      #statTimeTableActiv := FALSE; // timetable not active 
+	    END_IF;
+	  END_REGION Default output
+	END_REGION Function 
+	
+	REGION Write outputs
+	  #outputValue := #tempNewValue; // output
+	  #statOldValue := #tempNewValue; // store prvious value
+	  #actTimeTable := #statTimeTableActiv; //time table active
+	  #stepNumber := #statActualStep; // number of acting step
+	  #remainTime := #statActualRestTime; // remaining time till actual step
+	  #totalTime := #statTotalTime; // total time
+	  #remainTotalTime := #statRestTotalTime; //remaining total time
+	  
+	  #error := #tempStatus.%X15;
+	  #status := #tempStatus;
+	  #subfunctionStatus := #SUB_STATUS_NO_ERROR;
+	  
+	  // ENO mechanism is not used
+	  ENO := TRUE;
+	END_REGION Write outputs
+	
+END_FUNCTION_BLOCK
+

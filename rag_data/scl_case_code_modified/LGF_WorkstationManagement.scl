@@ -1,0 +1,92 @@
+FUNCTION_BLOCK "LGF_WorkstationManagement"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_INPUT 
+      requestProcess : Bool;
+      requestComplete : Bool;
+   END_VAR
+
+   VAR_OUTPUT 
+      processingNum : Int;
+      freeStationNum : Int;
+      error : Bool;
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      workstation : Array[1..10] of Bool;
+   END_VAR
+
+   VAR_TEMP 
+      index : Int;
+      isEmpty : Bool;
+      isFull : Bool;
+   END_VAR
+
+   VAR CONSTANT 
+      MAX_LEVELS : Int := 10;
+      STATUS_OK : Word := 16#0000;
+      STATUS_ALL_OCCUPIED : Word := 16#8001;
+      STATUS_ALL_EMPTY : Word := 16#8002;
+   END_VAR
+
+BEGIN
+	
+	REGION Calculate
+		// 首先计算剩余空间和已使用空间
+	    #processingNum := 0;
+	    #isFull := TRUE;
+	    #isEmpty := TRUE;
+	    FOR #index := 1 TO #MAX_LEVELS DO
+	        IF #workstation[#index] THEN
+	            #processingNum += 1;
+	            #isEmpty := FALSE;
+	        ELSE
+	            #isFull := FALSE;
+	        END_IF;
+	    END_FOR;
+	    #freeStationNum := #MAX_LEVELS - #processingNum;
+	    #error := FALSE;
+	    #status := #STATUS_OK;
+	END_REGION
+	
+	REGION Main Logic
+		// 此处根据操作执行
+	    IF #requestProcess THEN
+	        IF #isFull THEN
+	            #error := TRUE;
+	            #status := #STATUS_ALL_OCCUPIED;
+	            RETURN;
+	        END_IF;
+	        
+	        FOR #index := #MAX_LEVELS TO 1 BY -1 DO
+	            IF NOT #workstation[#index] THEN
+	                #workstation[#index] := TRUE;
+	                #processingNum := #processingNum + 1;
+	                #freeStationNum := #freeStationNum - 1;
+	                RETURN;
+	            END_IF;
+	        END_FOR;
+	        
+	    ELSIF #requestComplete THEN
+	        IF #isEmpty THEN
+	            #error := TRUE;
+	            #status := #STATUS_ALL_EMPTY;
+	            RETURN;
+	        END_IF;
+	        
+	        FOR #index := 1 TO #MAX_LEVELS DO
+	            IF #workstation[#index] THEN
+	                #workstation[#index] := FALSE;
+	                #processingNum := #processingNum - 1;
+	                #freeStationNum := #freeStationNum + 1;
+	                RETURN;
+	            END_IF;
+	        END_FOR;
+	    END_IF;
+	END_REGION
+	
+	REGION Update Outputs
+	END_REGION
+	
+END_FUNCTION_BLOCK

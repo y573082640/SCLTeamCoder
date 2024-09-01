@@ -1,0 +1,108 @@
+FUNCTION_BLOCK "LGF_ProceccingProductControl"
+{ S7_Optimized_Access := 'TRUE' }
+    VAR_INPUT
+        ExhaustFanButton : BOOL;      // 排气扇按钮
+        IntakeFanButton : BOOL;       // 进气扇按钮
+        Sensor_A : BOOL;                // 加工站A的传感器
+        Sensor_B : BOOL;                // 加工站B的传感器
+        Sensor_C : BOOL;                // 加工站C的传感器
+        Finished_Light_A : BOOL;        // 加工站A的加工完成指示灯
+        Finished_Light_B : BOOL;        // 加工站B的加工完成指示灯
+        Finished_Light_C : BOOL;        // 加工站C的加工完成指示灯
+    END_VAR
+
+    VAR_OUTPUT
+        MotorForward : BOOL;            // 电机正转控制输出
+        Exhaust_Fan : BOOL;             // 排气扇控制输出
+        Intake_Fan : BOOL;              // 进气扇控制输出
+        CompletionLight : BOOL;     // 取货指示灯
+    END_VAR
+
+    VAR
+        state : INT := 0;                    // 状态变量,需要在定义时初始化
+    END_VAR
+
+    // 状态定义
+    VAR CONSTANT
+        STATE_INIT : INT := 0; //等待产品
+        STATE_STATION_A : INT := 1; // 在加工站A进行加工
+        STATE_A_TO_B : INT := 2; // 从加工站A移动到加工站B
+        STATE_STATION_B : INT := 3; // 在加工站B进行加工
+        STATE_B_TO_C : INT := 4; // 从加工站B移动到加工站C
+        STATE_STATION_C : INT := 5; // 在加工站C进行加工
+        STATE_COMPLETION : INT := 6; // 加工完成，等待取货
+    END_VAR
+
+    VAR_TEMP
+        tempExitStateLoop : BOOL; // 用于防止状态机无限循环
+    END_VAR
+
+BEGIN
+    REGION State Machine
+        REPEAT
+            // 初始化 tempExitStateLoop 为 TRUE，以防止无限循环
+            #tempExitStateLoop := TRUE;
+            // 功能块状态机
+            CASE #state OF
+                #STATE_INIT: // 初始状态，等待加工
+                    IF Sensor_A THEN
+                        state := STATE_STATION_A; // 传感器A检测到产品，进入加工站A状态
+                        #tempExitStateLoop := FALSE; // 防止循环退出
+                    END_IF;
+                #STATE_STATION_A: // 在加工站A进行加工
+                    IF Finished_Light_A THEN
+                        MotorForward := TRUE; // 加工完成，电机正转，移动到加工站B
+                        state := STATE_A_TO_B;
+                        #tempExitStateLoop := FALSE;
+                    END_IF;                
+                #STATE_A_TO_B: // 从加工站A移动到加工站B
+                    MotorForward := TRUE; // 电机正转
+                    IF Sensor_B THEN
+                        MotorForward := FALSE; // 到达加工站B，停止电机
+                        state := STATE_STATION_B;
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+                #STATE_STATION_B: // 在加工站B进行加工
+                    IF Finished_Light_B THEN
+                        MotorForward := TRUE; // 加工完成，电机正转，移动到加工站C
+                        state := STATE_B_TO_C;
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+                #STATE_B_TO_C: // 从加工站B移动到加工站C
+                    MotorForward := TRUE;  // 电机正转
+                    IF Sensor_C THEN
+                        MotorForward := FALSE; // 到达加工站C，停止电机
+                        state := STATE_STATION_C;
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+                #STATE_STATION_C: // 在加工站C进行加工
+                    IF Finished_Light_C THEN
+                        state := STATE_COMPLETION; // 加工完成，进入等待取货状态
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+                #STATE_COMPLETION: // 加工完成，等待取货
+                    CompletionLight := TRUE; // 持续亮起取货指示灯
+                    IF Sensor_C = FALSE THEN
+                        state := STATE_INIT; // 取货完成，回到初始状态
+                        CompletionLight := FALSE; // 关闭取货指示灯
+                        #tempExitStateLoop := FALSE;
+                    END_IF;
+            END_CASE;
+        UNTIL (TRUE = #tempExitStateLoop) // 循环直到 tempExitStateLoop 为 TRUE
+        END_REPEAT;
+    END_REGION
+
+    REGION fans control
+        // 手动控制排气扇和进气扇
+        IF #ExhaustFanButton = TRUE AND #IntakeFanButton = FALSE THEN
+            #Exhaust_Fan := TRUE; // 仅排气扇开启
+            #Intake_Fan := FALSE;
+        ELSIF #ExhaustFanButton = FALSE AND #IntakeFanButton = TRUE THEN
+            #Exhaust_Fan := FALSE;
+            #Intake_Fan := TRUE; // 仅进气扇开启
+        ELSE
+            #Exhaust_Fan := FALSE; // 都关闭
+            #Intake_Fan := FALSE;
+        END_IF;
+    END_REGION
+END_FUNCTION_BLOCK

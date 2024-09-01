@@ -1,0 +1,9 @@
+# python==3.9.7
+zhipuai==2.1.4
+antlr4-python3-runtime==4.13.1
+antlr4-tools==0.2.1
+rank_bm25==0.2.2
+pytz==2021.3
+jieba==0.42.1
+flask==3.0.3
+python-docx==0.8.11

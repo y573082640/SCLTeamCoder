@@ -1,0 +1,589 @@
+﻿FUNCTION "LGF_ExtractStringFromCharArray" : Word
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : 'Siemens Online Support'
+FAMILY : LGF
+NAME : LGF_ExtractStringFromCharArray
+   VAR_INPUT 
+      textBefore : String;
+      textAfter : String;
+   END_VAR
+
+   VAR_OUTPUT 
+      extractedString : String;
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      searchIn : Variant;
+   END_VAR
+
+   VAR_TEMP 
+      tempNumElements : UDInt;
+      tempPosInArray : DInt;
+      tempLenTextBefore : Int;
+      tempPosTextBefore : DInt;
+      tempLenTextAfter : Int;
+      tempPosTextAfter : Int;
+      tempString : String;
+   END_VAR
+
+   VAR CONSTANT 
+      LEN_STRING : UInt := 254;
+      STATUS_TEXT_FOUND : Word := 16#0000;
+      WARNING_ONLY_START : Word := 16#9001;
+      WARNING_NOTHING_FOUND : Word := 16#9002;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_NO_ARRAY : Word := 16#8200;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS / (c)Copyright 2021
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_ExtractStringFromCharArray
+	  // Function:         The function extracts a String specified by a text before and after
+	  //                   from an array of characters.
+	  // Library:          LGF
+	  // Author:           Siemens Industry Online Support
+	  // Tested with:      CPU 1516-3 PN/DP
+	  // Engineering:      TIA Portal V17
+	  // Restrictions:     --
+	  // Requirements:     S7-1200/1500
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 01.04.2019 | Siemens Online Support | First released version (LHttp)
+	  // 01.01.00 | 10.06.2022 | Siemens Online Support | Adaption and integration into LGF
+	  //===============================================================================
+	END_REGION
+	
+	REGION Initialization
+	  #tempPosTextBefore := 0;
+	  #tempPosTextAfter := 0;
+	  #tempPosInArray := 0;
+	  #tempLenTextBefore := LEN(#textBefore);
+	  #tempLenTextAfter := LEN(#textAfter);
+	  #extractedString := '';
+	  #status := #STATUS_NO_ERROR;
+	  #LGF_ExtractStringFromCharArray := #WARNING_NOTHING_FOUND;
+	  
+	  REGION Validation of inputs
+	    // check whether the input is an ARRAY and TYPE of elements is CHAR or BYTE
+	    // IF so, the number OF the ARRAY elements is read out.
+	    // IF it is NOT an ARRAY, the program execution is terminated at this point
+	    IF TRUE
+	      AND IS_ARRAY(#searchIn)
+	      AND ((TypeOfElements(#searchIn) = Char) OR (TypeOfElements(#searchIn) = Byte))
+	    THEN
+	      // Get number of elements
+	      #tempNumElements := CountOfElements(#searchIn);
+	    ELSE
+	      #status := #ERR_NO_ARRAY;
+	      RETURN;
+	    END_IF;
+	  END_REGION Validation of inputs
+	END_REGION Initialization
+	
+	REGION Process
+	  REPEAT // Search for text before until something was found
+	    // Convert Chars to String
+	    Chars_TO_Strg(Chars  := #searchIn,
+	                  pChars := #tempPosInArray, // Subtract offset since pChars is zero based
+	                  Cnt    := UDINT_TO_UINT(MIN(IN1 := #LEN_STRING, IN2 := #tempNumElements)),
+	                  Strg   => #tempString);
+	    
+	    // Search for text before
+	    #tempPosTextBefore := FIND(IN1 := #tempString, IN2 := #textBefore);
+	    
+	    // Text before was found
+	    IF #tempPosTextBefore > 0 THEN
+	      // Set position in array to end of text before
+	      #tempPosInArray += #tempPosTextBefore + #tempLenTextBefore - 1;
+	      
+	      // Create new string from end of text before
+	      Chars_TO_Strg(Chars  := #searchIn,
+	                    pChars := #tempPosInArray, // Subtract offset since pChars is zero based
+	                    Cnt    := UDINT_TO_UINT(MIN(IN1 := #LEN_STRING, IN2 := #tempNumElements)),
+	                    Strg   => #tempString);
+	      
+	      // Find end of string to be extracted
+	      #tempPosTextAfter := FIND(IN1 := #tempString, IN2 := #textAfter);
+	      
+	      IF #tempPosTextAfter > 0 THEN // Shorten string if text after was found
+	        #extractedString := LEFT(IN := #tempString, L := #tempPosTextAfter - 1);
+	        #LGF_ExtractStringFromCharArray := #STATUS_TEXT_FOUND;
+	        EXIT;
+	        
+	      ELSE // Output whole string if text after was not found
+	        #extractedString := #tempString;
+	        #LGF_ExtractStringFromCharArray := #WARNING_ONLY_START;
+	        EXIT;
+	      END_IF;
+	      
+	    ELSE
+	      // Otherwise continue search in next string minus length of text before to ensure
+	      // keywords are not broken up at the end of a string and thus missed
+	      #tempPosInArray += UINT_TO_INT(#LEN_STRING) - #tempLenTextBefore;
+	    END_IF;
+	    
+	    // Repeat until end of array is reached
+	  UNTIL (#tempPosInArray > #tempNumElements) END_REPEAT;
+	END_REGION Process
+	
+END_FUNCTION
+
+FUNCTION "LGF_ExtractStringFromCharArrayAdv" : Word
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : 'Siemens Online Support'
+FAMILY : LGF
+NAME : LGF_ExtractStringFromCharArrayAdv
+   VAR_INPUT 
+      textBefore : String;
+      textAfter : String;
+      includeBeforeAfter { S7_PredefinedAssignment := 'FALSE'} : Bool;
+      startPos { S7_PredefinedAssignment := '0'} : DInt;
+   END_VAR
+
+   VAR_OUTPUT 
+      extractedString : String;
+      position : DInt;
+      length { S7_PredefinedAssignment := 'x'} : Int;
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      searchIn : Variant;
+   END_VAR
+
+   VAR_TEMP 
+      tempNumElements : UDInt;
+      tempPosInArray : DInt;
+      tempLenTextBefore : Int;
+      tempPosTextBefore : DInt;
+      tempLenTextAfter : Int;
+      tempPosTextAfter : Int;
+      tempString : String;
+   END_VAR
+
+   VAR CONSTANT 
+      LEN_STRING : UInt := 254;
+      STATUS_TEXT_FOUND : Word := 16#0000;
+      WARNING_ONLY_START : Word := 16#9001;
+      WARNING_NOTHING_FOUND : Word := 16#9002;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_NO_ARRAY : Word := 16#8200;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS / (c)Copyright 2021
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_ExtractStringFromCharArrayAdv
+	  // Function:         Extracts a String specified by a text before and after
+	  //                   from an array of characters with extended options.
+	  // Library:          LGF
+	  // Author:           Siemens Industry Online Support
+	  // Tested with:      CPU 1516-3 PN/DP
+	  // Engineering:      TIA Portal V17
+	  // Restrictions:     --
+	  // Requirements:     S7-1200/1500
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 01.04.2019 | Siemens Online Support | First released version (LHttp)
+	  // 01.01.00 | 10.06.2022 | Siemens Online Support | Adaption and integration into LGF
+	  //===============================================================================
+	END_REGION
+	
+	REGION Initialization
+	  #tempPosTextBefore := 0;
+	  #tempPosTextAfter := 0;
+	  #tempPosInArray := #startPos;
+	  #tempLenTextBefore := LEN(#textBefore);
+	  #tempLenTextAfter := LEN(#textAfter);
+	  #position := -1;
+	  #length := 0;
+	  #extractedString := '';
+	  #status := #STATUS_NO_ERROR;
+	  #LGF_ExtractStringFromCharArrayAdv := #WARNING_NOTHING_FOUND;
+	  
+	  REGION Validation of inputs
+	    // check whether the input is an ARRAY and TYPE of elements is CHAR or BYTE
+	    // IF so, the number OF the ARRAY elements is read out.
+	    // IF it is NOT an ARRAY, the program execution is terminated at this point
+	    IF TRUE
+	      AND IS_ARRAY(#searchIn)
+	      AND ((TypeOfElements(#searchIn) = Char) OR (TypeOfElements(#searchIn) = Byte))
+	    THEN
+	      // Get number of elements
+	      #tempNumElements := CountOfElements(#searchIn);
+	    ELSE
+	      #status := #ERR_NO_ARRAY;
+	      RETURN;
+	    END_IF;
+	  END_REGION Validation of inputs
+	END_REGION Initialization
+	
+	REGION Process  
+	  REPEAT // Search for text before until something was found
+	    // Convert Chars to String
+	    Chars_TO_Strg(Chars  := #searchIn,
+	                  pChars := #tempPosInArray, // Subtract offset since pChars is zero based
+	                  Cnt    := UDINT_TO_UINT(MIN(IN1 := #LEN_STRING, IN2 := #tempNumElements)),
+	                  Strg   => #tempString);
+	    
+	    // Search for text before
+	    #tempPosTextBefore := FIND(IN1 := #tempString, IN2 := #textBefore);
+	    
+	    // Text before was found
+	    IF #tempPosTextBefore > 0 THEN
+	      // Set position in array to beginning or end of text before
+	      IF #includeBeforeAfter THEN
+	        #tempPosInArray += #tempPosTextBefore - 1;
+	      ELSE
+	        #tempPosInArray += #tempPosTextBefore + #tempLenTextBefore - 1;
+	      END_IF;
+	      
+	      // Create new string from beginning or end of text before
+	      Chars_TO_Strg(Chars  := #searchIn,
+	                    pChars := #tempPosInArray, // Subtract offset since pChars is zero based
+	                    Cnt    := UDINT_TO_UINT(MIN(IN1 := #LEN_STRING, IN2 := #tempNumElements)),
+	                    Strg   => #tempString);
+	      
+	      // Find end of string to be extracted
+	      #tempPosTextAfter := FIND(IN1 := #tempString, IN2 := #textAfter);
+	      
+	      IF #tempPosTextAfter > 0 THEN // Shorten string if text after was found
+	        IF #includeBeforeAfter THEN
+	          #length := #tempPosTextAfter + #tempLenTextAfter - 1;
+	        ELSE
+	          #length := #tempPosTextAfter - 1;
+	        END_IF;
+	        
+	        #position := #tempPosInArray;
+	        #extractedString := LEFT(IN := #tempString, L := #length);
+	        #LGF_ExtractStringFromCharArrayAdv := #STATUS_TEXT_FOUND;
+	        EXIT;
+	        
+	      ELSE // Output whole string if text after was not found
+	        #extractedString := #tempString;
+	        #position := #tempPosInArray;
+	        #length := LEN(#tempString);
+	        #LGF_ExtractStringFromCharArrayAdv := #WARNING_ONLY_START;
+	        EXIT;
+	      END_IF;
+	      
+	    ELSE
+	      // Otherwise continue search in next string minus length of text before to ensure
+	      // keywords are not broken up at the end of a string and thus missed
+	      #tempPosInArray += UINT_TO_INT(#LEN_STRING) - #tempLenTextBefore;
+	    END_IF;
+	    
+	    // Repeat until end of array is reached
+	  UNTIL (#tempPosInArray > #tempNumElements) END_REPEAT;
+	END_REGION Process
+	
+END_FUNCTION
+
+FUNCTION "LGF_FindStringInCharArray" : DInt
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : 'Siemens Online Support'
+FAMILY : LGF
+NAME : LGF_FindStringInCharArray
+   VAR_INPUT 
+      searchFor : String;
+      startPos { S7_PredefinedAssignment := '0'} : DInt;
+   END_VAR
+
+   VAR_OUTPUT 
+      status : Word;
+   END_VAR
+
+   VAR_IN_OUT 
+      searchIn : Variant;
+   END_VAR
+
+   VAR_TEMP 
+      tempNumElements : UDInt;
+      tempLenSearchFor : Int;
+      tempPosInArray : DInt;
+      tempPosInString : Int;
+      tempString : String;
+   END_VAR
+
+   VAR CONSTANT 
+      LEN_STRING : UInt := 254;
+      STATUS_NO_ERROR : Word := 16#0000;
+      ERR_NO_ARRAY : Word := 16#8200;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS / (c)Copyright 2021
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_FindStringInCharArray
+	  // Function:         The function searches for a specified String within an array of characters.
+	  //                   Returning the position of the String in the Array,
+	  //                   if the string is not found the return value is `-1`.
+	  // Library:          LGF
+	  // Author:           Siemens Industry Online Support
+	  // Tested with:      CPU 1516-3 PN/DP
+	  // Engineering:      TIA Portal V17
+	  // Restrictions:     --
+	  // Requirements:     S7-1200/1500
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 01.04.2019 | Siemens Online Support | First released version (LHttp)
+	  // 01.01.00 | 10.06.2022 | Siemens Online Support | Adaption and integration into LGF
+	  //===============================================================================
+	END_REGION
+	
+	REGION Initialization
+	  #tempPosInString := 0;
+	  #tempPosInArray := #startPos;
+	  #tempLenSearchFor := LEN(#searchFor);
+	  #status := #STATUS_NO_ERROR;
+	  #LGF_FindStringInCharArray := -1;
+	  
+	  REGION Validation of inputs
+	    // check whether the input is an ARRAY and TYPE of elements is CHAR or BYTE
+	    // IF so, the number OF the ARRAY elements is read out.
+	    // IF it is NOT an ARRAY, the program execution is terminated at this point
+	    IF TRUE
+	      AND IS_ARRAY(#searchIn)
+	      AND ((TypeOfElements(#searchIn) = Char) OR (TypeOfElements(#searchIn) = Byte) )
+	    THEN
+	      // Get number of elements
+	      #tempNumElements := CountOfElements(#searchIn);
+	    ELSE
+	      #status := #ERR_NO_ARRAY;
+	      RETURN;
+	    END_IF;
+	  END_REGION Validation of inputs
+	END_REGION Initialization
+	
+	REGION Process
+	  REPEAT // Search for beginning of text until something was found
+	    // Convert Chars to String
+	    Chars_TO_Strg(Chars  := #searchIn,
+	                  pChars := #tempPosInArray,
+	                  Cnt    := UDINT_TO_UINT(MIN(IN1 := #LEN_STRING, IN2 := #tempNumElements)),
+	                  Strg   => #tempString);
+	    
+	    // Search for text at beginning
+	    #tempPosInString := FIND(IN1 := #tempString, IN2 := #searchFor);
+	    
+	    // Keyword was found
+	    IF #tempPosInString > 0 THEN
+	      // Output position of string
+	      #LGF_FindStringInCharArray :=  #tempPosInArray + #tempPosInString - 1;
+	      EXIT;
+	    ELSE
+	      // Otherwise continue search in next string minus length of text at beginning to ensure
+	      // keywords are not broken up at the end of a string and thus missed
+	      #tempPosInArray += UINT_TO_INT(#LEN_STRING) - #tempLenSearchFor;
+	    END_IF;
+	    
+	  UNTIL (#tempPosInString > 0) OR (#tempPosInArray > #tempNumElements) END_REPEAT;
+	END_REGION Process
+	
+END_FUNCTION
+
+FUNCTION "LGF_ToLower" : String
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : 'Siemens Industry Online Support'
+FAMILY : LGF
+NAME : LGF_ToLower
+   VAR_INPUT 
+      In : String;
+   END_VAR
+
+   VAR_TEMP 
+      tempCurrentCharIndex : UInt;
+      tempStringLength : UInt;
+      tempCurrentChar : Char;
+      tempResult : String;
+   END_VAR
+
+   VAR CONSTANT 
+      TO_UPPER_OFFSET : USInt := 32;
+      UPPER_CASE_A : Char := 'A';
+      UPPER_CASE_Z : Char := 'Z';
+      FIRST_CHARACTER_POSITION : UInt := 1;
+      NEXT_POSITION : UInt := 1;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2023
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_ToLower
+	  // Comment/Function: This function converts the capital letters of a string into their lower case equivalents.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V4.0
+	  // Engineering:      TIA Portal V16.0
+	  // Restrictions:     ENO mechanism is not used, no error handling
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 10.03.2023 | Siemens Industry Online Support
+	  //                         First released version
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	(/**/)
+	END_REGION DESCRIPTION
+	
+	REGION INITIALIZATION
+	  // First we clean up the resultstring to avoid returning random data
+	  #tempResult := '';
+	  #tempCurrentChar := '$00';
+	  
+	  // to avoid continuous system calls to LEN, we get the string length only once
+	  // as it doesn't change during the conversion
+	  #tempStringLength := INT_TO_UINT(LEN(#In));
+	  
+	  // we start converting at the beginning of the string. The first index into the string 
+	  // is 1 (not zero based counting)
+	  #tempCurrentCharIndex := #FIRST_CHARACTER_POSITION;
+	END_REGION
+	
+	REGION CONVERSION
+	  WHILE #tempCurrentCharIndex <= #tempStringLength DO
+	    // We check the character at the indexed position in the string
+	    // its ASCII code must be between 'A' and 'Z' (included) to be object of conversion
+	    IF TRUE
+	      AND #UPPER_CASE_A <= #In[#tempCurrentCharIndex]
+	      AND #In[#tempCurrentCharIndex] <= #UPPER_CASE_Z
+	    THEN
+	      // The character is in the range of ASCII codes object to conversion
+	      // Let's convert it into lower case
+	      #tempCurrentChar := USINT_TO_CHAR(CHAR_TO_USINT(#In[#tempCurrentCharIndex]) + #TO_UPPER_OFFSET);
+	    ELSE
+	      // the character is not object to conversion. Therefore, we only copy it into the result string
+	      #tempCurrentChar := #In[#tempCurrentCharIndex];
+	    END_IF;
+	    // Append the buffer character (may be converted) to the result string
+	    #tempResult := CONCAT(IN1 := #tempResult,
+	                          IN2 := #tempCurrentChar);
+	    // Move on to the next character in the string
+	    #tempCurrentCharIndex += #NEXT_POSITION;
+	  END_WHILE;
+	END_REGION
+	
+	// Returning the converted string as function result
+	#LGF_ToLower := #tempResult;
+	ENO := TRUE;
+	
+END_FUNCTION
+
+FUNCTION "LGF_ToUpper" : String
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : 'Siemens Industry Online Support'
+FAMILY : LGF
+NAME : LGF_ToUpper
+   VAR_INPUT 
+      In : String;
+   END_VAR
+
+   VAR_TEMP 
+      tempCurrentCharIndex : UInt;
+      tempStringLength : UInt;
+      tempCurrentChar : Char;
+      tempResult : String;
+   END_VAR
+
+   VAR CONSTANT 
+      TO_UPPER_OFFSET : USInt := 32;
+      LOWER_CASE_A : Char := 'a';
+      LOWER_CASE_Z : Char := 'z';
+      FIRST_CHARACTER_POSITION : UInt := 1;
+      NEXT_POSITION : UInt := 1;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2023
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_ToLower
+	  // Comment/Function: This function converts the capital letters of a string into their lower case equivalents.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V4.0
+	  // Engineering:      TIA Portal V16.0
+	  // Restrictions:     ENO mechanism is not used, no error handling
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 10.03.2023 | Siemens Industry Online Support
+	  //                         First released version
+	  //=============================================================================
+	END_REGION Block info header
+	
+	REGION DESCRIPTION
+	(/**/)
+	END_REGION DESCRIPTION
+	
+	REGION INITIALIZATION
+	  // First we clean up the resultstring to avoid returning random data
+	  #tempResult := '';
+	  #tempCurrentChar := '$00';
+	  
+	  // to avoid continuous system calls to LEN, we get the string length only once
+	  // as it doesn't change during the conversion
+	  #tempStringLength := INT_TO_UINT(LEN(#In));
+	  
+	  // we start converting at the beginning of the string. The first index into the string 
+	  // is 1 (not zero based counting)
+	  #tempCurrentCharIndex := #FIRST_CHARACTER_POSITION;
+	END_REGION
+	
+	REGION CONVERSION  
+	  WHILE #tempCurrentCharIndex <= #tempStringLength DO
+	    // We check the character at the index position in the string
+	    // its ASCII code must be between 'a' and 'z' (included) to be object of conversion
+	    IF TRUE
+	      AND #LOWER_CASE_A <= #In[#tempCurrentCharIndex]
+	      AND #In[#tempCurrentCharIndex] <= #LOWER_CASE_Z
+	    THEN
+	      // The character is in the range of ASCII codes object to conversion
+	      // Let's convert it into upper case
+	      #tempCurrentChar := USINT_TO_CHAR(CHAR_TO_USINT(#In[#tempCurrentCharIndex]) - #TO_UPPER_OFFSET);
+	    ELSE
+	      // the character is not object to conversion. Therefore, we only copy it into the result string
+	      #tempCurrentChar := #In[#tempCurrentCharIndex];
+	    END_IF;
+	    // Append the buffer character (may be converted) to the result string
+	    #tempResult := CONCAT(IN1 := #tempResult,
+	                          IN2 := #tempCurrentChar);
+	    // Move on to the next character in the string
+	    #tempCurrentCharIndex += #NEXT_POSITION;
+	  END_WHILE;
+	END_REGION
+	
+	// Returning the converted string as function result
+	#LGF_ToUpper := #tempResult;
+	ENO := TRUE;
+	
+END_FUNCTION
+

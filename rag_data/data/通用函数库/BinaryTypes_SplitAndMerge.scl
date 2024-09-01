@@ -1,0 +1,858 @@
+﻿FUNCTION "LGF_MergeBitsToByte" : Byte
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_MergeBitsToByte
+   VAR_INPUT 
+      bit7 : Bool;
+      bit6 : Bool;
+      bit5 : Bool;
+      bit4 : Bool;
+      bit3 : Bool;
+      bit2 : Bool;
+      bit1 : Bool;
+      bit0 : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      tempByte : Byte;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2018
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_MergeBitsToByte
+	  // Comment/Function: This function merge 8 Bits / 8 Boolean variables into one Byte variable.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V14 / V14SP1
+	  // Restrictions:     ENO disabled - no error handling, no failure possible.
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //=============================================================================
+	END_REGION
+	
+	REGION MERGE
+	  // set the bits by slice access
+	  #tempByte.%X7 := #bit7;
+	  #tempByte.%X6 := #bit6;
+	  #tempByte.%X5 := #bit5;
+	  #tempByte.%X4 := #bit4;
+	  #tempByte.%X3 := #bit3;
+	  #tempByte.%X2 := #bit2;
+	  #tempByte.%X1 := #bit1;
+	  #tempByte.%X0 := #bit0;
+	END_REGION
+	
+	REGION OUTPUT
+	  #LGF_MergeBitsToByte := #tempByte;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_MergeBitsToDWord" : DWord
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_MergeBitsToDWord
+   VAR_INPUT 
+      bit31 : Bool;
+      bit30 : Bool;
+      bit29 : Bool;
+      bit28 : Bool;
+      bit27 : Bool;
+      bit26 : Bool;
+      bit25 : Bool;
+      bit24 : Bool;
+      bit23 : Bool;
+      bit22 : Bool;
+      bit21 : Bool;
+      bit20 : Bool;
+      bit19 : Bool;
+      bit18 : Bool;
+      bit17 : Bool;
+      bit16 : Bool;
+      bit15 : Bool;
+      bit14 : Bool;
+      bit13 : Bool;
+      bit12 : Bool;
+      bit11 : Bool;
+      bit10 : Bool;
+      bit9 : Bool;
+      bit8 : Bool;
+      bit7 : Bool;
+      bit6 : Bool;
+      bit5 : Bool;
+      bit4 : Bool;
+      bit3 : Bool;
+      bit2 : Bool;
+      bit1 : Bool;
+      bit0 : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      tempDWord : DWord;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2018
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_MergeBitsToDWord
+	  // Comment/Function: This function merge 32 Bits / 32 Boolean variables into one DWord variable.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V14 / V14SP1
+	  // Restrictions:     ENO disabled - no error handling, no failure possible.
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //=============================================================================
+	END_REGION
+	
+	REGION MERGE
+	  // set the bits by slice access
+	  #tempDWord.%X31 := #bit31;
+	  #tempDWord.%X30 := #bit30;
+	  #tempDWord.%X29 := #bit29;
+	  #tempDWord.%X28 := #bit28;
+	  #tempDWord.%X27 := #bit27;
+	  #tempDWord.%X26 := #bit26;
+	  #tempDWord.%X25 := #bit25;
+	  #tempDWord.%X24 := #bit24;
+	  #tempDWord.%X23 := #bit23;
+	  #tempDWord.%X22 := #bit22;
+	  #tempDWord.%X21 := #bit21;
+	  #tempDWord.%X20 := #bit20;
+	  #tempDWord.%X19 := #bit19;
+	  #tempDWord.%X18 := #bit18;
+	  #tempDWord.%X17 := #bit17;
+	  #tempDWord.%X16 := #bit16;
+	  #tempDWord.%X15 := #bit15;
+	  #tempDWord.%X14 := #bit14;
+	  #tempDWord.%X13 := #bit13;
+	  #tempDWord.%X12 := #bit12;
+	  #tempDWord.%X11 := #bit11;
+	  #tempDWord.%X10 := #bit10;
+	  #tempDWord.%X9 := #bit9;
+	  #tempDWord.%X8 := #bit8;
+	  #tempDWord.%X7 := #bit7;
+	  #tempDWord.%X6 := #bit6;
+	  #tempDWord.%X5 := #bit5;
+	  #tempDWord.%X4 := #bit4;
+	  #tempDWord.%X3 := #bit3;
+	  #tempDWord.%X2 := #bit2;
+	  #tempDWord.%X1 := #bit1;
+	  #tempDWord.%X0 := #bit0;
+	END_REGION
+	
+	REGION OUTPUT
+	  #LGF_MergeBitsToDWord := #tempDWord;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_MergeBitsToWord" : Word
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_MergeBitsToWord
+   VAR_INPUT 
+      bit15 : Bool;
+      bit14 : Bool;
+      bit13 : Bool;
+      bit12 : Bool;
+      bit11 : Bool;
+      bit10 : Bool;
+      bit9 : Bool;
+      bit8 : Bool;
+      bit7 : Bool;
+      bit6 : Bool;
+      bit5 : Bool;
+      bit4 : Bool;
+      bit3 : Bool;
+      bit2 : Bool;
+      bit1 : Bool;
+      bit0 : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      tempWord : Word;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_MergeBitsToWord
+	  // Comment/Function: This function merge 16 Bits / 16 Boolean variables into one Word variable.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V14 Update 1
+	  // Restrictions:     ENO disabled - no error handling, no failure possible.
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 09.02.2017 | Siemens Industry Online Support
+	  //                         First released version
+	  // 01.00.01 | 17.08.2018 | Siemens Industry Online Support
+	  //                         Upgrade: TIA V15 Update 2
+	  // 01.00.02 | 23.11.2018 | Siemens Industry Online Support
+	  //                         Upgrade: TIA V15.1
+	  // 01.00.03 | 26.07.2019 | Simatic Systems Support
+	  //                         Standard header, style guide
+	  // 01.00.04 | 30.07.2019 | Simatic Systems Support
+	  //                         add ENO handling
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //=============================================================================
+	END_REGION
+	
+	REGION MERGE
+	  #tempWord.%X15 := #bit15;
+	  #tempWord.%X14 := #bit14;
+	  #tempWord.%X13 := #bit13;
+	  #tempWord.%X12 := #bit12;
+	  #tempWord.%X11 := #bit11;
+	  #tempWord.%X10 := #bit10;
+	  #tempWord.%X9 := #bit9;
+	  #tempWord.%X8 := #bit8;
+	  #tempWord.%X7 := #bit7;
+	  #tempWord.%X6 := #bit6;
+	  #tempWord.%X5 := #bit5;
+	  #tempWord.%X4 := #bit4;
+	  #tempWord.%X3 := #bit3;
+	  #tempWord.%X2 := #bit2;
+	  #tempWord.%X1 := #bit1;
+	  #tempWord.%X0 := #bit0;
+	END_REGION
+	
+	REGION OUTPUT
+	  #LGF_MergeBitsToWord := #tempWord;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_MergeBytesToDWord" : DWord
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_MergeBytesToDWord
+   VAR_INPUT 
+      byte3 : Byte;
+      byte2 : Byte;
+      byte1 : Byte;
+      byte0 : Byte;
+   END_VAR
+
+   VAR_TEMP 
+      tempDWord : DWord;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2018
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_MergeBytesToDWord
+	  // Comment/Function: This function merge 4 Byte variables into one DWord variable.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V14 / V14SP1
+	  // Restrictions:     ENO disabled - no error handling, no failure possible.
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //=============================================================================
+	END_REGION
+	
+	REGION MERGE
+	  // set the bytes by slice access
+	  #tempDWord.%B3 := #byte3;
+	  #tempDWord.%B2 := #byte2;
+	  #tempDWord.%B1 := #byte1;
+	  #tempDWord.%B0 := #byte0;
+	END_REGION
+	
+	REGION OUTPUT
+	  #LGF_MergeBytesToDWord := #tempDWord;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_MergeBytesToWord" : Word
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_MergeBytesToWord
+   VAR_INPUT 
+      byte1 : Byte;
+      byte0 : Byte;
+   END_VAR
+
+   VAR_TEMP 
+      tempWord : Word;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2018
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_MergeBytesToWord
+	  // Comment/Function: This function merge 2 Byte variables into one Word variable.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V14 / V14SP1
+	  // Restrictions:     ENO disabled - no error handling, no failure possible.
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //=============================================================================
+	END_REGION
+	
+	REGION MERGE
+	  // set the bytes by slice access
+	  #tempWord.%B1 := #byte1;
+	  #tempWord.%B0 := #byte0;
+	END_REGION
+	
+	REGION OUTPUT
+	  #LGF_MergeBytesToWord := #tempWord;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_MergeWordsToDWord" : DWord
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_BitLogicOperations
+   VAR_INPUT 
+      word1 : Word;
+      word0 : Word;
+   END_VAR
+
+   VAR_TEMP 
+      tempDWord : DWord;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2018
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_MergeWordsToDWord
+	  // Comment/Function: This function merge 2 Word variables into one DWord variable.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V14 / V14SP1
+	  // Restrictions:     ENO disabled - no error handling, no failure possible.
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //=============================================================================
+	END_REGION
+	
+	REGION MERGE
+	  // set the words by slice access
+	  #tempDWord.%W1 := #word1;
+	  #tempDWord.%W0 := #word0;
+	END_REGION
+	
+	REGION OUTPUT
+	  #LGF_MergeWordsToDWord := #tempDWord;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_SplitByteToBits" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_SplitByteToBits
+   VAR_INPUT 
+      "byte" : Byte;
+   END_VAR
+
+   VAR_OUTPUT 
+      bit7 : Bool;
+      bit6 : Bool;
+      bit5 : Bool;
+      bit4 : Bool;
+      bit3 : Bool;
+      bit2 : Bool;
+      bit1 : Bool;
+      bit0 : Bool;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2018
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_SplitByteToBits
+	  // Comment/Function: This function splits a Byte variable into 8 Boolean / 8 Bit variables
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V14 / V14SP1
+	  // Restrictions:     ENO disabled - no error handling, no failure possible.
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //=============================================================================
+	END_REGION
+	
+	REGION OUTPUT
+	  // get the bits by slice access
+	  #bit7 := #byte.%X7;
+	  #bit6 := #byte.%X6;
+	  #bit5 := #byte.%X5;
+	  #bit4 := #byte.%X4;
+	  #bit3 := #byte.%X3;
+	  #bit2 := #byte.%X2;
+	  #bit1 := #byte.%X1;
+	  #bit0 := #byte.%X0;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_SplitDWordToBits" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_SplitDWordToBits
+   VAR_INPUT 
+      doubleWord : DWord;
+   END_VAR
+
+   VAR_OUTPUT 
+      bit31 : Bool;
+      bit30 : Bool;
+      bit29 : Bool;
+      bit28 : Bool;
+      bit27 : Bool;
+      bit26 : Bool;
+      bit25 : Bool;
+      bit24 : Bool;
+      bit23 : Bool;
+      bit22 : Bool;
+      bit21 : Bool;
+      bit20 : Bool;
+      bit19 : Bool;
+      bit18 : Bool;
+      bit17 : Bool;
+      bit16 : Bool;
+      bit15 : Bool;
+      bit14 : Bool;
+      bit13 : Bool;
+      bit12 : Bool;
+      bit11 : Bool;
+      bit10 : Bool;
+      bit9 : Bool;
+      bit8 : Bool;
+      bit7 : Bool;
+      bit6 : Bool;
+      bit5 : Bool;
+      bit4 : Bool;
+      bit3 : Bool;
+      bit2 : Bool;
+      bit1 : Bool;
+      bit0 : Bool;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2018
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_SplitDWordToBits
+	  // Comment/Function: This function splits a DWord variable into 32 Boolean / 32 Bit variables
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V14 / V14SP1
+	  // Restrictions:     ENO disabled - no error handling, no failure possible.
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //=============================================================================
+	END_REGION
+	
+	REGION OUTPUT
+	  // get the bits by slice access
+	  #bit31 := #doubleWord.%X31;
+	  #bit30 := #doubleWord.%X30;
+	  #bit29 := #doubleWord.%X29;
+	  #bit28 := #doubleWord.%X28;
+	  #bit27 := #doubleWord.%X27;
+	  #bit26 := #doubleWord.%X26;
+	  #bit25 := #doubleWord.%X25;
+	  #bit24 := #doubleWord.%X24;
+	  #bit23 := #doubleWord.%X23;
+	  #bit22 := #doubleWord.%X22;
+	  #bit21 := #doubleWord.%X21;
+	  #bit20 := #doubleWord.%X20;
+	  #bit19 := #doubleWord.%X19;
+	  #bit18 := #doubleWord.%X18;
+	  #bit17 := #doubleWord.%X17;
+	  #bit16 := #doubleWord.%X16;
+	  #bit15 := #doubleWord.%X15;
+	  #bit14 := #doubleWord.%X14;
+	  #bit13 := #doubleWord.%X13;
+	  #bit12 := #doubleWord.%X12;
+	  #bit11 := #doubleWord.%X11;
+	  #bit10 := #doubleWord.%X10;
+	  #bit9 := #doubleWord.%X9;
+	  #bit8 := #doubleWord.%X8;
+	  #bit7 := #doubleWord.%X7;
+	  #bit6 := #doubleWord.%X6;
+	  #bit5 := #doubleWord.%X5;
+	  #bit4 := #doubleWord.%X4;
+	  #bit3 := #doubleWord.%X3;
+	  #bit2 := #doubleWord.%X2;
+	  #bit1 := #doubleWord.%X1;
+	  #bit0 := #doubleWord.%X0;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_SplitDWordToBytes" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_SplitDWordToBytes
+   VAR_INPUT 
+      doubleWord : DWord;
+   END_VAR
+
+   VAR_OUTPUT 
+      byte3 : Byte;
+      byte2 : Byte;
+      byte1 : Byte;
+      byte0 : Byte;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2018
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_SplitDWordToBytes
+	  // Comment/Function: This function splits a DWord variable into 4 Byte variables.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V14 / V14SP1
+	  // Restrictions:     ENO disabled - no error handling, no failure possible.
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //=============================================================================
+	END_REGION
+	
+	REGION OUTPUT
+	  // get the bytes by slice access
+	  #byte3 := #doubleWord.%B3;
+	  #byte2 := #doubleWord.%B2;
+	  #byte1 := #doubleWord.%B1;
+	  #byte0 := #doubleWord.%B0;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_SplitDWordToWords" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_SplitDWordToWords
+   VAR_INPUT 
+      doubleWord : DWord;
+   END_VAR
+
+   VAR_OUTPUT 
+      word1 : Word;
+      word0 : Word;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2018
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_SplitDWordToWords
+	  // Comment/Function: This function splits a DWord variable into 2 Word variables.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V14 / V14SP1
+	  // Restrictions:     ENO disabled - no error handling, no failure possible.
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //=============================================================================
+	END_REGION
+	
+	REGION OUTPUT
+	  // get the bytes by slice access
+	  #word1 := #doubleWord.%W1;
+	  #word0 := #doubleWord.%W0;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_SplitWordToBits" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_SplitWordToBits
+   VAR_INPUT 
+      "word" : Word;
+   END_VAR
+
+   VAR_OUTPUT 
+      bit15 : Bool;
+      bit14 : Bool;
+      bit13 : Bool;
+      bit12 : Bool;
+      bit11 : Bool;
+      bit10 : Bool;
+      bit9 : Bool;
+      bit8 : Bool;
+      bit7 : Bool;
+      bit6 : Bool;
+      bit5 : Bool;
+      bit4 : Bool;
+      bit3 : Bool;
+      bit2 : Bool;
+      bit1 : Bool;
+      bit0 : Bool;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2017
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_SplitWordToBits
+	  // Comment/Function: This function splits a Word variable into 16 Boolean / 16 Bit variables.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V14 Update 1
+	  // Restrictions:     ENO disabled - no error handling, no failure possible.
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 09.02.2017 | Siemens Industry Online Support
+	  //                         First released version
+	  // 01.00.01 | 17.08.2018 | Siemens Industry Online Support
+	  //                         Upgrade: TIA V15 Update 2
+	  // 01.00.02 | 23.11.2018 | Industry Online Support
+	  //                         Upgrade: TIA V15.1
+	  // 01.00.03 | 26.07.2019 | Simatic Systems Support
+	  //                         Standard header, style guide
+	  // 01.00.04 | 30.07.2019 | Simatic Systems Support
+	  //                         add ENO handling
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //=============================================================================
+	END_REGION
+	
+	REGION OUTPUT
+	  #bit15 := #word.%X15;
+	  #bit14 := #word.%X14;
+	  #bit13 := #word.%X13;
+	  #bit12 := #word.%X12;
+	  #bit11 := #word.%X11;
+	  #bit10 := #word.%X10;
+	  #bit9 := #word.%X9;
+	  #bit8 := #word.%X8;
+	  #bit7 := #word.%X7;
+	  #bit6 := #word.%X6;
+	  #bit5 := #word.%X5;
+	  #bit4 := #word.%X4;
+	  #bit3 := #word.%X3;
+	  #bit2 := #word.%X2;
+	  #bit1 := #word.%X1;
+	  #bit0 := #word.%X0;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
+FUNCTION "LGF_SplitWordToBytes" : Void
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : Siemens_Digital_Industry
+FAMILY : LGF
+NAME : LGF_SplitWordToBytes
+   VAR_INPUT 
+      "word" : Word;
+   END_VAR
+
+   VAR_OUTPUT 
+      byte1 : Byte;
+      byte0 : Byte;
+   END_VAR
+
+
+BEGIN
+	REGION BLOCK INFO HEADER
+	  //===============================================================================
+	  // SIEMENS AG / (c)Copyright 2018
+	  //-------------------------------------------------------------------------------
+	  // Title:            LGF_SplitWordToBytes
+	  // Comment/Function: This function splits a Word variable into 2 Byte variables.
+	  // Library/Family:   LGF (Library General Functions)
+	  // Author:           Siemens Digital Industry Support
+	  // Tested with:      S7-PLCSIM Advanced V2.0 SP1
+	  // Engineering:      TIA Portal V14 / V14SP1
+	  // Restrictions:     ENO disabled - no error handling, no failure possible.
+	  // Requirements:     PLC (S7-1200 / S7-1500)
+	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 20.06.2019 | Simatic Systems Support
+	  //                         First release
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 22.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //=============================================================================
+	END_REGION
+	
+	REGION OUTPUT
+	  // get the bytes by slice access
+	  #byte1 := #word.%B1;
+	  #byte0 := #word.%B0;
+	  // no error handling needed
+	  ENO := TRUE;
+	END_REGION
+	
+END_FUNCTION
+
