@@ -1,0 +1,130 @@
+﻿{
+    "title": "机械手控制",
+    "description": "设计一个PLC程序来控制一个自动化机械手，该机械手在生产线上执行搬运任务。机械手具备六个基本动作：下行、上行、左行、右行、夹紧和松开。机械手的操作模式有四种：手动、单步、单周期和连续。\n控制要求：\n1. 手动模式：允许操作员通过控制面板单独控制机械手的每个动作，前提是还没到位。例如，按住下行按钮（DownButton=1），如果未处于下行到位（DownLimitSwitch=0），则下行（MoveDown=1）；如果下行到位（DownLimitSwitch=1），则停止下行。松开下行按钮DownButton，也停止下行。\n2. 单步模式：机械手根据预设程序自动执行一个动作，每个动作完成后需要操作员确认才能执行下一个动作。\n机械手的初始位置在左上方。\n当按一下启动按钮Start时，机械手执行下行命令MoveDown，下行到位后停止。\n当再一下启动按钮Start时，机械手执行夹紧命令ActivateGrip，夹紧到位后停止。\n当再一下启动按钮Start时，机械手执行上行命令MoveUp，上行到位后停止。\n当按一下启动按钮Start时，机械手执行右行命令MoveRight，右行到位后停止。\n当按一下启动按钮Start时，机械手执行下行命令MoveDown，下行到位后停止。\n当按一下启动按钮Start时，机械手执行松开命令ActivateRelease，松开到位后停止。\n当再一下启动按钮Start时，机械手执行上行命令MoveUp，上行到位后停止。\n当再一下启动按钮Start时，机械手执行左行命令MoveLeft，左行到位后停止。\n接着从头开始循环\n3. 单周期模式：机械手自动完成一次完整的搬运循环，包括所有预设动作，循环结束后停止等待操作员指令。\n机械手的初始位置在左上方，当按一下启动按钮Start时：\n机械手首先下行，下行到位后夹紧，夹紧到位后上行，上行到位后右行，右行到位后下行，下行到位后松开，松开到位后上行，上行到位后左行，左行到位后停止。\n4. 连续模式：机械手的初始位置在左上方，当按一下启动按钮Start时，机械手连续执行单周期模式的搬运循环。\n5. 紧急停止功能能够在任何时候停止机械手的所有动作。",
+    "type": "FUNCTION_BLOCK",
+    "name": "MechanicalArm",
+    "input": [
+        {
+            "name": "ManualMode",
+            "type": "Bool",
+            "description": "手动模式"
+        },
+        {
+            "name": "SingleStepMode",
+            "type": "Bool",
+            "description": "单步模式"
+        },
+        {
+            "name": "SingleCycleMode",
+            "type": "Bool",
+            "description": "单周期模式"
+        },
+        {
+            "name": "ContinuousMode",
+            "type": "Bool",
+            "description": "连续模式"
+        },
+        {
+            "name": "EmergencyStop",
+            "type": "Bool",
+            "description": "急停信号\nFALSE: 急停触发\nTRUE: 无急停触发"
+        },
+        {
+            "name": "Start",
+            "type": "Bool",
+            "description": "启动操作"
+        },
+        {
+            "name": "DownButton",
+            "type": "Bool",
+            "description": "下行按钮"
+        },
+        {
+            "name": "UpButton",
+            "type": "Bool",
+            "description": "上行按钮"
+        },
+        {
+            "name": "LeftButton",
+            "type": "Bool",
+            "description": "左行按钮"
+        },
+        {
+            "name": "RightButton",
+            "type": "Bool",
+            "description": "右行按钮"
+        },
+        {
+            "name": "GripButton",
+            "type": "Bool",
+            "description": "夹紧按钮"
+        },
+        {
+            "name": "ReleaseButton",
+            "type": "Bool",
+            "description": "松开按钮"
+        },
+        {
+            "name": "DownLimitSwitch",
+            "type": "Bool",
+            "description": "下行到位开关"
+        },
+        {
+            "name": "UpLimitSwitch",
+            "type": "Bool",
+            "description": "上行到位开关"
+        },
+        {
+            "name": "LeftLimitSwitch",
+            "type": "Bool",
+            "description": "左行到位开关"
+        },
+        {
+            "name": "RightLimitSwitch",
+            "type": "Bool",
+            "description": "右行到位开关"
+        },
+        {
+            "name": "GripLimitSwitch",
+            "type": "Bool",
+            "description": "夹紧到位开关"
+        },
+        {
+            "name": "ReleaseLimitSwitch",
+            "type": "Bool",
+            "description": "松开到位开关"
+        }
+    ],
+    "output": [
+        {
+            "name": "MoveDown",
+            "type": "Bool",
+            "description": "下行命令"
+        },
+        {
+            "name": "MoveUp",
+            "type": "Bool",
+            "description": "上行命令"
+        },
+        {
+            "name": "MoveLeft",
+            "type": "Bool",
+            "description": "左行命令"
+        },
+        {
+            "name": "MoveRight",
+            "type": "Bool",
+            "description": "右行命令"
+        },
+        {
+            "name": "ActivateGrip",
+            "type": "Bool",
+            "description": "夹紧命令"
+        },
+        {
+            "name": "ActivateRelease",
+            "type": "Bool",
+            "description": "松开命令"
+        }
+    ]
+}

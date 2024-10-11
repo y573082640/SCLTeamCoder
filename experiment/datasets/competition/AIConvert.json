@@ -1,0 +1,62 @@
+﻿{
+    "title": "模拟量批量处理",
+    "description": "在工业自动化应用中，模拟量信号通常需要被转换成特定的工程单位或量程。编写一个PLC程序，该程序能够批量读取模拟输入信号，并将其转换到指定的量程范围。\n该程序接收一个模拟量值输入数组analogValues和一个用于通道设置及转换输出的数组channels，由输入参数count指定实际总共的通道数量，通道从数组的首个元素开始的连续元素。每个通道由enable来启动转换，转换根据模式measuringMode进行不同规则的转换。\n当measuringMode=0时，为非温度测量模式：\n此模式还需要根据极性bipolar进行转换，bipolar=0时，为单极性，则把模拟量输入值analogValues的0到27648，线性对应到输出值outputValue的下限loLIM到上限hiLIM；bipolar=1时，为双极性，则把模拟量输入值analogValues的-27648到27648，线性对应到输出值outputValue的下限loLIM到上限hiLIM。\n当measuringMode=1时，为标准型温度测量模式：\n此模式输出值outputValue为 模拟量输入值analogValues的十分之一。\n当measuringMode=2时，为气候型温度测量模式：\n此模式输出值outputValue为 模拟量输入值analogValues的百分之一。\n程序还要求检测输入参数的正确性：\n如果measuringMode为除0、1、2以外的值，则retVal=16#8001，该通道不做转换；\n如果hiLIM小于等于loLIM，则retVal=16#8002，该通道不做转换。",
+    "type": "FUNCTION_BLOCK",
+    "name": "AIConvert",
+    "input": [
+        {
+            "name": "count",
+            "type": "DInt",
+            "description": "待转换的通道数量"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "analogValues",
+            "type": "Array[*] of Int",
+            "description": "输入的各通道模拟量值数组"
+        },
+        {
+            "name": "channels",
+            "type": "Array[*] of Struct",
+            "description": "各通道的设置及转换后的输出值",
+            "fields": [
+                {
+                    "name": "enable",
+                    "type": "Bool",
+                    "description": "本通道启用转换"
+                },
+                {
+                    "name": "hiLIM",
+                    "type": "Real",
+                    "description": "上限"
+                },
+                {
+                    "name": "loLIM",
+                    "type": "Real",
+                    "description": "下限"
+                },
+                {
+                    "name": "bipolar",
+                    "type": "Bool",
+                    "description": "FALSE: 单极性\nTRUE: 双极性"
+                },
+                {
+                    "name": "measuringMode",
+                    "type": "Int",
+                    "description": "0: 非温度测量\n1: 标准型温度测量\n2: 气候型温度测量"
+                },
+                {
+                    "name": "retVal",
+                    "type": "Word",
+                    "description": "状态信息"
+                },
+                {
+                    "name": "outputValue",
+                    "type": "Real",
+                    "description": "转换后的输出值"
+                }
+            ]
+        }
+    ]
+}

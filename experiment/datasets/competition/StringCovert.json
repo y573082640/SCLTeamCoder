@@ -1,0 +1,24 @@
+﻿{
+    "title": "大小写字符转换",
+    "description": "编写一个PLC程序，该程序接收一个字符串In，根据转换模式mode进行转换操作，并返回转换后的字符串。\n如果mode=FALSE，则为小写转换为大写模式，即把字符串中的所有小写字符都转换为大写字符\n如果mode=TRUE，则反之，即把字符串中的所有大写字符都转换为小写字符\n例如，In='ABCD1234efgh'，mode=TRUE，则返回字符串'abcd1234efgh'",
+    "type": "FUNCTION",
+    "name": "StringCovert",
+    "input": [
+        {
+            "name": "In",
+            "type": "String",
+            "description": "待转换的字符串"
+        },
+        {
+            "name": "mode",
+            "type": "Bool",
+            "description": "转换模式"
+        }
+    ],
+    "return_value": [
+        {
+            "type": "String",
+            "description": "转换后的字符串"
+        }
+    ]
+}

@@ -1,0 +1,27 @@
+﻿{
+    "title": "批量高低字对调",
+    "description": "编写一个PLC程序，该程序接收2个可变长度的双字数组dataIn和dataOut。程序的目标是将dataIn中的每个双字进行高低字对调并依次存储到dataOut中。如果两个数组的长度不一致，则根据较短的数组长度进行处理。程序还要输出实际交换的双字数量swapNum\n例如，dataIn=[16#11223344]，则dataOut=[16#33441122]",
+    "type": "FUNCTION",
+    "name": "SwapDWord",
+    "input": [
+        {
+            "name": "dataIn",
+            "type": "Array[*] of DWord",
+            "description": "待交换的双字数组"
+        }
+    ],
+    "output": [
+        {
+            "name": "swapNum",
+            "type": "DInt",
+            "description": "实际交换的双字数量"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "dataOut",
+            "type": "Array[*] of DWord",
+            "description": "交换后的双字数组"
+        }
+    ]
+}

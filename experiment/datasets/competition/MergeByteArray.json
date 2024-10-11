@@ -1,0 +1,27 @@
+﻿{
+    "title": "合并字节",
+    "description": "编写一个PLC程序，该程序接收一个可变长度的字节数组byteArray和一个可变长度的双字数组dwordArray。程序的目标是将byteArray中的每个字节依次合并到dwordArray中。按照每4个字节合并到1个双字的原则，如果byteArray的长度不是4的倍数，则余数部分不做合并。如果dwordArray的长度不足以存储所有双字，则超出部分不做合并。程序还要输出实际合并的双字数量mergeDwordNum\n例如，byteArray=[16#11，16#22，16#33，16#44]，则dwordArray =[16#44332211]",
+    "type": "FUNCTION",
+    "name": "MergeByteArray",
+    "input": [
+        {
+            "name": "byteArray",
+            "type": "Array[*] of Byte",
+            "description": "待合并的字节数组"
+        }
+    ],
+    "output": [
+        {
+            "name": "mergeDwordNum",
+            "type": "DInt",
+            "description": "实际合并的双字数量"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "dwordArray",
+            "type": "Array[*] of DWord",
+            "description": "合并后的双字数组"
+        }
+    ]
+}

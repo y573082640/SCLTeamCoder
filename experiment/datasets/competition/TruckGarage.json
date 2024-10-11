@@ -1,0 +1,61 @@
+﻿{
+    "title": "车位管理系统",
+    "description": "设计一个PLC程序来控制工厂内用于停放运货小车的车库管理系统。车库有3行5列共15个车位，需要实现小车的入库和出库控制，并按照特定原则分配和释放车位。\n控制要求：\n车位信息定义：每个车位都有两个状态，占用状态（布尔类型）和车辆数据（整数类型，车辆编号）。\n小车入库规则：\n按照车位先用后行再用前行、先用后列再用前列的原则分配车位。\n入库时，小车提供车辆编号信息。\n车位信息需要更新为新的占用状态和车辆编号。\n小车出库规则：\n按照车位先前行再后行，先前列再后列的原则释放车位。\n出库车位的占用状态需要设置为未占用，并清除车辆编号。",
+    "type": "FUNCTION_BLOCK",
+    "name": "TruckGarage",
+    "input": [
+        {
+            "name": "enter",
+            "type": "Bool",
+            "description": "入库操作请求"
+        },
+        {
+            "name": "exit",
+            "type": "Bool",
+            "description": "出库操作请求"
+        },
+        {
+            "name": "VehicleNumber",
+            "type": "Int",
+            "description": "要入库的车辆编号"
+        }
+    ],
+    "output": [
+        {
+            "name": "truck",
+            "type": "Struct",
+            "description": "要出库的车辆信息",
+            "fields": {
+                "row": {
+                    "type": "Int",
+                    "description": "要出库的车辆所在的行位置"
+                },
+                "col": {
+                    "type": "Int",
+                    "description": "要出库的车辆所在的列位置"
+                },
+                "VehicleNumber": {
+                    "type": "Int",
+                    "description": "要出库的车辆编号"
+                }
+            }
+        }
+    ],
+    "in/out": [
+        {
+            "name": "garage",
+            "type": "Array[1..3, 1..5] of Struct",
+            "description": "车库信息",
+            "fields": {
+                "Occupied": {
+                    "type": "Bool",
+                    "description": "TRUE：该车位上有车辆\nFALSE：该车位上无车辆"
+                },
+                "VehicleNumber": {
+                    "type": "Int",
+                    "description": "车位上的车辆编号"
+                }
+            }
+        }
+    ]
+}

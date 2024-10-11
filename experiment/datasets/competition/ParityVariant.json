@@ -1,0 +1,36 @@
+﻿{
+    "title": "奇偶校验",
+    "description": "编写一个PLC程序，该程序接收一个可变数据类型的数据value，可以是word、Dword或LWord数据类型。程序的目标是计算数据value的二进制值中的1的个数countBitsTrue，并且根据设置的校验模式odd，返回校验结果，同时程序也输出数据value的二进制值中的0的个数countBitsFalse。\n\n如果odd=FALSE，则为偶校验：当countBitsTrue为偶数时，返回校验结果为TRUE，反之，返回校验结果为FALSE。\n如果odd=TRUE，则为奇校验：当countBitsTrue为奇数时，返回校验结果为TRUE，反之，返回校验结果为FALSE。",
+    "type": "FUNCTION",
+    "name": "ParityVariant",
+    "input": [
+        {
+            "name": "value",
+            "type": "Variant",
+            "description": "待校验的数据"
+        },
+        {
+            "name": "odd",
+            "type": "Bool",
+            "description": "校验模式\nFALSE: 偶校验\nTRUE: 奇校验"
+        }
+    ],
+    "output": [
+        {
+            "name": "countBitsFalse",
+            "type": "USInt",
+            "description": "数据中为FALSE的个数"
+        },
+        {
+            "name": "countBitsTrue",
+            "type": "USInt",
+            "description": "数据中为TRUE的个数"
+        }
+    ],
+    "return_value": [
+        {
+            "type": "Bool",
+            "description": "校验结果"
+        }
+    ]
+}

@@ -1,0 +1,90 @@
+﻿{
+    "title": "原料配比工艺控制",
+    "description": "设计一个PLC程序来控制一种原料配比工艺，该工艺需要按照特定的要求混合三种原料，并通过阀门D送至下一工艺流程。系统需要支持手动和自动两种操作模式，并能够在急停信号触发时安全停止所有设备。\n控制要求：\n急停逻辑：#estop(=FALSE)信号用于紧急停止所有设备。\n手动模式：#opeMode=false，手动控制阀门A、B、C、D和搅拌电机的启停。\n自动模式：#opeMode=true，设备按照工艺流程自动运行。\n实现急停逻辑，确保在急停信号触发时所有设备立即停止运行。\n在手动模式下，实现对阀门和搅拌电机的手动启停控制。\n例如，按一下阀A启动按钮valveAStart（触发一个上升沿），则阀A运行（valveARun=TRUE）；再按一下阀A启动按钮valveAStart（触发一个上升沿），则阀A停止（valveARun=FALSE）。\n在自动模式下，根据工艺流程实现以下控制逻辑：\n按一下自动启动按钮autoStart，启动自动流程，首先打开阀门A。\n当液位传感器#levelSensor达到50cm时，关闭阀门A，打开阀门B。\n当液位传感器达到80cm时，关闭阀门B。\n根据#processMode：\n如果#processMode=false，启动搅拌电机；接收到搅拌完成信号后关闭搅拌电机，打开阀门D，自动流程结束。\n如果#processMode=true，打开阀门C；当液位传感器达到100cm时，关闭阀门C，启动搅拌电机；接收到搅拌完成信号后关闭搅拌电机，打开阀门D，自动流程结束。",
+    "type": "FUNCTION_BLOCK",
+    "name": "MaterialMixing",
+    "input": [
+        {
+            "name": "estop",
+            "type": "Bool",
+            "description": "急停信号\nFALSE: 急停触发\nTRUE: 无急停触发"
+        },
+        {
+            "name": "opeMode",
+            "type": "Bool",
+            "description": "操作模式\nFALSE: 手动操作模式\nTRUE: 自动操作模式"
+        },
+        {
+            "name": "valveAStart",
+            "type": "Bool",
+            "description": "阀A启动按钮"
+        },
+        {
+            "name": "valveBStart",
+            "type": "Bool",
+            "description": "阀B启动按钮"
+        },
+        {
+            "name": "valveCStart",
+            "type": "Bool",
+            "description": "阀C启动按钮"
+        },
+        {
+            "name": "valveDStart",
+            "type": "Bool",
+            "description": "阀D启动按钮"
+        },
+        {
+            "name": "mixMotorStart",
+            "type": "Bool",
+            "description": "搅拌电机启动按钮"
+        },
+        {
+            "name": "autoStart",
+            "type": "Bool",
+            "description": "自动启动按钮"
+        },
+        {
+            "name": "processMode",
+            "type": "Bool",
+            "description": "工艺模式"
+        },
+        {
+            "name": "levelSensor",
+            "type": "Int",
+            "description": "液位传感器（单位cm）"
+        },
+        {
+            "name": "mixMotorComplete",
+            "type": "Bool",
+            "description": "搅拌完成信号"
+        }
+    ],
+    "output": [
+        {
+            "name": "valveARun",
+            "type": "Bool",
+            "description": "阀A运行命令"
+        },
+        {
+            "name": "valveBRun",
+            "type": "Bool",
+            "description": "阀B运行命令"
+        },
+        {
+            "name": "valveCRun",
+            "type": "Bool",
+            "description": "阀C运行命令"
+        },
+        {
+            "name": "valveDRun",
+            "type": "Bool",
+            "description": "阀D运行命令"
+        },
+        {
+            "name": "mixMotorRun",
+            "type": "Bool",
+            "description": "搅拌电机运行命令"
+        }
+    ]
+}

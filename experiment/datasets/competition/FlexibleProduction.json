@@ -1,0 +1,72 @@
+﻿{
+    "title": "柔性加工控制",
+    "description": "一个自动化生产线由5个工作站组成：从左到右依次是1#~5#站。其中1#站用于原料上料站，2#~4#用于加工产品，5#站用于成品输出存放。\n生产线有一个电机，负责将产品从一个工作站移动到下一个工作站。每个工作站都有一个传感器（用于检测产品是否到达）。\n每种产品加工的顺序和次数不同，由加工序列processSequence指定。加工序列processSequence是数组类型，存放工作站的序号，系统根据站号自动把原料送到相应的工作站进行加工。\n控制要求：\n生产开始时，1#站传感器sensor1检测到原料，按下1#站启动按钮station1Start，系统查询加工序列processSequence的首个元素，并启动传送带运行把原料送到相应工作站后停止，接收到相应工作站的加工完成信号（station2Complete~station4Complete）后，继续查询加工序列processSequence下一个元素，判断传送带运行方向，并启动传送带运行（conveyorLeft、conveyorRight）。直到送到5#工作站。",
+    "type": "FUNCTION_BLOCK",
+    "name": "FlexibleProduction",
+    "input": [
+        {
+            "name": "sensor1",
+            "type": "Bool",
+            "description": "1#站检测传感器"
+        },
+        {
+            "name": "sensor2",
+            "type": "Bool",
+            "description": "2#站检测传感器"
+        },
+        {
+            "name": "sensor3",
+            "type": "Bool",
+            "description": "3#站检测传感器"
+        },
+        {
+            "name": "sensor4",
+            "type": "Bool",
+            "description": "4#站检测传感器"
+        },
+        {
+            "name": "sensor5",
+            "type": "Bool",
+            "description": "5#站检测传感器"
+        },
+        {
+            "name": "station1Start",
+            "type": "Bool",
+            "description": "1#站启动按钮"
+        },
+        {
+            "name": "station2Complete",
+            "type": "Bool",
+            "description": "2#站加工完成信号"
+        },
+        {
+            "name": "station3Complete",
+            "type": "Bool",
+            "description": "3#站加工完成信号"
+        },
+        {
+            "name": "station4Complete",
+            "type": "Bool",
+            "description": "4#站加工完成信号"
+        }
+    ],
+    "output": [
+        {
+            "name": "conveyorLeft",
+            "type": "Bool",
+            "description": "传送带左转"
+        },
+        {
+            "name": "conveyorRight",
+            "type": "Bool",
+            "description": "传送带右转"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "processSequence",
+            "type": "Array[1..8] of USInt",
+            "description": "加工序列"
+        }
+    ]
+}

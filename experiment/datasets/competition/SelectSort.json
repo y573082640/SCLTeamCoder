@@ -1,0 +1,32 @@
+﻿{
+    "title": "多数据类型选择排序",
+    "description": "编写一个函数块FB，实现一个选择排序算法的升序排序功能。该函数块应接受一个可变长度可变数据类型（包括Sint、Int、DInt、Lint、Real、LReal、USint、UInt、UDInt、ULint）的数组，并将排序后的结果写回到原数组中。\n根据程序执行结果，输出相应的错误状态和状态代码：\n16#0000：执行FB没有出错\n16#8A01：队列seq不是数组类型",
+    "type": "FUNCTION_BLOCK",
+    "name": "SelectSort",
+    "input": [
+        {
+            "name": "exe",
+            "type": "Bool",
+            "description": "启动排序"
+        }
+    ],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: 没有发生错误\nTRUE: 执行FB时出错"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "状态代码"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "seq",
+            "type": "Variant",
+            "description": "待排序的数组"
+        }
+    ]
+}

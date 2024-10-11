@@ -1,0 +1,30 @@
+﻿{
+    "title": "矩阵乘法",
+    "description": "编写一个函数，实现两个矩阵的乘法功能。\n该函数接收两个可变长度的二维浮点数数组matrix1和matrix2作为输入参数。\n当execute=TRUE时，启动计算。",
+    "type": "FUNCTION",
+    "name": "MatrixMulti",
+    "input": [
+        {
+            "name": "execute",
+            "type": "Bool",
+            "description": "启动计算"
+        },
+        {
+            "name": "matrix1",
+            "type": "Array[*, *] of Real",
+            "description": "输入矩阵1"
+        },
+        {
+            "name": "matrix2",
+            "type": "Array[*, *] of Real",
+            "description": "输入矩阵2"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "matrixResult",
+            "type": "Array[*, *] of Real",
+            "description": "输出计算结果矩阵"
+        }
+    ]
+}

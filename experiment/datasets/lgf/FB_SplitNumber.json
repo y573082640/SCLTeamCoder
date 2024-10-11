@@ -1,0 +1,50 @@
+{
+    "title": "数字位分离显示",
+    "description": "在一些自动化系统中，可能需要将一个整数的各个位分离出来，以便于显示或进一步处理。例如，在一些计数器或生产计数应用中，需要将当前的计数值分离成个位、十位、百位和千位。\n控制要求：\n系统需要接收一个最多四位整数作为输入。\n根据输入的整数，计算并输出其个位、十位、百位和千位数值。\n如果输入的整数少于四位，则在缺失的高位上显示0。\n输出结果应该是四个独立的整数，分别代表个位、十位、百位和千位。\n说明：\n1. 要求输入的整数InputNumber大于等于0且小于10000，否则输出错误状态error=true和错误代码status=16#8001。\n2. 在计算出个、十、百、千这四个数位的数值后，对这四个数位值中非0的值进行比较并输出最小值到Min；如果InputNumber=0，则输出Min=0。",
+    "type": "FUNCTION_BLOCK",
+    "name": "FB_SplitNumber",
+    "input": [
+        {
+            "name": "InputNumber",
+            "type": "Int",
+            "description": "四位整数输入"
+        }
+    ],
+    "output": [
+        {
+            "name": "Thousands",
+            "type": "Byte",
+            "description": "千位数值输出"
+        },
+        {
+            "name": "Hundreds",
+            "type": "Byte",
+            "description": "百位数值输出"
+        },
+        {
+            "name": "Tens",
+            "type": "Byte",
+            "description": "十位数值输出"
+        },
+        {
+            "name": "Ones",
+            "type": "Byte",
+            "description": "个位数值输出"
+        },
+        {
+            "name": "Min",
+            "type": "Byte",
+            "description": "四个数位中的非0最小值"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "错误状态指示\nFALSE: 没有发生错误\nTRUE: 执行出错"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "状态代码"
+        }
+    ]
+}

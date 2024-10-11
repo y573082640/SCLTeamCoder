@@ -1,0 +1,57 @@
+﻿{
+    "title": "多元素队列",
+    "description": "编写一个函数块FB，实现一个先进先出循环队列的功能，可以支持多个元素的入队或出队操作，队列的最大长度是可变的。\n循环队列应能够支持以下操作：\n1. 入队操作（push）：在队列queue空间足够的情况下，将多个元素添加到队列的队尾。要添加的元素由起始位置itemIndex和长度itemLen在元素数组item指定。\n2. 出队操作（pop）：在队列queue元素足够的情况下，从队列的队首移出多个元素，移出的数量由itemLen指定，移到item中，从起始位置itemIndex存放。\n3. 复位操作（reset）：清除队列中的所有元素\n4. 获取队列信息：返回队列中当前元素的数量和可用空间。",
+    "type": "FUNCTION_BLOCK",
+    "name": "RingQueueMultiItem",
+    "input": [
+        {
+            "name": "push",
+            "type": "Bool",
+            "description": "入队操作"
+        },
+        {
+            "name": "pop",
+            "type": "Bool",
+            "description": "出队操作"
+        },
+        {
+            "name": "reset",
+            "type": "Bool",
+            "description": "复位操作"
+        },
+        {
+            "name": "itemIndex",
+            "type": "UDInt",
+            "description": "入队元素或出队元素起始位置"
+        },
+        {
+            "name": "itemLen",
+            "type": "UDInt",
+            "description": "入队元素或出队元素长度"
+        }
+    ],
+    "output": [
+        {
+            "name": "queueUsed",
+            "type": "DInt",
+            "description": "队列中元素的数量"
+        },
+        {
+            "name": "queueUnused",
+            "type": "DInt",
+            "description": "队列中剩余的空间"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "item",
+            "type": "Array[*] of Byte",
+            "description": "用于加入队列或从队列返回的值"
+        },
+        {
+            "name": "queue",
+            "type": "Array[*] of Byte",
+            "description": "用于作为队列的数组"
+        }
+    ]
+}

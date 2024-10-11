@@ -1,0 +1,52 @@
+﻿{
+    "title": "自定义获取字符串",
+    "description": "编写一个函数FC，该函数能够根据给定的起始字符串和结束字符串，从字符数组中截取符合要求的子字符串。\n说明：\n1. 函数应遍历charArray，从查找的起始位置startPos开始查找textBefore首次出现的位置，然后查找随后出现的textAfter的位置。\n2. 如果找到了textBefore和textAfter，函数应截取这两个边界之间的字符串（如果includeBeforeAfter=FALSE，不包括边界字符本身，反之，则包括边界字符本身），并返回这个子字符串retString。同时还应返回截取的字符串首字符在数组中的位置，以及截取的字符串长度。",
+    "type": "FUNCTION",
+    "name": "GetString",
+    "input": [
+        {
+            "name": "textBefore",
+            "type": "String",
+            "description": "要截取的字符串的起始边界"
+        },
+        {
+            "name": "textAfter",
+            "type": "String",
+            "description": "要截取的字符串的结束边界"
+        },
+        {
+            "name": "includeBeforeAfter",
+            "type": "Bool",
+            "description": "FALSE: 不包括边界\nTRUE: 包括边界"
+        },
+        {
+            "name": "startPos",
+            "type": "DInt",
+            "description": "要从数组的查找的起始位置，0对应第一个元素"
+        }
+    ],
+    "output": [
+        {
+            "name": "retString",
+            "type": "String",
+            "description": "截取的字符串"
+        },
+        {
+            "name": "position",
+            "type": "DInt",
+            "description": "截取的字符串首字符在数组中的位置，0对应第一个元素"
+        },
+        {
+            "name": "length",
+            "type": "Int",
+            "description": "截取的字符串长度"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "charArray",
+            "type": "Variant",
+            "description": "要在其中进行搜索的字符或字节数组"
+        }
+    ]
+}

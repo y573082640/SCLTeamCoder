@@ -1,0 +1,44 @@
+﻿{
+    "title": "多泵切换控制系统",
+    "description": "在一个工业供水系统中，有5个泵，每个泵可以独立控制。系统需要支持手动和自动两种工作模式。\n根据mode变量的值，切换到相应的工作模式。\n在手动模式下，根据pumpGroup[1..5].selection的值，控制选中泵的启动和停止。\n在自动模式下，比较各个泵的优先级高低，按照三用两备的方式，自动选择优先级较高的3个泵进行供水。",
+    "type": "FUNCTION_BLOCK",
+    "name": "MultiPumpCtrl",
+    "input": [
+        {
+            "name": "mode",
+            "type": "Bool",
+            "description": "FALSE: 手动模式\nTRUE: 自动模式"
+        },
+        {
+            "name": "start",
+            "type": "Bool",
+            "description": "启动按钮，用于启动手动选择或自动选择的泵"
+        },
+        {
+            "name": "stop",
+            "type": "Bool",
+            "description": "停止按钮，用于停止所有泵"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "pumpGroup",
+            "type": "Array[1..5] of Struct",
+            "description": "泵组控制结构",
+            "fields": {
+                "priority": {
+                    "type": "Int",
+                    "description": "表示每个泵的优先级，值越大，优先级越高"
+                },
+                "selection": {
+                    "type": "Bool",
+                    "description": "在手动模式下是否选中该泵，TRUE=选中该泵"
+                },
+                "RunComd": {
+                    "type": "Bool",
+                    "description": "泵运行命令，TRUE=运行，FALSE=停止"
+                }
+            }
+        }
+    ]
+}

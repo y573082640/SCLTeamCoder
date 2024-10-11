@@ -1,0 +1,50 @@
+﻿{
+    "title": "报警处理",
+    "description": "在工业自动化系统中，对设备状态的监控是至关重要的。当设备参数超出正常范围时，系统需要发出报警。为了避免因参数的微小波动频繁触发报警，需要实现带有迟滞功能的报警管理系统。\n当Value大于hiLevel时，触发高报警hiAlarm。\n当Value小于hiLevel-hystWindow时，退出高报警hiAlarm。\n当Value小于loLevel时，触发低报警loAlarm。\n当Value大于loLevel+hystWindow时，退出低报警loAlarm。\n如果loLevel大于等于hiLevel，则输出错误error=true，status=16#8001，并退出程序\n如果迟滞窗口值hystWindow大于等于高低限偏差范围hiLevel - loLevel，则输出错误error=true，status=16#8002",
+    "type": "FUNCTION_BLOCK",
+    "name": "AlarmProcess",
+    "input": [
+        {
+            "name": "Value",
+            "type": "Real",
+            "description": "输入值"
+        },
+        {
+            "name": "hiLevel",
+            "type": "Real",
+            "description": "高限报警值"
+        },
+        {
+            "name": "loLevel",
+            "type": "Real",
+            "description": "低限报警值"
+        },
+        {
+            "name": "hystWindow",
+            "type": "Real",
+            "description": "迟滞窗口"
+        }
+    ],
+    "output": [
+        {
+            "name": "hiAlarm",
+            "type": "Bool",
+            "description": "高限报警"
+        },
+        {
+            "name": "loAlarm",
+            "type": "Bool",
+            "description": "低限报警"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: 没有发生错误;\nTRUE: 执行FB时出错"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "状态代码"
+        }
+    ]
+}

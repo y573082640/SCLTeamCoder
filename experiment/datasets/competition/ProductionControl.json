@@ -1,0 +1,95 @@
+﻿{
+    "title": "生产控制",
+    "description": "一个自动化生产线由5个工作站组成：上料站、清洗站、称重站、烧制站和成品站。生产线有一个电机，负责将产品从一个工作站移动到下一个工作站，生成线的顺序是从上料站、清洗站、称重站、烧制站和成品站。每个工作站都有一个传感器（用于检测产品是否到达）。\n控制要求：\n1. 模式切换：转换开关（Mode）用于切换生产线的手动和自动模式。\n2. 手动模式：在手动模式下，电机正转按钮（ForwardButton）控制电机正转，电机反转按钮（ReverseButton）控制电机反转，正反转操作需要互锁，不能同时进行。\n3. 自动模式：\n   - 原料到达上料站，SensorFeed检测到原料，电机启动正转，将原料移动到清洗站。\n   - 原料到达清洗站，SensorWash检测到原料，电机停止，当接收到清洗完成信号washComplete后，电机启动正转，将原料移动到称重站。\n   - 原料到达称重站，SensorWeight检测到原料，电机停止，当接收到称重完成信号后，根据重量值判断原料是否合格，如果重量值大于等于100并且小于等于200，则为合格，否则不合格。\n     如果是不合格的原料，则启动剔除命令kick。\n     如果是合格的原料，则根据重量值计算烧制温度。计算的规则是，重量值100到200线性对应温度值500到550。输出烧制温度firingTemp。同时电机启动正转，将原料移动到烧制站。\n   - 产品到达烧制站，SensorFiring检测到原料，电机停止，当接收到烧制完成信号firingComplete后，电机启动正转，将产品移动到成品站。\n   - 产品到达成品站，SensorOutput检测到产品，电机停止，加工完成指示灯（CompletionLight）亮起，指示产品加工完成。当产品被取走，也就是SensorOutput检测不到产品了，加工完成指示灯（CompletionLight）熄灭。",
+    "type": "FUNCTION_BLOCK",
+    "name": "ProductionControl",
+    "input": [
+        {
+            "name": "Mode",
+            "type": "Bool",
+            "description": "用于切换生产线的手动和自动模式，0=手动模式，1=自动模式"
+        },
+        {
+            "name": "ForwardButton",
+            "type": "Bool",
+            "description": "正转按钮"
+        },
+        {
+            "name": "ReverseButton",
+            "type": "Bool",
+            "description": "反转按钮"
+        },
+        {
+            "name": "SensorFeed",
+            "type": "Bool",
+            "description": "原料到达输入站传感器"
+        },
+        {
+            "name": "SensorWash",
+            "type": "Bool",
+            "description": "清洗站检测到原料传感器"
+        },
+        {
+            "name": "SensorWeight",
+            "type": "Bool",
+            "description": "称重站检测到原料传感器"
+        },
+        {
+            "name": "SensorFiring",
+            "type": "Bool",
+            "description": "烧制站检测到原料传感器"
+        },
+        {
+            "name": "SensorOutput",
+            "type": "Bool",
+            "description": "成品站检测到产品传感器"
+        },
+        {
+            "name": "washComplete",
+            "type": "Bool",
+            "description": "清洗完成信号"
+        },
+        {
+            "name": "weightComplete",
+            "type": "Bool",
+            "description": "称重完成信号"
+        },
+        {
+            "name": "weight",
+            "type": "Real",
+            "description": "重量值"
+        },
+        {
+            "name": "firingComplete",
+            "type": "Bool",
+            "description": "烧制完成信号"
+        }
+    ],
+    "output": [
+        {
+            "name": "MotorForward",
+            "type": "Bool",
+            "description": "电机正转输出"
+        },
+        {
+            "name": "MotorReverse",
+            "type": "Bool",
+            "description": "电机反转输出"
+        },
+        {
+            "name": "kick",
+            "type": "Bool",
+            "description": "剔除输出"
+        },
+        {
+            "name": "CompletionLight",
+            "type": "Bool",
+            "description": "产品加工完成指示灯"
+        },
+        {
+            "name": "firingTemp",
+            "type": "Real",
+            "description": "烧制温度"
+        }
+    ]
+}

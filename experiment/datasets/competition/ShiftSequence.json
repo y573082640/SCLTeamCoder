@@ -1,0 +1,40 @@
+﻿{
+    "title": "移位寄存器",
+    "description": "编写一个PLC程序，该程序接收一个可变数据类型的数组buffer，实现对数组的移位操作。\n可以实现左移（shiftLeft=TRUE），即，高索引号元素移向低索引号。\n也可以实现右移（shiftRight=TRUE），即，低索引号元素移向高索引号。\n移动的长度根据移动范围shiftRange。\n移动后的空位以初始值initialItem覆盖。\n清除操作（clear=TRUE）时，数组所有元素初始化为初始值initialItem。",
+    "type": "FUNCTION_BLOCK",
+    "name": "ShiftSequence",
+    "input": [
+        {
+            "name": "shiftLeft",
+            "type": "Bool",
+            "description": "向左移动"
+        },
+        {
+            "name": "shiftRight",
+            "type": "Bool",
+            "description": "向右移动"
+        },
+        {
+            "name": "shiftRange",
+            "type": "UInt",
+            "description": "移动范围"
+        },
+        {
+            "name": "clear",
+            "type": "Bool",
+            "description": "清除操作"
+        },
+        {
+            "name": "initialItem",
+            "type": "Variant",
+            "description": "初始值"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "buffer",
+            "type": "Variant",
+            "description": "待移动的数组队列"
+        }
+    ]
+}

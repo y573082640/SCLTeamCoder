@@ -1,0 +1,27 @@
+﻿{
+    "title": "分离字节到位",
+    "description": "编编写一个PLC程序，该程序接收一个可变长度的字节数组byteArray和一个可变长度的布尔数组bitArray。程序的目标是将byteArray中的每个字节依次分离到bitArray中，确保每个字节的8位都被分离和存储。如果bitArray的长度不足以存储所有位，则只分离到bitArray能够容纳的最大整数个字节的位数。程序还要输出实际分离的字节数量splitByteNum\n例如，byteArray=[16#2D]，则bitArray=[1,0,1,1,0,1,0,0]",
+    "type": "FUNCTION",
+    "name": "SplitByteArray",
+    "input": [
+        {
+            "name": "byteArray",
+            "type": "Array[*] of Byte",
+            "description": "待分离的字节数组"
+        }
+    ],
+    "output": [
+        {
+            "name": "splitByteNum",
+            "type": "DInt",
+            "description": "实际分离的字节数量"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "bitArray",
+            "type": "Array[*] of Bool",
+            "description": "分离后的布尔数组"
+        }
+    ]
+}
