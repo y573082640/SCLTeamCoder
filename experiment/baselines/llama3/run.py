@@ -51,6 +51,11 @@ def run_llama3(dateset="competition"):
         outputs = pipeline(
             messages,
             max_new_tokens=2048,
+            eos_token_id=2, 
+            pad_token_id=2
         )
-        print(outputs[0]["generated_text"][-1])
-        result.append(outputs[0]["generated_text"][-1])
+        response = outputs[0]["generated_text"][-1]['content']
+        response = parse_response(response)
+        data['code'] = response
+        print(response)
+        result.append(data)
