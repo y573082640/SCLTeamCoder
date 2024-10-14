@@ -50,8 +50,8 @@ def run_llama3(dateset="competition"):
         ]
         outputs = pipeline(
             messages,
-            max_new_tokens=1024,
-            eos_token_id=2,
+            max_new_tokens=2048,
+            eos_token_id=2, 
             pad_token_id=2
         )
         response = outputs[0]["generated_text"][-1]['content']
@@ -59,8 +59,3 @@ def run_llama3(dateset="competition"):
         data['code'] = response
         print(response)
         result.append(data)
-        
-    # 构建输出文件路径
-    with open(output_path + f"{date_folder}_{time_folder}.json", "w") as fp:
-        # 将结果列表保存到输出文件中
-        json.dump(result, fp, ensure_ascii=False)
