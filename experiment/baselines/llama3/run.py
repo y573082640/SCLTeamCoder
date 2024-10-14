@@ -59,3 +59,8 @@ def run_llama3(dateset="competition"):
         data['code'] = response
         print(response)
         result.append(data)
+
+    # 构建输出文件路径
+    with open(output_path + f"{date_folder}_{time_folder}.json", "w") as fp:
+        # 将结果列表保存到输出文件中
+        json.dump(result, fp, ensure_ascii=False)

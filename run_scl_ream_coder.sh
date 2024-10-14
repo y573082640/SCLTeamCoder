@@ -1,5 +1,5 @@
 #!/bin/bash
-
+source venv/bin/activate
 export PYTHONPATH=$PYTHONPATH:$(pwd)
 python -m scl_team_coder
 

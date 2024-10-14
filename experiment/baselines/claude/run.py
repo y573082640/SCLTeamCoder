@@ -32,7 +32,7 @@ def run_claude(dateset="competition"):
     输出文件的名称基于当前日期和时间。
     """
     # 设置 API 密钥和基础 URL
-    api_key = 'sk-heJMQX0Z4FEBm1ve7a5320F48f034fE688D104E53c2fBe45'
+    api_key = glovar.GPT_API_KEY
     client = Anthropic(api_key=api_key, base_url=f"https://www.gptapi.us")
     
     # 指定要使用的模型
