@@ -32,7 +32,7 @@ def run_qwen(dateset="competition"):
     # 设置提示文件和数据集文件的路径
     prompt_path = f"{glovar.EXPERIMENT_DIR}/baselines/qwen/prompt"
     dataset_path = f"{glovar.EXPERIMENT_DIR}/datasets/"
-    output_path = f"{glovar.EXPERIMENT_DIR}/output/{competition}/qwen/"
+    output_path = f"{glovar.EXPERIMENT_DIR}/output/{dateset}/qwen/"
     
     # 获取当前时间
     current_time = datetime.now()
