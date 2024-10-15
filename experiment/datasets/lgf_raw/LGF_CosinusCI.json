@@ -1,0 +1,69 @@
+{
+    "title": "Cosine Signal Generator",
+    "name": "LGF_CosinusCI",
+    "description": "This function generates a cosinusoidal signal profile. For this it uses the time interval of the calling Cyclic Interrupt OB.",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "amplitude",
+            "type": "Real",
+            "description": "1.0"
+        },
+        {
+            "name": "offset",
+            "type": "Real",
+            "description": "0.0"
+        },
+        {
+            "name": "periode",
+            "type": "UDInt",
+            "description": "1000"
+        },
+        {
+            "name": "phaseShift",
+            "type": "Real",
+            "description": "0.0"
+        },
+        {
+            "name": "callOB",
+            "type": "OB_CYCLIC",
+            "description": ""
+        },
+        {
+            "name": "reset",
+            "type": "Bool",
+            "description": "FALSE"
+        }
+    ],
+    "output": [
+        {
+            "name": "value",
+            "type": "Real",
+            "description": "Current value of the cosinusoidal signal."
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: No error"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "16#0000-16#7FFF: Status of the FB 16#8000-16#FFFF: Error identification"
+        },
+        {
+            "name": "subFunctionStatus",
+            "type": "Word",
+            "description": "Status or return value of called FB's, FC's and system blocks"
+        }
+    ],
+    "in/out": [],
+    "return_value": [],
+    "status_codes": {
+        "16#0000": "STATUS_FINISHED_NO_ERROR",
+        "16#8600": "ERR_OB_UNAVAILABLE",
+        "16#8601": "ERR_QRY_CINT"
+    },
+    "user_defined_types": [],
+    "description_zh": "\n该函数块用于生成一个余弦波信号，它利用调用它的周期性中断组织块（OB）的时间间隔来计算输出值。函数块接受以下输入参数：振幅（amplitude）、偏移量（offset）、周期（periode）、相移（phaseShift）、调用OB（callOB）和重置（reset）信号。它将输出当前的余弦波信号值（value）、错误状态（error）、状态字（status）和子函数状态（subFunctionStatus）。\n\n在每次OB被调用时，函数块会根据周期时间增加一个计数器，并将其转换为弧度。然后，它会计算当前时刻的余弦值，并考虑振幅、偏移量和相移来生成最终的输出值。如果重置信号为真，则计数器会被重置为0，输出值也会被设置为0。\n\n函数块还包含错误处理逻辑，用于处理查询周期性中断OB时可能出现的错误。如果查询函数QRY_CINT返回错误，或者OB不可用，函数块会将错误状态设置为真，并返回相应的错误代码。\n\n状态字和子函数状态用于提供函数块的执行状态信息。ENO机制在该函数块中不使用，因此被强制设置为真。\n\n\n"
+}

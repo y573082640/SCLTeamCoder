@@ -1,0 +1,27 @@
+﻿{
+    "title": "Batch High-Low Word Swapping",
+    "description": "Write a PLC program that receives two variable-length arrays of double words, dataIn and dataOut. The goal of the program is to swap the high and low words of each double word in dataIn and store them sequentially in dataOut. If the lengths of the two arrays are not the same, the processing is done according to the length of the shorter array. The program also outputs the number of double words actually swapped, swapNum\nFor example, if dataIn=[16#11223344], then dataOut=[16#33441122]",
+    "type": "FUNCTION",
+    "name": "SwapDWord",
+    "input": [
+        {
+            "name": "dataIn",
+            "type": "Array[*] of DWord",
+            "description": "Array of double words to be swapped"
+        }
+    ],
+    "output": [
+        {
+            "name": "swapNum",
+            "type": "DInt",
+            "description": "Number of double words actually swapped"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "dataOut",
+            "type": "Array[*] of DWord",
+            "description": "Array of double words after swapping"
+        }
+    ]
+ }

@@ -1,0 +1,95 @@
+﻿{
+    "title": "Production Control",
+    "description": "An automated production line consists of 5 workstations: material loading station, cleaning station, weighing station, firing station, and finished product station. The production line has a motor responsible for moving products from one workstation to the next, the sequence of the line is from the material loading station, cleaning station, weighing station, firing station, to the finished product station. Each workstation has a sensor (used to detect if the product has arrived).\nControl requirements:\n1. Mode Switching: The mode switch (Mode) is used to switch between manual and automatic modes of the production line. 0 = manual mode, 1 = automatic mode.\n2. Manual Mode: In manual mode, the forward rotation button (ForwardButton) controls the forward rotation of the motor, and the reverse rotation button (ReverseButton) controls the reverse rotation of the motor. Forward and reverse rotation operations need to be interlocked and cannot be performed simultaneously.\n3. Automatic Mode:\n   - When the material arrives at the material loading station, the SensorFeed detects the material, the motor starts forward rotation, and moves the material to the cleaning station.\n   - When the material arrives at the cleaning station, the SensorWash detects the material, the motor stops, and upon receiving the signal washComplete after cleaning is finished, the motor starts forward rotation, moving the material to the weighing station.\n   - When the material arrives at the weighing station, the SensorWeight detects the material, the motor stops, and upon receiving the signal after weighing is complete, the material is judged to be qualified based on the weight value. If the weight value is greater than or equal to 100 and less than or equal to 200, it is qualified, otherwise not.\n     If the material is unqualified, the rejection command kick is initiated.\n     If the material is qualified, the firing temperature is calculated based on the weight value. The calculation rule is that the weight value from 100 to 200 linearly corresponds to the temperature value from 500 to 550. The firing temperature firingTemp is output. At the same time, the motor starts forward rotation, moving the material to the firing station.\n   - When the product arrives at the firing station, the SensorFiring detects the material, the motor stops, and upon receiving the signal firingComplete after firing is finished, the motor starts forward rotation, moving the product to the finished product station.\n   - When the product arrives at the finished product station, the SensorOutput detects the product, the motor stops, and the completion light (CompletionLight) turns on, indicating that the product processing is complete. When the product is taken away, i.e., the SensorOutput does not detect the product, the completion light (CompletionLight) turns off.",
+    "type": "FUNCTION_BLOCK",
+    "name": "ProductionControl",
+    "input": [
+        {
+            "name": "Mode",
+            "type": "Bool",
+            "description": "Used to switch the production line between manual and automatic modes, 0 = manual mode, 1 = automatic mode"
+        },
+        {
+            "name": "ForwardButton",
+            "type": "Bool",
+            "description": "Forward rotation button"
+        },
+        {
+            "name": "ReverseButton",
+            "type": "Bool",
+            "description": "Reverse rotation button"
+        },
+        {
+            "name": "SensorFeed",
+            "type": "Bool",
+            "description": "Sensor at the material loading station detecting the arrival of materials"
+        },
+        {
+            "name": "SensorWash",
+            "type": "Bool",
+            "description": "Sensor at the cleaning station detecting the arrival of materials"
+        },
+        {
+            "name": "SensorWeight",
+            "type": "Bool",
+            "description": "Sensor at the weighing station detecting the arrival of materials"
+        },
+        {
+            "name": "SensorFiring",
+            "type": "Bool",
+            "description": "Sensor at the firing station detecting the arrival of materials"
+        },
+        {
+            "name": "SensorOutput",
+            "type": "Bool",
+            "description": "Sensor at the finished product station detecting the arrival of products"
+        },
+        {
+            "name": "washComplete",
+            "type": "Bool",
+            "description": "Signal indicating completion of cleaning"
+        },
+        {
+            "name": "weightComplete",
+            "type": "Bool",
+            "description": "Signal indicating completion of weighing"
+        },
+        {
+            "name": "weight",
+            "type": "Real",
+            "description": "Weight value"
+        },
+        {
+            "name": "firingComplete",
+            "type": "Bool",
+            "description": "Signal indicating completion of firing"
+        }
+    ],
+    "output": [
+        {
+            "name": "MotorForward",
+            "type": "Bool",
+            "description": "Output for motor forward rotation"
+        },
+        {
+            "name": "MotorReverse",
+            "type": "Bool",
+            "description": "Output for motor reverse rotation"
+        },
+        {
+            "name": "kick",
+            "type": "Bool",
+            "description": "Rejection output"
+        },
+        {
+            "name": "CompletionLight",
+            "type": "Bool",
+            "description": "Indicator light for product processing completion"
+        },
+        {
+            "name": "firingTemp",
+            "type": "Real",
+            "description": "Firing temperature"
+        }
+    ]
+ }

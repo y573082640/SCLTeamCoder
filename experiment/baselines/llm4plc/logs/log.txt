@@ -1,0 +1,1073 @@
+
+---
+User:
+[TASK_DESCRIPTION_START]
+YOU ARE A HELPFUL ASSISTANT TASKED WITH SUCCESSIVE PHASES TO HELP AN OPERATOR PROGRAM AND MAINTAIN CODE FOR AN INDUSTRIAL PLC THROUGH THE SCL LANGUAGE AND SMV VERIFICATION TOOLCHAINS.
+PHASE: PLANNING
+THE USER WILL PROVIDE GIVEN REQUIREMENTS AND SPECIFICATIONS. YOUR FIRST TASK IS TO PLAN THE COMPONENTS OF THE PROGRAM IN SCL BEFORE PROPOSING THE ACTUAL CODE IMPLEMENTATION. THE USER WILL PROVIDE A NATURAL LANGUAGE DESCRIPTION OF BOTH THE PLANT AND THE NEEDED OPERATION. YOU WILL PROPOSE A DETAILED PLAN FOR THE CODE, INCLUDING FUNCTION AND BLOCK DECLARATIONS AS WELL AS THEIR SIGNATURES.
+IMPERATIVE: DO NOT MAKE ANY ASSUMPTIONS.
+IMPERATIVE: DO NOT MAKE ANY ADDITIONS, MODIFICATIONS, OR REMOVAL OF NEEDED INFORMATION.
+IMPERATIVE: KEEP IN MIND THE PLC SCAN CYCLE: THE CODE WILL EXECUTE IN CYCLES AS DEFINED IN TYPICAL STRUCTURED TEXT LANGUAGES.
+IMPERATIVE: WHEN CHANGING VARIABLES OVER TIME, YOU NEED TO KEEP TRACK OF THE STATE THROUGH DIFFERENT CYCLES AND STOP WHEN THE NEEDED STATE IS REACHED.
+IMPORTANT: START YOUR PLAN WITH "START_PLAN" AND END IT WITH "END_PLAN"
+IMPORTANT: PLAN ACCORDING TO A FINITE STATE MACHINE DESIGN. EXPLAIN EACH STATE AND OUTPUTS CLEARLY.
+[TASK_DESCRIPTION_END]
+
+[CRUCIAL_INFORMATION_START]
+IN PLC PROGRAM LOGIC, ACTUATING SOME OUTPUT UNTIL A CONDITION IS MET IS NOT DONE USING LOOPS.
+THE PLC WILL EXECUTE THE CODE IN CYCLES. WE TRACK THE STATE OF THE SYSTEM THROUGH DIFFERENT CYCLES USING A STATE VARIABLE.
+THE OUTPUT WILL REMAIN ACTIVATED UNTIL THE STATE VARIABLE IS CHANGED.
+EACH FSM STATE WILL BE RESPONSIBLE FOR ONE OPERATION. I.E A STATE CANNOT DO OEPRATION1 THEN OPERATION2. THESE ARE TWO DIFFERENT STATES.
+[CRUCIAL_INFORMATION_END]
+
+[PLAN_EXAMPLE_START]
+START_PLAN
+0. DECLARE THE NEEDED STATES
+STATE 0: INITIALIZE
+STATE 1: HEATING TO 70 DEGREES
+STATE 2: COOLING TO 50 DEGREES
+STATE 3: HEATING TO 100 DEGREES
+...
+1. LIST THE OUTPUT VALUES FOR EACH STATE
+STATE 0: HEATER = OFF, COOLER = OFF
+STATE 1: HEATER = ON, COOLER = OFF
+...
+2. LIST THE TRANSITIONS BETWEEN STATES
+STATE 0 -> STATE 1: IF TEMPERATURE < 70 DEGREES
+STATE 1 -> STATE 2: IF TEMPERATURE >= 70 DEGREES
+...
+3. DECLARE THE NEEDED VARIABLES
+state: Int; // THE STATE VARIABLE
+prevState: Int; // THE PREVIOUS STATE VARIABLE
+temperature: Int; // THE TEMPERATURE VARIABLE
+HISTORY: Int; // THE HISTORY VARIABLE
+lastOn: Bool; // THE LAST ON VARIABLE
+...
+END_PLAN
+[PLAN_EXAMPLE_END]
+
+[SCL_EXAMPLE_START]
+DATA_BLOCK "state" // Variables in DATA_BLOCK are global, and carry over between cycles
+VAR
+    state: Int;
+    historyFlag: Bool;
+    selected: Int;
+END_VAR
+BEGIN
+    state := 1; // Init values in BEGIN block!
+END_DATA_BLOCK
+
+ORGANIZATION_BLOCK "Main"
+VAR 
+    intermediate: Int; // Variables in ORGANIZATION_BLOCK are local, and are reset every cycle (temporary)
+END_VAR
+VAR CONSTANT // Constants are global, and carry over between cycles, immutable
+    stateA: Int := 0;
+    stateB: Int := 1;
+    stateC: Int := 2;
+END_VAR
+BEGIN
+    CASE "state".state OF // Refer to DATA_BLOCK with quotes
+        #stateA:
+            "output channel A" := TRUE; // Refer to I/O with quotes
+            "output channel B" := FALSE; 
+            IF "input channel 1" <= 3 THEN // Refer to I/O with quotes, channel 1 is an int
+                "state".state := #stateB;
+            END_IF;
+        #stateB:
+            "output channel A" := TRUE;
+            "output channel B" := TRUE;
+            IF "input channel 1" >= 7  THEN // Refer to I/O with quotes, channel 1 is an int
+                "state".state := #stateC;
+            END_IF;
+        #stateC:
+            "output channel A" := FALSE;
+            "output channel B" := FALSE;
+            IF "input channel 1"=8 THEN // Notice the single "=" for comparison
+                "state".state := #stateA;
+            ELSIF "input channel 2" THEN // Refer to I/O with quotes, channel 2 is a bool
+                "state".state := #stateB;
+            END_IF;
+        ELSE
+            "state".state := #stateC;
+    END_CASE;
+END_ORGANIZATION_BLOCK
+
+[SCL_EXAMPLE_END]
+
+
+[USER_INPUT_START]
+{'title': 'Material Proportioning Process Control', 'description': 'Design a PLC program to control a material proportioning process that requires mixing three types of materials according to specific requirements and then delivering them to the next process through valve D. The system needs to support both manual and automatic operation modes and be able to safely stop all equipment when an emergency stop signal is triggered.\nControl requirements:\nEmergency Stop Logic: The #estop(=FALSE) signal is used for emergency stopping of all equipment.\nManual Mode: #opeMode=false, manually control the start/stop of valves A, B, C, D, and the mixing motor.\nAutomatic Mode: #opeMode=true, equipment operates automatically according to the process flow.\nImplement the emergency stop logic to ensure that all equipment stops immediately when the emergency stop signal is triggered.\nIn manual mode, manually control the start/stop of valves and the mixing motor.\nFor example, pressing the valve A start button valveAStart (triggering a rising edge) causes valve A to run (valveARun=TRUE); pressing the valve A start button valveAStart again (triggering a rising edge) stops valve A (valveARun=FALSE).\nIn automatic mode, implement the following control logic based on the process flow:\nPress the autoStart button to start the automatic process, first opening valve A.\nWhen the liquid level sensor #levelSensor reaches 50cm, close valve A and open valve B.\nWhen the liquid level sensor reaches 80cm, close valve B.\nBased on #processMode:\nIf #processMode=false, start the mixing motor; after receiving the mixing complete signal, stop the mixing motor, open valve D, and the automatic process ends.\nIf #processMode=true, open valve C; when the liquid level sensor reaches 100cm, close valve C, start the mixing motor; after receiving the mixing complete signal, stop the mixing motor, open valve D, and the automatic process ends.', 'type': 'FUNCTION_BLOCK', 'name': 'MaterialMixing', 'input': [{'name': 'estop', 'type': 'Bool', 'description': 'Emergency Stop Signal\nFALSE: Emergency stop triggered\nTRUE: No emergency stop triggered'}, {'name': 'opeMode', 'type': 'Bool', 'description': 'Operation Mode\nFALSE: Manual Operation Mode\nTRUE: Automatic Operation Mode'}, {'name': 'valveAStart', 'type': 'Bool', 'description': 'Valve A Start Button'}, {'name': 'valveBStart', 'type': 'Bool', 'description': 'Valve B Start Button'}, {'name': 'valveCStart', 'type': 'Bool', 'description': 'Valve C Start Button'}, {'name': 'valveDStart', 'type': 'Bool', 'description': 'Valve D Start Button'}, {'name': 'mixMotorStart', 'type': 'Bool', 'description': 'Mixing Motor Start Button'}, {'name': 'autoStart', 'type': 'Bool', 'description': 'Automatic Start Button'}, {'name': 'processMode', 'type': 'Bool', 'description': 'Process Mode'}, {'name': 'levelSensor', 'type': 'Int', 'description': 'Liquid Level Sensor (unit cm)'}, {'name': 'mixMotorComplete', 'type': 'Bool', 'description': 'Mixing Complete Signal'}], 'output': [{'name': 'valveARun', 'type': 'Bool', 'description': 'Valve A Run Command'}, {'name': 'valveBRun', 'type': 'Bool', 'description': 'Valve B Run Command'}, {'name': 'valveCRun', 'type': 'Bool', 'description': 'Valve C Run Command'}, {'name': 'valveDRun', 'type': 'Bool', 'description': 'Valve D Run Command'}, {'name': 'mixMotorRun', 'type': 'Bool', 'description': 'Mixing Motor Run Command'}]}
+[USER_INPUT_END]
+
+TASK: PROPOSE THE PLAN FOR THE CODE, DETAILING WHAT EACH PART DOES AS WELL AS THE INTENDED OPERATION.
+
+Assistant:
+START_PLAN
+
+0. DECLARE THE NEEDED STATES
+
+STATE 0: EMERGENCY_STOP - All operations stop immediately due to an emergency stop signal.
+STATE 1: MANUAL_CONTROL - Operations are manually controlled based on operator input.
+STATE 2: INITIATE_AUTOMATIC_PROCESS - Start phase for automatic operation.
+STATE 3: FILL_TO_50CM - Valve A is open to allow filling until the liquid level reaches 50 cm.
+STATE 4: FILL_TO_80CM - Valve B is open to continue filling until the liquid level reaches 80 cm.
+STATE 5: PROCESS_MODE_CHECK - Decide next actions based on processMode.
+STATE 6: MIXING - Mixing motor operates until mixing complete signal is received.
+STATE 7: OPEN_VALVE_D - Valve D opens to deliver materials to next process.
+STATE 8: FILL_TO_100CM - Valve C is open for additional filling until the liquid level reaches 100 cm (only if processMode is true).
+
+1. LIST THE OUTPUTS FOR EACH STATE
+
+STATE 0: 
+- valveARun = FALSE
+- valveBRun = FALSE
+- valveCRun = FALSE
+- valveDRun = FALSE
+- mixMotorRun = FALSE
+
+STATE 1: Outputs are controlled manually based on specific input buttons:
+- valveARun = toggle based on valveAStart
+- valveBRun = toggle based on valveBStart
+- valveCRun = toggle based on valveCStart
+- valveDRun = toggle based on valveDStart
+- mixMotorRun = toggle based on mixMotorStart
+
+STATE 2: 
+- No specific output, transition handled by autoStart input
+
+STATE 3:
+- valveARun = TRUE
+- valveBRun = FALSE
+- valveCRun = FALSE
+- valveDRun = FALSE
+- mixMotorRun = FALSE
+
+STATE 4:
+- valveARun = FALSE
+- valveBRun = TRUE
+- valveCRun = FALSE
+- valveDRun = FALSE
+- mixMotorRun = FALSE
+
+STATE 5: 
+- No direct outputs, decision process based on processMode
+
+STATE 6: 
+- valveARun = FALSE
+- valveBRun = FALSE
+- valveCRun = FALSE
+- valveDRun = FALSE
+- mixMotorRun = TRUE
+
+STATE 7:
+- valveARun = FALSE
+- valveBRun = FALSE
+- valveCRun = FALSE
+- valveDRun = TRUE
+- mixMotorRun = FALSE
+
+STATE 8: 
+- valveARun = FALSE
+- valveBRun = FALSE
+- valveCRun = TRUE
+- valveDRun = FALSE
+- mixMotorRun = FALSE
+
+2. LIST THE TRANSITIONS BETWEEN STATES
+
+STATE 0 -> STATE 0: IF #estop = FALSE
+STATE 0 -> (Next appropriate State based on mode and conditions): WHEN #estop = TRUE
+
+STATE 1 -> STATE 0: IF #estop = FALSE
+STATE 1 -> STATE 2: IF #opeMode = TRUE AND autoStart = TRUE 
+
+STATE 2 -> STATE 3: Always transition after initialization 
+
+STATE 3 -> STATE 4: IF levelSensor = 50
+
+STATE 4 -> STATE 5: IF levelSensor = 80
+
+STATE 5 -> STATE 6: IF processMode = FALSE
+STATE 5 -> STATE 8: IF processMode = TRUE
+
+STATE 6 -> STATE 7: IF mixMotorComplete = TRUE
+
+STATE 7 -> STATE 2: Transition after process ends (ready for another start)
+
+STATE 8 -> STATE 6: IF levelSensor = 100
+
+3. DECLARE THE NEEDED VARIABLES
+
+- state: Int; // Track the current state of the system
+- prevState: Int; // Track the previous state for transition logging
+- valveARun: Bool; // Control output for valve A
+- valveBRun: Bool; // Control output for valve B
+- valveCRun: Bool; // Control output for valve C
+- valveDRun: Bool; // Control output for valve D
+- mixMotorRun: Bool; // Control output for the mixing motor
+
+END_PLAN
+
+---
+User:
+[TASK_DESCRIPTION_START]
+YOU WILL TRANSFORM YOUR PLAN INTO SCL CODE.
+IMPERATIVE: DO NOT OMIT OR SUMMARIZE ANYTHING FROM THE PLAN
+IMPERATIVE: AVOID SYNTAX ERRORS
+IMPERATIVE: AIM FOR READABILITY/MAINTAINABILITY
+IMPERATIVE: AIM FOR EFFICIENCY
+IMPERATIVE: AIM FOR COMPLETENESS, STICK TO THE PLAN
+IMPORTANT: START YOUR CODE WITH "START_SCL" AND END THEM WITH "END_SCL"
+IMPERATIVE: USE DATA_BLOCKS TO HOLD DATA AND ORGANIZATION_BLOCKS TO HOLD CODE AND LOGIC
+IMPERATIVE: DO AS YOU ARE ASKED: DO NOT ASK USER TO FILL CODE FOR YOU
+[TASK_DESCRIPTION_END]
+
+[SCL_EXAMPLE_START]
+DATA_BLOCK "state" // Variables in DATA_BLOCK are global, and carry over between cycles
+VAR
+    state: Int;
+    historyFlag: Bool;
+    selected: Int;
+END_VAR
+BEGIN
+    state := 1; // Init values in BEGIN block!
+END_DATA_BLOCK
+
+ORGANIZATION_BLOCK "Main"
+VAR 
+    intermediate: Int; // Variables in ORGANIZATION_BLOCK are local, and are reset every cycle (temporary)
+END_VAR
+VAR CONSTANT // Constants are global, and carry over between cycles, immutable
+    stateA: Int := 0;
+    stateB: Int := 1;
+    stateC: Int := 2;
+END_VAR
+BEGIN
+    CASE "state".state OF // Refer to DATA_BLOCK with quotes
+        #stateA:
+            "output channel A" := TRUE; // Refer to I/O with quotes
+            "output channel B" := FALSE; 
+            IF "input channel 1" <= 3 THEN // Refer to I/O with quotes, channel 1 is an int
+                "state".state := #stateB;
+            END_IF;
+        #stateB:
+            "output channel A" := TRUE;
+            "output channel B" := TRUE;
+            IF "input channel 1" >= 7  THEN // Refer to I/O with quotes, channel 1 is an int
+                "state".state := #stateC;
+            END_IF;
+        #stateC:
+            "output channel A" := FALSE;
+            "output channel B" := FALSE;
+            IF "input channel 1"=8 THEN // Notice the single "=" for comparison
+                "state".state := #stateA;
+            ELSIF "input channel 2" THEN // Refer to I/O with quotes, channel 2 is a bool
+                "state".state := #stateB;
+            END_IF;
+        ELSE
+            "state".state := #stateC;
+    END_CASE;
+END_ORGANIZATION_BLOCK
+
+[SCL_EXAMPLE_END]
+
+TASK: TRANSFORM YOUR PLAN INTO SCL CODE.
+
+Assistant:
+START_SCL
+
+DATA_BLOCK "MaterialMixingState"
+VAR
+    state: Int; // Current state of the system
+    prevState: Int; // Previous state of the system
+    valveARun: Bool; // Control output for Valve A
+    valveBRun: Bool; // Control output for Valve B
+    valveCRun: Bool; // Control output for Valve C
+    valveDRun: Bool; // Control output for Valve D
+    mixMotorRun: Bool; // Control output for the mixing motor
+END_VAR
+BEGIN
+    state := 1; // Initialize to manual control state
+END_DATA_BLOCK
+
+ORGANIZATION_BLOCK "MaterialMixingControl"
+VAR CONSTANT
+    EMERGENCY_STOP: Int := 0;
+    MANUAL_CONTROL: Int := 1;
+    INITIATE_AUTOMATIC_PROCESS: Int := 2;
+    FILL_TO_50CM: Int := 3;
+    FILL_TO_80CM: Int := 4;
+    PROCESS_MODE_CHECK: Int := 5;
+    MIXING: Int := 6;
+    OPEN_VALVE_D: Int := 7;
+    FILL_TO_100CM: Int := 8;
+END_VAR
+
+BEGIN
+    CASE "MaterialMixingState".state OF
+        #EMERGENCY_STOP:
+            "MaterialMixingState".valveARun := FALSE;
+            "MaterialMixingState".valveBRun := FALSE;
+            "MaterialMixingState".valveCRun := FALSE;
+            "MaterialMixingState".valveDRun := FALSE;
+            "MaterialMixingState".mixMotorRun := FALSE;
+
+            IF #estop THEN
+                IF #opeMode THEN
+                    "MaterialMixingState".state := #MANUAL_CONTROL;
+                ELSE
+                    "MaterialMixingState".state := #INITIATE_AUTOMATIC_PROCESS;
+                END_IF;
+            END_IF;
+
+        #MANUAL_CONTROL:
+            IF NOT #estop THEN
+                "MaterialMixingState".state := #EMERGENCY_STOP;
+            ELSE
+                IF rising_edge(#valveAStart) THEN
+                    "MaterialMixingState".valveARun := NOT "MaterialMixingState".valveARun;
+                END_IF;
+                IF rising_edge(#valveBStart) THEN
+                    "MaterialMixingState".valveBRun := NOT "MaterialMixingState".valveBRun;
+                END_IF;
+                IF rising_edge(#valveCStart) THEN
+                    "MaterialMixingState".valveCRun := NOT "MaterialMixingState".valveCRun;
+                END_IF;
+                IF rising_edge(#valveDStart) THEN
+                    "MaterialMixingState".valveDRun := NOT "MaterialMixingState".valveDRun;
+                END_IF;
+                IF rising_edge(#mixMotorStart) THEN
+                    "MaterialMixingState".mixMotorRun := NOT "MaterialMixingState".mixMotorRun;
+                END_IF;
+                
+                IF #opeMode AND #autoStart THEN
+                    "MaterialMixingState".state := #INITIATE_AUTOMATIC_PROCESS;
+                END_IF;
+            END_IF;
+
+        #INITIATE_AUTOMATIC_PROCESS:
+            "MaterialMixingState".state := #FILL_TO_50CM;
+
+        #FILL_TO_50CM:
+            "MaterialMixingState".valveARun := TRUE;
+            IF #levelSensor >= 50 THEN
+                "MaterialMixingState".valveARun := FALSE;
+                "MaterialMixingState".state := #FILL_TO_80CM;
+            END_IF;
+
+        #FILL_TO_80CM:
+            "MaterialMixingState".valveBRun := TRUE;
+            IF #levelSensor >= 80 THEN
+                "MaterialMixingState".valveBRun := FALSE;
+                "MaterialMixingState".state := #PROCESS_MODE_CHECK;
+            END_IF;
+
+        #PROCESS_MODE_CHECK:
+            IF NOT #processMode THEN
+                "MaterialMixingState".state := #MIXING;
+            ELSE 
+                "MaterialMixingState".state := #FILL_TO_100CM;
+            END_IF;
+
+        #MIXING:
+            "MaterialMixingState".mixMotorRun := TRUE;
+            IF #mixMotorComplete THEN
+                "MaterialMixingState".mixMotorRun := FALSE;
+                "MaterialMixingState".state := #OPEN_VALVE_D;
+            END_IF;
+
+        #OPEN_VALVE_D:
+            "MaterialMixingState".valveDRun := TRUE;
+            "MaterialMixingState".state := #INITIATE_AUTOMATIC_PROCESS; // Reset for potential next cycle
+
+        #FILL_TO_100CM:
+            "MaterialMixingState".valveCRun := TRUE;
+            IF #levelSensor >= 100 THEN
+                "MaterialMixingState".valveCRun := FALSE;
+                "MaterialMixingState".state := #MIXING;
+            END_IF;
+
+        ELSE
+            "MaterialMixingState".state := #EMERGENCY_STOP; // Default to safe state
+    END_CASE;
+END_ORGANIZATION_BLOCK
+
+END_SCL
+
+---
+User:
+[TASK_DESCRIPTION_START]
+THE USER HAS PROVIDED IMPORTANT FEEDBACK ABOUT YOUR CURRENT CODE.
+YOU SHOULD CLARIFY THE USER'S CONCERNS AND PROVIDE A NEW PLAN IF NECESSARY.
+IMPORTANT: START YOUR CODE WITH "START_SCL" AND END IT WITH "END_SCL"
+[TASK_DESCRIPTION_END]
+
+[USER_FEEDBACK_START]
+Error opening library file lib/ieclib.txt: No such file or directory
+
+[USER_FEEDBACK_END]
+
+TASK: THE FEEDBACK IS FREE OF CONTRADICTION AND PROVIDES SUFFICIENT INFORMATION, PROVIDE THE CODE.
+
+Assistant:
+It seems like the feedback you provided is related to a file access error, which typically involves missing or misconfigured files in the environment you're using. This error is not about the logic or code syntax itself. Since the issue is environment-specific, I'll proceed by ensuring the code is correct while you handle the file or environment issue in your setup.
+
+Assuming the code logic and syntax I provided before is correct, here's the code again:
+
+START_SCL
+
+DATA_BLOCK "MaterialMixingState"
+VAR
+    state: Int; // Current state of the system
+    prevState: Int; // Previous state of the system
+    valveARun: Bool; // Control output for Valve A
+    valveBRun: Bool; // Control output for Valve B
+    valveCRun: Bool; // Control output for Valve C
+    valveDRun: Bool; // Control output for Valve D
+    mixMotorRun: Bool; // Control output for the mixing motor
+END_VAR
+BEGIN
+    state := 1; // Initialize to manual control state
+END_DATA_BLOCK
+
+ORGANIZATION_BLOCK "MaterialMixingControl"
+VAR CONSTANT
+    EMERGENCY_STOP: Int := 0;
+    MANUAL_CONTROL: Int := 1;
+    INITIATE_AUTOMATIC_PROCESS: Int := 2;
+    FILL_TO_50CM: Int := 3;
+    FILL_TO_80CM: Int := 4;
+    PROCESS_MODE_CHECK: Int := 5;
+    MIXING: Int := 6;
+    OPEN_VALVE_D: Int := 7;
+    FILL_TO_100CM: Int := 8;
+END_VAR
+
+BEGIN
+    CASE "MaterialMixingState".state OF
+        #EMERGENCY_STOP:
+            "MaterialMixingState".valveARun := FALSE;
+            "MaterialMixingState".valveBRun := FALSE;
+            "MaterialMixingState".valveCRun := FALSE;
+            "MaterialMixingState".valveDRun := FALSE;
+            "MaterialMixingState".mixMotorRun := FALSE;
+
+            IF #estop THEN
+                IF #opeMode THEN
+                    "MaterialMixingState".state := #MANUAL_CONTROL;
+                ELSE
+                    "MaterialMixingState".state := #INITIATE_AUTOMATIC_PROCESS;
+                END_IF;
+            END_IF;
+
+        #MANUAL_CONTROL:
+            IF NOT #estop THEN
+                "MaterialMixingState".state := #EMERGENCY_STOP;
+            ELSE
+                IF rising_edge(#valveAStart) THEN
+                    "MaterialMixingState".valveARun := NOT "MaterialMixingState".valveARun;
+                END_IF;
+                IF rising_edge(#valveBStart) THEN
+                    "MaterialMixingState".valveBRun := NOT "MaterialMixingState".valveBRun;
+                END_IF;
+                IF rising_edge(#valveCStart) THEN
+                    "MaterialMixingState".valveCRun := NOT "MaterialMixingState".valveCRun;
+                END_IF;
+                IF rising_edge(#valveDStart) THEN
+                    "MaterialMixingState".valveDRun := NOT "MaterialMixingState".valveDRun;
+                END_IF;
+                IF rising_edge(#mixMotorStart) THEN
+                    "MaterialMixingState".mixMotorRun := NOT "MaterialMixingState".mixMotorRun;
+                END_IF;
+                
+                IF #opeMode AND #autoStart THEN
+                    "MaterialMixingState".state := #INITIATE_AUTOMATIC_PROCESS;
+                END_IF;
+            END_IF;
+
+        #INITIATE_AUTOMATIC_PROCESS:
+            "MaterialMixingState".state := #FILL_TO_50CM;
+
+        #FILL_TO_50CM:
+            "MaterialMixingState".valveARun := TRUE;
+            IF #levelSensor >= 50 THEN
+                "MaterialMixingState".valveARun := FALSE;
+                "MaterialMixingState".state := #FILL_TO_80CM;
+            END_IF;
+
+        #FILL_TO_80CM:
+            "MaterialMixingState".valveBRun := TRUE;
+            IF #levelSensor >= 80 THEN
+                "MaterialMixingState".valveBRun := FALSE;
+                "MaterialMixingState".state := #PROCESS_MODE_CHECK;
+            END_IF;
+
+        #PROCESS_MODE_CHECK:
+            IF NOT #processMode THEN
+                "MaterialMixingState".state := #MIXING;
+            ELSE 
+                "MaterialMixingState".state := #FILL_TO_100CM;
+            END_IF;
+
+        #MIXING:
+            "MaterialMixingState".mixMotorRun := TRUE;
+            IF #mixMotorComplete THEN
+                "MaterialMixingState".mixMotorRun := FALSE;
+                "MaterialMixingState".state := #OPEN_VALVE_D;
+            END_IF;
+
+        #OPEN_VALVE_D:
+            "MaterialMixingState".valveDRun := TRUE;
+            "MaterialMixingState".state := #INITIATE_AUTOMATIC_PROCESS; // Reset for potential next cycle
+
+        #FILL_TO_100CM:
+            "MaterialMixingState".valveCRun := TRUE;
+            IF #levelSensor >= 100 THEN
+                "MaterialMixingState".valveCRun := FALSE;
+                "MaterialMixingState".state := #MIXING;
+            END_IF;
+
+        ELSE
+            "MaterialMixingState".state := #EMERGENCY_STOP; // Default to safe state
+    END_CASE;
+END_ORGANIZATION_BLOCK
+
+END_SCL
+
+Please make sure that the file paths and included libraries in your environment are correctly configured. The code should be written correctly if the environmental setup is working as expected.
+
+---
+User:
+[TASK_DESCRIPTION_START]
+THE USER HAS PROVIDED IMPORTANT FEEDBACK ABOUT YOUR CURRENT CODE.
+YOU SHOULD CLARIFY THE USER'S CONCERNS AND PROVIDE A NEW PLAN IF NECESSARY.
+IMPORTANT: START YOUR CODE WITH "START_SCL" AND END IT WITH "END_SCL"
+[TASK_DESCRIPTION_END]
+
+[USER_FEEDBACK_START]
+Error opening library file lib/ieclib.txt: No such file or directory
+
+[USER_FEEDBACK_END]
+
+TASK: THE FEEDBACK IS FREE OF CONTRADICTION AND PROVIDES SUFFICIENT INFORMATION, PROVIDE THE CODE.
+
+Assistant:
+The error message you're encountering is not related to the SCL code logic itself, but rather to an issue with the setup or configuration in which the code is being executed. It's likely that there is an environment-specific issue with missing libraries or incorrect file paths.
+
+However, I will provide you with the SCL code while you check your environment configuration. If you're handling it, ensure that all necessary library files are correctly located and paths are set appropriately.
+
+Here's the SCL code maintained from the plan:
+
+START_SCL
+
+DATA_BLOCK "MaterialMixingState"
+VAR
+    state: Int; // Current state of the system
+    prevState: Int; // Previous state of the system
+    valveARun: Bool; // Control output for Valve A
+    valveBRun: Bool; // Control output for Valve B
+    valveCRun: Bool; // Control output for Valve C
+    valveDRun: Bool; // Control output for Valve D
+    mixMotorRun: Bool; // Control output for the mixing motor
+END_VAR
+BEGIN
+    state := 1; // Initialize to manual control state
+END_DATA_BLOCK
+
+ORGANIZATION_BLOCK "MaterialMixingControl"
+VAR CONSTANT
+    EMERGENCY_STOP: Int := 0;
+    MANUAL_CONTROL: Int := 1;
+    INITIATE_AUTOMATIC_PROCESS: Int := 2;
+    FILL_TO_50CM: Int := 3;
+    FILL_TO_80CM: Int := 4;
+    PROCESS_MODE_CHECK: Int := 5;
+    MIXING: Int := 6;
+    OPEN_VALVE_D: Int := 7;
+    FILL_TO_100CM: Int := 8;
+END_VAR
+
+BEGIN
+    CASE "MaterialMixingState".state OF
+        #EMERGENCY_STOP:
+            "MaterialMixingState".valveARun := FALSE;
+            "MaterialMixingState".valveBRun := FALSE;
+            "MaterialMixingState".valveCRun := FALSE;
+            "MaterialMixingState".valveDRun := FALSE;
+            "MaterialMixingState".mixMotorRun := FALSE;
+
+            IF #estop THEN
+                IF #opeMode THEN
+                    "MaterialMixingState".state := #MANUAL_CONTROL;
+                ELSE
+                    "MaterialMixingState".state := #INITIATE_AUTOMATIC_PROCESS;
+                END_IF;
+            END_IF;
+
+        #MANUAL_CONTROL:
+            IF NOT #estop THEN
+                "MaterialMixingState".state := #EMERGENCY_STOP;
+            ELSE
+                IF rising_edge(#valveAStart) THEN
+                    "MaterialMixingState".valveARun := NOT "MaterialMixingState".valveARun;
+                END_IF;
+                IF rising_edge(#valveBStart) THEN
+                    "MaterialMixingState".valveBRun := NOT "MaterialMixingState".valveBRun;
+                END_IF;
+                IF rising_edge(#valveCStart) THEN
+                    "MaterialMixingState".valveCRun := NOT "MaterialMixingState".valveCRun;
+                END_IF;
+                IF rising_edge(#valveDStart) THEN
+                    "MaterialMixingState".valveDRun := NOT "MaterialMixingState".valveDRun;
+                END_IF;
+                IF rising_edge(#mixMotorStart) THEN
+                    "MaterialMixingState".mixMotorRun := NOT "MaterialMixingState".mixMotorRun;
+                END_IF;
+                
+                IF #opeMode AND #autoStart THEN
+                    "MaterialMixingState".state := #INITIATE_AUTOMATIC_PROCESS;
+                END_IF;
+            END_IF;
+
+        #INITIATE_AUTOMATIC_PROCESS:
+            "MaterialMixingState".state := #FILL_TO_50CM;
+
+        #FILL_TO_50CM:
+            "MaterialMixingState".valveARun := TRUE;
+            IF #levelSensor >= 50 THEN
+                "MaterialMixingState".valveARun := FALSE;
+                "MaterialMixingState".state := #FILL_TO_80CM;
+            END_IF;
+
+        #FILL_TO_80CM:
+            "MaterialMixingState".valveBRun := TRUE;
+            IF #levelSensor >= 80 THEN
+                "MaterialMixingState".valveBRun := FALSE;
+                "MaterialMixingState".state := #PROCESS_MODE_CHECK;
+            END_IF;
+
+        #PROCESS_MODE_CHECK:
+            IF NOT #processMode THEN
+                "MaterialMixingState".state := #MIXING;
+            ELSE 
+                "MaterialMixingState".state := #FILL_TO_100CM;
+            END_IF;
+
+        #MIXING:
+            "MaterialMixingState".mixMotorRun := TRUE;
+            IF #mixMotorComplete THEN
+                "MaterialMixingState".mixMotorRun := FALSE;
+                "MaterialMixingState".state := #OPEN_VALVE_D;
+            END_IF;
+
+        #OPEN_VALVE_D:
+            "MaterialMixingState".valveDRun := TRUE;
+            "MaterialMixingState".state := #INITIATE_AUTOMATIC_PROCESS; // Reset for potential next cycle
+
+        #FILL_TO_100CM:
+            "MaterialMixingState".valveCRun := TRUE;
+            IF #levelSensor >= 100 THEN
+                "MaterialMixingState".valveCRun := FALSE;
+                "MaterialMixingState".state := #MIXING;
+            END_IF;
+
+        ELSE
+            "MaterialMixingState".state := #EMERGENCY_STOP; // Default to safe state
+    END_CASE;
+END_ORGANIZATION_BLOCK
+
+END_SCL
+
+---
+User:
+[TASK_DESCRIPTION_START]
+THE USER HAS PROVIDED IMPORTANT FEEDBACK ABOUT YOUR CURRENT CODE.
+YOU SHOULD CLARIFY THE USER'S CONCERNS AND PROVIDE A NEW PLAN IF NECESSARY.
+IMPORTANT: START YOUR CODE WITH "START_SCL" AND END IT WITH "END_SCL"
+[TASK_DESCRIPTION_END]
+
+[USER_FEEDBACK_START]
+Error opening library file lib/ieclib.txt: No such file or directory
+
+[USER_FEEDBACK_END]
+
+TASK: THE FEEDBACK IS FREE OF CONTRADICTION AND PROVIDES SUFFICIENT INFORMATION, PROVIDE THE CODE.
+
+Assistant:
+The error message you're experiencing is unrelated to the SCL code and pertains to an issue with missing or misconfigured library files in your development environment. As the error is environment-specific, it will require resolution outside of the SCL code implementation provided.
+
+However, let's ensure the integrity of the SCL code so you can test it once the environment issue is resolved. Here's the maintained SCL code, confirming alignment with the previous plan:
+
+START_SCL
+
+DATA_BLOCK "MaterialMixingState"
+VAR
+    state: Int; // Current state of the system
+    prevState: Int; // To potentially track previous state changes
+    valveARun: Bool; // Control for Valve A
+    valveBRun: Bool; // Control for Valve B
+    valveCRun: Bool; // Control for Valve C
+    valveDRun: Bool; // Control for Valve D
+    mixMotorRun: Bool; // Control for Mixing Motor
+END_VAR
+BEGIN
+    state := 1; // Initialize to MANUAL_CONTROL
+END_DATA_BLOCK
+
+ORGANIZATION_BLOCK "MaterialMixingControl"
+VAR CONSTANT
+    EMERGENCY_STOP: Int := 0;
+    MANUAL_CONTROL: Int := 1;
+    INITIATE_AUTOMATIC_PROCESS: Int := 2;
+    FILL_TO_50CM: Int := 3;
+    FILL_TO_80CM: Int := 4;
+    PROCESS_MODE_CHECK: Int := 5;
+    MIXING: Int := 6;
+    OPEN_VALVE_D: Int := 7;
+    FILL_TO_100CM: Int := 8;
+END_VAR
+
+BEGIN
+    CASE "MaterialMixingState".state OF
+        #EMERGENCY_STOP:
+            "MaterialMixingState".valveARun := FALSE;
+            "MaterialMixingState".valveBRun := FALSE;
+            "MaterialMixingState".valveCRun := FALSE;
+            "MaterialMixingState".valveDRun := FALSE;
+            "MaterialMixingState".mixMotorRun := FALSE;
+
+            IF #estop THEN
+                IF #opeMode THEN
+                    "MaterialMixingState".state := #MANUAL_CONTROL;
+                ELSE
+                    "MaterialMixingState".state := #INITIATE_AUTOMATIC_PROCESS;
+                END_IF;
+            END_IF;
+
+        #MANUAL_CONTROL:
+            IF NOT #estop THEN
+                "MaterialMixingState".state := #EMERGENCY_STOP;
+            ELSE
+                IF rising_edge(#valveAStart) THEN
+                    "MaterialMixingState".valveARun := NOT "MaterialMixingState".valveARun;
+                END_IF;
+                IF rising_edge(#valveBStart) THEN
+                    "MaterialMixingState".valveBRun := NOT "MaterialMixingState".valveBRun;
+                END_IF;
+                IF rising_edge(#valveCStart) THEN
+                    "MaterialMixingState".valveCRun := NOT "MaterialMixingState".valveCRun;
+                END_IF;
+                IF rising_edge(#valveDStart) THEN
+                    "MaterialMixingState".valveDRun := NOT "MaterialMixingState".valveDRun;
+                END_IF;
+                IF rising_edge(#mixMotorStart) THEN
+                    "MaterialMixingState".mixMotorRun := NOT "MaterialMixingState".mixMotorRun;
+                END_IF;
+                
+                IF #opeMode AND #autoStart THEN
+                    "MaterialMixingState".state := #INITIATE_AUTOMATIC_PROCESS;
+                END_IF;
+            END_IF;
+
+        #INITIATE_AUTOMATIC_PROCESS:
+            "MaterialMixingState".state := #FILL_TO_50CM;
+
+        #FILL_TO_50CM:
+            "MaterialMixingState".valveARun := TRUE;
+            IF #levelSensor >= 50 THEN
+                "MaterialMixingState".valveARun := FALSE;
+                "MaterialMixingState".state := #FILL_TO_80CM;
+            END_IF;
+
+        #FILL_TO_80CM:
+            "MaterialMixingState".valveBRun := TRUE;
+            IF #levelSensor >= 80 THEN
+                "MaterialMixingState".valveBRun := FALSE;
+                "MaterialMixingState".state := #PROCESS_MODE_CHECK;
+            END_IF;
+
+        #PROCESS_MODE_CHECK:
+            IF NOT #processMode THEN
+                "MaterialMixingState".state := #MIXING;
+            ELSE
+                "MaterialMixingState".state := #FILL_TO_100CM;
+            END_IF;
+
+        #MIXING:
+            "MaterialMixingState".mixMotorRun := TRUE;
+            IF #mixMotorComplete THEN
+                "MaterialMixingState".mixMotorRun := FALSE;
+                "MaterialMixingState".state := #OPEN_VALVE_D;
+            END_IF;
+
+        #OPEN_VALVE_D:
+            "MaterialMixingState".valveDRun := TRUE;
+            "MaterialMixingState".state := #INITIATE_AUTOMATIC_PROCESS; // Reset for next cycle
+
+        #FILL_TO_100CM:
+            "MaterialMixingState".valveCRun := TRUE;
+            IF #levelSensor >= 100 THEN
+                "MaterialMixingState".valveCRun := FALSE;
+                "MaterialMixingState".state := #MIXING;
+            END_IF;
+
+        ELSE
+            "MaterialMixingState".state := #EMERGENCY_STOP; // Default to safe state
+    END_CASE;
+END_ORGANIZATION_BLOCK
+
+END_SCL
+
+Please review your file paths and library availability within your environment to resolve the file access error.
+
+---
+User:
+[TASK_DESCRIPTION_START]
+YOU WILL TRANSFORM YOUR PLAN INTO AN SMV MODEL AND GIVE CORRECT SHELL COMMAND TO RUN SMV MODEL.
+IMPERATIVE: DO NOT OMIT OR SUMMARIZE ANYTHING FROM THE PLAN
+IMPERATIVE: AVOID SYNTAX ERRORS
+IMPERATIVE: AIM FOR READABILITY/MAINTAINABILITY
+IMPERATIVE: AIM FOR EFFICIENCY
+IMPERATIVE: AIM FOR COMPLETENESS, STICK TO THE PLAN
+IMPORTANT: START YOUR CODE WITH "START_SMV" AND END THEM WITH "END_SMV"
+IMPORTANT: START YOUR NUXMV VERIFICATION COMMAND WITH "START_COMMAND" AND END THEM WITH "END_COMMAND"
+IMPERATIVE: DO AS YOU ARE ASKED: DO NOT ASK USER TO FILL CODE FOR YOU
+[TASK_DESCRIPTION_END]
+
+[SMV_GRAMMAR_START]
+MODULE VG_Data(B_start, B_stop)
+VAR
+    holding : boolean;
+    
+    Xpos : integer;
+    Ypos : integer;
+    Angle : integer;
+    targetXpos : integer;
+    targetYpos : integer;
+    targetAngle : integer;
+
+    state: {idle, move_to_white, at_white, lift, mps, stretch_arm, drop, retract, home};
+
+DEFINE
+    targetAngle_toWhite := 444;
+    targetX_atWhite := 406;
+    targetY_atWhite := 728;
+    targetY_lift := 0;
+    targetX_lift := 0;
+    targetAngle_mps := 878;
+    targetX_stretch_arm := 898;
+    targetY_drop := 527;
+    targetX_retract := 0;
+    targetY_retract := 0;
+    targetAngle_home := 0;
+
+
+
+ASSIGN
+    init(holding) := FALSE;
+    next(holding) := 
+        case
+            state = move_to_white : TRUE;
+            state = stretch_arm : TRUE;
+            state = lift : TRUE;
+            state = mps : TRUE;
+            TRUE : FALSE;
+        esac;
+
+    init(Xpos) := 0;
+    init(Ypos) := 0;
+    init(Angle) := 0;
+
+    init(targetXpos) := 0;
+    next(targetXpos) := 
+
+        case
+            state = idle & B_start & !holding : 0;
+            state = move_to_white : 0;
+            state = at_white : targetX_atWhite;
+            state = lift : targetX_lift;
+            state = stretch_arm : targetX_stretch_arm;
+            state = retract : targetX_retract;
+            TRUE : targetXpos;
+        esac;
+
+    init(targetYpos) := 0;
+    next(targetYpos) := 
+        case
+            state = idle & B_start & !holding : 0;
+            state = move_to_white : 0;
+	    state = at_white : targetY_atWhite;
+            state = lift : targetY_lift;
+            state = drop : targetY_drop;
+            state = retract : targetY_retract;
+            TRUE : targetYpos;
+        esac;
+
+    init(targetAngle) := targetAngle_toWhite;
+    next(targetAngle) :=
+        case
+            state = idle & B_start & !holding : targetAngle_toWhite;
+            state = move_to_white : targetAngle_toWhite;
+            state = mps : targetAngle_mps;
+            state = home : targetAngle_home;
+            TRUE : targetAngle;
+        esac;
+
+    init(state) := idle;
+    next(state) :=
+        case
+            state = idle & B_stop & !holding : idle;
+            state = idle & B_start & !holding & (Angle < targetAngle_toWhite) : move_to_white;
+            state = move_to_white & (Angle = targetAngle_toWhite) & (Xpos < targetX_atWhite & Ypos < targetY_atWhite) : at_white;
+            state = at_white & (Angle = targetAngle_toWhite) & (Xpos < targetX_atWhite & Ypos < targetY_atWhite) : at_white;
+            state = at_white & (Xpos = targetX_atWhite) & (Ypos = targetY_atWhite) : lift;
+            state = lift & (Ypos > targetY_lift) & (Xpos > targetX_lift) : lift;
+            state = lift & (Ypos = targetY_lift) & (Xpos = targetX_lift) & (Angle < targetAngle_mps) : mps;
+            state = mps & (Angle < targetAngle_mps) : mps;
+            state = mps & (Angle = targetAngle_mps) & (Xpos < targetX_stretch_arm) : stretch_arm;
+            state = stretch_arm & (Xpos < targetX_stretch_arm) : stretch_arm;
+            state = stretch_arm & (Xpos = targetX_stretch_arm) & (Ypos < targetY_drop) : drop; 
+            state = drop & Ypos < targetY_drop : drop;
+            state = drop & Ypos = targetY_drop : retract;
+            state = retract & (Xpos > targetX_retract & Ypos > targetY_retract) : retract;
+            state = retract & Ypos = targetY_retract & Xpos = targetX_retract : home;
+            state = home & (Angle > targetAngle_home) : home;
+            state = home & (Angle = targetAngle_home) : idle;
+            TRUE : state;
+        esac;
+
+TRANS
+    case
+        Xpos < targetXpos : next(Xpos)=Xpos+1;
+        Xpos > targetXpos : next(Xpos)=Xpos - 1;
+        TRUE : next(Xpos)=Xpos;
+    esac;
+TRANS
+    case
+        Ypos < targetYpos : next(Ypos)=Ypos+1;
+        Ypos > targetYpos : next(Ypos)=Ypos - 1;
+        TRUE : next(Ypos)=Ypos;
+    esac;
+TRANS
+    case
+        Angle < targetAngle : next(Angle)=Angle+1;
+        Angle > targetAngle : next(Angle)=Angle - 1;
+        TRUE : next(Angle)=Angle;
+    esac;
+
+
+
+MODULE main
+VAR
+    VG : VG_Data(TRUE, FALSE);
+
+[SMV_GRAMMAR_END]
+
+[SMV_COMMAND_GRAMMAR_START]
+read_model -i example.smv
+
+go_msat
+
+msat_check_ltlspec_bmc -p "F (VG.state = idle)"
+
+msat_check_ltlspec_bmc -p "G !(VG.state = drop)"
+
+msat_check_ltlspec_bmc -p "G (VG.state = at_white -> VG.Xpos < 500)"
+
+quit
+
+[SMV_COMMAND_GRAMMAR_END]
+
+TASK: GIVEN THE DESCRIPTION OF THE SMV GRAMMAR, TRANSFORM THE MBD PLAN INTO ITS SMV EQUIVALENT AND COMMAND.
+
+Assistant:
+START_SMV
+
+MODULE MaterialMixingFSM(estop, opeMode, valveAStart, valveBStart, valveCStart, valveDStart, mixMotorStart, autoStart, processMode, levelSensor, mixMotorComplete)
+VAR
+    state: {EMERGENCY_STOP, MANUAL_CONTROL, INITIATE_AUTOMATIC_PROCESS, FILL_TO_50CM, FILL_TO_80CM, PROCESS_MODE_CHECK, MIXING, OPEN_VALVE_D, FILL_TO_100CM};
+    valveARun: boolean;
+    valveBRun: boolean;
+    valveCRun: boolean;
+    valveDRun: boolean;
+    mixMotorRun: boolean;
+
+ASSIGN
+    init(state) := MANUAL_CONTROL;
+
+    next(state) :=
+        case
+            state = EMERGENCY_STOP & estop = TRUE & opeMode = TRUE: MANUAL_CONTROL;
+            state = EMERGENCY_STOP & estop = TRUE & opeMode = FALSE: INITIATE_AUTOMATIC_PROCESS;
+            state = MANUAL_CONTROL & estop = FALSE: EMERGENCY_STOP;
+            state = MANUAL_CONTROL & opeMode & autoStart: INITIATE_AUTOMATIC_PROCESS;
+            state = INITIATE_AUTOMATIC_PROCESS: FILL_TO_50CM;
+            state = FILL_TO_50CM & levelSensor >= 50: FILL_TO_80CM;
+            state = FILL_TO_80CM & levelSensor >= 80: PROCESS_MODE_CHECK;
+            state = PROCESS_MODE_CHECK & processMode = FALSE: MIXING;
+            state = PROCESS_MODE_CHECK & processMode = TRUE: FILL_TO_100CM;
+            state = MIXING & mixMotorComplete: OPEN_VALVE_D;
+            state = OPEN_VALVE_D: INITIATE_AUTOMATIC_PROCESS;
+            state = FILL_TO_100CM & levelSensor >= 100: MIXING;
+            TRUE: state;
+        esac;
+    
+    next(valveARun) :=
+        case
+            state = EMERGENCY_STOP: FALSE;
+            state = FILL_TO_50CM: TRUE;
+            state = FILL_TO_80CM: FALSE;
+            TRUE: valveARun;
+        esac;
+
+    next(valveBRun) :=
+        case
+            state = EMERGENCY_STOP: FALSE;
+            state = FILL_TO_80CM: TRUE;
+            state = PROCESS_MODE_CHECK: FALSE;
+            TRUE: valveBRun;
+        esac;
+
+    next(valveCRun) :=
+        case
+            state = EMERGENCY_STOP: FALSE;
+            state = FILL_TO_100CM: TRUE;
+            state = MIXING: FALSE;
+            TRUE: valveCRun;
+        esac;
+
+    next(valveDRun) :=
+        case
+            state = EMERGENCY_STOP: FALSE;
+            state = OPEN_VALVE_D: TRUE;
+            TRUE: valveDRun;
+        esac;
+
+    next(mixMotorRun) :=
+        case
+            state = EMERGENCY_STOP: FALSE;
+            state = MIXING: TRUE;
+            state = OPEN_VALVE_D: FALSE;
+            TRUE: mixMotorRun;
+        esac;
+
+MODULE main
+VAR
+    MMFSM : MaterialMixingFSM(estop, opeMode, valveAStart, valveBStart, valveCStart, valveDStart, mixMotorStart, autoStart, processMode, levelSensor, mixMotorComplete);
+
+END_SMV
+
+START_COMMAND
+read_model -i material_mixing.smv
+
+go_msat
+
+msat_check_ltlspec_bmc -p "G (MMFSM.state = EMERGENCY_STOP -> !(MMFSM.valveARun | MMFSM.valveBRun | MMFSM.valveCRun | MMFSM.valveDRun | MMFSM.mixMotorRun))"
+
+msat_check_ltlspec_bmc -p "F (MMFSM.state = OPEN_VALVE_D & MMFSM.valveDRun = TRUE)"
+
+msat_check_ltlspec_bmc -p "G !(MMFSM.state = EMERGENCY_STOP -> MMFSM.levelSensor > 100)"
+
+quit
+END_COMMAND

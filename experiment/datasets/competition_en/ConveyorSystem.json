@@ -1,0 +1,80 @@
+﻿{
+    "title": "Conveyor Line Control System",
+    "description": "Design a PLC program to control a conveyor line system, which is used to transport three different specifications of workpieces to designated warehouses and classify and store them based on the workpiece number and specification information.\nControl requirements:\nThe conveyor line starts from the initial station and passes through station 1, station 2, and station 3 sequentially.\nEach station has a detection element to detect the presence of a workpiece.\nWorkpieces have specification information and a unique number, and the system needs to transport the workpieces to the corresponding station based on the specification and store them in the corresponding warehouse.\nWorkpiece specification classification:\nSmall workpieces: Warehouse 1\nMedium workpieces: Warehouse 2\nLarge workpieces: Warehouse 3\nWhen the start station sensor SensorStart detects a workpiece and the start button StartButton is pressed, the conveyor belt run command ConveyorRun=true is triggered. According to the workpiece specification PartSpec, the workpiece is transported to the corresponding station, and when the corresponding station sensor (Sensor1, Sensor2, Sensor3) detects the workpiece, the conveyor belt stops ConveyorRun=false. After the corresponding station unloading is completed (corresponding UnloadComplete1, UnloadComplete2, UnloadComplete3 are TRUE), the workpiece number PartNumber is stored in the corresponding database (WarehouseDatabase1, WarehouseDatabase2, WarehouseDatabase3).",
+    "type": "FUNCTION_BLOCK",
+    "name": "ConveyorSystem",
+    "input": [
+        {
+            "name": "StartButton",
+            "type": "Bool",
+            "description": "Start Button"
+        },
+        {
+            "name": "SensorStart",
+            "type": "Bool",
+            "description": "Start Station Sensor"
+        },
+        {
+            "name": "Sensor1",
+            "type": "Bool",
+            "description": "Station 1 Sensor"
+        },
+        {
+            "name": "Sensor2",
+            "type": "Bool",
+            "description": "Station 2 Sensor"
+        },
+        {
+            "name": "Sensor3",
+            "type": "Bool",
+            "description": "Station 3 Sensor"
+        },
+        {
+            "name": "UnloadComplete1",
+            "type": "Bool",
+            "description": "Station 1 Unloading Complete Signal"
+        },
+        {
+            "name": "UnloadComplete2",
+            "type": "Bool",
+            "description": "Station 2 Unloading Complete Signal"
+        },
+        {
+            "name": "UnloadComplete3",
+            "type": "Bool",
+            "description": "Station 3 Unloading Complete Signal"
+        },
+        {
+            "name": "PartSpec",
+            "type": "Int",
+            "description": "Workpiece Specification"
+        },
+        {
+            "name": "PartNumber",
+            "type": "Int",
+            "description": "Workpiece Number"
+        }
+    ],
+    "output": [
+        {
+            "name": "ConveyorRun",
+            "type": "Bool",
+            "description": "Conveyor Belt Running"
+        },
+        {
+            "name": "WarehouseDatabase1",
+            "type": "Array[1..10] of Int",
+            "description": "Warehouse 1 Database"
+        },
+        {
+            "name": "WarehouseDatabase2",
+            "type": "Array[1..10] of Int",
+            "description": "Warehouse 2 Database"
+        },
+        {
+            "name": "WarehouseDatabase3",
+            "type": "Array[1..10] of Int",
+            "description": "Warehouse 3 Database"
+        }
+    ]
+ }

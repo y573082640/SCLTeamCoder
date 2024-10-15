@@ -1,0 +1,62 @@
+﻿{
+    "title": "Analog Batch Processing",
+    "description": "In industrial automation applications, analog signals usually need to be converted into specific engineering units or ranges. Write a PLC program that can batch read analog input signals and convert them to specified range. The program receives an array of analog value inputs analogValues and an array for channel settings and conversion outputs channels, with the actual total number of channels specified by the input parameter count, starting from the first element of the array. Each channel is started for conversion by enable, and the conversion is performed according to different rules based on the measuringMode. \nWhen measuringMode=0, it is a non-temperature measurement mode: \nThis mode also needs to be converted based on the polarity bipolar, when bipolar=0, it is unipolar, then the analog input value analogValues from 0 to 27648 is linearly mapped to the lower limit loLIM to the upper limit hiLIM of the output value outputFile; when bipolar=1, it is bipolar, then the analog input value analogValues from -27648 to 27648 is linearly mapped to the lower limit loLIM to the upper limit hiLIM of the output value outputFile. \nWhen measuringMode=1, it is a standard temperature measurement mode: \nIn this mode, the output value outputFile is one-tenth of the analog input value analogValues. \nWhen measuringMode=2, it is a climatic temperature measurement mode: \nIn this mode, the output value outputFile is one-hundredth of the analog input value analogValues. \nThe program also requires checking the correctness of the input parameters: \nIf measuringMode is a value other than 0, 1, 2, then retVal=16#8001, and no conversion is performed for this channel; \nIf hiLIM is less than or equal to loLIM, then retVal=16#8002, and no conversion is performed for this channel.",
+    "type": "FUNCTION_BLOCK",
+    "name": "AIConvert",
+    "input": [
+        {
+            "name": "count",
+            "type": "DInt",
+            "description": "Number of channels to be converted"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "analogValues",
+            "type": "Array[*] of Int",
+            "description": "Array of analog values for each channel input"
+        },
+        {
+            "name": "channels",
+            "type": "Array[*] of Struct",
+            "description": "Settings and converted output values for each channel",
+            "fields": [
+                {
+                    "name": "enable",
+                    "type": "Bool",
+                    "description": "Enable conversion for this channel"
+                },
+                {
+                    "name": "hiLIM",
+                    "type": "Real",
+                    "description": "Upper limit"
+                },
+                {
+                    "name": "loLIM",
+                    "type": "Real",
+                    "description": "Lower limit"
+                },
+                {
+                    "name": "bipolar",
+                    "type": "Bool",
+                    "description": "FALSE: Unipolar\nTRUE: Bipolar"
+                },
+                {
+                    "name": "measuringMode",
+                    "type": "Int",
+                    "description": "0: Non-temperature measurement\n1: Standard temperature measurement\n2: Climatic temperature measurement"
+                },
+                {
+                    "name": "retVal",
+                    "type": "Word",
+                    "description": "Status information"
+                },
+                {
+                    "name": "outputValue",
+                    "type": "Real",
+                    "description": "Converted output value"
+                }
+            ]
+        }
+    ]
+ }

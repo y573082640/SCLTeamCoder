@@ -3,12 +3,12 @@ from scl_team_coder.util.prompt_res_util import *
 from scl_team_coder.util.agent_tools import *
 from datetime import datetime
 
-def run_qwen(dateset="competition"):
+def run_qwen(dateset="competition_en"):
     """
     使用 Qwen 模型处理数据集并生成代码。
 
     参数:
-        dateset (str): 要处理的数据集名称，默认为 "competition"。
+        dateset (str): 要处理的数据集名称，默认为 "competition_en"。
 
     返回:
         None
@@ -66,43 +66,44 @@ def run_qwen(dateset="competition"):
     )
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     
-    # 遍历数据集中的每个数据点
-    for data in test_data:
-        # 为每个数据点创建一个包含系统提示和用户内容的消息
-        messages = [
-            {"role": "system", "content": sys_prompt},
-            {"role": "user", "content": str(data)}
-        ]
-        
-        # 将消息转换为模型输入格式
-        text = tokenizer.apply_chat_template(
-            messages,
-            tokenize=False,
-            add_generation_prompt=True
-        )
-        
-        # 将模型输入发送到 Qwen 模型并获取响应
-        model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
-        generated_ids = model.generate(
-            **model_inputs,
-            max_new_tokens=2048
-        )
-        
-        # 从响应中提取代码
-        generated_ids = [
-            output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
-        ]
-        response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
-        
-        # 打印响应内容
-        print(response)
-        
-        # 将提取的代码添加到数据点中
-        data['code'] = parse_response(response)
-        
-        # 将处理后的数据点添加到结果列表中
-        result.append(data)
+    # 指定输出文件的路径
+    output_to = output_path + f"{date_folder}_{time_folder}.json"
     
-    # 将结果列表保存到输出文件中
-    with open(output_path + f"{date_folder}_{time_folder}.json") as fp:
-        json.dump(result,fp,ensure_ascii=False)
+    # 遍历数据集中的每个数据点
+    with open(output_to,"w") as fp:
+        for data in test_data:
+            # 为每个数据点创建一个包含系统提示和用户内容的消息
+            messages = [
+                {"role": "system", "content": sys_prompt},
+                {"role": "user", "content": str(data)}
+            ]
+            
+            # 将消息转换为模型输入格式
+            text = tokenizer.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True
+            )
+            
+            # 将模型输入发送到 Qwen 模型并获取响应
+            model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
+            generated_ids = model.generate(
+                **model_inputs,
+                max_new_tokens=2048
+            )
+            
+            # 从响应中提取代码
+            generated_ids = [
+                output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
+            ]
+            response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+            
+            # 打印响应内容
+            print(response)
+            
+            # 将提取的代码添加到数据点中
+            data['code'] = parse_response(response)
+            
+            # 将结果列表保存到输出文件中
+            f.write(json.dumps(result, ensure_ascii=False))
+            f.write("\n")    

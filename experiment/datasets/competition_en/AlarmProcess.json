@@ -1,0 +1,50 @@
+﻿{
+    "title": "Alarm Handling",
+    "description": "In industrial automation systems, monitoring the status of equipment is crucial. When equipment parameters exceed the normal range, the system needs to issue an alarm. To avoid frequent triggering of alarms due to minor fluctuations in parameters, an alarm management system with hysteresis function needs to be implemented.\nWhen Value is greater than hiLevel, trigger high alarm hiAlarm.\nWhen Value is less than hiLevel-hystWindow, exit high alarm hiAlarm.\nWhen Value is less than loLevel, trigger low alarm loAlarm.\nWhen Value is greater than loLevel+hystWindow, exit low alarm loAlarm.\nIf loLevel is greater than or equal to hiLevel, output error error=true, status=16#8001, and exit the program\nIf the hysteresis window value hystWindow is greater than or equal to the deviation range between hiLevel and loLevel, output error error=true, status=16#8002",
+    "type": "FUNCTION_BLOCK",
+    "name": "AlarmProcess",
+    "input": [
+        {
+            "name": "Value",
+            "type": "Real",
+            "description": "Input value"
+        },
+        {
+            "name": "hiLevel",
+            "type": "Real",
+            "description": "High limit alarm value"
+        },
+        {
+            "name": "loLevel",
+            "type": "Real",
+            "description": "Low limit alarm value"
+        },
+        {
+            "name": "hystWindow",
+            "type": "Real",
+            "description": "Hysteresis window"
+        }
+    ],
+    "output": [
+        {
+            "name": "hiAlarm",
+            "type": "Bool",
+            "description": "High limit alarm"
+        },
+        {
+            "name": "loAlarm",
+            "type": "Bool",
+            "description": "Low limit alarm"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: No error occurred;\nTRUE: Error occurred during execution of FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status code"
+        }
+    ]
+ }

@@ -1,0 +1,40 @@
+﻿{
+    "title": "Shift Register",
+    "description": "Write a PLC program that receives an array of variable data types 'buffer' and performs shift operations on the array.\nIt can perform a left shift (shiftLeft=TRUE), where elements with higher index numbers move to lower index numbers.\nIt can also perform a right shift (shiftRight=TRUE), where elements with lower index numbers move to higher index numbers.\nThe length of the shift is determined by the shift range 'shiftRange'.\nEmpty positions after moving are covered with the initial value 'initialItem'.\nWhen the clear operation (clear=TRUE) is performed, all elements of the array are initialized to the initial value 'initialItem'.",
+    "type": "FUNCTION_BLOCK",
+    "name": "ShiftSequence",
+    "input": [
+        {
+            "name": "shiftLeft",
+            "type": "Bool",
+            "description": "Shift left"
+        },
+        {
+            "name": "shiftRight",
+            "type": "Bool",
+            "description": "Shift right"
+        },
+        {
+            "name": "shiftRange",
+            "type": "UInt",
+            "description": "Shift range"
+        },
+        {
+            "name": "clear",
+            "type": "Bool",
+            "description": "Clear operation"
+        },
+        {
+            "name": "initialItem",
+            "type": "Variant",
+            "description": "Initial value"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "buffer",
+            "type": "Variant",
+            "description": "Array queue to be shifted"
+        }
+    ]
+ }

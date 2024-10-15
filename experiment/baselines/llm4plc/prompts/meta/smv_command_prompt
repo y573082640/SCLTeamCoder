@@ -1,0 +1,11 @@
+read_model -i VERIFICATION.SMV
+
+go_msat
+
+msat_check_ltlspec_bmc -p "F (VG.state = idle)"
+
+msat_check_ltlspec_bmc -p "G !(VG.state = drop)"
+
+msat_check_ltlspec_bmc -p "G (VG.state = at_white -> VG.Xpos < 500)"
+
+quit

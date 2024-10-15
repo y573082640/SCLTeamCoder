@@ -1,0 +1,39 @@
+{
+    "title": "Unix Time to DTL Time Converter",
+    "name": "LGF_UnixTimeToDTL",
+    "description": "This function converts the Unix time of data type DInt to a date and time of data type DTL. The timestamp is calculated in UTC.",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "timeUnix",
+            "type": "DInt",
+            "description": "UNIX time to convert"
+        }
+    ],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "An error occurred during the execution of the FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status of the FB, Error identification"
+        }
+    ],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "DTL",
+            "description": "Converted time (Date and time). In case of Error: 0 (error = true)"
+        }
+    ],
+    "status_codes": {
+        "16#0000": "STATUS_NO_ERROR",
+        "16#6001": "WARN_CONVERSION_LIMIT",
+        "16#8000": "ERR_TIME_BEFORE_1990"
+    },
+    "user_defined_types": [],
+    "description_zh": "\n一个函数FC，该函数能够将数据类型为DInt的Unix时间戳转换为数据类型为DTL的日期时间值。转换的时间戳是基于UTC时间的，并且不考虑时区。该函数只接受1990年1月1日之后的时间。\n\n函数接受一个DInt类型的输入参数timeUnix，表示要转换的Unix时间戳。\n\n函数输出两个参数：\n- error (Bool): 表示在执行过程中是否发生错误。\n- status (Word): 表示函数的状态，用于错误识别。\n\n函数的返回值是一个DTL类型的时间，如果发生错误，则返回0 (error = true)。\n\n可能的状态代码如下：\n- 16#0000: STATUS_NO_ERROR，表示没有错误发生。\n- 16#6001: WARN_CONVERSION_LIMIT，表示时间戳刚好等于1990年1月1日的下限。\n- 16#8000: ERR_TIME_BEFORE_1990，表示时间戳在1990年1月1日之前。\n\n函数首先检查输入的Unix时间戳是否小于1990年1月1日。如果是，则设置错误标志并将状态码设置为ERR_TIME_BEFORE_1990，然后返回。\n\n接下来，函数计算日期部分，将Unix时间戳转换为天数，并使用DATE_TO_DTL函数将其转换为DTL日期。\n\n然后，函数计算时间部分，将剩余的秒数转换为小时、分钟和秒，并分别赋值给DTL时间的小时、分钟和秒字段。\n\n最后，函数设置输出参数error和status，并返回转换后的DTL时间。\n\n\n"
+}

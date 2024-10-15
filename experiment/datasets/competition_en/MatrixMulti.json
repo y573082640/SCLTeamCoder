@@ -1,0 +1,30 @@
+﻿{
+    "title": "Matrix Multiplication",
+    "description": "Write a function to implement the multiplication of two matrices.\nThis function takes two variable-length two-dimensional floating-point arrays, matrix1 and matrix2, as input parameters.\nCalculation starts when execute=TRUE.",
+    "type": "FUNCTION",
+    "name": "MatrixMulti",
+    "input": [
+        {
+            "name": "execute",
+            "type": "Bool",
+            "description": "Start calculation"
+        },
+        {
+            "name": "matrix1",
+            "type": "Array[*, *] of Real",
+            "description": "Input matrix 1"
+        },
+        {
+            "name": "matrix2",
+            "type": "Array[*, *] of Real",
+            "description": "Input matrix 2"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "matrixResult",
+            "type": "Array[*, *] of Real",
+            "description": "Output calculation result matrix"
+        }
+    ]
+ }

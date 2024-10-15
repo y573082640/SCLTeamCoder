@@ -1,0 +1,90 @@
+﻿{
+    "title": "Material Proportioning Process Control",
+    "description": "Design a PLC program to control a material proportioning process that requires mixing three types of materials according to specific requirements and then delivering them to the next process through valve D. The system needs to support both manual and automatic operation modes and be able to safely stop all equipment when an emergency stop signal is triggered.\nControl requirements:\nEmergency Stop Logic: The #estop(=FALSE) signal is used for emergency stopping of all equipment.\nManual Mode: #opeMode=false, manually control the start/stop of valves A, B, C, D, and the mixing motor.\nAutomatic Mode: #opeMode=true, equipment operates automatically according to the process flow.\nImplement the emergency stop logic to ensure that all equipment stops immediately when the emergency stop signal is triggered.\nIn manual mode, manually control the start/stop of valves and the mixing motor.\nFor example, pressing the valve A start button valveAStart (triggering a rising edge) causes valve A to run (valveARun=TRUE); pressing the valve A start button valveAStart again (triggering a rising edge) stops valve A (valveARun=FALSE).\nIn automatic mode, implement the following control logic based on the process flow:\nPress the autoStart button to start the automatic process, first opening valve A.\nWhen the liquid level sensor #levelSensor reaches 50cm, close valve A and open valve B.\nWhen the liquid level sensor reaches 80cm, close valve B.\nBased on #processMode:\nIf #processMode=false, start the mixing motor; after receiving the mixing complete signal, stop the mixing motor, open valve D, and the automatic process ends.\nIf #processMode=true, open valve C; when the liquid level sensor reaches 100cm, close valve C, start the mixing motor; after receiving the mixing complete signal, stop the mixing motor, open valve D, and the automatic process ends.",
+    "type": "FUNCTION_BLOCK",
+    "name": "MaterialMixing",
+    "input": [
+        {
+            "name": "estop",
+            "type": "Bool",
+            "description": "Emergency Stop Signal\nFALSE: Emergency stop triggered\nTRUE: No emergency stop triggered"
+        },
+        {
+            "name": "opeMode",
+            "type": "Bool",
+            "description": "Operation Mode\nFALSE: Manual Operation Mode\nTRUE: Automatic Operation Mode"
+        },
+        {
+            "name": "valveAStart",
+            "type": "Bool",
+            "description": "Valve A Start Button"
+        },
+        {
+            "name": "valveBStart",
+            "type": "Bool",
+            "description": "Valve B Start Button"
+        },
+        {
+            "name": "valveCStart",
+            "type": "Bool",
+            "description": "Valve C Start Button"
+        },
+        {
+            "name": "valveDStart",
+            "type": "Bool",
+            "description": "Valve D Start Button"
+        },
+        {
+            "name": "mixMotorStart",
+            "type": "Bool",
+            "description": "Mixing Motor Start Button"
+        },
+        {
+            "name": "autoStart",
+            "type": "Bool",
+            "description": "Automatic Start Button"
+        },
+        {
+            "name": "processMode",
+            "type": "Bool",
+            "description": "Process Mode"
+        },
+        {
+            "name": "levelSensor",
+            "type": "Int",
+            "description": "Liquid Level Sensor (unit cm)"
+        },
+        {
+            "name": "mixMotorComplete",
+            "type": "Bool",
+            "description": "Mixing Complete Signal"
+        }
+    ],
+    "output": [
+        {
+            "name": "valveARun",
+            "type": "Bool",
+            "description": "Valve A Run Command"
+        },
+        {
+            "name": "valveBRun",
+            "type": "Bool",
+            "description": "Valve B Run Command"
+        },
+        {
+            "name": "valveCRun",
+            "type": "Bool",
+            "description": "Valve C Run Command"
+        },
+        {
+            "name": "valveDRun",
+            "type": "Bool",
+            "description": "Valve D Run Command"
+        },
+        {
+            "name": "mixMotorRun",
+            "type": "Bool",
+            "description": "Mixing Motor Run Command"
+        }
+    ]
+ }

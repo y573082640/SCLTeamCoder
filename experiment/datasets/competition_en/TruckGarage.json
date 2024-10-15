@@ -1,0 +1,61 @@
+﻿{
+    "title": "Parking Space Management System",
+    "description": "Design a PLC program to control the parking management system for a factory's utility cart storage. The garage has 3 rows and 5 columns, totaling 15 parking spaces, which need to implement the control of carts' entry and exit, and allocate and release parking spaces according to specific principles.\nControl requirements:\nParking space information definition: Each parking space has two states, an occupied state (Boolean type) and vehicle data (integer type, vehicle number).\nCart entry rules:\nAllocate parking spaces by using the principle of using the latter row first and then the former row, and using the latter column first and then the former column.\nWhen entering, the cart provides the vehicle number information.\nThe parking space information needs to be updated to the new occupied state and vehicle number.\nCart exit rules:\nRelease parking spaces by the principle of using the former row first and then the latter row, and the former column first and then the latter column.\nThe occupied state of the exit parking space needs to be set to unoccupied and clear the vehicle number.",
+    "type": "FUNCTION_BLOCK",
+    "name": "TruckGarage",
+    "input": [
+        {
+            "name": "enter",
+            "type": "Bool",
+            "description": "Entry operation request"
+        },
+        {
+            "name": "exit",
+            "type": "Bool",
+            "description": "Exit operation request"
+        },
+        {
+            "name": "VehicleNumber",
+            "type": "Int",
+            "description": "The vehicle number to be entered"
+        }
+    ],
+    "output": [
+        {
+            "name": "truck",
+            "type": "Struct",
+            "description": "The vehicle information to be exited",
+            "fields": {
+                "row": {
+                    "type": "Int",
+                    "description": "The row position of the vehicle to be exited"
+                },
+                "col": {
+                    "type": "Int",
+                    "description": "The column position of the vehicle to be exited"
+                },
+                "VehicleNumber": {
+                    "type": "Int",
+                    "description": "The vehicle number to be exited"
+                }
+            }
+        }
+    ],
+    "in/out": [
+        {
+            "name": "garage",
+            "type": "Array[1..3, 1..5] of Struct",
+            "description": "Garage information",
+            "fields": {
+                "Occupied": {
+                    "type": "Bool",
+                    "description": "TRUE: There is a vehicle in the parking space\nFALSE: There is no vehicle in the parking space"
+                },
+                "VehicleNumber": {
+                    "type": "Int",
+                    "description": "The vehicle number in the parking space"
+                }
+            }
+        }
+    ]
+ }

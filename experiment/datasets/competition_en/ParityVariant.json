@@ -1,0 +1,36 @@
+﻿{
+    "title": "Parity Check",
+    "description": "Write a PLC program that receives a data of variable data type 'value', which can be of type word, Dword, or LWord. The goal of the program is to calculate the number of 1s in the binary value of the data 'value', referred to as countBitsTrue, and based on the set parity mode 'odd', return the parity check result. The program also outputs the number of 0s in the binary value of the data 'value', referred to as countBitsFalse.\n\nIf odd=FALSE, it is even parity: return the check result as TRUE when countBitsTrue is even, otherwise return the check result as FALSE.\nIf odd=TRUE, it is odd parity: return the check result as TRUE when countBitsTrue is odd, otherwise return the check result as FALSE.",
+    "type": "FUNCTION",
+    "name": "ParityVariant",
+    "input": [
+        {
+            "name": "value",
+            "type": "Variant",
+            "description": "Data to be checked"
+        },
+        {
+            "name": "odd",
+            "type": "Bool",
+            "description": "Parity mode\nFALSE: Even Parity\nTRUE: Odd Parity"
+        }
+    ],
+    "output": [
+        {
+            "name": "countBitsFalse",
+            "type": "USInt",
+            "description": "Number of FALSEs in the data"
+        },
+        {
+            "name": "countBitsTrue",
+            "type": "USInt",
+            "description": "Number of TRUEs in the data"
+        }
+    ],
+    "return_value": [
+        {
+            "type": "Bool",
+            "description": "Parity check result"
+        }
+    ]
+ }

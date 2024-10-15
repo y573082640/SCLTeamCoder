@@ -1,0 +1,27 @@
+﻿{
+    "title": "Merge Bytes",
+    "description": "Write a PLC program that receives a variable-length byte array byteArray and a variable-length double word array dwordArray. The goal of the program is to merge each byte from byteArray into dwordArray in sequence. Following the principle of merging every 4 bytes into 1 double word, if the length of byteArray is not a multiple of 4, the remainder part will not be merged. If the length of dwordArray is insufficient to store all double words, the excess part will not be merged. The program also outputs the actual number of merged double words mergeDwordNum\nFor example, byteArray=[16#11, 16#22, 16#33, 16#44], then dwordArray =[16#44332211]",
+    "type": "FUNCTION",
+    "name": "MergeByteArray",
+    "input": [
+        {
+            "name": "byteArray",
+            "type": "Array[*] of Byte",
+            "description": "Byte array to be merged"
+        }
+    ],
+    "output": [
+        {
+            "name": "mergeDwordNum",
+            "type": "DInt",
+            "description": "Actual number of merged double words"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "dwordArray",
+            "type": "Array[*] of DWord",
+            "description": "Merged double word array"
+        }
+    ]
+ }

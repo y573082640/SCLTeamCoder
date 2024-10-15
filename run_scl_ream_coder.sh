@@ -1,7 +1,7 @@
 #!/bin/bash
 source venv/bin/activate
 export PYTHONPATH=$PYTHONPATH:$(pwd)
-python -m scl_team_coder
+# python -m scl_team_coder
 
 # 生成镜像
 # docker build -t scl_team_coder .

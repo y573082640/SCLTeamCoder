@@ -1,0 +1,76 @@
+﻿{
+    "title": "Recipe Management System Based on Doubly Linked List",
+    "description": "A factory's production line needs to produce various products based on different recipes. The control center of the production line requires a recipe management system that allows operators to add recipe data.\nControl requirements:\nRecipe data should include raw material type, raw material ratio, and production temperature.\nThe system should allow the input of new recipe data and store it in the recipe database.\nNotes:\n1. Recipes are constructed using the Struct data type, which includes ingredientType, ingredientRatio, and productionTemperature. A doubly linked list is used to manage the recipe database, with each recipe having two pointers, Prev and Next. Prev points to the previous recipe position, and Next points to the next recipe position. Prev being -1 indicates the first record in the list, Next being -1 indicates the last record in the list, and if both pointers are -1, it indicates an empty record.\n2. When adding a recipe:\nIf the recipe database is an empty list, the new recipe is added to the first position of the array, and Next is set to point to the second position of the array; If the recipe database is not an empty list, the new recipe is added to the end of the list.",
+    "type": "FUNCTION",
+    "name": "AddRecipeLinkedList",
+    "input": [
+        {
+            "name": "exe",
+            "type": "Bool",
+            "description": "Initiate adding recipe"
+        },
+        {
+            "name": "recipeAdded",
+            "type": "Struct",
+            "description": "Recipe to be added",
+            "fields": [
+                {
+                    "name": "ingredientType",
+                    "type": "Int",
+                    "description": "Type of raw material"
+                },
+                {
+                    "name": "ingredientRatio",
+                    "type": "Real",
+                    "description": "Ratio of raw material"
+                },
+                {
+                    "name": "productionTemperature",
+                    "type": "Real",
+                    "description": "Production temperature"
+                }
+            ]
+        }
+    ],
+    "in/out": [
+        {
+            "name": "recipeList",
+            "type": "Array[0..19] of Struct",
+            "description": "Recipe database",
+            "fields": [
+                {
+                    "name": "Prev",
+                    "type": "DInt",
+                    "description": "Previous pointer, pointing to the array index of the previous recipe"
+                },
+                {
+                    "name": "Next",
+                    "type": "DInt",
+                    "description": "Next pointer, pointing to the array index of the next recipe"
+                },
+                {
+                    "name": "recipe",
+                    "type": "Struct",
+                    "description": "Recipe",
+                    "fields": [
+                        {
+                            "name": "ingredientType",
+                            "type": "Int",
+                            "description": "Type of raw material"
+                        },
+                        {
+                            "name": "ingredientRatio",
+                            "type": "Real",
+                            "description": "Ratio of raw material"
+                        },
+                        {
+                            "name": "productionTemperature",
+                            "type": "Real",
+                            "description": "Production temperature"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+ }

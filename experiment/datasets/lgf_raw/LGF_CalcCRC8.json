@@ -1,0 +1,54 @@
+{
+    "title": "CRC-8 Calculator",
+    "name": "LGF_CalcCRC8",
+    "description": "The function LGF_CalcCRC8 uses 8 bits as the generator polynomial (mask) for CRC calculation.",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "initValue",
+            "type": "Byte",
+            "description": "Start value for the calculation"
+        },
+        {
+            "name": "mask",
+            "type": "Byte",
+            "description": "Generator polynomial for the calculation"
+        },
+        {
+            "name": "noOfElements",
+            "type": "UInt",
+            "description": "Number of elements to be used in CRC calculation"
+        }
+    ],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "Error flag"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status code"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "array",
+            "type": "Array[*] of Byte",
+            "description": "Data stream for which the CRC value will be calculated"
+        }
+    ],
+    "return_value": [
+        {
+            "type": "Byte",
+            "description": "Calculated CRC value"
+        }
+    ],
+    "status_codes": {
+        "16#0000": "STATUS_NO_ERROR",
+        "16#8400": "ERR_NO_OF_ELEMENTS"
+    },
+    "user_defined_types": [],
+    "description_zh": "\n该函数LGF_CalcCRC8实现了CRC-8算法，用于计算一个数据流（数组）的循环冗余校验（CRC）值。函数使用8位生成多项式（掩码）进行CRC计算。用户可以指定计算的起始值（initValue）、生成多项式（mask）以及要参与计算的数据元素数量（noOfElements）。函数会遍历输入数组，对每个字节执行CRC计算，并返回最终的CRC值。如果指定的元素数量超出数组实际大小，函数会设置错误标志并返回错误状态码ERR_NO_OF_ELEMENTS (16#8400)。否则，函数会成功执行并返回计算出的CRC值，状态码为STATUS_NO_ERROR (16#0000)。\n\n\n"
+}

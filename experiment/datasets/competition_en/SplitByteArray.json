@@ -1,0 +1,27 @@
+﻿{
+    "title": "Separate Bytes into Bits",
+    "description": "Write a PLC program that receives a variable-length byte array byteArray and a variable-length boolean array bitArray. The goal of the program is to sequentially separate each byte in byteArray into bitArray, ensuring that all 8 bits of each byte are separated and stored. If the length of bitArray is insufficient to store all bits, only separate up to the maximum number of bits that bitArray can accommodate. The program also outputs the actual number of bytes separated splitByteNum\nFor example, if byteArray=[16#2D], then bitArray=[1,0,1,1,0,1,0,0]",
+    "type": "FUNCTION",
+    "name": "SplitByteArray",
+    "input": [
+        {
+            "name": "byteArray",
+            "type": "Array[*] of Byte",
+            "description": "Byte array to be separated"
+        }
+    ],
+    "output": [
+        {
+            "name": "splitByteNum",
+            "type": "DInt",
+            "description": "Actual number of bytes separated"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "bitArray",
+            "type": "Array[*] of Bool",
+            "description": "Separated boolean array"
+        }
+    ]
+ }

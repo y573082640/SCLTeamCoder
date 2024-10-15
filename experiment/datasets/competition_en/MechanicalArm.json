@@ -1,0 +1,130 @@
+﻿{
+    "title": "Mechanical Arm Control",
+    "description": "Design a PLC program to control an automated mechanical arm that performs handling tasks on the production line. The mechanical arm has six basic actions: down, up, left, right, grip, and release. The operating modes of the mechanical arm include four types: manual, single step, single cycle, and continuous.\nControl requirements:\n1. Manual mode: Allows the operator to control each action of the mechanical arm individually through the control panel, provided it is not yet in position. For example, pressing the down button (DownButton=1), if not at the down position (DownLimitSwitch=0), then move down (MoveDown=1); if at the down position (DownLimitSwitch=1), stop moving down. Releasing the down button also stops the movement down.\n2. Single step mode: The mechanical arm automatically executes one action according to the preset program, and the operator needs to confirm after each action is completed to execute the next action.\nThe initial position of the mechanical arm is at the top left.\nWhen the start button is pressed once, the mechanical arm executes the down command MoveDown, and stops after reaching the down position.\nWhen the start button is pressed again, the mechanical arm executes the grip command ActivateGrip, and stops after gripping.\nWhen the start button is pressed again, the mechanical arm executes the up command MoveUp, and stops after reaching the up position.\nWhen the start button is pressed, the mechanical arm executes the right command MoveRight, and stops after reaching the right position.\nWhen the start button is pressed, the mechanical arm executes the down command MoveDown, and stops after reaching the down position.\nWhen the start button is pressed, the mechanical arm executes the release command ActivateRelease, and stops after releasing.\nWhen the start button is pressed again, the mechanical arm executes the up command MoveUp, and stops after reaching the up position.\nWhen the start button is pressed again, the mechanical arm executes the left command MoveLeft, and stops after reaching the left position.\nThen starts the cycle again from the beginning\n3. Single cycle mode: The mechanical arm automatically completes a full handling cycle, including all preset actions, and stops at the end of the cycle waiting for the operator's instruction.\nThe initial position of the mechanical arm is at the top left, when the start button is pressed:\nThe mechanical arm first moves down, then grips after reaching the down position, moves up after gripping, moves right after reaching the up position, moves down after reaching the right position, releases after reaching the down position, moves up after releasing, moves left after reaching the up position, and stops after reaching the left position.\n4. Continuous mode: The initial position of the mechanical arm is at the top left, when the start button is pressed, the mechanical arm continuously executes the handling cycle of the single cycle mode.\n5. The emergency stop function can stop all actions of the mechanical arm at any time.",
+    "type": "FUNCTION_BLOCK",
+    "name": "MechanicalArm",
+    "input": [
+        {
+            "name": "ManualMode",
+            "type": "Bool",
+            "description": "Manual mode"
+        },
+        {
+            "name": "SingleStepMode",
+            "type": "Bool",
+            "description": "Single step mode"
+        },
+        {
+            "name": "SingleCycleMode",
+            "type": "Bool",
+            "description": "Single cycle mode"
+        },
+        {
+            "name": "ContinuousMode",
+            "type": "Bool",
+            "description": "Continuous mode"
+        },
+        {
+            "name": "EmergencyStop",
+            "type": "Bool",
+            "description": "Emergency stop signal\nFALSE: Emergency stop triggered\nTRUE: No emergency stop triggered"
+        },
+        {
+            "name": "Start",
+            "type": "Bool",
+            "description": "Start operation"
+        },
+        {
+            "name": "DownButton",
+            "type": "Bool",
+            "description": "Down button"
+        },
+        {
+            "name": "UpButton",
+            "type": "Bool",
+            "description": "Up button"
+        },
+        {
+            "name": "LeftButton",
+            "type": "Bool",
+            "description": "Left button"
+        },
+        {
+            "name": "RightButton",
+            "type": "Bool",
+            "description": "Right button"
+        },
+        {
+            "name": "GripButton",
+            "type": "Bool",
+            "description": "Grip button"
+        },
+        {
+            "name": "ReleaseButton",
+            "type": "Bool",
+            "description": "Release button"
+        },
+        {
+            "name": "DownLimitSwitch",
+            "type": "Bool",
+            "description": "Down position limit switch"
+        },
+        {
+            "name": "UpLimitSwitch",
+            "type": "Bool",
+            "description": "Up position limit switch"
+        },
+        {
+            "name": "LeftLimitSwitch",
+            "type": "Bool",
+            "description": "Left position limit switch"
+        },
+        {
+            "name": "RightLimitSwitch",
+            "type": "Bool",
+            "description": "Right position limit switch"
+        },
+        {
+            "name": "GripLimitSwitch",
+            "type": "Bool",
+            "description": "Grip position limit switch"
+        },
+        {
+            "name": "ReleaseLimitSwitch",
+            "type": "Bool",
+            "description": "Release position limit switch"
+        }
+    ],
+    "output": [
+        {
+            "name": "MoveDown",
+            "type": "Bool",
+            "description": "Down command"
+        },
+        {
+            "name": "MoveUp",
+            "type": "Bool",
+            "description": "Up command"
+        },
+        {
+            "name": "MoveLeft",
+            "type": "Bool",
+            "description": "Left command"
+        },
+        {
+            "name": "MoveRight",
+            "type": "Bool",
+            "description": "Right command"
+        },
+        {
+            "name": "ActivateGrip",
+            "type": "Bool",
+            "description": "Grip command"
+        },
+        {
+            "name": "ActivateRelease",
+            "type": "Bool",
+            "description": "Release command"
+        }
+    ]
+ }

@@ -1,0 +1,32 @@
+﻿{
+    "title": "Multiple Data Type Selection Sort",
+    "description": "Write a function block FB to implement an ascending order selection sort algorithm. This function block should accept an array of variable length and data types (including Sint, Int, DInt, LInt, Real, LReal, USint, UInt, UDInt, ULint) and write the sorted results back to the original array.\nBased on the program execution results, output the corresponding error status and status code:\n16#0000: No error occurred when executing FB\n16#8A01: The queue seq is not an array type",
+    "type": "FUNCTION_BLOCK",
+    "name": "SelectSort",
+    "input": [
+        {
+            "name": "exe",
+            "type": "Bool",
+            "description": "Start sorting"
+        }
+    ],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: No error occurred\nTRUE: Error occurred while executing FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status code"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "seq",
+            "type": "Variant",
+            "description": "Array to be sorted"
+        }
+    ]
+ }

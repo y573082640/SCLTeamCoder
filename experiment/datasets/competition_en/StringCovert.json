@@ -1,0 +1,24 @@
+﻿{
+    "title": "Case Conversion of Characters",
+    "description": "Write a PLC program that receives a string 'In' and performs conversion based on the 'mode' of conversion, then returns the converted string.\nIf mode=FALSE, it is the lowercase to uppercase mode, i.e., converts all lowercase characters in the string to uppercase.\nIf mode=TRUE, it is the opposite, i.e., converts all uppercase characters in the string to lowercase.\nFor example, In='ABCD1234efgh', mode=TRUE, then the returned string is 'abcd1234efgh'",
+    "type": "FUNCTION",
+    "name": "StringCovert",
+    "input": [
+        {
+            "name": "In",
+            "type": "String",
+            "description": "The string to be converted"
+        },
+        {
+            "name": "mode",
+            "type": "Bool",
+            "description": "Conversion mode"
+        }
+    ],
+    "return_value": [
+        {
+            "type": "String",
+            "description": "The converted string"
+        }
+    ]
+ }

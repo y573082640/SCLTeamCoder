@@ -1,0 +1,52 @@
+﻿{
+    "title": "Custom String Extraction",
+    "description": "Write a function FC that, based on a given starting string and ending string, can extract the required substring from a character array.\nDescription:\n1. The function should traverse charArray, starting from the search position startPos to find the first occurrence of textBefore, and then find the position of the subsequent appearance of textAfter.\n2. If textBefore and textAfter are found, the function should extract the string between these two boundaries (if includeBeforeAfter=FALSE, the boundary characters themselves are not included, otherwise, they are included) and return this substring retString. It should also return the position of the first character of the extracted string in the array, and the length of the extracted string.",
+    "type": "FUNCTION",
+    "name": "GetString",
+    "input": [
+        {
+            "name": "textBefore",
+            "type": "String",
+            "description": "The starting boundary of the string to be extracted"
+        },
+        {
+            "name": "textAfter",
+            "type": "String",
+            "description": "The ending boundary of the string to be extracted"
+        },
+        {
+            "name": "includeBeforeAfter",
+            "type": "Bool",
+            "description": "FALSE: Exclude boundaries\nTRUE: Include boundaries"
+        },
+        {
+            "name": "startPos",
+            "type": "DInt",
+            "description": "The starting position from which to search in the array, 0 corresponds to the first element"
+        }
+    ],
+    "output": [
+        {
+            "name": "retString",
+            "type": "String",
+            "description": "The extracted string"
+        },
+        {
+            "name": "position",
+            "type": "DInt",
+            "description": "The position of the first character of the extracted string in the array, 0 corresponds to the first element"
+        },
+        {
+            "name": "length",
+            "type": "Int",
+            "description": "The length of the extracted string"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "charArray",
+            "type": "Variant",
+            "description": "The character or byte array in which to perform the search"
+        }
+    ]
+ }

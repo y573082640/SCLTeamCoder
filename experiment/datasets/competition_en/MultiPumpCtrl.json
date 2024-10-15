@@ -1,0 +1,44 @@
+﻿{
+    "title": "Multi-Pump Switching Control System",
+    "description": "In an industrial water supply system, there are 5 pumps, each of which can be controlled independently. The system needs to support both manual and automatic operating modes.\nBased on the value of the mode variable, switch to the corresponding operating mode.\nIn manual mode, control the start and stop of the selected pump based on the value of pumpGroup[1..5].selection.\nIn automatic mode, compare the priority of each pump, and automatically select the 3 pumps with higher priority for water supply according to the method of three in use and two on standby.",
+    "type": "FUNCTION_BLOCK",
+    "name": "MultiPumpCtrl",
+    "input": [
+        {
+            "name": "mode",
+            "type": "Bool",
+            "description": "FALSE: Manual mode\nTRUE: Automatic mode"
+        },
+        {
+            "name": "start",
+            "type": "Bool",
+            "description": "Start button, used to start the manually selected or automatically selected pump"
+        },
+        {
+            "name": "stop",
+            "type": "Bool",
+            "description": "Stop button, used to stop all pumps"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "pumpGroup",
+            "type": "Array[1..5] of Struct",
+            "description": "Pump group control structure",
+            "fields": {
+                "priority": {
+                    "type": "Int",
+                    "description": "Represents the priority of each pump, the higher the value, the higher the priority"
+                },
+                "selection": {
+                    "type": "Bool",
+                    "description": "Whether the pump is selected in manual mode, TRUE=selected"
+                },
+                "RunComd": {
+                    "type": "Bool",
+                    "description": "Pump run command, TRUE=run, FALSE=stop"
+                }
+            }
+        }
+    ]
+ }

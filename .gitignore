@@ -161,6 +161,9 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
 
+
+#   If you don't want to ignore the entire.idea directory, you can also create a custom
+experiment/output/
 output/
 tmp/
 testInterface/

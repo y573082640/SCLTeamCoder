@@ -1,0 +1,57 @@
+﻿{
+    "title": "Multi-element Queue",
+    "description": "Write a function block FB to implement the function of a first-in-first-out circular queue, which can support multiple elements for enqueue or dequeue operations, and the maximum length of the queue is variable.\nThe circular queue should be able to support the following operations:\n1. Enqueue operation (push): When there is enough space in the queue 'queue', multiple elements are added to the end of the queue. The elements to be added are specified by the starting position 'itemIndex' and the length 'itemLen' in the element array 'item'.\n2. Dequeue operation (pop): When there are enough elements in the queue 'queue', multiple elements are removed from the front of the queue, the number of elements to be removed is specified by 'itemLen', moved to 'item', starting from the position 'itemIndex'.\n3. Reset operation (reset): Clear all elements in the queue.\n4. Get queue information: Return the current number of elements and available space in the queue.",
+    "type": "FUNCTION_BLOCK",
+    "name": "RingQueueMultiItem",
+    "input": [
+        {
+            "name": "push",
+            "type": "Bool",
+            "description": "Enqueue operation"
+        },
+        {
+            "name": "pop",
+            "type": "Bool",
+            "description": "Dequeue operation"
+        },
+        {
+            "name": "reset",
+            "type": "Bool",
+            "description": "Reset operation"
+        },
+        {
+            "name": "itemIndex",
+            "type": "UDInt",
+            "description": "Starting position of the elements to be enqueued or dequeued"
+        },
+        {
+            "name": "itemLen",
+            "type": "UDInt",
+            "description": "Length of the elements to be enqueued or dequeued"
+        }
+    ],
+    "output": [
+        {
+            "name": "queueUsed",
+            "type": "DInt",
+            "description": "Number of elements in the queue"
+        },
+        {
+            "name": "queueUnused",
+            "type": "DInt",
+            "description": "Remaining space in the queue"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "item",
+            "type": "Array[*] of Byte",
+            "description": "Values to be added to the queue or returned from the queue"
+        },
+        {
+            "name": "queue",
+            "type": "Array[*] of Byte",
+            "description": "Array used as the queue"
+        }
+    ]
+ }

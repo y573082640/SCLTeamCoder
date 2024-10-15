@@ -1,0 +1,373 @@
+
+================================
+[TASK_DESCRIPTION_START]
+YOU ARE A HELPFUL ASSISTANT TASKED WITH SUCCESSIVE PHASES TO HELP AN OPERATOR PROGRAM AND MAINTAIN CODE FOR AN INDUSTRIAL PLC THROUGH THE SCL LANGUAGE AND SMV VERIFICATION TOOLCHAINS.
+PHASE: PLANNING
+THE USER WILL PROVIDE GIVEN REQUIREMENTS AND SPECIFICATIONS. YOUR FIRST TASK IS TO PLAN THE COMPONENTS OF THE PROGRAM IN SCL BEFORE PROPOSING THE ACTUAL CODE IMPLEMENTATION. THE USER WILL PROVIDE A NATURAL LANGUAGE DESCRIPTION OF BOTH THE PLANT AND THE NEEDED OPERATION. YOU WILL PROPOSE A DETAILED PLAN FOR THE CODE, INCLUDING FUNCTION AND BLOCK DECLARATIONS AS WELL AS THEIR SIGNATURES.
+IMPERATIVE: DO NOT MAKE ANY ASSUMPTIONS.
+IMPERATIVE: DO NOT MAKE ANY ADDITIONS, MODIFICATIONS, OR REMOVAL OF NEEDED INFORMATION.
+IMPERATIVE: KEEP IN MIND THE PLC SCAN CYCLE: THE CODE WILL EXECUTE IN CYCLES AS DEFINED IN TYPICAL STRUCTURED TEXT LANGUAGES.
+IMPERATIVE: WHEN CHANGING VARIABLES OVER TIME, YOU NEED TO KEEP TRACK OF THE STATE THROUGH DIFFERENT CYCLES AND STOP WHEN THE NEEDED STATE IS REACHED.
+IMPORTANT: START YOUR PLAN WITH "START_PLAN" AND END IT WITH "END_PLAN"
+IMPORTANT: PLAN ACCORDING TO A FINITE STATE MACHINE DESIGN. EXPLAIN EACH STATE AND OUTPUTS CLEARLY.
+[TASK_DESCRIPTION_END]
+
+[CRUCIAL_INFORMATION_START]
+IN PLC PROGRAM LOGIC, ACTUATING SOME OUTPUT UNTIL A CONDITION IS MET IS NOT DONE USING LOOPS.
+THE PLC WILL EXECUTE THE CODE IN CYCLES. WE TRACK THE STATE OF THE SYSTEM THROUGH DIFFERENT CYCLES USING A STATE VARIABLE.
+THE OUTPUT WILL REMAIN ACTIVATED UNTIL THE STATE VARIABLE IS CHANGED.
+EACH FSM STATE WILL BE RESPONSIBLE FOR ONE OPERATION. I.E A STATE CANNOT DO OEPRATION1 THEN OPERATION2. THESE ARE TWO DIFFERENT STATES.
+[CRUCIAL_INFORMATION_END]
+
+[PLAN_EXAMPLE_START]
+START_PLAN
+0. DECLARE THE NEEDED STATES
+STATE 0: INITIALIZE
+STATE 1: HEATING TO 70 DEGREES
+STATE 2: COOLING TO 50 DEGREES
+STATE 3: HEATING TO 100 DEGREES
+...
+1. LIST THE OUTPUT VALUES FOR EACH STATE
+STATE 0: HEATER = OFF, COOLER = OFF
+STATE 1: HEATER = ON, COOLER = OFF
+...
+2. LIST THE TRANSITIONS BETWEEN STATES
+STATE 0 -> STATE 1: IF TEMPERATURE < 70 DEGREES
+STATE 1 -> STATE 2: IF TEMPERATURE >= 70 DEGREES
+...
+3. DECLARE THE NEEDED VARIABLES
+state: Int; // THE STATE VARIABLE
+prevState: Int; // THE PREVIOUS STATE VARIABLE
+temperature: Int; // THE TEMPERATURE VARIABLE
+HISTORY: Int; // THE HISTORY VARIABLE
+lastOn: Bool; // THE LAST ON VARIABLE
+...
+END_PLAN
+[PLAN_EXAMPLE_END]
+
+[SCL_EXAMPLE_START]
+DATA_BLOCK "state" // Variables in DATA_BLOCK are global, and carry over between cycles
+VAR
+    state: Int;
+    historyFlag: Bool;
+    selected: Int;
+END_VAR
+BEGIN
+    state := 1; // Init values in BEGIN block!
+END_DATA_BLOCK
+
+ORGANIZATION_BLOCK "Main"
+VAR 
+    intermediate: Int; // Variables in ORGANIZATION_BLOCK are local, and are reset every cycle (temporary)
+END_VAR
+VAR CONSTANT // Constants are global, and carry over between cycles, immutable
+    stateA: Int := 0;
+    stateB: Int := 1;
+    stateC: Int := 2;
+END_VAR
+BEGIN
+    CASE "state".state OF // Refer to DATA_BLOCK with quotes
+        #stateA:
+            "output channel A" := TRUE; // Refer to I/O with quotes
+            "output channel B" := FALSE; 
+            IF "input channel 1" <= 3 THEN // Refer to I/O with quotes, channel 1 is an int
+                "state".state := #stateB;
+            END_IF;
+        #stateB:
+            "output channel A" := TRUE;
+            "output channel B" := TRUE;
+            IF "input channel 1" >= 7  THEN // Refer to I/O with quotes, channel 1 is an int
+                "state".state := #stateC;
+            END_IF;
+        #stateC:
+            "output channel A" := FALSE;
+            "output channel B" := FALSE;
+            IF "input channel 1"=8 THEN // Notice the single "=" for comparison
+                "state".state := #stateA;
+            ELSIF "input channel 2" THEN // Refer to I/O with quotes, channel 2 is a bool
+                "state".state := #stateB;
+            END_IF;
+        ELSE
+            "state".state := #stateC;
+    END_CASE;
+END_ORGANIZATION_BLOCK
+
+[SCL_EXAMPLE_END]
+
+
+[USER_INPUT_START]
+{'title': 'Material Proportioning Process Control', 'description': 'Design a PLC program to control a material proportioning process that requires mixing three types of materials according to specific requirements and then delivering them to the next process through valve D. The system needs to support both manual and automatic operation modes and be able to safely stop all equipment when an emergency stop signal is triggered.\nControl requirements:\nEmergency Stop Logic: The #estop(=FALSE) signal is used for emergency stopping of all equipment.\nManual Mode: #opeMode=false, manually control the start/stop of valves A, B, C, D, and the mixing motor.\nAutomatic Mode: #opeMode=true, equipment operates automatically according to the process flow.\nImplement the emergency stop logic to ensure that all equipment stops immediately when the emergency stop signal is triggered.\nIn manual mode, manually control the start/stop of valves and the mixing motor.\nFor example, pressing the valve A start button valveAStart (triggering a rising edge) causes valve A to run (valveARun=TRUE); pressing the valve A start button valveAStart again (triggering a rising edge) stops valve A (valveARun=FALSE).\nIn automatic mode, implement the following control logic based on the process flow:\nPress the autoStart button to start the automatic process, first opening valve A.\nWhen the liquid level sensor #levelSensor reaches 50cm, close valve A and open valve B.\nWhen the liquid level sensor reaches 80cm, close valve B.\nBased on #processMode:\nIf #processMode=false, start the mixing motor; after receiving the mixing complete signal, stop the mixing motor, open valve D, and the automatic process ends.\nIf #processMode=true, open valve C; when the liquid level sensor reaches 100cm, close valve C, start the mixing motor; after receiving the mixing complete signal, stop the mixing motor, open valve D, and the automatic process ends.', 'type': 'FUNCTION_BLOCK', 'name': 'MaterialMixing', 'input': [{'name': 'estop', 'type': 'Bool', 'description': 'Emergency Stop Signal\nFALSE: Emergency stop triggered\nTRUE: No emergency stop triggered'}, {'name': 'opeMode', 'type': 'Bool', 'description': 'Operation Mode\nFALSE: Manual Operation Mode\nTRUE: Automatic Operation Mode'}, {'name': 'valveAStart', 'type': 'Bool', 'description': 'Valve A Start Button'}, {'name': 'valveBStart', 'type': 'Bool', 'description': 'Valve B Start Button'}, {'name': 'valveCStart', 'type': 'Bool', 'description': 'Valve C Start Button'}, {'name': 'valveDStart', 'type': 'Bool', 'description': 'Valve D Start Button'}, {'name': 'mixMotorStart', 'type': 'Bool', 'description': 'Mixing Motor Start Button'}, {'name': 'autoStart', 'type': 'Bool', 'description': 'Automatic Start Button'}, {'name': 'processMode', 'type': 'Bool', 'description': 'Process Mode'}, {'name': 'levelSensor', 'type': 'Int', 'description': 'Liquid Level Sensor (unit cm)'}, {'name': 'mixMotorComplete', 'type': 'Bool', 'description': 'Mixing Complete Signal'}], 'output': [{'name': 'valveARun', 'type': 'Bool', 'description': 'Valve A Run Command'}, {'name': 'valveBRun', 'type': 'Bool', 'description': 'Valve B Run Command'}, {'name': 'valveCRun', 'type': 'Bool', 'description': 'Valve C Run Command'}, {'name': 'valveDRun', 'type': 'Bool', 'description': 'Valve D Run Command'}, {'name': 'mixMotorRun', 'type': 'Bool', 'description': 'Mixing Motor Run Command'}]}
+[USER_INPUT_END]
+
+TASK: PROPOSE THE PLAN FOR THE CODE, DETAILING WHAT EACH PART DOES AS WELL AS THE INTENDED OPERATION.
+********************************
+
+================================
+[TASK_DESCRIPTION_START]
+YOU WILL TRANSFORM YOUR PLAN INTO SCL CODE.
+IMPERATIVE: DO NOT OMIT OR SUMMARIZE ANYTHING FROM THE PLAN
+IMPERATIVE: AVOID SYNTAX ERRORS
+IMPERATIVE: AIM FOR READABILITY/MAINTAINABILITY
+IMPERATIVE: AIM FOR EFFICIENCY
+IMPERATIVE: AIM FOR COMPLETENESS, STICK TO THE PLAN
+IMPORTANT: START YOUR CODE WITH "START_SCL" AND END THEM WITH "END_SCL"
+IMPERATIVE: USE DATA_BLOCKS TO HOLD DATA AND ORGANIZATION_BLOCKS TO HOLD CODE AND LOGIC
+IMPERATIVE: DO AS YOU ARE ASKED: DO NOT ASK USER TO FILL CODE FOR YOU
+[TASK_DESCRIPTION_END]
+
+[SCL_EXAMPLE_START]
+DATA_BLOCK "state" // Variables in DATA_BLOCK are global, and carry over between cycles
+VAR
+    state: Int;
+    historyFlag: Bool;
+    selected: Int;
+END_VAR
+BEGIN
+    state := 1; // Init values in BEGIN block!
+END_DATA_BLOCK
+
+ORGANIZATION_BLOCK "Main"
+VAR 
+    intermediate: Int; // Variables in ORGANIZATION_BLOCK are local, and are reset every cycle (temporary)
+END_VAR
+VAR CONSTANT // Constants are global, and carry over between cycles, immutable
+    stateA: Int := 0;
+    stateB: Int := 1;
+    stateC: Int := 2;
+END_VAR
+BEGIN
+    CASE "state".state OF // Refer to DATA_BLOCK with quotes
+        #stateA:
+            "output channel A" := TRUE; // Refer to I/O with quotes
+            "output channel B" := FALSE; 
+            IF "input channel 1" <= 3 THEN // Refer to I/O with quotes, channel 1 is an int
+                "state".state := #stateB;
+            END_IF;
+        #stateB:
+            "output channel A" := TRUE;
+            "output channel B" := TRUE;
+            IF "input channel 1" >= 7  THEN // Refer to I/O with quotes, channel 1 is an int
+                "state".state := #stateC;
+            END_IF;
+        #stateC:
+            "output channel A" := FALSE;
+            "output channel B" := FALSE;
+            IF "input channel 1"=8 THEN // Notice the single "=" for comparison
+                "state".state := #stateA;
+            ELSIF "input channel 2" THEN // Refer to I/O with quotes, channel 2 is a bool
+                "state".state := #stateB;
+            END_IF;
+        ELSE
+            "state".state := #stateC;
+    END_CASE;
+END_ORGANIZATION_BLOCK
+
+[SCL_EXAMPLE_END]
+
+TASK: TRANSFORM YOUR PLAN INTO SCL CODE.
+********************************
+
+================================
+[TASK_DESCRIPTION_START]
+THE USER HAS PROVIDED IMPORTANT FEEDBACK ABOUT YOUR CURRENT CODE.
+YOU SHOULD CLARIFY THE USER'S CONCERNS AND PROVIDE A NEW PLAN IF NECESSARY.
+IMPORTANT: START YOUR CODE WITH "START_SCL" AND END IT WITH "END_SCL"
+[TASK_DESCRIPTION_END]
+
+[USER_FEEDBACK_START]
+Error opening library file lib/ieclib.txt: No such file or directory
+
+[USER_FEEDBACK_END]
+
+TASK: THE FEEDBACK IS FREE OF CONTRADICTION AND PROVIDES SUFFICIENT INFORMATION, PROVIDE THE CODE.
+********************************
+
+================================
+[TASK_DESCRIPTION_START]
+THE USER HAS PROVIDED IMPORTANT FEEDBACK ABOUT YOUR CURRENT CODE.
+YOU SHOULD CLARIFY THE USER'S CONCERNS AND PROVIDE A NEW PLAN IF NECESSARY.
+IMPORTANT: START YOUR CODE WITH "START_SCL" AND END IT WITH "END_SCL"
+[TASK_DESCRIPTION_END]
+
+[USER_FEEDBACK_START]
+Error opening library file lib/ieclib.txt: No such file or directory
+
+[USER_FEEDBACK_END]
+
+TASK: THE FEEDBACK IS FREE OF CONTRADICTION AND PROVIDES SUFFICIENT INFORMATION, PROVIDE THE CODE.
+********************************
+
+================================
+[TASK_DESCRIPTION_START]
+THE USER HAS PROVIDED IMPORTANT FEEDBACK ABOUT YOUR CURRENT CODE.
+YOU SHOULD CLARIFY THE USER'S CONCERNS AND PROVIDE A NEW PLAN IF NECESSARY.
+IMPORTANT: START YOUR CODE WITH "START_SCL" AND END IT WITH "END_SCL"
+[TASK_DESCRIPTION_END]
+
+[USER_FEEDBACK_START]
+Error opening library file lib/ieclib.txt: No such file or directory
+
+[USER_FEEDBACK_END]
+
+TASK: THE FEEDBACK IS FREE OF CONTRADICTION AND PROVIDES SUFFICIENT INFORMATION, PROVIDE THE CODE.
+********************************
+
+================================
+[TASK_DESCRIPTION_START]
+YOU WILL TRANSFORM YOUR PLAN INTO AN SMV MODEL AND GIVE CORRECT SHELL COMMAND TO RUN SMV MODEL.
+IMPERATIVE: DO NOT OMIT OR SUMMARIZE ANYTHING FROM THE PLAN
+IMPERATIVE: AVOID SYNTAX ERRORS
+IMPERATIVE: AIM FOR READABILITY/MAINTAINABILITY
+IMPERATIVE: AIM FOR EFFICIENCY
+IMPERATIVE: AIM FOR COMPLETENESS, STICK TO THE PLAN
+IMPORTANT: START YOUR CODE WITH "START_SMV" AND END THEM WITH "END_SMV"
+IMPORTANT: START YOUR NUXMV VERIFICATION COMMAND WITH "START_COMMAND" AND END THEM WITH "END_COMMAND"
+IMPERATIVE: DO AS YOU ARE ASKED: DO NOT ASK USER TO FILL CODE FOR YOU
+[TASK_DESCRIPTION_END]
+
+[SMV_GRAMMAR_START]
+MODULE VG_Data(B_start, B_stop)
+VAR
+    holding : boolean;
+    
+    Xpos : integer;
+    Ypos : integer;
+    Angle : integer;
+    targetXpos : integer;
+    targetYpos : integer;
+    targetAngle : integer;
+
+    state: {idle, move_to_white, at_white, lift, mps, stretch_arm, drop, retract, home};
+
+DEFINE
+    targetAngle_toWhite := 444;
+    targetX_atWhite := 406;
+    targetY_atWhite := 728;
+    targetY_lift := 0;
+    targetX_lift := 0;
+    targetAngle_mps := 878;
+    targetX_stretch_arm := 898;
+    targetY_drop := 527;
+    targetX_retract := 0;
+    targetY_retract := 0;
+    targetAngle_home := 0;
+
+
+
+ASSIGN
+    init(holding) := FALSE;
+    next(holding) := 
+        case
+            state = move_to_white : TRUE;
+            state = stretch_arm : TRUE;
+            state = lift : TRUE;
+            state = mps : TRUE;
+            TRUE : FALSE;
+        esac;
+
+    init(Xpos) := 0;
+    init(Ypos) := 0;
+    init(Angle) := 0;
+
+    init(targetXpos) := 0;
+    next(targetXpos) := 
+
+        case
+            state = idle & B_start & !holding : 0;
+            state = move_to_white : 0;
+            state = at_white : targetX_atWhite;
+            state = lift : targetX_lift;
+            state = stretch_arm : targetX_stretch_arm;
+            state = retract : targetX_retract;
+            TRUE : targetXpos;
+        esac;
+
+    init(targetYpos) := 0;
+    next(targetYpos) := 
+        case
+            state = idle & B_start & !holding : 0;
+            state = move_to_white : 0;
+	    state = at_white : targetY_atWhite;
+            state = lift : targetY_lift;
+            state = drop : targetY_drop;
+            state = retract : targetY_retract;
+            TRUE : targetYpos;
+        esac;
+
+    init(targetAngle) := targetAngle_toWhite;
+    next(targetAngle) :=
+        case
+            state = idle & B_start & !holding : targetAngle_toWhite;
+            state = move_to_white : targetAngle_toWhite;
+            state = mps : targetAngle_mps;
+            state = home : targetAngle_home;
+            TRUE : targetAngle;
+        esac;
+
+    init(state) := idle;
+    next(state) :=
+        case
+            state = idle & B_stop & !holding : idle;
+            state = idle & B_start & !holding & (Angle < targetAngle_toWhite) : move_to_white;
+            state = move_to_white & (Angle = targetAngle_toWhite) & (Xpos < targetX_atWhite & Ypos < targetY_atWhite) : at_white;
+            state = at_white & (Angle = targetAngle_toWhite) & (Xpos < targetX_atWhite & Ypos < targetY_atWhite) : at_white;
+            state = at_white & (Xpos = targetX_atWhite) & (Ypos = targetY_atWhite) : lift;
+            state = lift & (Ypos > targetY_lift) & (Xpos > targetX_lift) : lift;
+            state = lift & (Ypos = targetY_lift) & (Xpos = targetX_lift) & (Angle < targetAngle_mps) : mps;
+            state = mps & (Angle < targetAngle_mps) : mps;
+            state = mps & (Angle = targetAngle_mps) & (Xpos < targetX_stretch_arm) : stretch_arm;
+            state = stretch_arm & (Xpos < targetX_stretch_arm) : stretch_arm;
+            state = stretch_arm & (Xpos = targetX_stretch_arm) & (Ypos < targetY_drop) : drop; 
+            state = drop & Ypos < targetY_drop : drop;
+            state = drop & Ypos = targetY_drop : retract;
+            state = retract & (Xpos > targetX_retract & Ypos > targetY_retract) : retract;
+            state = retract & Ypos = targetY_retract & Xpos = targetX_retract : home;
+            state = home & (Angle > targetAngle_home) : home;
+            state = home & (Angle = targetAngle_home) : idle;
+            TRUE : state;
+        esac;
+
+TRANS
+    case
+        Xpos < targetXpos : next(Xpos)=Xpos+1;
+        Xpos > targetXpos : next(Xpos)=Xpos - 1;
+        TRUE : next(Xpos)=Xpos;
+    esac;
+TRANS
+    case
+        Ypos < targetYpos : next(Ypos)=Ypos+1;
+        Ypos > targetYpos : next(Ypos)=Ypos - 1;
+        TRUE : next(Ypos)=Ypos;
+    esac;
+TRANS
+    case
+        Angle < targetAngle : next(Angle)=Angle+1;
+        Angle > targetAngle : next(Angle)=Angle - 1;
+        TRUE : next(Angle)=Angle;
+    esac;
+
+
+
+MODULE main
+VAR
+    VG : VG_Data(TRUE, FALSE);
+
+[SMV_GRAMMAR_END]
+
+[SMV_COMMAND_GRAMMAR_START]
+read_model -i example.smv
+
+go_msat
+
+msat_check_ltlspec_bmc -p "F (VG.state = idle)"
+
+msat_check_ltlspec_bmc -p "G !(VG.state = drop)"
+
+msat_check_ltlspec_bmc -p "G (VG.state = at_white -> VG.Xpos < 500)"
+
+quit
+
+[SMV_COMMAND_GRAMMAR_END]
+
+TASK: GIVEN THE DESCRIPTION OF THE SMV GRAMMAR, TRANSFORM THE MBD PLAN INTO ITS SMV EQUIVALENT AND COMMAND.
+********************************

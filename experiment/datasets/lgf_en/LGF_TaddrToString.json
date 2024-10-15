@@ -1,0 +1,24 @@
+{
+    "title": "TADDR_Param to String Converter",
+    "name": "LGF_TaddrToString",
+    "description": "The function converts a TADDR_Param system data type variable to a String data type variable.",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "ipAdressTaddr",
+            "type": "TADDR_Param",
+            "description": "IP-Address and Port number to convert into string"
+        }
+    ],
+    "output": [],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "String",
+            "description": "IP-Address and Port number as string"
+        }
+    ],
+    "status_codes": {},
+    "user_defined_types": [],
+    "description_zh": "\n一个函数FC，该函数能够将系统数据类型为TADDR_Param的变量转换为字符串数据类型。TADDR_Param包含了IP地址和端口号，函数将这两个部分连接起来，形成一个字符串输出。字符串格式为IP地址部分（四个十进制数，每部分之间用点分隔），如果存在端口号，则紧接着是一个冒号和端口号。注意，IP地址的每个部分如果小于10，前面不会补0。如果端口号为0，则不会在字符串中包含端口号部分。\\n\\n示例：\\n假设输入的TADDR_Param变量包含IP地址为192.168.1.1，端口号为8080。\\n函数应返回字符串\\\"192.168.1.1:8080\\\"作为转换结果。\n\n\n"
+}

@@ -1,0 +1,107 @@
+{
+    "title": "File Reading from UserFiles Folder",
+    "name": "LGF_FileRead",
+    "description": "This function block offers reading data as binary / serialized data stream from files stored on the PLC's memory card in the folder UserFiles.",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "execute",
+            "type": "Bool",
+            "description": "Rising edge starts file read once"
+        },
+        {
+            "name": "dataLengthMustMatch",
+            "type": "Bool",
+            "description": "The length of the file data set and the dataset in the PLC have to match."
+        },
+        {
+            "name": "fileName",
+            "type": "String",
+            "description": "Name of file including path: `UserFiles/test.dat`"
+        }
+    ],
+    "output": [
+        {
+            "name": "done",
+            "type": "Bool",
+            "description": "Commanded functionality has been completed successfully"
+        },
+        {
+            "name": "busy",
+            "type": "Bool",
+            "description": "FB is not finished and new output values can be expected"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "An error occurred during the execution of the FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status of the FB, Error identification"
+        },
+        {
+            "name": "dataLength",
+            "type": "DInt",
+            "description": "Data length read from file (serialized length of `data`)"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "bufferByteArray",
+            "type": "Array[*] of Byte",
+            "description": "Byte array buffer for read / write from / to file"
+        },
+        {
+            "name": "data",
+            "type": "Variant",
+            "description": "Data set read from file"
+        }
+    ],
+    "return_value": [],
+    "status_codes": {
+        "16#0000": "STATUS_EXECUTION_FINISHED",
+        "16#7000": "STATUS_NO_CALL",
+        "16#7001": "STATUS_FIRST_CALL",
+        "16#7002": "STATUS_SUBSEQUENT_CALL",
+        "16#8201": "ERR_BUFFER_LOWERBOUND",
+        "16#8202": "ERR_BUFFER_ARRAY_TO_SMALL_TO_COPY",
+        "16#8401": "ERR_FILE_PATH",
+        "16#8411": "ERR_FILE_SIZE_GRATER_THEN_DATA_SIZE",
+        "16#8412": "ERR_FILE_SIZE_LESS_THEN_DATA_SIZE",
+        "16#8600": "ERR_UNDEFINED_STATE",
+        "16#8601": "ERR_MOVE_BLK_VARIANT",
+        "16#8602": "ERR_DATA_SERIALIZE",
+        "16#8603": "ERR_DATA_DESERIALIZE",
+        "16#8604": "ERR_FILE_READ_INIT",
+        "16#8605": "ERR_FILE_READ"
+    },
+    "user_defined_types": [
+        {
+            "name": "LGF_typeDiagnostics",
+            "description": "Diagnostic structure to store and transfer diagnostic information from blocks trough the interface.",
+            "member": [
+                {
+                    "name": "status",
+                    "type": "Word",
+                    "default": "16#0000",
+                    "description": "Status of the Block or error identification when error occurred"
+                },
+                {
+                    "name": "subfunctionStatus",
+                    "type": "Word",
+                    "default": "16#0000",
+                    "description": "Status or return value of called FB's, FC's and system blocks"
+                },
+                {
+                    "name": "stateNumber",
+                    "type": "DInt",
+                    "default": "0",
+                    "description": "State in the state machine of the block where the error occurred"
+                }
+            ]
+        }
+    ],
+    "description_zh": "\n一个函数块FB，该函数块提供从PLC的存储卡中位于UserFiles文件夹中的文件读取二进制/序列化数据流的功能。它具有以下特性：\\n\\n1. 通过在\\\"execute\\\"输入上检测上升沿来启动文件读取操作。\\n2. 如果\\\"dataLengthMustMatch\\\"输入为真，则文件数据集的长度必须与PLC中的数据集长度相匹配。\\n3. 使用\\\"fileName\\\"输入指定要读取的文件名，包括路径，例如：`UserFiles/test.dat`。\\n4. 读取完成后，\\\"done\\\"输出置为真，表示操作成功完成。\\n5. 如果函数块正在执行，\\\"busy\\\"输出为真。\\n6. 如果执行过程中发生错误，\\\"error\\\"输出为真，\\\"status\\\"输出包含了错误识别的状态代码。\\n7. \\\"dataLength\\\"输出包含了从文件中读取的数据长度（\\\"data\\\"的序列化长度）。\\n8. 使用\\\"bufferByteArray\\\"输入/输出参数作为读取/写入文件的字节数组缓冲区。\\n9. 使用\\\"data\\\"输入/输出参数存储从文件中读取的数据集。\\n\\n状态代码：\\n16#0000：STATUS_EXECUTION_FINISHED - 执行完成\\n16#7000：STATUS_NO_CALL - 没有调用\\n16#7001：STATUS_FIRST_CALL - 首次调用\\n16#7002：STATUS_SUBSEQUENT_CALL - 后续调用\\n16#8201：ERR_BUFFER_LOWERBOUND - 缓冲区下限错误\\n16#8202：ERR_BUFFER_ARRAY_TO_SMALL_TO_COPY - 缓冲区数组太小无法复制\\n16#8401：ERR_FILE_PATH - 文件路径错误\\n16#8411：ERR_FILE_SIZE_GRATER_THEN_DATA_SIZE - 文件大小大于数据大小\\n16#8412：ERR_FILE_SIZE_LESS_THEN_DATA_SIZE - 文件大小小于数据大小\\n16#8600：ERR_UNDEFINED_STATE - 未定义状态\\n16#8601：ERR_MOVE_BLK_VARIANT - 移动块变量错误\\n16#8602：ERR_DATA_SERIALIZE - 数据序列化错误\\n16#8603：ERR_DATA_DESERIALIZE - 数据反序列化错误\\n16#8604：ERR_FILE_READ_INIT - 文件读取初始化错误\\n16#8605：ERR_FILE_READ - 文件读取错误\n\n\n"
+}

@@ -82,7 +82,11 @@ with open(f"{glovar.RAG_DATA_DIR}/data/通用函数库/new_functions_usage.json"
 
 with open(f"{glovar.RAG_DATA_DIR}/data/Keywords.json",'r') as fp:
     Keywords = json.load(fp)
-
+    
+def write_jsonl(data, output_path):
+    with open(output_path, 'a+', encoding='utf-8') as f:
+        f.write(json.dumps(data, ensure_ascii=False) + '\n')
+        
 def read_jsonl(filename):
     """Reads a jsonl file and yields each line as a dictionary"""
     lines = []
@@ -183,6 +187,8 @@ def parse_response(response: str) -> str:
         code_pattern = r'```scl((.|\n)*?)```'
     elif "```plaintext" in response:
         code_pattern = r'```plaintext((.|\n)*?)```'
+    elif "```st" in response:
+        code_pattern = r'```st((.|\n)*?)```'
     elif "```json" in response:
         code_pattern = r'```json((.|\n)*?)```'
     else:

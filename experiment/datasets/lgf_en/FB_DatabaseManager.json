@@ -1,0 +1,50 @@
+{
+    "title": "PLC Database Data Storage and Management System",
+    "description": "In some automation applications, PLCs need to collect and store a large amount of data, such as sensor readings, production counts, or other process variables. This data is usually stored in the PLC's internal database or an external database system.\nControl Requirements:\nThe system needs to receive a set of data 'dataInput', constructed as a byte array, where the first byte 'dataInput[0]' indicates the length of the data to be stored.\nThe storage operation is triggered by the input 'storeTrigger'.\nData needs to be stored in the database sequentially, and each group of data may have different lengths.\nWhen there is not enough space in the database to store a new set of data, the system should trigger an error 'error'.\nThe system should provide a reset function, which clears the database and resets 'error' through the input 'resetTrigger'.\nThe system should be able to output the current usage and remaining space of the database.\nNotes:\n1. When the storage signal 'storeTrigger' is triggered, first check if the data input length information (i.e., the first byte of the array 'dataInput[0]') is illegal. If it is less than or equal to 0 or greater than 5, output an error status 'error=true' and an error code 'status=16#8001'. If there is not enough space in the database to store new data, output an error status 'error=true' and an error code 'status=16#8002'. If there are no errors, based on the length information, extract the data starting from the second byte of the input array and store it in the database. When storing, do not overwrite the existing data in the database, store it sequentially after the existing data.\n2. When the reset signal 'resetTrigger' is triggered, clear all data in the database and reset the error status to 'error=0' and 'status=0'.\n3. The used space and remaining space of the database are output through 'usedSpace' and 'remainingSpace', respectively.",
+    "type": "FUNCTION_BLOCK",
+    "name": "FB_DatabaseManager",
+    "input": [
+        {
+            "name": "dataInput",
+            "type": "Array[0..5] of Byte",
+            "description": "Data input, byte array"
+        },
+        {
+            "name": "down": "description": "Storage trigger signal"
+        },
+        {
+            "name": "resetTrigger",
+            "type": "Bool",
+            "description": "Reset trigger signal"
+        }
+    ],
+    "output": [
+        {
+            "name": "usedSpace",
+            "type": "Int",
+            "description": "Used space in the database"
+        },
+        {
+            "name": "remainingSpace",
+            "type": "Int",
+            "description": "Remaining space in the database"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "Error status indicator\nFALSE: No error occurred\nTRUE: An error occurred"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status code"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "dataBase",
+            "type": "Array[1..20] of Byte",
+            "description": "Database, byte array"
+        }
+    ]
+ }
