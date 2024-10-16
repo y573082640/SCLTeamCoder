@@ -2,13 +2,17 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from scl_team_coder.util.prompt_res_util import *
 from scl_team_coder.util.agent_tools import *
 from datetime import datetime
+from modelscope import snapshot_download
+from tqdm import tqdm  # 导入tqdm库
 
-def run_qwen(dateset="competition_en"):
+model_name  = snapshot_download("Qwen/Qwen2.5-Coder-7B-Instruct")
+
+def run_qwen(dataset="competition_en"):
     """
     使用 Qwen 模型处理数据集并生成代码。
 
     参数:
-        dateset (str): 要处理的数据集名称，默认为 "competition_en"。
+        dataset (str): 要处理的数据集名称，默认为 "competition_en"。
 
     返回:
         None
@@ -32,7 +36,7 @@ def run_qwen(dateset="competition_en"):
     # 设置提示文件和数据集文件的路径
     prompt_path = f"{glovar.EXPERIMENT_DIR}/baselines/qwen/prompt"
     dataset_path = f"{glovar.EXPERIMENT_DIR}/datasets/"
-    output_path = f"{glovar.EXPERIMENT_DIR}/output/{dateset}/qwen/"
+    output_path = f"{glovar.EXPERIMENT_DIR}/output/{dataset}/qwen/"
     
     # 获取当前时间
     current_time = datetime.now()
@@ -50,14 +54,11 @@ def run_qwen(dateset="competition_en"):
         os.makedirs(output_path)
     
     # 读取数据集文件
-    test_data = read_jsonl(dataset_path + f"{dateset}.jsonl")
+    test_data = read_jsonl(dataset_path + f"{dataset}.jsonl")
     
     # 初始化结果列表
     result = []
-    
-    # 指定要使用的模型名称
-    model_name = "Qwen/Qwen2.5-Coder-7B-Instruct"
-    
+
     # 加载模型和 tokenizer
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
@@ -71,7 +72,7 @@ def run_qwen(dateset="competition_en"):
     
     # 遍历数据集中的每个数据点
     with open(output_to,"w") as fp:
-        for data in test_data:
+        for data in tqdm(test_data, desc=f"Processing {dataset}"):
             # 为每个数据点创建一个包含系统提示和用户内容的消息
             messages = [
                 {"role": "system", "content": sys_prompt},
@@ -98,12 +99,12 @@ def run_qwen(dateset="competition_en"):
             ]
             response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
             
-            # 打印响应内容
-            print(response)
+            # 解析代码
+            response = parse_response(response)
             
             # 将提取的代码添加到数据点中
-            data['code'] = parse_response(response)
+            data['code'] = response
             
             # 将结果列表保存到输出文件中
-            f.write(json.dumps(result, ensure_ascii=False))
-            f.write("\n")    
+            fp.write(json.dumps(result, ensure_ascii=False))
+            fp.write("\n")    
