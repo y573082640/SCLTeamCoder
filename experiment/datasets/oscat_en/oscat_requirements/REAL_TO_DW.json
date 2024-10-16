@@ -1,0 +1,28 @@
+
+{
+  "title": "Convert Real to DWORD",
+  "description": "This function takes a real number as input and converts it to a DWORD format. It utilizes a pointer to access the memory address of the input real value and subsequently retrieves the DWORD representation from that address.",
+  "type": "FUNCTION",
+  "name": "REAL_TO_DW",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "Input variable of type REAL that needs to be converted to DWORD."
+    }
+  ],
+  "output": [
+    {
+      "name": "REAL_TO_DW",
+      "type": "DWORD",
+      "description": "The DWORD representation of the input REAL value."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "The result of the conversion from REAL to DWORD."
+  }
+}
+
+

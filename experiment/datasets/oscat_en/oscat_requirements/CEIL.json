@@ -1,0 +1,22 @@
+
+{
+  "title": "Ceiling Function",
+  "description": "This function calculates the ceiling value of a given real number X. The ceiling value is the smallest integer that is greater than or equal to X. If the result of converting X to an integer is less than X, it increments the integer value by one to ensure the ceiling condition is satisfied.",
+  "type": "FUNCTION",
+  "name": "CEIL",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "A real number input for which the ceiling value is to be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The ceiling value of the input real number X, representing the smallest integer greater than or equal to X."
+  }
+}
+
+

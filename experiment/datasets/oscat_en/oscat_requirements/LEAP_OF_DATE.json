@@ -1,0 +1,22 @@
+
+{
+  "title": "Leap Year Calculation",
+  "description": "This function determines whether a given date falls in a leap year. A leap year is defined as the year that is divisible by 4, but not every year divisible by 100 is a leap year unless it is also divisible by 400. The function accepts a date as input and returns a boolean value indicating if that date is in a leap year.",
+  "type": "FUNCTION",
+  "name": "LEAP_OF_DATE",
+  "input": [
+    {
+      "name": "idate",
+      "type": "DATE",
+      "description": "The date to check for leap year status."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "True if the year of the given date is a leap year, otherwise false."
+  }
+}
+
+

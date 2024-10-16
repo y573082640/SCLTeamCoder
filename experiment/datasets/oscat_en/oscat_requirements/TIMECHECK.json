@@ -1,0 +1,39 @@
+
+{
+  "title": "Time Check Function",
+  "description": "The TIMECHECK function determines whether a given time (TD) falls within a specified time range defined by START and STOP. It handles two cases: when the STOP time is less than the START time (indicating a time range that spans midnight) and when the STOP time is greater than or equal to the START time.",
+  "type": "FUNCTION",
+  "name": "TIMECHECK",
+  "input": [
+    {
+      "name": "TD",
+      "type": "TOD",
+      "description": "The time of day to check against the range."
+    },
+    {
+      "name": "START",
+      "type": "TOD",
+      "description": "The start time of the range."
+    },
+    {
+      "name": "STOP",
+      "type": "TOD",
+      "description": "The stop time of the range."
+    }
+  ],
+  "output": [
+    {
+      "name": "TIMECHECK",
+      "type": "BOOL",
+      "description": "Returns TRUE if TD falls within the time range; otherwise, returns FALSE."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Indicates the result of the time check operation.",
+    "fields": []
+  }
+}
+
+

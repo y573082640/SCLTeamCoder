@@ -1,0 +1,28 @@
+
+{
+  "title": "Bit Toggle Function",
+  "description": "This function toggles a specific bit of a given BYTE input based on the position provided. It takes a BYTE input value and an integer representing the bit position that needs to be toggled. The function utilizes a bitwise shift and XOR operation to achieve the toggling.",
+  "type": "FUNCTION",
+  "name": "BIT_TOGGLE_B",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BYTE",
+      "description": "The input BYTE value whose bit is to be toggled."
+    },
+    {
+      "name": "POS",
+      "type": "INT",
+      "description": "The position of the bit to be toggled, where 0 represents the least significant bit."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BYTE",
+    "description": "The resulting BYTE value after toggling the specified bit.",
+    "fields": []
+  }
+}
+
+

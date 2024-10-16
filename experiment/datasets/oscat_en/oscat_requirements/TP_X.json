@@ -1,0 +1,35 @@
+
+{
+  "title": "Timed Pulse Generator",
+  "description": "This function block generates a pulse output based on an input signal with a specified time duration. It provides a true output for the duration defined by the time parameter PT when a rising edge is detected on the input signal IN. After the duration elapses, the output is set to false.",
+  "type": "FUNCTION_BLOCK",
+  "name": "TP_X",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BOOL",
+      "description": "Boolean input for the triggering signal. A rising edge on this signal will start the pulse."
+    },
+    {
+      "name": "PT",
+      "type": "TIME",
+      "description": "Time duration for which the output Q will remain true after a rising edge is detected."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "Boolean output that indicates whether the pulse is currently active."
+    },
+    {
+      "name": "ET",
+      "type": "TIME",
+      "description": "Elapsed time since the pulse was activated."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

@@ -1,0 +1,21 @@
+Type Function: BOOL
+Input PT: Pointer (pointer to the array)
+SIZE: UINT (size of the array)
+Output BOOL (result TRUE)
+The function _array _ SHUFFLE exchanges the elements of an arbitrary ar￾ray Of REAL at random. When called, a Pointer to the array and its size in
+bytes is transferred to the function. Under CoDeSys is the call:
+_ARRAY_SHUFFLE(ADR(Array), SIZEOF(Array)), where array is the name of
+the array to be manipulated. ADR() is a standard function, which identifes
+the pointer to the array and SIZEOF() is a standard function, which deter￾mines the size of the array. The array referenced by the Pointer is manipu￾lated directly in memory and is available directly after exit the function.
+The function _ARRAY_SHUFFLE thus changes the contents of the array. 
+This type of processing arrays is very efcient because no additional me￾mory is required and no surrender values must be copied.
+If an array is processed, which should not be changed, so it has to be co￾pied to a temporary array before handing over the Pointer and calling the
+function. 
+Example: _ARRAY_SHUFFLE (ADRs(bigarray), SIZEOF(bigarray))
+A call of the function _ARRAY_SHUFFLE could change an array as follows.
+Since the function uses a pseudo random algorithm each time the result is
+diferent, the results are not reproducible, even through a restart of the
+program or the programmable logic control (plc). 
+Output array: (0,1,2,3,4,5,6,7,8,9)
+Results: (5,0,3,9,7,2,1,8,4,6)
+The result is not repeatable, the function returns after each call or even re￾start a new order.

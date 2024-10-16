@@ -1,0 +1,29 @@
+
+{
+  "title": "Convert MS to BFT",
+  "description": "This function converts a value from MS (Meteo Standard) to BFT (Beaufort scale) using a specific mathematical transformation. The transformation involves applying an exponential function to the input MS value, scaled by a constant factor, and then converting the result to an integer.",
+  "type": "FUNCTION",
+  "name": "MS_TO_BFT",
+  "input": [
+    {
+      "name": "MS",
+      "type": "REAL",
+      "description": "The input value in Meteo Standard (MS) that needs to be converted to Beaufort scale."
+    }
+  ],
+  "output": [
+    {
+      "name": "BFT",
+      "type": "INT",
+      "description": "The resulting integer value in the Beaufort scale corresponding to the input MS value."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The integer result of the conversion from MS to BFT.",
+    "fields": []
+  }
+}
+
+

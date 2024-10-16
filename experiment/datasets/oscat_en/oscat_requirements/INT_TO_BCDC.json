@@ -1,0 +1,28 @@
+
+{
+  "title": "Integer to BCD Conversion",
+  "description": "This function converts a given integer input into a BCD (Binary-Coded Decimal) representation. The function takes an integer input, divides it by 10 to extract the higher nibble and uses the remainder to extract the lower nibble, ultimately combining both to produce a BCD byte output.",
+  "type": "FUNCTION",
+  "name": "INT_TO_BCDC",
+  "input": [
+    {
+      "name": "IN",
+      "type": "INT",
+      "description": "The integer value to be converted into BCD format."
+    }
+  ],
+  "output": [
+    {
+      "name": "BYTE",
+      "type": "BYTE",
+      "description": "The BCD representation of the input integer."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BYTE",
+    "description": "The result of the BCD conversion as a byte."
+  }
+}
+
+

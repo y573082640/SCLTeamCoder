@@ -1,0 +1,9 @@
+Type Function : BYTE
+Input STR: STRING(10) (String input)
+Output BYTE (character code)
+CHARCODE returns the byte code of a Named Characters. A List the Codes
+with Name located under the function charName. If no character known,
+for the name in STR 0 is returned. If STR consists of only one character,
+then the code of this character returned. CHARCODE uses the global va￾riables SETUP.CHARNAMES which include the list of names with codes. 
+Example: CHARCODE('euro') = 128 and corresponds to the character €
+CHARCODE(',') = 44

@@ -1,0 +1,7 @@
+Type Function: DWORD
+Input DEC: STRING(20) (decimal-encoded string)
+Output DWORD (output value)
+The function DEC_TO_DWORD converts a decimal encoded string into a
+byte value. Here only decimal characters '0 '.. '9' are interpreted, others in
+DEC occurring characters are ignored .
+Example: DEC_TO_DWORD('34 ') is 34.

@@ -1,0 +1,28 @@
+
+{
+  "title": "Calculate Beginning of Year Date",
+  "description": "This function calculates the beginning date of a given year in the format of a DATE type. The year is provided as an integer input, which is then processed to return the corresponding date.",
+  "type": "FUNCTION",
+  "name": "YEAR_BEGIN",
+  "input": [
+    {
+      "name": "y",
+      "type": "INT",
+      "description": "The year for which to calculate the beginning date."
+    }
+  ],
+  "output": [
+    {
+      "name": "YEAR_BEGIN",
+      "type": "DATE",
+      "description": "The date representing the beginning of the specified year."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "DATE",
+    "description": "The calculated beginning date of the year based on the provided input year."
+  }
+}
+
+

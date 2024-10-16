@@ -1,0 +1,38 @@
+
+{
+  "title": "Increment Function with Bounds",
+  "description": "The function INC2 calculates the incremented value of an integer X by a specified increment D, constrained within the limits defined by L (lower limit) and U (upper limit). The function returns the incremented value, ensuring it wraps around if it exceeds the upper limit.",
+  "type": "FUNCTION",
+  "name": "INC2",
+  "input": [
+    {
+      "name": "X",
+      "type": "INT",
+      "description": "The integer value to be incremented."
+    },
+    {
+      "name": "D",
+      "type": "INT",
+      "description": "The increment value to be added to X."
+    },
+    {
+      "name": "L",
+      "type": "INT",
+      "description": "The lower boundary limit for the incremented value."
+    },
+    {
+      "name": "U",
+      "type": "INT",
+      "description": "The upper boundary limit for the incremented value."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The incremented value of X after applying the increment D within the specified limits.",
+    "fields": []
+  }
+}
+
+

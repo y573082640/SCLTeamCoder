@@ -1,0 +1,60 @@
+
+{
+  "title": "Byte to Bits Conversion",
+  "description": "This function block converts a single BYTE input into eight separate BOOL outputs. Each BOOL output represents one bit of the input BYTE.",
+  "type": "FUNCTION_BLOCK",
+  "name": "BYTE_TO_BITS",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BYTE",
+      "description": "A single BYTE input that will be converted to individual bits."
+    }
+  ],
+  "output": [
+    {
+      "name": "B0",
+      "type": "BOOL",
+      "description": "Output representing the least significant bit (bit 0) of the input BYTE."
+    },
+    {
+      "name": "B1",
+      "type": "BOOL",
+      "description": "Output representing the second least significant bit (bit 1) of the input BYTE."
+    },
+    {
+      "name": "B2",
+      "type": "BOOL",
+      "description": "Output representing the third least significant bit (bit 2) of the input BYTE."
+    },
+    {
+      "name": "B3",
+      "type": "BOOL",
+      "description": "Output representing the fourth least significant bit (bit 3) of the input BYTE."
+    },
+    {
+      "name": "B4",
+      "type": "BOOL",
+      "description": "Output representing the fifth least significant bit (bit 4) of the input BYTE."
+    },
+    {
+      "name": "B5",
+      "type": "BOOL",
+      "description": "Output representing the sixth least significant bit (bit 5) of the input BYTE."
+    },
+    {
+      "name": "B6",
+      "type": "BOOL",
+      "description": "Output representing the seventh least significant bit (bit 6) of the input BYTE."
+    },
+    {
+      "name": "B7",
+      "type": "BOOL",
+      "description": "Output representing the most significant bit (bit 7) of the input BYTE."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

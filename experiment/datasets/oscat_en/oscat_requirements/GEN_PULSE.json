@@ -1,0 +1,35 @@
+
+{
+  "title": "Pulse Generator Function Block",
+  "description": "This function block generates a pulse signal based on time parameters and an enable input. When enabled, it alternates the output based on the specified pulse time (PTL) and hold time (PTH). The function block should reset the output to false when the enable input (ENQ) is not true.",
+  "type": "FUNCTION_BLOCK",
+  "name": "GEN_PULSE",
+  "input": [
+    {
+      "name": "ENQ",
+      "type": "BOOL",
+      "description": "Enable input for the pulse generator, should be set to TRUE to generate pulses."
+    },
+    {
+      "name": "PTH",
+      "type": "TIME",
+      "description": "Time duration for which the output should be held in the 'high' state."
+    },
+    {
+      "name": "PTL",
+      "type": "TIME",
+      "description": "Time duration for which the output should be in the 'low' state before switching back to 'high'."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "Output pulse signal, toggles between TRUE and FALSE based on the elapsed time."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

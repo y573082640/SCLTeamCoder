@@ -1,0 +1,34 @@
+
+{
+  "title": "Complex Logarithm Calculation",
+  "description": "This function computes the complex logarithm of a given complex number. It takes a complex number as input and returns its logarithmic representation in terms of its real and imaginary parts.",
+  "type": "FUNCTION",
+  "name": "CLOG",
+  "input": [
+    {
+      "name": "X",
+      "type": "COMPLEX",
+      "description": "A complex number represented by its real and imaginary parts."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "COMPLEX",
+    "description": "The complex logarithm of the input number, represented in its real and imaginary parts.",
+    "fields": [
+      {
+        "name": "re",
+        "type": "REAL",
+        "description": "The real part of the complex logarithm."
+      },
+      {
+        "name": "im",
+        "type": "REAL",
+        "description": "The imaginary part of the complex logarithm."
+      }
+    ]
+  }
+}
+
+

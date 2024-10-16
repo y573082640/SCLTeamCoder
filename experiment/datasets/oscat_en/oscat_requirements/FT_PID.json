@@ -1,0 +1,65 @@
+
+{
+  "title": "PID Controller Function Block",
+  "description": "This function block implements a PID (Proportional, Integral, Derivative) controller. It calculates a control output based on the input value, proportional gain, integral time, and derivative time while respecting the limits on the integrator output.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FT_PID",
+  "input": [
+    {
+      "name": "IN",
+      "type": "REAL",
+      "description": "The input value to the PID controller."
+    },
+    {
+      "name": "KP",
+      "type": "REAL",
+      "description": "Proportional gain coefficient."
+    },
+    {
+      "name": "TN",
+      "type": "REAL",
+      "description": "Integral time constant."
+    },
+    {
+      "name": "TV",
+      "type": "REAL",
+      "description": "Derivative time constant."
+    },
+    {
+      "name": "ILIM_L",
+      "type": "REAL",
+      "description": "Lower limit for the integrator output."
+    },
+    {
+      "name": "ILIM_H",
+      "type": "REAL",
+      "description": "Upper limit for the integrator output."
+    },
+    {
+      "name": "IEN",
+      "type": "BOOL",
+      "description": "Enable flag for the integrator."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Reset flag for the integrator."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "The output value of the PID controller."
+    },
+    {
+      "name": "LIM",
+      "type": "BOOL",
+      "description": "Flag indicating whether the integrator has hit its limits."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

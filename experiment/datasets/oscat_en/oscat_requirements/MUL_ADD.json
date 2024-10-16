@@ -1,0 +1,32 @@
+
+{
+  "title": "Multiply and Add Function",
+  "description": "This function performs a multiplication of two input parameters and then adds a third input parameter to the result. The function takes three inputs: X, K, and O. It calculates the product of X and K and adds O to this product, returning the final result.",
+  "type": "FUNCTION",
+  "name": "MUL_ADD",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The first input value that will be multiplied."
+    },
+    {
+      "name": "K",
+      "type": "REAL",
+      "description": "The second input value that will multiply with X."
+    },
+    {
+      "name": "O",
+      "type": "REAL",
+      "description": "The value that will be added to the product of X and K."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The result of the operation, which is the value of X multiplied by K, plus O."
+  }
+}
+
+

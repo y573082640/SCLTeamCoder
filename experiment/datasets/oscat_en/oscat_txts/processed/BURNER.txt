@@ -1,0 +1,104 @@
+Type Function module
+Input IN: BOOL (control input)
+Stage2: BOOL (control input level 2)
+OVER_TEMP: BOOL (temperature limit of the boiler)
+OIL_TEMP: BOOL (thermostat of fuel oil warming)
+FLAME: BOOL (fame sensor)
+RST: BOOL (reset input for failure reset)
+RST_TIMER: BOOL (reset for the service counter)
+Output MOTOR: BOOL (control signal for the motor)
+COIL1: BOOL (control signal for valve oil Level 1)
+COIL2: BOOL (control input for oil valve stage 2)
+PRE_HEAT: BOOL (fuel oil warming)
+IGNITE: BOOL (ignition)
+KWH: REAL (kilo watt hour meter)
+STATUS: BYTE (ESR compliant status output)
+FAIL: BOOL (fault: TRUE if error appearance)
+I / O RUNTIME1: UDINT (operating time level 1)
+Runtime2: UDINT (operating time level 2)
+CYCLES: UDINT (number of burner starts)
+Setup PRE_HEAT_TIME: TIME (maximum time for fuel oil warming)
+PRE_VENT_TIME: TIME (prepurge)
+PRE_IGNITE_TIME: TIME (pre ignition time)
+POST_IGNITE_TIME: TIME (post ignition time)
+STAGE2_DELAY: TIME (delay level 2)
+SAFETY_TIME: TIME ()
+LOCKOUT_TIME: TIME (time must elapse before with
+a RST a interference can be deleted)
+MULTIPLE_IGNITION: BOOL ()
+KW1: REAL (burner output at level 1 in KW)
+KW2: REAL (burner output at level 2 in KW)
+BURNER is a control interface for oil or gas burner operating at kilowatt
+hour meter and counter. The module controls a two-stage burner with op￾tional fuel oil warming. The input IN is the control input that starts the bur￾ner only when the input OVER_TEMP is FALSE. OVER_TEMP is the boiler
+thermostat protection, which gets TRUE, if the boiler temperature has rea￾ched the maximum temperature. A burner start begins with the fuel oil
+warming, by PRE_HEAT gets TRUE. Then it waits for a signal at the input
+OIL_TEMP. If the signal OIL_TEMP is within the PRE_HEAT_TIME not TRUE
+and the oil temperature is not reached, the start sequence is interrupted
+and the output FAIL is set to TRUE. At the same time the error is spent at
+the Output STATUS. After fuel oil warming the motor gets on and sets the
+fan in operation. Then after a defned time the ignition is switched and the
+oil valve is opened. If no response of the fame sensor after specifed time
+(SAFETY_TIME), the module shows a failure. A fault is signaled even if the
+fame sensor responds before the ignition. If after a successful ignition, the
+fame breaks of and the set-variable MULTIPLE_IGNITION = TRUE, imme￾diately a ignition is started. A second stage is activated automatically after
+the time STAGE2_DELAY when the input STAGE2 is TRUE.
+If a fault occurs, then the module is locked for a fxed time LOCKOUT_TIME 
+and only after this time a RST can start the operation again. During the 
+LOCKOUT_TIME, the RST Input must be FALSE. A TRUE at input OVER_TEMP 
+stops immediately every action and reports the error 9.
+The status output indicates the current state of the module:
+ 110 = Wait for Start signal ( Standby ) 
+111 = startup sequence is executed
+112 = burner runs on stage 1
+113 = burner runs at stage 2
+A number of error conditions are provided at the output STATUS, if an error 
+is present:
+1 = fuel oil warming has not responded within the PRE_HEAT_TIME
+2 = fame sensor is active during fuel oil warming (PRE_HEAT_TIME)
+3 = fame sensor is active during the aeration period 
+(PRE_VENTILATION_TIME)
+4 = safety time ( Safety_Time) was passed without a fame 
+5 = fame stops in operation
+9 = boiler overheating contact has tripped
+Trace recording of a normal boot sequence:
+The signal IN starts the sequence with the output PRE_HEAT. After rea￾ching the oil temperature (OIL_TEMP = TRUE), the engine started and the
+PRE_VENTILATION_TIME (time from engine start until oil valve is open)
+awaited. After an adjustable time (PPR_IGNITION_TIME) before opening the
+oil valve, the ignition is turned on. The ignition is then on until the
+POST_IGNITION_TIME has expired. The operating time per stage is measu￾red independently in seconds.
+IN over
+tem
+p
+Oil
+tem
+p
+Flam
+e
+Rst mo￾tor
+Oil
+coil
+Pre
+hea
+t
+ig￾nite
+Sta￾tus
+fail
+0 0 - - 0 0 0 0 0 110 0 Wait mode
+1 0 0 0 0 0 0 1 0 111 0 fuel oil warming period
+1 0 1 0 0 1 0 1 0 111 0 aeration period
+1 0 1 0 0 1 0 1 1 111 0 pre ignition period
+1 0 1 0 0 1 1 1 1 111 0 Open valve stage 1
+1 0 1 1 0 1 1 1 1 112 0 Flame burns post ignition period
+1 0 1 1 0 1 1 1 0 112 0 Burner is running
+1 0 1 0 0 1 1 1 1 111 0 Post-ignition after fame stops
+- 1 - - - - - - - 9 1 Boiler overheating
+1 0 1 1 0 1 0 1 0 3 1 foreign light failure
+The following time diagram explains the various setup times and the 
+sequence:
+The timing diagram refects the exact time line:
+t1 = pre-heating (PRE_HEAT_TIME)
+t2 = prepurge (PRE_VENT_Time)
+t3 = pre ignition time (PRE_IGNITE_TIME)
+t4 = safety time (SAFETY_TIME)
+t5 = post ignition time (POST_IGNITE_TIME)
+t6 = delay for stage 2 (STAGE2_DELAY)

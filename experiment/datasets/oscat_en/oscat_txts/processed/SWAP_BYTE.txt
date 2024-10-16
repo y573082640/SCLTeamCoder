@@ -1,0 +1,5 @@
+Type Function: WORD
+Input IN: WORD (input data)
+Output WORD (result)
+SWAP_BYTE exchanges the High and Low Bytes in a WORD. 
+Example: SWAP_BYTE(16#33df) = 16#df33.

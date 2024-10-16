@@ -1,0 +1,29 @@
+
+{
+  "title": "Normalize a 3D Vector",
+  "description": "This function takes a 3D vector as input and returns its normalized form. Normalization is done by calculating the absolute length of the vector and then scaling the vector by the inverse of its length, provided the length is greater than zero to avoid division by zero.",
+  "type": "FUNCTION",
+  "name": "V3_NORM",
+  "input": [
+    {
+      "name": "A",
+      "type": "Vector_3",
+      "description": "The input 3D vector that needs to be normalized."
+    }
+  ],
+  "output": [
+    {
+      "name": "V3_NORM",
+      "type": "vector_3",
+      "description": "The normalized 3D vector as the output."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "vector_3",
+    "description": "The normalized form of the input vector.",
+    "fields": []
+  }
+}
+
+

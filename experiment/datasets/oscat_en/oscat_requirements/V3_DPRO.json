@@ -1,0 +1,27 @@
+
+{
+  "title": "Vector Dot Product Calculation",
+  "description": "This function calculates the dot product of two 3-dimensional vectors, A and B. The result is a scalar value representing the sum of the products of their corresponding components.",
+  "type": "FUNCTION",
+  "name": "V3_DPRO",
+  "input": [
+    {
+      "name": "A",
+      "type": "Vector_3",
+      "description": "The first 3-dimensional vector used in the dot product calculation."
+    },
+    {
+      "name": "B",
+      "type": "Vector_3",
+      "description": "The second 3-dimensional vector used in the dot product calculation."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The resulting dot product of vectors A and B."
+  }
+}
+
+

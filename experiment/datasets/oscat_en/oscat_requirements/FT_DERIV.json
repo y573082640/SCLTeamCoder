@@ -1,0 +1,35 @@
+
+{
+  "title": "Finite Time Derivative Calculation",
+  "description": "This function block calculates the finite time derivative of an input signal over time, with a configurable scaling factor. It takes the current input value, the time since the last update, and computes the rate of change, while preventing division by zero. The block initializes on the first startup and computes the derivative only when the system is running and the time delta is greater than zero.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FT_DERIV",
+  "input": [
+    {
+      "name": "in",
+      "type": "REAL",
+      "description": "Current input value to be differentiated."
+    },
+    {
+      "name": "K",
+      "type": "REAL",
+      "description": "Scaling factor for the derivative calculation, default is 1.0."
+    },
+    {
+      "name": "run",
+      "type": "BOOL",
+      "description": "Boolean to indicate if the calculation should be performed, default is TRUE."
+    }
+  ],
+  "output": [
+    {
+      "name": "out",
+      "type": "REAL",
+      "description": "Calculated derivative value based on the input."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

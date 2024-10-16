@@ -1,0 +1,29 @@
+
+{
+  "title": "Byte to Gray Code Conversion",
+  "description": "This function converts an 8-bit byte input into its corresponding Gray code representation. The conversion is performed using the XOR operation between the input byte and the right-shifted version of itself.",
+  "type": "FUNCTION",
+  "name": "BYTE_TO_GRAY",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BYTE",
+      "description": "An 8-bit byte that needs to be converted to Gray code."
+    }
+  ],
+  "output": [
+    {
+      "name": "BYTE_TO_GRAY",
+      "type": "BYTE",
+      "description": "The resulting Gray code representation of the input byte."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BYTE",
+    "description": "The Gray code equivalent of the input byte.",
+    "fields": []
+  }
+}
+
+

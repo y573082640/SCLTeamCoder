@@ -1,0 +1,27 @@
+
+{
+  "title": "Count Character in String",
+  "description": "This function counts the occurrences of a specified character within a string of a defined length. It takes a string input and a character, then iterates through the string to tally how many times the character appears.",
+  "type": "FUNCTION",
+  "name": "COUNT_CHAR",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "Input variable of type STRING with the specified length."
+    },
+    {
+      "name": "chr",
+      "type": "BYTE",
+      "description": "Input variable of type BYTE representing the character to count."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "Returns the count of occurrences of the specified character in the string."
+  }
+}
+
+

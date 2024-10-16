@@ -1,0 +1,28 @@
+
+{
+  "title": "Calculate Beginning of Month from a Given Date",
+  "description": "This function calculates the start date of the month for a given date input. It adjusts the input date by subtracting the number of seconds corresponding to the days in that month.",
+  "type": "FUNCTION",
+  "name": "MONTH_BEGIN",
+  "input": [
+    {
+      "name": "idate",
+      "type": "DATE",
+      "description": "The input date from which the beginning of the month is to be calculated."
+    }
+  ],
+  "output": [
+    {
+      "name": "MONTH_BEGIN",
+      "type": "DATE",
+      "description": "The calculated beginning date of the month derived from the input date."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "DATE",
+    "description": "The date representing the start of the month for the given input date."
+  }
+}
+
+

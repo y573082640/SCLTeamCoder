@@ -1,0 +1,23 @@
+
+{
+  "title": "Find First Non-Numeric Character",
+  "description": "This function identifies the position of the first non-numeric character in a given string, starting from the end of the string and moving backwards. If all characters are numeric or if the string is empty, it returns 0.",
+  "type": "FUNCTION",
+  "name": "FINDB_NONUM",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING(STRING_LENGTH)",
+      "description": "The string in which to search for a non-numeric character."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The position of the first non-numeric character found in the string. Returns 0 if no non-numeric character is found.",
+    "fields": []
+  }
+}
+
+

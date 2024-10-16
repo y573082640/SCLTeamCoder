@@ -1,0 +1,22 @@
+
+{
+  "title": "Minute Calculation from Time of Day",
+  "description": "This function calculates the minute component from a given Time of Day (TOD) input. The function takes a Time of Day input, processes it, and returns the integer minute value derived from the input time.",
+  "type": "FUNCTION",
+  "name": "MINUTE",
+  "input": [
+    {
+      "name": "itod",
+      "type": "TOD",
+      "description": "The Time of Day input from which the minute value will be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The calculated minute value derived from the given Time of Day input."
+  }
+}
+
+

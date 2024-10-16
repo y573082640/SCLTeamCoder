@@ -1,0 +1,39 @@
+
+{
+  "title": "Comparison Function",
+  "description": "This function, CMP, compares two real numbers X and Y with a precision determined by an integer N. It calculates the absolute difference between X and Y and checks if it is less than a computed threshold. The threshold is based on the logarithmic value of the absolute value of X adjusted by the integer N.",
+  "type": "FUNCTION",
+  "name": "CMP",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The first real number to be compared."
+    },
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "The second real number to be compared."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "An integer that determines the precision for the comparison."
+    }
+  ],
+  "output": [
+    {
+      "name": "CMP",
+      "type": "BOOL",
+      "description": "The result of the comparison; TRUE if the absolute difference between X and Y is less than the computed threshold, FALSE otherwise."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "The Boolean result indicating if X and Y are considered equal within the defined precision.",
+    "fields": []
+  }
+}
+
+

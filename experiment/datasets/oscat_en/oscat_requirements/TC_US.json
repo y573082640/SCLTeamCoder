@@ -1,0 +1,19 @@
+
+{
+  "title": "Timer Counting using System Timer",
+  "description": "This function block retrieves the current system timer value and calculates the elapsed time since the last read. It initializes a timer count (TC) to zero on the first execution and updates it with the difference between the current timer and the last recorded timer value on subsequent executions.",
+  "type": "FUNCTION_BLOCK",
+  "name": "TC_US",
+  "input": [],
+  "output": [
+    {
+      "name": "TC",
+      "type": "DWORD",
+      "description": "The elapsed time in microseconds since the last update."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

@@ -1,0 +1,28 @@
+
+{
+  "title": "Coth Function Calculation",
+  "description": "This function computes the hyperbolic cotangent of a given real number. It returns specific values based on the input range: for inputs greater than 20.0, it returns 1.0; for inputs less than -20.0, it returns -1.0; otherwise, it calculates the cotangent based on the formula 1.0 + 2.0 / (EXP(X * 2.0) - 1.0).",
+  "type": "FUNCTION",
+  "name": "COTH",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The real number input for which the hyperbolic cotangent will be calculated."
+    }
+  ],
+  "output": [
+    {
+      "name": "COTH",
+      "type": "REAL",
+      "description": "The calculated hyperbolic cotangent value based on the input X."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "Returns the computed hyperbolic cotangent value."
+  }
+}
+
+

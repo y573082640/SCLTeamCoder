@@ -1,0 +1,13 @@
+Type Function: REAL
+Input X: DWORD (input)
+I_LO: DWORD (min input value)
+I_HI: DWORD (max input value)
+O_LO: REAL (min output value)
+O_HI: REAL (output value max)
+Output REAL (output value)
+SCALE_D scales an input value DWORD and calculates an output value in
+REAL. The input value X is limited here to I_LO and I_HI. SCALE_D (IN, 0,
+8191, 0, 100) scales an input with 14 bit resolution to the output 0..100.
+SCALE_D can also be negative and have a negative slope work at output
+values, and the values I_LO and I_HI must always be specifed that ILO <
+I_HI is.

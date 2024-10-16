@@ -1,0 +1,71 @@
+
+{
+  "title": "ESR Data Collection Function Block",
+  "description": "This function block collects ESR data from multiple input arrays, processes them, and outputs a combined array of valid ESR data. It supports a reset functionality to initialize the output position.",
+  "type": "FUNCTION_BLOCK",
+  "name": "ESR_COLLECT",
+  "input": [
+    {
+      "name": "ESR_0",
+      "type": "ARRAY[0..3] OF esr_data",
+      "description": "First array of ESR data containing up to 4 elements."
+    },
+    {
+      "name": "ESR_1",
+      "type": "ARRAY[0..3] OF esr_data",
+      "description": "Second array of ESR data containing up to 4 elements."
+    },
+    {
+      "name": "ESR_2",
+      "type": "ARRAY[0..3] OF esr_data",
+      "description": "Third array of ESR data containing up to 4 elements."
+    },
+    {
+      "name": "ESR_3",
+      "type": "ARRAY[0..3] OF esr_data",
+      "description": "Fourth array of ESR data containing up to 4 elements."
+    },
+    {
+      "name": "ESR_4",
+      "type": "ARRAY[0..3] OF esr_data",
+      "description": "Fifth array of ESR data containing up to 4 elements."
+    },
+    {
+      "name": "ESR_5",
+      "type": "ARRAY[0..3] OF esr_data",
+      "description": "Sixth array of ESR data containing up to 4 elements."
+    },
+    {
+      "name": "ESR_6",
+      "type": "ARRAY[0..3] OF esr_data",
+      "description": "Seventh array of ESR data containing up to 4 elements."
+    },
+    {
+      "name": "ESR_7",
+      "type": "ARRAY[0..3] OF esr_data",
+      "description": "Eighth array of ESR data containing up to 4 elements."
+    },
+    {
+      "name": "rst",
+      "type": "BOOL",
+      "description": "A boolean flag to reset the output position."
+    }
+  ],
+  "output": [
+    {
+      "name": "ESR_OUT",
+      "type": "ARRAY[0..31] OF esr_data",
+      "description": "Output array containing up to 32 collected ESR data elements."
+    }
+  ],
+  "in/out": [
+    {
+      "name": "pos",
+      "type": "INT",
+      "description": "Current position index for output storage, can be modified to determine where to place the next valid ESR data."
+    }
+  ],
+  "return_value": null
+}
+
+

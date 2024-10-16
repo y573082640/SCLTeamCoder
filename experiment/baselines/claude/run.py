@@ -39,7 +39,7 @@ def run_claude(dataset="competition_en"):
     model = "claude-3-5-sonnet"
     
     # 构建提示文件和数据集文件的路径
-    prompt_path = f"{glovar.EXPERIMENT_DIR}/baselines/claude/prompt"
+    prompt_path = f"{glovar.EXPERIMENT_DIR}/baselines/claude/prompt st"
     dataset_path = f"{glovar.EXPERIMENT_DIR}/datasets/"
     output_path = f"{glovar.EXPERIMENT_DIR}/output/{dataset}/claude/"
     

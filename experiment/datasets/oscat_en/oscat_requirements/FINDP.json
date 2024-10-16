@@ -1,0 +1,33 @@
+
+{
+  "title": "Find Position of Substring",
+  "description": "This function, FINDP, searches for the position of a specified substring (src) within a given string (str), starting the search from a defined position (pos). If the substring is found, its position is returned; otherwise, the function returns 0.",
+  "type": "FUNCTION",
+  "name": "FINDP",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "The string in which to search for the substring."
+    },
+    {
+      "name": "src",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "The substring that is being searched for in the main string."
+    },
+    {
+      "name": "pos",
+      "type": "INT",
+      "description": "The position from which to start searching in the main string."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The position of the first occurrence of the substring; returns 0 if the substring is not found.",
+    "fields": []
+  }
+}
+
+

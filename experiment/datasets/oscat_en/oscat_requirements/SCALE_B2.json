@@ -1,0 +1,64 @@
+
+{
+  "title": "Scale Function for B2 Inputs",
+  "description": "This function computes a scaled value based on two BYTE inputs, along with scaling factors and offsets. The scaling is achieved through a linear combination of the inputs, adjusting for specified minimum and maximum values.",
+  "type": "FUNCTION",
+  "name": "SCALE_B2",
+  "input": [
+    {
+      "name": "in1",
+      "type": "BYTE",
+      "description": "First input value to be scaled."
+    },
+    {
+      "name": "in2",
+      "type": "BYTE",
+      "description": "Second input value to be scaled."
+    },
+    {
+      "name": "K",
+      "type": "REAL",
+      "description": "Scaling factor applied to the combined inputs."
+    },
+    {
+      "name": "O",
+      "type": "REAL",
+      "description": "Offset added to the result after scaling."
+    },
+    {
+      "name": "in1_min",
+      "type": "REAL",
+      "description": "Minimum value for the first input used in scaling."
+    },
+    {
+      "name": "in1_max",
+      "type": "REAL",
+      "description": "Maximum value for the first input used in scaling. Defaults to 1000.0."
+    },
+    {
+      "name": "in2_min",
+      "type": "REAL",
+      "description": "Minimum value for the second input used in scaling."
+    },
+    {
+      "name": "in2_max",
+      "type": "REAL",
+      "description": "Maximum value for the second input used in scaling. Defaults to 1000.0."
+    }
+  ],
+  "output": [
+    {
+      "name": "SCALE_B2",
+      "type": "REAL",
+      "description": "The scaled output value calculated from the input parameters."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The result of the scaling operation applied to the inputs.",
+    "fields": []
+  }
+}
+
+

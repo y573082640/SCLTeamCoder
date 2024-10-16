@@ -1,0 +1,4 @@
+Type Function: REAL
+Input X: REAL (input)
+Output REAL (-X)
+NEGX returns the negated input value (-x).

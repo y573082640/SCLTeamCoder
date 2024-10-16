@@ -1,0 +1,7 @@
+Type Function: REAL
+Input X : REAL
+A : REAL
+B : REAL
+Output REAL (F_LIN = A*X + B)
+The function F_LIN returns the Y value of a linear equation.
+F_LIN = A*X + B

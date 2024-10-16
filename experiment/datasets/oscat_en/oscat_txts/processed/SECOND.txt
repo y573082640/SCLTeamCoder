@@ -1,0 +1,5 @@
+Type Function: REAL
+Input ITOD: TOD (time of day)
+Output REAL (seconds and milliseconds of time of day)
+The function SECOND extracts the seconds portion of the day 
+Example: SECOND(22:10:12.331) = 12.331

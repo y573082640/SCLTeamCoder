@@ -1,0 +1,35 @@
+
+{
+  "title": "First-order Transfer Function with Time Constant",
+  "description": "This function block implements a first-order transfer function that uses a time constant T and a gain K to process an input signal. The output signal is adjusted based on the previous output and the elapsed time since the last computation. The block initializes on the first call or when the time parameter T is zero, setting the output equal to K times the input.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FT_PT1",
+  "input": [
+    {
+      "name": "in",
+      "type": "REAL",
+      "description": "The input signal for the transfer function."
+    },
+    {
+      "name": "T",
+      "type": "TIME",
+      "description": "The time constant for the transfer function."
+    },
+    {
+      "name": "K",
+      "type": "REAL",
+      "description": "The gain factor applied to the input signal. Default value is 1.0."
+    }
+  ],
+  "output": [
+    {
+      "name": "out",
+      "type": "REAL",
+      "description": "The output signal of the transfer function."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

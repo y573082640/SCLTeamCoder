@@ -1,0 +1,85 @@
+
+{
+  "title": "Bit Generator Function Block",
+  "description": "This function block generates a sequence of bits from multiple input DWORDs based on the provided clock and other control signals. It manages the timing of output generation based on specified step counts and repeat parameters, allowing for both single and continuous runs.",
+  "type": "FUNCTION_BLOCK",
+  "name": "GEN_BIT",
+  "input": [
+    {
+      "name": "in0",
+      "type": "DWORD",
+      "description": "First input DWORD value for bit shifting."
+    },
+    {
+      "name": "in1",
+      "type": "DWORD",
+      "description": "Second input DWORD value for bit shifting."
+    },
+    {
+      "name": "in2",
+      "type": "DWORD",
+      "description": "Third input DWORD value for bit shifting."
+    },
+    {
+      "name": "in3",
+      "type": "DWORD",
+      "description": "Fourth input DWORD value for bit shifting."
+    },
+    {
+      "name": "clk",
+      "type": "BOOL",
+      "description": "Clock signal to trigger the operation."
+    },
+    {
+      "name": "steps",
+      "type": "INT",
+      "description": "Number of steps to process before resetting."
+    },
+    {
+      "name": "rep",
+      "type": "INT",
+      "description": "Number of times to repeat the operation; 0 for continuous operation."
+    },
+    {
+      "name": "rst",
+      "type": "BOOL",
+      "description": "Reset signal to initialize the block."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q0",
+      "type": "BOOL",
+      "description": "Output for the least significant bit of in0."
+    },
+    {
+      "name": "Q1",
+      "type": "BOOL",
+      "description": "Output for the least significant bit of in1."
+    },
+    {
+      "name": "Q2",
+      "type": "BOOL",
+      "description": "Output for the least significant bit of in2."
+    },
+    {
+      "name": "Q3",
+      "type": "BOOL",
+      "description": "Output for the least significant bit of in3."
+    },
+    {
+      "name": "cnt",
+      "type": "INT",
+      "description": "Current step count in the operation."
+    },
+    {
+      "name": "run",
+      "type": "BOOL",
+      "description": "Indicates if the block is currently running."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

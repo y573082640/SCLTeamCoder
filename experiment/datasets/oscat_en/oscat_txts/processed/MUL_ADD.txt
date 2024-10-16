@@ -1,0 +1,8 @@
+Type Function: REAL
+Input X: REAL (input)
+K: REAL (multiplier)
+O: REAL (ofset)
+Output : REAL (output value)
+MUL_ADD multiplies the input value X with K and adds O.
+MUL_ADD = X * K + O.
+MUL_ADD (0.5, 10, 2) is 0.5 * 10 + 2 = 7

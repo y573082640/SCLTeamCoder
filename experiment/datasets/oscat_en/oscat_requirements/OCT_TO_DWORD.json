@@ -1,0 +1,23 @@
+
+{
+  "title": "Convert Octal String to DWORD",
+  "description": "This function converts an octal string representation into a DWORD (double word) integer value. The input is a string of octal digits, and the output is the corresponding DWORD value.",
+  "type": "FUNCTION",
+  "name": "OCT_TO_DWORD",
+  "input": [
+    {
+      "name": "OCT",
+      "type": "STRING[20]",
+      "description": "A string of octal digits that needs to be converted to a DWORD."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "The converted DWORD value representing the octal input string.",
+    "fields": []
+  }
+}
+
+

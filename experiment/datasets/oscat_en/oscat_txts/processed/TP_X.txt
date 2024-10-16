@@ -1,0 +1,14 @@
+Type Function module
+Input IN: BOOL (Input)
+PT: TIME (pulse duration)
+Output Q: BOOL (output pulse)
+ET: TIME (Count the elapsed time of the output pulse)
+TP_X is a multiple triggerable pulse generator. In contrast to the standard
+module TP this template can be triggered multiple times and thus the out￾put pulse can be extended. The output Q remains after the last trigger
+event (rising edge of IN) at ON, for the period of PT. While Q is true, by a
+further edge at the IN the Timer can be triggered again and the output
+pulse can be extended. In contrast to TOF, at TP_X the time PT is measu￾red as of the last rising edge, regardless of how long IN remains at TRUE.
+This means that the output Q, after the time PT, is measured from the last
+rising edge of IN moves to FALSE, even when the input IN is TRUE. 
+Timing of TP_X:
+ 16. Logic Modules

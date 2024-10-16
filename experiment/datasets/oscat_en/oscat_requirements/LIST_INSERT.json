@@ -1,0 +1,38 @@
+
+{
+  "title": "Insert into List Function",
+  "description": "This function inserts a given string into a list at a specified position, using a separator byte. It checks for space in the list before proceeding with the insertion and returns a boolean indicating the success of the operation.",
+  "type": "FUNCTION",
+  "name": "LIST_INSERT",
+  "input": [
+    {
+      "name": "SEP",
+      "type": "BYTE",
+      "description": "The separator byte used to tokenize the list."
+    },
+    {
+      "name": "POS",
+      "type": "INT",
+      "description": "The position in the list where the new string should be inserted."
+    },
+    {
+      "name": "INS",
+      "type": "STRING(LIST_LENGTH)",
+      "description": "The string that will be inserted into the list."
+    }
+  ],
+  "output": [],
+  "in/out": [
+    {
+      "name": "LIST",
+      "type": "STRING(LIST_LENGTH)",
+      "description": "The list into which the string will be inserted."
+    }
+  ],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns TRUE if the string was successfully inserted, otherwise FALSE."
+  }
+}
+
+

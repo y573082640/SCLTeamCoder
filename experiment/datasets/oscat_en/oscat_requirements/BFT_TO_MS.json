@@ -1,0 +1,22 @@
+
+{
+  "title": "Conversion from BFT to MS",
+  "description": "This function converts a value from BFT (an integer value) to MS (a real value) using the equation MS = BFT^1.5 * 0.836. The function accepts an integer input representing the BFT value and returns a real number representing the corresponding MS value.",
+  "type": "FUNCTION",
+  "name": "BFT_TO_MS",
+  "input": [
+    {
+      "name": "BFT",
+      "type": "INT",
+      "description": "An integer value representing BFT to be converted to MS."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The converted MS value calculated as BFT raised to the power of 1.5 multiplied by 0.836."
+  }
+}
+
+

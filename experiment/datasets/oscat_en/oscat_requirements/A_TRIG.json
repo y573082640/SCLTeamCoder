@@ -1,0 +1,35 @@
+
+{
+  "title": "A_TRIG Function Block",
+  "description": "The A_TRIG function block detects a change in its input signal (IN) and indicates when the change exceeds a specified threshold (RES). It calculates the difference (D) between the current input and the last recorded input to determine if the output (Q) should be triggered. If the change exceeds the specified threshold, the output Q is set to TRUE, and the current input is recorded as the last input for future comparisons.",
+  "type": "FUNCTION_BLOCK",
+  "name": "A_TRIG",
+  "input": [
+    {
+      "name": "IN",
+      "type": "REAL",
+      "description": "The current input value to be evaluated."
+    },
+    {
+      "name": "RES",
+      "type": "REAL",
+      "description": "The threshold value for the change detection."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "Output indicating whether a significant change has occurred."
+    },
+    {
+      "name": "D",
+      "type": "REAL",
+      "description": "The calculated difference between the current input and the last input."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

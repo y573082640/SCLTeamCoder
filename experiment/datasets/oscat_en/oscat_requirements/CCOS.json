@@ -1,0 +1,29 @@
+
+{
+  "title": "Complex Cosine Function",
+  "description": "The CCOS function calculates the cosine of a complex number using the hyperbolic cosine function. It takes a complex number as input and returns its cosine value as a complex number.",
+  "type": "FUNCTION",
+  "name": "CCOS",
+  "input": [
+    {
+      "name": "X",
+      "type": "COMPLEX",
+      "description": "A complex number for which the cosine is to be calculated."
+    }
+  ],
+  "output": [
+    {
+      "name": "CCOS",
+      "type": "complex",
+      "description": "The cosine of the input complex number."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "complex",
+    "description": "The result of the cosine calculation.",
+    "fields": []
+  }
+}
+
+

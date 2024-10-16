@@ -1,0 +1,16 @@
+Type Function : REAL
+Input VC: REAL (water vapor concentration in air, in grams / m³)
+T: REAL (temperature in °C)
+Output REAL (Relative humidity in %)
+The module DEW_RH calculates the relative humidity in % (50 = 50%)
+from the water vapor concentration (VC) and temperature (T in ° C) . The
+water vapor concentration is measured in grams / m³. DEW_CON can be
+used for calculations in both directions (heat up and cool down). If cooled
+too much, then the maximum relative humidity limited to 100%. For calcu￾lation of the dew point of the module DEW_TEMP is recommended.
+In the following example, the case will be calculated when air is cooled
+from 30°C and relative humidity of 50% by 6 degrees. The module
+DEW_CON provides the moisture concentration in the outlet air of 30° and
+DEW_RH calculates the resulting relative humidity RH of 69.7%. These cal￾culations are important when air is cooled or heated. In air conditioning
+systems a resulting relative humidity of 100% hast to be avoided due to
+condensation and the resulting problems.
+See also the modules DEW_CON and DEW_TEMP.

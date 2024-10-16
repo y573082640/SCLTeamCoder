@@ -1,0 +1,28 @@
+
+{
+  "title": "Array Spread Calculation",
+  "description": "This function calculates the spread of values in an array of REAL numbers by determining the difference between the maximum and minimum values. The input to the function includes a pointer to the array and the size of the array, and the function returns the spread as a REAL number.",
+  "type": "FUNCTION",
+  "name": "ARRAY_SPR",
+  "input": [
+    {
+      "name": "pt",
+      "type": "^ARRAY [0..32000] OF REAL",
+      "description": "Pointer to the array of REAL numbers."
+    },
+    {
+      "name": "size",
+      "type": "UINT",
+      "description": "The number of elements in the array."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The difference between the maximum and minimum values in the array.",
+    "fields": []
+  }
+}
+
+

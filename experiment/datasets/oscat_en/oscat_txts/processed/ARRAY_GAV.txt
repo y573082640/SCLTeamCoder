@@ -1,0 +1,12 @@
+Type Function: REAL
+Input PT: Pointer (pointer to the array)
+SIZE: UINT (size of the array)
+Output REAL (mean value of the array)
+[fuzzy] The function _ARRAY_GAV calculates the median value of an arbi￾trary array of REAL. When called, a pointer to the array and its size in by￾tes is passed to the function. Under CoDeSys the call reads:
+ARRAY_GAV(ADR(Array), SIZEOF(Array)), where array is the name of the
+array to be manipulated. ADR() is a standard function which identifes the
+pointer to the array and SIZEOF() is a standard function, which determines
+the size of the array. In order to determine the maximum, the array refe￾renced by the pointer is scanned directly in memory. The function
+ARRAY_GAV does not change the content of the array. 
+This type of processing arrays is very efcient because no additional me￾mory is required and no surrender values must be copied.
+Example: ARRAY_GAV(ADR(bigarray), SIZEOF(bigarray))

@@ -1,0 +1,35 @@
+
+{
+  "title": "First-Order Proportional-Derivative Controller",
+  "description": "This function block implements a first-order proportional-derivative (PD) controller. It takes an input signal and applies proportional gain and differentiator characteristics to produce an output signal. The user can configure the proportional gain (KP) and the time constant for the derivative (TV). The output of the controller (Y) is calculated based on the difference of the input signal and the proportional gain.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FT_PD",
+  "input": [
+    {
+      "name": "IN",
+      "type": "REAL",
+      "description": "The input signal to be controlled."
+    },
+    {
+      "name": "KP",
+      "type": "REAL",
+      "description": "The proportional gain constant, default value is 1.0."
+    },
+    {
+      "name": "TV",
+      "type": "REAL",
+      "description": "The time constant for the derivative action, default value is 1.0."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "The output of the PD controller based on the input signal and its derivative."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

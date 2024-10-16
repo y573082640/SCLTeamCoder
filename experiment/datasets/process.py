@@ -5,7 +5,8 @@ from scl_team_coder import glovar
 from scl_team_coder.util.prompt_res_util import *
 from scl_team_coder.util.agent_tools import *
 from tqdm import tqdm  # 导入tqdm库
-
+import glob
+project_base = glovar.PROJECT_ROOT
 # 设置 API 密钥
 api_key = glovar.GPT_API_KEY
 # 创建GPT AI 客户端
@@ -70,6 +71,8 @@ def translate_xml_to_st(file_path):
         if return_type is not None:
             return_type_element = return_type.find("*")
             return_type_code = str(return_type_element.tag)
+            if return_type_code == "derived":
+                return_type_code = return_type_element.get('name')
         # b.变量定义的代码
         define_part_xml = ET.tostring(interface, encoding='unicode')
         # 正则表达式匹配<returnType>任意内容</returnType>
@@ -96,7 +99,7 @@ def translate_xml_to_st(file_path):
             # 此时为fb块，无返回值
             st_code = f"{block_type_code} {block_name_code}\n{define_part_code}\n{st_body_code}\nEND_{block_type_code}\n"
             
-        with open(f"/root/SCLTeamCoder/experiment/datasets/st/{block_name_code}.st","w") as fp:
+        with open(f"{project_base}/experiment/datasets/st/{block_name_code}.st","w") as fp:
             fp.write(st_code)
             
         filecount += 1
@@ -105,7 +108,35 @@ def translate_xml_to_st(file_path):
     # #pous包含了545个FUNC的pou部分，带有标签
     return filecount 
 
+def read_files_to_dict(files_path,prefix="st"):
+    files_dict = {}
+    for file in glob.glob(os.path.join(files_path, f'*.{prefix}')):
+        with open(file, 'r') as f:
+            content = f.read()
+            key = os.path.splitext(os.path.basename(file))[0]
+            files_dict[key] = content
+    return files_dict
+    
+def get_oscat_requirements(code_path,txt_path,requirement_path):
+    with open(f"{project_base}/experiment/datasets/oscat_en/oscat_prompt","r") as fp:
+        prompt_en = fp.read()
+    # 1.读取code_path下的所有st文件并转换为字典，key为名
+    st_dict = read_files_to_dict(code_path,prefix="st")
+    # 2.读取txt_path下的所有txt文件
+    txt_dict = read_files_to_dict(txt_path,prefix="txt")
+    # 3.调用大模型根据code和txt生成需求
+    for key,value in st_dict.items():
+        user_manual = txt_dict.get(key,"# No manual for this st code")
+        requirement = call_llm(f"user manual:\n{user_manual}\nst_code:\n{value}\n",prompt_en)
+        requirement = parse_response(requirement)
+        # 4.将生成的需求保存到requirement_path下的txt文件中
+        with open(f"{requirement_path}/{key}.json","w") as fp:
+            fp.write(requirement)
+        print(f"{key} done.")
+
 def run_process():
-    translate_xml_to_st("/root/SCLTeamCoder/experiment/datasets/st/oscat.xml")
-    # for directory in ['/root/SCLTeamCoder/experiment/datasets/competition_en','/root/SCLTeamCoder/experiment/datasets/lgf_en']:
-    #     read_and_translate(directory)
+    # code_path = f"{project_base}/experiment/datasets/oscat_en/oscat_code"
+    # txt_path = f"{project_base}/experiment/datasets/oscat_en/oscat_txts"
+    # requirement_path = f"{project_base}/experiment/datasets/oscat_en/oscat_requirements"
+    # get_oscat_requirements(code_path,txt_path,requirement_path)
+    read_and_translate(f"{project_base}/experiment/datasets/oscat_en/oscat_requirements")

@@ -1,0 +1,19 @@
+
+{
+  "title": "Timer Counter Function Block",
+  "description": "This function block calculates the time difference between consecutive calls based on the system timer. It initializes a timer counter on the first call and updates it on subsequent calls.",
+  "type": "FUNCTION_BLOCK",
+  "name": "TC_MS",
+  "input": [],
+  "output": [
+    {
+      "name": "TC",
+      "type": "DWORD",
+      "description": "The calculated time difference in milliseconds between the current timer value and the last timer value."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

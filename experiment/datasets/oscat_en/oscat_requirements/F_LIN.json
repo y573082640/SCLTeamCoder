@@ -1,0 +1,32 @@
+
+{
+  "title": "Linear Function Calculation",
+  "description": "This function calculates the linear equation value based on the input parameters, representing a mathematical function of the form y = Ax + B.",
+  "type": "FUNCTION",
+  "name": "F_LIN",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The independent variable for the linear equation."
+    },
+    {
+      "name": "A",
+      "type": "REAL",
+      "description": "The coefficient representing the slope of the linear function."
+    },
+    {
+      "name": "B",
+      "type": "REAL",
+      "description": "The constant term that represents the y-intercept of the linear function."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The result of the linear function calculation, which is the value of A * X + B."
+  }
+}
+
+

@@ -1,0 +1,23 @@
+Type Function module
+Input IN1: REAL (input value of 1)
+IN2: REAL (input value 2)
+F: BOOL (select input TRUE = IN2)
+TF: TIME (Transition period)
+RST: BOOL (Asynchronous Reset)
+Output Y: REAL (baseline)
+FADE is used to switch between 2 inputs IN1 and IN2 with a soft transition.
+The switching time is specifed as TF. An asynchronous reset (RST) resets
+the module without delay to IN1 if F = FALSE or IN2 when F = TRUE. A
+switching operation is triggered by a change in the value of R. Then it
+switches within the time TF between the two inputs. The switchover will
+mix the two entrances during the changeover. At the beginning of swit￾ching at the output are at 0% of the new value and 100% of the old value
+passsed. after half the transfer time (TF/2) the output has 50% each of the
+two input values (Y = in1* 0.5 + in2 * 0.5). after the time TF is then the
+new output value to 100% available.
+During the switching of the output Y is:
+Y = TU/TF * IN1 + (1 - TU/TF) * IN2.
+TU is the time elapsed since the start of the switchover.
+Since the output of FADE is dynamically calculated, the device can also be
+used to switch dynamic signals. The switch is divided into up to 65,535
+steps, which can be limited by the cycle time of the PLC. A PLC with a cy￾cle time of 10ms and a TF of a second is only in 1s/10ms = 100 steps to
+change channels.

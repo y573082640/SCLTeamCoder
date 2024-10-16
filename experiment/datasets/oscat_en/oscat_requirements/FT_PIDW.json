@@ -1,0 +1,60 @@
+
+{
+  "title": "PID Controller Function Block",
+  "description": "This function block implements a PID (Proportional, Integral, Derivative) controller. It takes a process variable input and calculates a control output based on defined PID parameters. It also incorporates limits to the output and reset functionality.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FT_PIDW",
+  "input": [
+    {
+      "name": "IN",
+      "type": "REAL",
+      "description": "The input process variable that the PID controller will process."
+    },
+    {
+      "name": "KP",
+      "type": "REAL",
+      "description": "The proportional gain of the PID controller, defaults to 1.0."
+    },
+    {
+      "name": "TN",
+      "type": "REAL",
+      "description": "The integral time constant of the PID controller, defaults to 1.0."
+    },
+    {
+      "name": "TV",
+      "type": "REAL",
+      "description": "The derivative time constant of the PID controller, defaults to 1.0."
+    },
+    {
+      "name": "LIM_L",
+      "type": "REAL",
+      "description": "The lower limit for the output, defaults to -1E+38."
+    },
+    {
+      "name": "LIM_H",
+      "type": "REAL",
+      "description": "The upper limit for the output, defaults to 1E+38."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "A reset flag that when true resets the integral component of the controller."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "The calculated control output of the PID controller."
+    },
+    {
+      "name": "LIM",
+      "type": "BOOL",
+      "description": "A flag indicating whether the output is within the defined limits."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

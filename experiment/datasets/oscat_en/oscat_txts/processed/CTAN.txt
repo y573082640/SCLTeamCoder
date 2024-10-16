@@ -1,0 +1,4 @@
+Type Function: COMPLEX
+Input X: COMPLEX (Input) 
+Output COMPLEX (result)
+CTAN calculates the tangent of a complex number

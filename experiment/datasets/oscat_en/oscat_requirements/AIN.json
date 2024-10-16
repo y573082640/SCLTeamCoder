@@ -1,0 +1,48 @@
+
+{
+  "title": "AIN Function for Analog Input Conversion",
+  "description": "The AIN function converts a digital input value to a real value based on given parameters including sign bit, low/high range, and bit length. The function correctly handles both signed and unsigned values.",
+  "type": "FUNCTION",
+  "name": "AIN",
+  "input": [
+    {
+      "name": "in",
+      "type": "DWORD",
+      "description": "The digital input value to be converted."
+    },
+    {
+      "name": "Bits",
+      "type": "BYTE",
+      "description": "The number of bits that represent the valid portion of the digital input."
+    },
+    {
+      "name": "sign",
+      "type": "BYTE",
+      "description": "The position of the sign bit in the input value; defaults to 255 indicating no sign bit."
+    },
+    {
+      "name": "low",
+      "type": "REAL",
+      "description": "The lower limit of the output range."
+    },
+    {
+      "name": "high",
+      "type": "REAL",
+      "description": "The upper limit of the output range; defaults to 10.0."
+    }
+  ],
+  "output": [
+    {
+      "name": "AIN",
+      "type": "REAL",
+      "description": "The converted real value based on the input and specified parameters."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The resulting real value after conversion from the digital input."
+  }
+}
+
+

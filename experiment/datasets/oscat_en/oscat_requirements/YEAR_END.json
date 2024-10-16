@@ -1,0 +1,22 @@
+
+{
+  "title": "Calculate Year-End Date from Year Integer",
+  "description": "This function takes an integer year as input and calculates the corresponding year-end date. The calculation is based on a specific formula that involves converting the year into a DWORD and manipulating it to derive the date representation.",
+  "type": "FUNCTION",
+  "name": "YEAR_END",
+  "input": [
+    {
+      "name": "y",
+      "type": "INT",
+      "description": "The input variable representing the year as an integer."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DATE",
+    "description": "The calculated year-end date corresponding to the input year."
+  }
+}
+
+

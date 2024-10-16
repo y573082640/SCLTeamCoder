@@ -1,0 +1,32 @@
+
+{
+  "title": "Multiplexer Function",
+  "description": "This function implements a multiplexer that selects one of two input values based on a boolean condition. If the boolean input 'A' is true, the function returns 'IN0'; otherwise, it returns 'IN1'.",
+  "type": "FUNCTION",
+  "name": "MUX_R2",
+  "input": [
+    {
+      "name": "IN0",
+      "type": "REAL",
+      "description": "First input value to be selected from."
+    },
+    {
+      "name": "IN1",
+      "type": "REAL",
+      "description": "Second input value to be selected from."
+    },
+    {
+      "name": "A",
+      "type": "BOOL",
+      "description": "Boolean selector that determines which input value to return."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The selected input value based on the condition provided by 'A'."
+  }
+}
+
+

@@ -1,0 +1,29 @@
+
+{
+  "title": "Calculate Parity",
+  "description": "This function calculates the parity of a given DWORD input. It determines whether the number of set bits (1s) in the binary representation of the input is even or odd, returning TRUE for odd parity and FALSE for even parity.",
+  "type": "FUNCTION",
+  "name": "PARITY",
+  "input": [
+    {
+      "name": "in",
+      "type": "DWORD",
+      "description": "The DWORD input value for which the parity is to be calculated."
+    }
+  ],
+  "output": [
+    {
+      "name": "PARITY",
+      "type": "BOOL",
+      "description": "The result indicating the parity of the input value, TRUE if the number of set bits is odd, otherwise FALSE."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns the parity result of the input value.",
+    "fields": []
+  }
+}
+
+

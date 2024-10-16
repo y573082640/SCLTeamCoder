@@ -1,0 +1,31 @@
+
+{
+  "title": "IS_ALPHA Function",
+  "description": "This function checks if all characters in the given string are alphabetic. It returns TRUE if the string contains only alphabet characters and FALSE otherwise. The function also ensures that the string is not empty.",
+  "type": "FUNCTION",
+  "name": "IS_ALPHA",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING",
+      "description": "The input string to be checked for alphabetic characters. It is defined with a specified maximum length.",
+      "fields": []
+    }
+  ],
+  "output": [
+    {
+      "name": "IS_ALPHA",
+      "type": "BOOL",
+      "description": "A boolean value indicating whether the string consists solely of alphabetic characters.",
+      "fields": []
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "The return value of the function, indicating the result of the alphabet check.",
+    "fields": []
+  }
+}
+
+

@@ -1,0 +1,22 @@
+
+{
+  "title": "Control Character String Checker",
+  "description": "This function checks if a given string consists solely of control characters. It returns TRUE if the string is valid (greater than zero in length), and FALSE if any character in the string is not a control character.",
+  "type": "FUNCTION",
+  "name": "IS_CTRL",
+  "input": [
+    {
+      "name": "STR",
+      "type": "STRING",
+      "description": "The input string to be checked for control characters."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "The function returns TRUE if the string consists only of control characters, otherwise FALSE."
+  }
+}
+
+

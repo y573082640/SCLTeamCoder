@@ -1,0 +1,33 @@
+
+{
+  "title": "Extract Byte from String at Position",
+  "description": "This function extracts a single byte from a provided string at a specified position. The position must be within the valid range of the string, or a default value of 0 will be returned indicating an invalid operation.",
+  "type": "FUNCTION",
+  "name": "ExtractByteFromString",
+  "input": [
+    {
+      "name": "STR",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "The input string from which the byte will be extracted."
+    },
+    {
+      "name": "POS",
+      "type": "INT",
+      "description": "The position in the string from which to extract the byte. Must be between 1 and the length of the string."
+    }
+  ],
+  "output": [
+    {
+      "name": "CODE",
+      "type": "BYTE",
+      "description": "The byte extracted from the string at the specified position, or 0 if the position is invalid."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BYTE",
+    "description": "Returns the byte extracted from the string at the specified position, or 0 if the position is out of bounds."
+  }
+}
+
+

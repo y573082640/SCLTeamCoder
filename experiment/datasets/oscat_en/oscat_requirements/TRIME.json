@@ -1,0 +1,22 @@
+
+{
+  "title": "Trimming Leading and Trailing Spaces from a String",
+  "description": "This function takes an input string and removes any leading and trailing whitespace characters. The output is the trimmed version of the input string.",
+  "type": "FUNCTION",
+  "name": "TRIME",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "The input string that needs to be trimmed."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The trimmed version of the input string, with leading and trailing spaces removed."
+  }
+}
+
+

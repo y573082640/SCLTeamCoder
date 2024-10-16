@@ -1,0 +1,38 @@
+
+{
+  "title": "Sensor Intensity Calculation",
+  "description": "This function calculates the sensor intensity based on the provided voltage, current, and resistances. The calculation adjusts the sensor intensity by incorporating the values of RP and RS, as well as the resistance RG which is derived from voltage and current, if the current is not zero.",
+  "type": "FUNCTION",
+  "name": "SENSOR_INT",
+  "input": [
+    {
+      "name": "Voltage",
+      "type": "REAL",
+      "description": "The voltage input to the function."
+    },
+    {
+      "name": "Current",
+      "type": "REAL",
+      "description": "The current input to the function."
+    },
+    {
+      "name": "RP",
+      "type": "REAL",
+      "description": "The parallel resistance value used in the calculation."
+    },
+    {
+      "name": "RS",
+      "type": "REAL",
+      "description": "The series resistance value used in the calculation."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated sensor intensity value.",
+    "fields": []
+  }
+}
+
+

@@ -1,0 +1,40 @@
+
+{
+  "title": "Hysteresis Control Logic",
+  "description": "This FUNCTION_BLOCK implements a hysteresis control mechanism. The function determines output states based on an input value, a reference value with hysteresis, and the threshold for the hysteresis effect. The output indicates whether the input is within the hysteresis bounds and whether the condition is active.",
+  "type": "FUNCTION_BLOCK",
+  "name": "HYST_2",
+  "input": [
+    {
+      "name": "IN",
+      "type": "REAL",
+      "description": "The input value to be evaluated against the hysteresis conditions."
+    },
+    {
+      "name": "VAL",
+      "type": "REAL",
+      "description": "The reference value from which hysteresis is calculated."
+    },
+    {
+      "name": "HYS",
+      "type": "REAL",
+      "description": "The amount of hysteresis used to determine the output states."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "The boolean output indicating if the input is above the upper hysteresis threshold."
+    },
+    {
+      "name": "WIN",
+      "type": "BOOL",
+      "description": "The boolean output indicating if the input is within the hysteresis window."
+    }
+  ],
+  "in/out": [],
+  "return_value": {}
+}
+
+

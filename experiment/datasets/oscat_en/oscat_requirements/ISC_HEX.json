@@ -1,0 +1,22 @@
+
+{
+  "title": "Check if a Byte is a Valid Hex Character",
+  "description": "This function takes a byte as input and checks if it corresponds to a valid hexadecimal character. Valid hexadecimal characters are 0-9, A-F, and a-f. The function should return TRUE if the input byte represents a valid hex character, and FALSE otherwise.",
+  "type": "FUNCTION",
+  "name": "ISC_HEX",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BYTE",
+      "description": "The input byte to be checked if it is a valid hexadecimal character."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns TRUE if the input byte is a valid hexadecimal character, FALSE otherwise."
+  }
+}
+
+

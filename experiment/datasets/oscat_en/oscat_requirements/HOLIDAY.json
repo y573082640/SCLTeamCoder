@@ -1,0 +1,59 @@
+
+{
+  "title": "Holiday Calculation",
+  "description": "This FUNCTION_BLOCK calculates whether a given date is a holiday and provides the name of the holiday in the specified language. The block takes into consideration fixed date holidays, holidays based on Easter, and weekends based on user-defined parameters.",
+  "type": "FUNCTION_BLOCK",
+  "name": "HOLIDAY",
+  "input": [
+    {
+      "name": "DATE_IN",
+      "type": "DATE",
+      "description": "The date to check for a holiday."
+    },
+    {
+      "name": "LANGU",
+      "type": "INT",
+      "description": "The language code to determine the holiday name."
+    },
+    {
+      "name": "FRIDAY",
+      "type": "BOOL",
+      "description": "Indicates whether Friday should be considered as a weekend."
+    },
+    {
+      "name": "SATURDAY",
+      "type": "BOOL",
+      "description": "Indicates whether Saturday should be considered as a weekend."
+    },
+    {
+      "name": "SUNDAY",
+      "type": "BOOL",
+      "description": "Indicates whether Sunday should be considered as a weekend."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "BOOL",
+      "description": "Indicates whether the date is a holiday."
+    },
+    {
+      "name": "NAME",
+      "type": "STRING[30]",
+      "description": "The name of the holiday, if any, corresponding to the given date."
+    }
+  ],
+  "in/out": [
+    {
+      "name": "HOLIDAYS",
+      "type": "ARRAY[0..29] OF HOLIDAY_DATA",
+      "description": "An array containing holiday data to be checked against the input date."
+    }
+  ],
+  "return_value": {
+    "type": null,
+    "description": null
+  }
+}
+
+

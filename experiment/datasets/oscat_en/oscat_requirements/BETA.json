@@ -1,0 +1,27 @@
+
+{
+  "title": "Beta Function Calculation",
+  "description": "This function calculates the beta function value using the gamma function for two input real numbers, X and Y. The beta function is defined as the product of gamma of X and gamma of Y, divided by gamma of the sum of X and Y.",
+  "type": "FUNCTION",
+  "name": "BETA",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "A real number input representing the first parameter for the beta function calculation."
+    },
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "A real number input representing the second parameter for the beta function calculation."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The result of the beta function calculation, which is a real number."
+  }
+}
+
+

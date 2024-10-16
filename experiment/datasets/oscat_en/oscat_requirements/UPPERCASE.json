@@ -1,0 +1,23 @@
+
+{
+  "title": "Uppercase String Conversion",
+  "description": "This function takes a string input and converts all its characters to uppercase, supporting extended ASCII characters. The function returns the uppercase version of the input string.",
+  "type": "FUNCTION",
+  "name": "UPPERCASE",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING",
+      "description": "The input string that needs to be converted to uppercase."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The converted uppercase string.",
+    "fields": []
+  }
+}
+
+

@@ -1,0 +1,22 @@
+
+{
+  "title": "Trim String Function",
+  "description": "The TRIM1 function removes leading and trailing spaces from a given string. It also eliminates any extra spaces within the string, ensuring that the returned string has no consecutive spaces.",
+  "type": "FUNCTION",
+  "name": "TRIM1",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "The input string that needs to be trimmed of spaces."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The trimmed string with no leading, trailing, or consecutive spaces."
+  }
+}
+
+

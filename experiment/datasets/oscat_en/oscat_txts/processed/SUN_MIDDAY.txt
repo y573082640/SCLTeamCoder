@@ -1,0 +1,7 @@
+Type Function
+Input LON : REAL (longitude of the reference location) 
+UTC: DATE (Universal Time)
+Output TOD (time of day when Sun is exactly in the south)
+The function SUN_MIDDAY calculates at what time the sun is exactly in the 
+south, depending on the date . The calculation is done in UTC (Universal 
+Time).

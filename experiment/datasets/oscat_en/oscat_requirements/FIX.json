@@ -1,0 +1,43 @@
+
+{
+  "title": "String Truncation and Padding Function",
+  "description": "This function modifies a given string based on specified length and fill character settings. It allows truncating, padding, or centering the string with fill characters depending on the input parameters.",
+  "type": "FUNCTION",
+  "name": "FIX",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "The input string that needs to be modified."
+    },
+    {
+      "name": "L",
+      "type": "INT",
+      "description": "The length to which the string should be truncated or padded."
+    },
+    {
+      "name": "C",
+      "type": "BYTE",
+      "description": "The character used for padding the string."
+    },
+    {
+      "name": "M",
+      "type": "INT",
+      "description": "The mode for string modification: 1 for left truncate/pad, 2 for center pad."
+    }
+  ],
+  "output": [
+    {
+      "name": "FIX",
+      "type": "string",
+      "description": "The modified string after truncation and/or padding."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "Returns the modified string after performing the specified operations."
+  }
+}
+
+

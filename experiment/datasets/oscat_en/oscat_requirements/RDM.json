@@ -1,0 +1,28 @@
+
+{
+  "title": "Random Number Generation Function",
+  "description": "This function generates a pseudo-random number based on the input value 'last', ensuring it remains within the range of 0.0 and 1.0. The algorithm makes use of the current PLC time and bit manipulation to enhance randomness.",
+  "type": "FUNCTION",
+  "name": "RDM",
+  "input": [
+    {
+      "name": "last",
+      "type": "REAL",
+      "description": "The upper limit for the generated random number, constrained between 0.0 and 1.0."
+    }
+  ],
+  "output": [
+    {
+      "name": "RDM",
+      "type": "REAL",
+      "description": "The generated pseudo-random number, calculated based on the input 'last' and the current PLC time."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The result of the random number generation function, which is a pseudo-random value based on internal calculations and input parameters."
+  }
+}
+
+

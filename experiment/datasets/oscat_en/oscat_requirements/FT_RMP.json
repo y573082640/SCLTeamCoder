@@ -1,0 +1,50 @@
+
+{
+  "title": "Ramp Function Block",
+  "description": "This function block implements a ramping behavior that adjusts an output value towards a target input value based on specified ramp-up and ramp-down rates, while tracking the busy state and direction of ramping.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FT_RMP",
+  "input": [
+    {
+      "name": "Rmp",
+      "type": "BOOL",
+      "description": "Control flag to enable or disable ramping behavior."
+    },
+    {
+      "name": "in",
+      "type": "REAL",
+      "description": "Target input value to which the output will ramp."
+    },
+    {
+      "name": "KR",
+      "type": "REAL",
+      "description": "Ramp-up rate; determines how quickly the output will increase towards the input value."
+    },
+    {
+      "name": "KF",
+      "type": "REAL",
+      "description": "Ramp-down rate; determines how quickly the output will decrease towards the input value."
+    }
+  ],
+  "output": [
+    {
+      "name": "out",
+      "type": "REAL",
+      "description": "Current output value being ramped, based on the input value."
+    },
+    {
+      "name": "busy",
+      "type": "BOOL",
+      "description": "Indicates whether the output is currently in the process of ramping."
+    },
+    {
+      "name": "UD",
+      "type": "BOOL",
+      "description": "Direction flag indicating whether the output is ramping up (TRUE) or down (FALSE)."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

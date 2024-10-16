@@ -1,0 +1,28 @@
+
+{
+  "title": "Multiply Time by a Real Number",
+  "description": "This function computes the product of a TIME value and a REAL multiplier, returning the result as a TIME. It first converts the TIME to a REAL number, multiplies it by the REAL multiplier, and then converts the result back to TIME.",
+  "type": "FUNCTION",
+  "name": "MULTIME",
+  "input": [
+    {
+      "name": "t",
+      "type": "TIME",
+      "description": "The TIME value to be multiplied."
+    },
+    {
+      "name": "M",
+      "type": "REAL",
+      "description": "The REAL multiplier to scale the TIME value."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "TIME",
+    "description": "The resulting TIME after multiplying the input TIME with the REAL multiplier.",
+    "fields": []
+  }
+}
+
+

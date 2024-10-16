@@ -1,0 +1,7 @@
+Type Function : STRING
+Input IN: STRING (input)
+CX: STRING (All characters are not to be deleted)
+Output STRING (result STRING)
+CLEAN removes all characters from a string that are not included in the
+string CX.
+CLEAN('Nr.1 23#', '0123456789 ') = '123'

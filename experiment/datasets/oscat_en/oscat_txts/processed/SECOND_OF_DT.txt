@@ -1,0 +1,5 @@
+Type Function: INT
+Input XDT: DATETIME (input)
+Output INT (current second)
+SECOND_OF_DT extracts the second from a current DT value.
+SECOND_OF_DT(DT#2008-6-6-10:22:20) = 20

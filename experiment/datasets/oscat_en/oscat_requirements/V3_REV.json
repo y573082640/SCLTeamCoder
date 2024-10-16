@@ -1,0 +1,39 @@
+
+{
+  "title": "Vector 3 Reversal Function",
+  "description": "This function takes a 3D vector as input and returns a new vector that is the negation of the input vector. Each component of the vector is changed to its opposite sign.",
+  "type": "FUNCTION",
+  "name": "V3_REV",
+  "input": [
+    {
+      "name": "A",
+      "type": "Vector_3",
+      "description": "The input vector whose components are to be reversed."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "vector_3",
+    "description": "The output vector which is the negation of the input vector A.",
+    "fields": [
+      {
+        "name": "X",
+        "type": "REAL",
+        "description": "The X component of the output vector, which is the negative of the X component of input vector A."
+      },
+      {
+        "name": "Y",
+        "type": "REAL",
+        "description": "The Y component of the output vector, which is the negative of the Y component of input vector A."
+      },
+      {
+        "name": "Z",
+        "type": "REAL",
+        "description": "The Z component of the output vector, which is the negative of the Z component of input vector A."
+      }
+    ]
+  }
+}
+
+

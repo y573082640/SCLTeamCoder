@@ -1,0 +1,37 @@
+
+{
+  "title": "Find Number in String",
+  "description": "This function searches for the first occurrence of a numeric character (0-9) or a decimal point (.) in a given string, starting from a specified position. If a numeric character is found, it returns the index of that character; if no such character is found, it returns 0.",
+  "type": "FUNCTION",
+  "name": "FIND_NUM",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING",
+      "description": "The string to be searched for numeric characters.",
+      "fields": []
+    },
+    {
+      "name": "pos",
+      "type": "INT",
+      "description": "The starting position from which to begin the search for numeric characters.",
+      "fields": []
+    }
+  ],
+  "output": [
+    {
+      "name": "FIND_NUM",
+      "type": "INT",
+      "description": "The index of the first numeric character found in the string; returns 0 if no numeric character is found.",
+      "fields": []
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "Returns the index of the first numeric character or 0 if none is found.",
+    "fields": []
+  }
+}
+
+

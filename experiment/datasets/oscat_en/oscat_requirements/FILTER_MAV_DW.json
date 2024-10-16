@@ -1,0 +1,35 @@
+
+{
+  "title": "Moving Average Filter",
+  "description": "This function block implements a moving average filter that computes the average of the last N values. It initializes a buffer to store these values and updates the average based on the incoming data X. The output Y represents the current value of the moving average.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FILTER_MAV_DW",
+  "input": [
+    {
+      "name": "X",
+      "type": "DWORD",
+      "description": "The input data value to be filtered."
+    },
+    {
+      "name": "N",
+      "type": "UINT",
+      "description": "The number of samples to consider for the moving average. It is limited to a maximum of 32."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "A reset signal that, when TRUE, reinitializes the buffer and the output."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "DWORD",
+      "description": "The output value representing the current moving average."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

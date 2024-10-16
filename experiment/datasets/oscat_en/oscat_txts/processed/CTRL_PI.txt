@@ -1,0 +1,38 @@
+Type Function module
+Input ACT: REAL (value measured by the way)
+SET: REAL (default)
+SUP: REAL (noise reduction)
+SFO: REAL (ofset for the output)
+M_I: REAL (input value for manual operation)
+MAN: BOOL (switch to manual mode, MANUAL = TRUE)
+RST: BOOL (asynchronous reset input)
+KP: REAL (proportional part of the controller)
+KI: REAL (integral part of the controller)
+LL: REAL (lower output limit)
+LH: REAL (upper output limit)
+Output Y: REAL (output of the controller)
+DIFF: Real (deviation)
+LIM: BOOL (TRUE if the output has reached a limit)
+CTRL_PI is a PI controller with dynamic anti-wind-up and manual control in￾put. The PI controller operates according to the formula:
+Y = KP * DIFF + KI * INTEG(DIFF) + OFFSET
+where DIFF = SET_POINT - ACTUAL
+In manual mode (manual = TRUE) is: Y = MANUAL_IN+ OFFSET
+ACT is the measured value for the controlled system and set the setpoint
+for the controller. The input values of LH and LL limit Output value Y. With
+RST the internal integrator may be set to 0 any time. The output LIM si￾gnals that the controller has reached the limit of LL or LH. The PI controller
+is free running and uses the trapezoidal rule to calculate the integrator for
+the highest accuracy and optimal speed. The Default Values of the input
+parameters are predefned as follows: KP = 1, KI = 1, LIMIT_L = -1000 and
+LIMIT_H = +1000. With the input SUP a noise reduction is set, the value on
+input SUP determines at which control diference the controller turns on.
+With SUP is avoided that the output of the controller varies continously.
+The value at the input SUP should be in dimension that it suppresses the
+noise of the controlled system and the sensors. If the input to SUP is set to
+0.1, the controller is only at deviations greater than 0.1 active. At the out￾put DIFF the measured and through a Noise Filter (DEAD_BAND) fltered
+control deviation is available. DIFF is normally not required in a controlled
+system but can be used to infuence the control parameters. The input
+OFS is added as the last value to output, and is used to compensate main￾ly of noise, whose efect can be estimated on the loop. 
+The controller works with a dynamic air- Up that prevents that the integra￾tor, when reaching a output limit and further deviation, continues to run
+unlimited and afects the properties usually negative. In the introduction
+chapter of the control technology, more details can be found on anti-wind￾up. 
+The following graph illustrates the internal structure of the controller:

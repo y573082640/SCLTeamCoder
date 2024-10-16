@@ -1,0 +1,35 @@
+
+{
+  "title": "Click Counter Function Block",
+  "description": "This function block is designed to count the number of falling edges of the input signal 'IN' according to a specified time interval 'TC'. It triggers the output 'Q' to be active for one cycle once the count reaches the value 'N'. The block must handle the rising edge and falling edge of the input correctly, maintaining the count across cycles.",
+  "type": "FUNCTION_BLOCK",
+  "name": "CLICK_CNT",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BOOL",
+      "description": "A boolean input signal that indicates when an event occurs."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "An integer that specifies the number of falling edges that should be counted before setting the output Q."
+    },
+    {
+      "name": "TC",
+      "type": "TIME",
+      "description": "A time parameter that defines the time interval for which the input signal is observed."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "A boolean output that is activated for one cycle when the defined count of falling edges is reached."
+    }
+  ],
+  "in/out": [],
+  "return_value": {}
+}
+
+

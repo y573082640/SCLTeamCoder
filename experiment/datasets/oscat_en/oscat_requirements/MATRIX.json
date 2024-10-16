@@ -1,0 +1,75 @@
+
+{
+  "title": "Matrix Function Block",
+  "description": "This function block processes boolean input signals to generate a corresponding code based on the changes detected in input lines. It manages the state of the outputs based on the comparison of current input states and previous states, handling a release condition to reset the code when necessary.",
+  "type": "FUNCTION_BLOCK",
+  "name": "MATRIX",
+  "input": [
+    {
+      "name": "x1",
+      "type": "BOOL",
+      "description": "First input boolean signal."
+    },
+    {
+      "name": "x2",
+      "type": "BOOL",
+      "description": "Second input boolean signal."
+    },
+    {
+      "name": "x3",
+      "type": "BOOL",
+      "description": "Third input boolean signal."
+    },
+    {
+      "name": "x4",
+      "type": "BOOL",
+      "description": "Fourth input boolean signal."
+    },
+    {
+      "name": "x5",
+      "type": "BOOL",
+      "description": "Fifth input boolean signal."
+    },
+    {
+      "name": "Release",
+      "type": "BOOL",
+      "description": "A constant input signal indicating whether to release the generated code."
+    }
+  ],
+  "output": [
+    {
+      "name": "code",
+      "type": "BYTE",
+      "description": "The generated code based on the input changes."
+    },
+    {
+      "name": "TP",
+      "type": "BOOL",
+      "description": "A flag indicating whether a change has been detected."
+    },
+    {
+      "name": "y1",
+      "type": "BOOL",
+      "description": "Output signal derived from the processed code (default TRUE)."
+    },
+    {
+      "name": "y2",
+      "type": "BOOL",
+      "description": "Second output signal derived from the processed code."
+    },
+    {
+      "name": "y3",
+      "type": "BOOL",
+      "description": "Third output signal derived from the processed code."
+    },
+    {
+      "name": "y4",
+      "type": "BOOL",
+      "description": "Fourth output signal derived from the processed code."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

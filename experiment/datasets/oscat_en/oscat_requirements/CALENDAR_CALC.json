@@ -1,0 +1,35 @@
+
+{
+  "title": "Calendar Calculation Function Block",
+  "description": "This function block is designed to calculate local time and calendar-related data based on UTC input. It updates the local date, time of day, sunset, sunrise, and other related events depending on the provided holiday data and location information.",
+  "type": "FUNCTION_BLOCK",
+  "name": "CALENDAR_CALC",
+  "input": [
+    {
+      "name": "SPE",
+      "type": "BOOL",
+      "description": "A boolean flag that enables the calculation of the sun's position every 25 seconds if set to TRUE."
+    },
+    {
+      "name": "H",
+      "type": "REAL",
+      "description": "Twilight offset parameter for sunrise/sunset calculations, defaults to -0.8333."
+    }
+  ],
+  "output": [
+    {
+      "name": "XCAL",
+      "type": "CALENDAR",
+      "description": "The calendar data structure that contains local date, time, holidays, and sun information."
+    },
+    {
+      "name": "HOLIDAYS",
+      "type": "ARRAY[0..29] OF HOLIDAY_DATA",
+      "description": "An array of holiday data to be used for local holiday calculations."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

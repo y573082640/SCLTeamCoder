@@ -1,0 +1,28 @@
+
+{
+  "title": "Convert Direction to Degrees",
+  "description": "This function takes a direction represented as a string and returns its corresponding degree value. The direction is matched against predefined language settings, and the function ensures that the input length is respected to prevent errors.",
+  "type": "FUNCTION",
+  "name": "DIR_TO_DEG",
+  "input": [
+    {
+      "name": "DIR",
+      "type": "STRING[3]",
+      "description": "A string representation of the direction, limited to three characters."
+    },
+    {
+      "name": "L",
+      "type": "INT",
+      "description": "An integer indicating the language option, used for direction localization."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The degree representation of the input direction calculated as per the language-specific mapping.",
+    "fields": []
+  }
+}
+
+

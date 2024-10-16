@@ -1,0 +1,29 @@
+
+{
+  "title": "Celsius to Fahrenheit Conversion Function",
+  "description": "This function converts a temperature value from Celsius to Fahrenheit. The input is a temperature in Celsius, and the function calculates the corresponding temperature in Fahrenheit using the formula: Fahrenheit = Celsius * 1.8 + 32.0.",
+  "type": "FUNCTION",
+  "name": "C_TO_F",
+  "input": [
+    {
+      "name": "celsius",
+      "type": "REAL",
+      "description": "The temperature value in degrees Celsius to be converted to Fahrenheit."
+    }
+  ],
+  "output": [
+    {
+      "name": "C_TO_F",
+      "type": "REAL",
+      "description": "The temperature value in degrees Fahrenheit obtained from the conversion."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The converted temperature value in degrees Fahrenheit.",
+    "fields": []
+  }
+}
+
+

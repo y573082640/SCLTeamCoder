@@ -1,0 +1,11 @@
+Type Function: REAL
+Input LAST: REAL (last calculated value)
+Output REAL (random number between 0 and 1)
+RDM calculates a pseudo- random number. This is the PLC's internal Timer
+read and converted into a pseudo-random number. Because RDM's is writ￾ten as a function and not as a function module, it can not save data bet￾ween 2 calls and should therefore be used with caution. RDM is only called
+once per cycle, it produces reasonable good results. But when it is repea￾tedly called within a cycle, it delivers the same number, most likely becau￾se of the PLC timer is still on the same value. If the function is repeatedly
+used within a cycle, so it must be passed with each call a diferent number
+of starts (LAST). It shall be called only once per cycle, is sufcient to call
+RDM(0). As a starting number for each call, the last calculated number of
+RDM can be used. Supplied by RDM random numbers between 0 and 1,
+which does not contain 1 (0 <=random number < 1)

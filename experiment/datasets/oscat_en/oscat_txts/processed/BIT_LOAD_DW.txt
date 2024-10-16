@@ -1,0 +1,7 @@
+Type Function: DWORD
+Input IN: DWORD (input)
+VAL: BOOL (value of bits to be loaded)
+POS: INT (position of the bits to be loaded)
+Output DWORD (output)
+BIT_LOAD_DW copies the VAL bit at the input to the bit in position N in
+DWORD IN. The least signifcant bit B0 is described by the position 0.

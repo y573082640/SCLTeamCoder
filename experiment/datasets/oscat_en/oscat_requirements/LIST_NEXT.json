@@ -1,0 +1,41 @@
+
+{
+  "title": "List Next Function Block",
+  "description": "This function block processes a list represented as a string, extracting elements until a specified separator is encountered or the end of the list is reached. It resets the position based on the reset input and outputs the parsed values along with a flag indicating whether the list was empty or fully processed.",
+  "type": "FUNCTION_BLOCK",
+  "name": "LIST_NEXT",
+  "input": [
+    {
+      "name": "SEP",
+      "type": "BYTE",
+      "description": "The separator byte used to delimit items in the list."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "A boolean flag to reset the position in the list to the beginning."
+    }
+  ],
+  "output": [
+    {
+      "name": "LEL",
+      "type": "STRING(LIST_LENGTH)",
+      "description": "The output string containing the next list element extracted from the input list."
+    },
+    {
+      "name": "NUL",
+      "type": "BOOL",
+      "description": "A boolean flag indicating whether the list is empty or fully processed."
+    }
+  ],
+  "in/out": [
+    {
+      "name": "LIST",
+      "type": "STRING(LIST_LENGTH)",
+      "description": "The input string representing the entire list to be processed."
+    }
+  ],
+  "return_value": null
+}
+
+

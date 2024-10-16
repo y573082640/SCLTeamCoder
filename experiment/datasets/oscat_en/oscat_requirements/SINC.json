@@ -1,0 +1,22 @@
+
+{
+  "title": "SINC Function",
+  "description": "This function calculates the sine of a given input value divided by the input itself, returning 1.0 when the input is zero to handle the singularity at that point.",
+  "type": "FUNCTION",
+  "name": "SINC",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The input value for which the sine calculation is to be performed."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The result of the sine calculation, or 1.0 if the input value is zero."
+  }
+}
+
+

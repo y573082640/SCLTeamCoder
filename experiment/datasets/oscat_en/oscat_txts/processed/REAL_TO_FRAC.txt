@@ -1,0 +1,12 @@
+Type Function: FRACTION
+Input X: REAL (input)
+N: INT (maximum value of the denominator)
+Output FRACTION (output value)
+REAL_TO_FRAC converts a foating point number (REAL) in a fraction. The
+function returns the data type is a FRACTION of the structure with 2 va￾lues. With the input X, the maximum size of the counter can be specifed.
+Data type FRACTION:
+*.NUMERATOR : INT (Numerator of the fraction)
+*.DENOMINATOR : INT (Denominator of the fraction)
+Example:
+REAL_TO_FRAC(3.1415926, 1000) results 355 / 113.
+355/133 gives the best approximation for the denominator < 1000

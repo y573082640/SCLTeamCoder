@@ -1,0 +1,23 @@
+
+{
+  "title": "Count Set Bits in a DWORD",
+  "description": "This function takes a DWORD input and counts the number of set bits (1s) in its binary representation. It iteratively checks each bit by using a bitwise shift operation until all bits have been processed.",
+  "type": "FUNCTION",
+  "name": "BIT_COUNT",
+  "input": [
+    {
+      "name": "IN",
+      "type": "DWORD",
+      "description": "A DWORD value for which the set bits are to be counted."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The total count of set bits (1s) in the input DWORD.",
+    "fields": []
+  }
+}
+
+

@@ -1,0 +1,23 @@
+
+{
+  "title": "Minute Extraction from DateTime",
+  "description": "This function is designed to extract the minute component from a DateTime input. It takes a DateTime value and computes the minute by converting it to DWORD format, applying a modulo operation to isolate the seconds, and then dividing by 60 to get the minute.",
+  "type": "FUNCTION",
+  "name": "MINUTE_OF_DT",
+  "input": [
+    {
+      "name": "XDT",
+      "type": "DT",
+      "description": "The DateTime value from which the minute is to be extracted."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The extracted minute value from the given DateTime.",
+    "fields": []
+  }
+}
+
+

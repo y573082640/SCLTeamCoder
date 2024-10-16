@@ -1,0 +1,11 @@
+Type Function: REAL
+Input X: DWORD (input)
+W: array [0...15] of real (weighting factors)
+RST: BOOL (asynchronous reset input)
+Output Y: REAL (fltered value)
+FILTER_WAV is a flter with a weighted average. (Also called FIR flter) the
+flter with a weighted average of individual values in the bufer are evalua￾ted with diferent weights.
+Y:= X0 * W0 + X1 * W1 + ….+ X15 * W15
+X0 is the value of X in the current cycle, X1 is the value in the previous cy￾cle, etc. The factors W are passed as the input array W. In applying the FIR
+flter hast to be ensured that appropriate factors are used for weighting.
+The application makes sense only if these factors are determined by ap￾propriate methods or design software.

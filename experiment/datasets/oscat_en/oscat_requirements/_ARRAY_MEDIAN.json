@@ -1,0 +1,28 @@
+
+{
+  "title": "Calculate Array Median",
+  "description": "This function calculates the median of a given array of real numbers. It takes a pointer to the array and the size of the array as inputs. The median is determined based on whether the size of the array is even or odd after sorting the array.",
+  "type": "FUNCTION",
+  "name": "_ARRAY_MEDIAN",
+  "input": [
+    {
+      "name": "pt",
+      "type": "POINTER TO ARRAY[0..32000] OF REAL",
+      "description": "A pointer to an array of real numbers whose median is to be calculated."
+    },
+    {
+      "name": "size",
+      "type": "UINT",
+      "description": "The number of elements in the array pointed to by pt."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The median value of the array.",
+    "fields": []
+  }
+}
+
+

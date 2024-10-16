@@ -1,0 +1,6 @@
+Type Function: REAL
+Input X: REAL (input)
+T: REAL (input)
+U: REAL (input)
+Output REAL (output value)
+CAUCHYCD calculated the distribution function after Cauchy.

@@ -1,0 +1,45 @@
+
+{
+  "title": "Calibration Block",
+  "description": "This function block is responsible for calibrating input values based on specific conditions and scaling factors. It calculates an output value based on the calibration operations decided by the input control signals and the offsets and scales defined.",
+  "type": "FUNCTION_BLOCK",
+  "name": "CALIBRATE",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "Input value that will be calibrated."
+    },
+    {
+      "name": "CO",
+      "type": "BOOL",
+      "description": "Control signal to adjust the offset."
+    },
+    {
+      "name": "CS",
+      "type": "BOOL",
+      "description": "Control signal to adjust the scale."
+    },
+    {
+      "name": "Y_Offset",
+      "type": "REAL",
+      "description": "Constant value for offset adjustment."
+    },
+    {
+      "name": "Y_Scale",
+      "type": "REAL",
+      "description": "Constant value for scale adjustment."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "Calibrated output value based on the input and calibration parameters."
+    }
+  ],
+  "in/out": [],
+  "return_value": {}
+}
+
+

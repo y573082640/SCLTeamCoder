@@ -1,0 +1,23 @@
+
+{
+  "title": "Binary to DWORD Conversion",
+  "description": "This function takes a binary string as input and converts it to a DWORD (32-bit unsigned integer) value. The function reads each character of the binary string, interpreting '0' as a zero bit and '1' as a one bit, and constructs the DWORD value accordingly.",
+  "type": "FUNCTION",
+  "name": "BIN_TO_DWORD",
+  "input": [
+    {
+      "name": "BIN",
+      "type": "STRING(40)",
+      "description": "A binary string of length up to 40 characters, consisting of '0's and '1's, representing the binary number to be converted."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "The resulting DWORD value obtained from the binary string conversion.",
+    "fields": []
+  }
+}
+
+

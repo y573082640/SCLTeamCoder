@@ -1,0 +1,13 @@
+Type Function module
+Input ENQ: BOOL ( Enable Input) 
+PTH: TIME (pulse duration HIGH)
+PTL: TIME (pulse duration LOW)
+Output Q: BOOL (output)
+GEM_PULSE generates at the output Q, an output signal which sets in the
+time of PTH to TRUE and then set for PTL to LOW. The generator will start
+after ENQ = TRUE always with a rising edge at Q, and remains for the time
+PTH to TURE. As long as ENQ = TRUE continuous pulses at the output Q
+are generated. Is one of the times (PTH, PTL) or both equal to 0 the time
+will limit to one PLC cycle. GEN_PULSE (ENQ: = TRUE, PTH: = T # 0s, PTL:
+= T # 0s) generates an output signal which has one cycle TRUE and one
+cycle FALSE. The Default ENQ value is TRUE.

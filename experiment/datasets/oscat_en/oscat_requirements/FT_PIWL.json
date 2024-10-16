@@ -1,0 +1,55 @@
+
+{
+  "title": "PI Controller Function Block",
+  "description": "This function block implements a proportional-integral (PI) controller. It processes an input signal with a proportional gain (KP) and an integral gain (KI) while enforcing both upper and lower limits on the output signal. The block can be reset, which initializes internal variables.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FT_PIWL",
+  "input": [
+    {
+      "name": "IN",
+      "type": "REAL",
+      "description": "The input signal for the PI controller."
+    },
+    {
+      "name": "KP",
+      "type": "REAL",
+      "description": "The proportional gain coefficient (default is 1.0)."
+    },
+    {
+      "name": "KI",
+      "type": "REAL",
+      "description": "The integral gain coefficient (default is 1.0)."
+    },
+    {
+      "name": "LIM_L",
+      "type": "REAL",
+      "description": "The lower limit for the output signal (default is -1E+38)."
+    },
+    {
+      "name": "LIM_H",
+      "type": "REAL",
+      "description": "The upper limit for the output signal (default is 1E+38)."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "A boolean flag to reset the internal state."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "The output signal from the PI controller."
+    },
+    {
+      "name": "LIM",
+      "type": "BOOL",
+      "description": "Indicates whether the output signal is within the defined limits."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

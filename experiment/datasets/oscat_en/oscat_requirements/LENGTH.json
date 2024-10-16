@@ -1,0 +1,95 @@
+
+{
+  "title": "Length Conversion Function Block",
+  "description": "This function block converts various length units inputted in real numbers into meters and computes the equivalent values for different units such as p, in, ft, yd, mile, sm, and fm based on defined conversion factors.",
+  "type": "FUNCTION_BLOCK",
+  "name": "LENGTH",
+  "input": [
+    {
+      "name": "m",
+      "type": "REAL",
+      "description": "Length in meters (SI base unit)."
+    },
+    {
+      "name": "p",
+      "type": "REAL",
+      "description": "Length in typographical points."
+    },
+    {
+      "name": "in",
+      "type": "REAL",
+      "description": "Length in inches."
+    },
+    {
+      "name": "ft",
+      "type": "REAL",
+      "description": "Length in feet."
+    },
+    {
+      "name": "yd",
+      "type": "REAL",
+      "description": "Length in yards."
+    },
+    {
+      "name": "mile",
+      "type": "REAL",
+      "description": "Length in miles."
+    },
+    {
+      "name": "sm",
+      "type": "REAL",
+      "description": "Length in international sea miles."
+    },
+    {
+      "name": "fm",
+      "type": "REAL",
+      "description": "Length in fathoms."
+    }
+  ],
+  "output": [
+    {
+      "name": "Ym",
+      "type": "REAL",
+      "description": "Converted length in meters."
+    },
+    {
+      "name": "Yp",
+      "type": "REAL",
+      "description": "Converted length in typographical points."
+    },
+    {
+      "name": "Yin",
+      "type": "REAL",
+      "description": "Converted length in inches."
+    },
+    {
+      "name": "Yft",
+      "type": "REAL",
+      "description": "Converted length in feet."
+    },
+    {
+      "name": "Yyd",
+      "type": "REAL",
+      "description": "Converted length in yards."
+    },
+    {
+      "name": "Ymile",
+      "type": "REAL",
+      "description": "Converted length in miles."
+    },
+    {
+      "name": "Ysm",
+      "type": "REAL",
+      "description": "Converted length in international sea miles."
+    },
+    {
+      "name": "Yfm",
+      "type": "REAL",
+      "description": "Converted length in fathoms."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

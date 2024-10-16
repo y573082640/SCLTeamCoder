@@ -1,0 +1,43 @@
+
+{
+  "title": "Linear Interpolation Function",
+  "description": "This function calculates the linear interpolation value based on two given points (X1, Y1) and (X2, Y2) for a specified value X.",
+  "type": "FUNCTION",
+  "name": "F_LIN2",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The independent variable for which the interpolation is calculated."
+    },
+    {
+      "name": "X1",
+      "type": "REAL",
+      "description": "The X coordinate of the first point."
+    },
+    {
+      "name": "Y1",
+      "type": "REAL",
+      "description": "The Y coordinate of the first point."
+    },
+    {
+      "name": "X2",
+      "type": "REAL",
+      "description": "The X coordinate of the second point."
+    },
+    {
+      "name": "Y2",
+      "type": "REAL",
+      "description": "The Y coordinate of the second point."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The interpolated Y value corresponding to the input X value.",
+    "fields": []
+  }
+}
+
+

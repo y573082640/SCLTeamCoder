@@ -1,0 +1,44 @@
+
+{
+  "title": "Cross Product of Two Vectors",
+  "description": "This function calculates the cross product of two 3-dimensional vectors. The function takes two input vectors, A and B, and computes the resulting vector perpendicular to both A and B.",
+  "type": "FUNCTION",
+  "name": "V3_XPRO",
+  "input": [
+    {
+      "name": "A",
+      "type": "Vector_3",
+      "description": "The first input vector for the cross product operation."
+    },
+    {
+      "name": "B",
+      "type": "Vector_3",
+      "description": "The second input vector for the cross product operation."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "vector_3",
+    "description": "The resulting vector that is the cross product of vectors A and B.",
+    "fields": [
+      {
+        "name": "X",
+        "type": "REAL",
+        "description": "The x-component of the resulting cross product vector."
+      },
+      {
+        "name": "Y",
+        "type": "REAL",
+        "description": "The y-component of the resulting cross product vector."
+      },
+      {
+        "name": "Z",
+        "type": "REAL",
+        "description": "The z-component of the resulting cross product vector."
+      }
+    ]
+  }
+}
+
+

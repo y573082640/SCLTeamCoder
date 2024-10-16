@@ -1,0 +1,55 @@
+
+{
+  "title": "Calculation of Solar Times",
+  "description": "This function block calculates the solar times for a given geographical location, providing the times for sunrise, sunset, and midday along with the sun's declination at midday. The user needs to provide the latitude and longitude of the location, the UTC date for the calculation, and an optional height adjustment for sunrise.",
+  "type": "FUNCTION_BLOCK",
+  "name": "SUN_TIME",
+  "input": [
+    {
+      "name": "LATITUDE",
+      "type": "REAL",
+      "description": "Latitude of geographical position in degrees."
+    },
+    {
+      "name": "LONGITUDE",
+      "type": "REAL",
+      "description": "Longitude of geographical position in degrees."
+    },
+    {
+      "name": "UTC",
+      "type": "DATE",
+      "description": "World time in UTC format."
+    },
+    {
+      "name": "H",
+      "type": "REAL",
+      "description": "Height above horizon for sunrise, default value is -0.83333333333."
+    }
+  ],
+  "output": [
+    {
+      "name": "MIDDAY",
+      "type": "TOD",
+      "description": "Astrological midday in hours when sun stands at south direction."
+    },
+    {
+      "name": "SUN_RISE",
+      "type": "TOD",
+      "description": "Sunrise time for the current day in local time."
+    },
+    {
+      "name": "SUN_SET",
+      "type": "TOD",
+      "description": "Sunset time for the current day in local time."
+    },
+    {
+      "name": "SUN_DECLINATION",
+      "type": "REAL",
+      "description": "Sun declination above horizon at midday in degrees."
+    }
+  ],
+  "in/out": [],
+  "return_value": {}
+}
+
+

@@ -1,0 +1,22 @@
+
+{
+  "title": "Hexadecimal String Validation",
+  "description": "This function determines whether the provided string consists solely of hexadecimal characters. It checks each character in the input string, returning TRUE if all characters are valid hexadecimal digits, and FALSE otherwise. The function also considers an empty string as invalid.",
+  "type": "FUNCTION",
+  "name": "IS_HEX",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "The input string that needs to be validated as a hexadecimal string."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Indicates whether the input string is a valid hexadecimal string. Returns TRUE if all characters are hexadecimal, otherwise FALSE."
+  }
+}
+
+

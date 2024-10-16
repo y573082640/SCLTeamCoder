@@ -1,0 +1,110 @@
+
+{
+  "title": "8-Bit Storage Function Block",
+  "description": "This function block enables the storage of up to 8 boolean values based on external inputs. It initializes and controls the storage of these values based on set, reset, and clear conditions.",
+  "type": "FUNCTION_BLOCK",
+  "name": "STORE_8",
+  "input": [
+    {
+      "name": "Set",
+      "type": "BOOL",
+      "description": "A signal to enable setting the storage values."
+    },
+    {
+      "name": "D0",
+      "type": "BOOL",
+      "description": "Input for the first bit in the storage."
+    },
+    {
+      "name": "D1",
+      "type": "BOOL",
+      "description": "Input for the second bit in the storage."
+    },
+    {
+      "name": "D2",
+      "type": "BOOL",
+      "description": "Input for the third bit in the storage."
+    },
+    {
+      "name": "D3",
+      "type": "BOOL",
+      "description": "Input for the fourth bit in the storage."
+    },
+    {
+      "name": "D4",
+      "type": "BOOL",
+      "description": "Input for the fifth bit in the storage."
+    },
+    {
+      "name": "D5",
+      "type": "BOOL",
+      "description": "Input for the sixth bit in the storage."
+    },
+    {
+      "name": "D6",
+      "type": "BOOL",
+      "description": "Input for the seventh bit in the storage."
+    },
+    {
+      "name": "D7",
+      "type": "BOOL",
+      "description": "Input for the eighth bit in the storage."
+    },
+    {
+      "name": "Clr",
+      "type": "BOOL",
+      "description": "A signal to clear the stored values."
+    },
+    {
+      "name": "Rst",
+      "type": "BOOL",
+      "description": "A signal to reset the storage values."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q0",
+      "type": "BOOL",
+      "description": "Output for the first stored bit."
+    },
+    {
+      "name": "Q1",
+      "type": "BOOL",
+      "description": "Output for the second stored bit."
+    },
+    {
+      "name": "Q2",
+      "type": "BOOL",
+      "description": "Output for the third stored bit."
+    },
+    {
+      "name": "Q3",
+      "type": "BOOL",
+      "description": "Output for the fourth stored bit."
+    },
+    {
+      "name": "Q4",
+      "type": "BOOL",
+      "description": "Output for the fifth stored bit."
+    },
+    {
+      "name": "Q5",
+      "type": "BOOL",
+      "description": "Output for the sixth stored bit."
+    },
+    {
+      "name": "Q6",
+      "type": "BOOL",
+      "description": "Output for the seventh stored bit."
+    },
+    {
+      "name": "Q7",
+      "type": "BOOL",
+      "description": "Output for the eighth stored bit."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

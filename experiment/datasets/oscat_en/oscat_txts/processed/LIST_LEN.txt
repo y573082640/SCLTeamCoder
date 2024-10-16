@@ -1,0 +1,7 @@
+Type Function: INT
+Input SEP: BYTE (separation sign the list)
+I / O LIST: STRING(LIST_LENGTH) (input list)
+Output INT (number of items in the list)
+LIST_LEN determines the number of items in a list.
+LIST_LEN('&0&1&2&3', 38) = 4
+LIST_LEN('',21) = 0

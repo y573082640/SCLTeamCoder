@@ -1,0 +1,8 @@
+Type Function: REAL
+Input X: REAL (input)
+Output REAL (output value)
+The The Langevin Function is very similarto sigmoid function, but more
+slowly approaching the limits. In contrast to the sigmoid are the values at
+-1 and +1. The Langevin function is mainly at CPUs without foating point
+unit much faster than the Sigmoid function.
+The following chart shows the progress of the Langevin function:

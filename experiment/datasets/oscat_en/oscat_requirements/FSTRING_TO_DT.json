@@ -1,0 +1,34 @@
+
+{
+  "title": "String to DateTime Conversion",
+  "description": "This function converts a formatted string representation of date and time into a DateTime (DT) type. It extracts year, month, day, hour, minute, and second from the input string based on the provided format.",
+  "type": "FUNCTION",
+  "name": "FSTRING_TO_DT",
+  "input": [
+    {
+      "name": "SDT",
+      "type": "STRING[60]",
+      "description": "Input variable for the source data text which contains the date and time as a string."
+    },
+    {
+      "name": "FMT",
+      "type": "STRING[60]",
+      "description": "Input variable for the format that specifies how to interpret the source data text."
+    }
+  ],
+  "output": [
+    {
+      "name": "FSTRING_TO_DT",
+      "type": "DT",
+      "description": "The resulting DateTime value extracted from the provided string based on the specified format."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "DT",
+    "description": "The return value is the DateTime constructed from the parsed string.",
+    "fields": []
+  }
+}
+
+

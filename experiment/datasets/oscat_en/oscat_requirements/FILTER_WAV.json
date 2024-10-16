@@ -1,0 +1,35 @@
+
+{
+  "title": "Filter Waveform",
+  "description": "This function block implements a filter that computes the weighted average of the last 16 input samples using specified weights. It initializes the buffer and updates it with the latest input value while resetting if indicated. After that, it calculates the output based on the weights and the buffered samples.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FILTER_WAV",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The input sample value to be filtered."
+    },
+    {
+      "name": "W",
+      "type": "ARRAY[0..15] OF REAL",
+      "description": "An array of weights corresponding to the samples in the buffer."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "A reset signal that initializes the buffer if set to TRUE."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "The output result representing the weighted average of the buffered samples."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

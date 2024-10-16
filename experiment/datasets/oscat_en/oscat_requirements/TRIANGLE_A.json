@@ -1,0 +1,38 @@
+
+{
+  "title": "Calculate Area of Triangle",
+  "description": "This function calculates the area of a triangle based on two methods: either using the lengths of all three sides or using one side and the included angle. If the angle A is 0, the area is calculated using Heron's formula. Otherwise, it uses the formula with side lengths S1 and S2 and the included angle A.",
+  "type": "FUNCTION",
+  "name": "TRIANGLE_A",
+  "input": [
+    {
+      "name": "S1",
+      "type": "REAL",
+      "description": "Length of the first side of the triangle."
+    },
+    {
+      "name": "A",
+      "type": "REAL",
+      "description": "Included angle in degrees. If A is 0, Heron's formula is used."
+    },
+    {
+      "name": "S2",
+      "type": "REAL",
+      "description": "Length of the second side of the triangle."
+    },
+    {
+      "name": "S3",
+      "type": "REAL",
+      "description": "Length of the third side of the triangle."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated area of the triangle.",
+    "fields": []
+  }
+}
+
+

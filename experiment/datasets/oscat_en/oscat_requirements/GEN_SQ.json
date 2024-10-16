@@ -1,0 +1,25 @@
+
+{
+  "title": "Square Wave Generator",
+  "description": "This function block generates a square wave signal based on the specified input time period. The output toggles between TRUE and FALSE based on the elapsed time, producing a square wave signal at half the frequency determined by the input time.",
+  "type": "FUNCTION_BLOCK",
+  "name": "GEN_SQ",
+  "input": [
+    {
+      "name": "PT",
+      "type": "TIME",
+      "description": "The period of the square wave signal, defining the time interval for toggling the output."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "Output signal that represents the state of the square wave, toggling between TRUE and FALSE."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

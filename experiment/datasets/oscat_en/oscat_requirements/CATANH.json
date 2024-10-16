@@ -1,0 +1,34 @@
+
+{
+  "title": "Complex Hyperbolic Cotangent Function",
+  "description": "This function computes the hyperbolic cotangent (CATANH) of a complex number. It takes a complex input and returns the complex result of the hyperbolic cotangent operation applied to that input. The algorithm utilizes the natural logarithm and arctangent functions to derive the real and imaginary parts of the result.",
+  "type": "FUNCTION",
+  "name": "CATANH",
+  "input": [
+    {
+      "name": "X",
+      "type": "complex",
+      "description": "A complex number for which the hyperbolic cotangent is to be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "complex",
+    "description": "The result of the hyperbolic cotangent operation, returned as a complex number.",
+    "fields": [
+      {
+        "name": "re",
+        "type": "REAL",
+        "description": "The real part of the hyperbolic cotangent result."
+      },
+      {
+        "name": "im",
+        "type": "REAL",
+        "description": "The imaginary part of the hyperbolic cotangent result."
+      }
+    ]
+  }
+}
+
+

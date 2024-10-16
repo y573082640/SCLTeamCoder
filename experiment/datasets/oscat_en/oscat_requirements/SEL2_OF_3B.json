@@ -1,0 +1,45 @@
+
+{
+  "title": "Selective Output Block for Three Inputs",
+  "description": "This function block processes three boolean inputs to generate two boolean outputs based on logical conditions and a time delay. The output Q is determined by the logical OR of combinations of the inputs, while the output W is influenced by the elapsed time from a timer dependent on the XOR condition of the inputs.",
+  "type": "FUNCTION_BLOCK",
+  "name": "SEL2_OF_3B",
+  "input": [
+    {
+      "name": "IN1",
+      "type": "BOOL",
+      "description": "First boolean input."
+    },
+    {
+      "name": "IN2",
+      "type": "BOOL",
+      "description": "Second boolean input."
+    },
+    {
+      "name": "IN3",
+      "type": "BOOL",
+      "description": "Third boolean input."
+    },
+    {
+      "name": "TD",
+      "type": "TIME",
+      "description": "Time duration for the delay timer."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "Output boolean indicating the result of the OR logic on the inputs."
+    },
+    {
+      "name": "W",
+      "type": "BOOL",
+      "description": "Output boolean representing the state of the timer output."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

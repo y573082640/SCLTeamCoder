@@ -1,0 +1,27 @@
+
+{
+  "title": "Polynomial Evaluation Function",
+  "description": "This function computes the value of a polynomial at a given point X using an array of coefficients C. The polynomial is represented in the form P(X) = c[0] + c[1]*X + c[2]*X^2 + ... + c[7]*X^7. The function should return the computed polynomial value as a REAL number.",
+  "type": "FUNCTION",
+  "name": "F_POLY",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The input value at which the polynomial is to be evaluated."
+    },
+    {
+      "name": "C",
+      "type": "ARRAY[0..7] OF REAL",
+      "description": "An array of coefficients for the polynomial, where each index corresponds to the coefficient for X to the power of the index."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The resulting value of the polynomial evaluated at X."
+  }
+}
+
+

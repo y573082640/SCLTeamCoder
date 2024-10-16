@@ -1,0 +1,28 @@
+
+{
+  "title": "Binomial Coefficient Calculation",
+  "description": "This function calculates the binomial coefficient (n choose k), which is the number of ways to choose k elements from a set of n elements. It includes optimizations for specific cases, such as when k is 0 or equal to n.",
+  "type": "FUNCTION",
+  "name": "BINOM",
+  "input": [
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "The total number of elements from which the selection is made."
+    },
+    {
+      "name": "K",
+      "type": "INT",
+      "description": "The number of elements to choose from the total elements."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DINT",
+    "description": "The computed binomial coefficient value.",
+    "fields": []
+  }
+}
+
+

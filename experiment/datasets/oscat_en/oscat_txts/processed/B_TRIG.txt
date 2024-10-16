@@ -1,0 +1,8 @@
+Type Function module
+Input CLK: BOOL (Input signal)
+Output Q: BOOL (output)
+The function module B_TRIG generates after a change of edge on the CLK
+input an output pulse for exactly one PLC cycle. In contrast to the two
+standard modules R_TRIG and F_TRIG that produce only at falling or rising
+edge of a pulse, B_TRIG generates at falling and rising edge of an output
+pulse.

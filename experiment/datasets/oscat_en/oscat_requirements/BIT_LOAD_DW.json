@@ -1,0 +1,39 @@
+
+{
+  "title": "BIT_LOAD_DW Function",
+  "description": "This function takes an input DWORD and manipulates it based on the specified parameters to either set or clear a bit at a given position, depending on the value of the VAL parameter. If VAL is TRUE, the bit at position POS is set to 1. If VAL is FALSE, the bit at position POS is cleared, setting it to 0.",
+  "type": "FUNCTION",
+  "name": "BIT_LOAD_DW",
+  "input": [
+    {
+      "name": "IN",
+      "type": "DWORD",
+      "description": "The input DWORD value to be manipulated."
+    },
+    {
+      "name": "VAL",
+      "type": "BOOL",
+      "description": "A boolean flag that determines whether to set (TRUE) or clear (FALSE) a bit in the input DWORD."
+    },
+    {
+      "name": "POS",
+      "type": "INT",
+      "description": "The position of the bit in the DWORD to be manipulated, where 0 is the least significant bit."
+    }
+  ],
+  "output": [
+    {
+      "name": "BIT_LOAD_DW",
+      "type": "DWORD",
+      "description": "The resulting DWORD after the bit manipulation operation has been applied."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "Returns the modified DWORD after adjusting the specified bit according to the VAL parameter.",
+    "fields": []
+  }
+}
+
+

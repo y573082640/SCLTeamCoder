@@ -1,0 +1,19 @@
+Type Function module
+Input LATITUDE: REAL (latitude of the reference location)
+ LONGITUDE : REAL (longitude of the reference location) 
+UTC: DATE_TIME (Universal Time)
+Output B: REAL (azimuth in degrees from North)
+H: REAL (Astronomical sun height)
+HR: REAL (solar altitude in degrees above the horizon with re￾fraction)
+SUN_POS calculated the position of the sun (B, H) at the current time. The
+time is expressed as Universal Time (UTC). Any possible local time must
+frst be converted to UTC. At the sun position HR, the atmospheric refracti￾on for 1010mbar and 10°C is already taken into account. The accuracy is
+better than 0.1 degrees for the period from 2000 to 2050. Possible appli￾cations of SUN_POS are the tracking of solar panels or a sun dependent
+tracking of the slats of blinds. SUN_POS is a complicated algorithm, but
+delivers the exact values. To keep the load of a PLC as low as possible, the
+calculation can be performed, for example, only every 10 seconds, which
+corresponds to an uncertainty of 0.04 degrees. The output B passes the
+solar angle in degrees from north (south = 180 °). H is the Astronomical
+angle above the horizon (the horizon = 0 °). HR is the sun above the hori￾zon to the atmospheric corrected by the refraction (refraction). An obser￾ver on the Earth sees the sun in a, by the refraction raised position, of the
+horizon, which will cause the sun is shining already, but it is still slightly
+below the horizon.

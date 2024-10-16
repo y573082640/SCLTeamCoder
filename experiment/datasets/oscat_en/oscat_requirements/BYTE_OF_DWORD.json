@@ -1,0 +1,33 @@
+
+{
+  "title": "Extracting a Byte from a DWORD",
+  "description": "This function takes a DWORD input and a BYTE index to extract a specific byte from the DWORD. The BYTE value is determined by shifting the DWORD and converting it to BYTE format. The function is designed for efficient performance improvements across revisions.",
+  "type": "FUNCTION",
+  "name": "BYTE_OF_DWORD",
+  "input": [
+    {
+      "name": "in",
+      "type": "DWORD",
+      "description": "The DWORD value from which a byte will be extracted."
+    },
+    {
+      "name": "N",
+      "type": "BYTE",
+      "description": "The index of the byte to extract from the DWORD, multiplied by 8 to account for bit shifts."
+    }
+  ],
+  "output": [
+    {
+      "name": "BYTE_OF_DWORD",
+      "type": "BYTE",
+      "description": "The extracted byte from the specified position of the input DWORD."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BYTE",
+    "description": "The resulting byte obtained from the extraction process."
+  }
+}
+
+

@@ -1,0 +1,5 @@
+Type Function: BOOL
+Input IN: REAL (input)
+Output BOOL (TRUE if the input is negative)
+The SIGN_R function returns TRUE if the input value is negative. The input
+values are of type REAL.

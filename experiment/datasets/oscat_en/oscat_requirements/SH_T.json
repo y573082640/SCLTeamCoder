@@ -1,0 +1,30 @@
+
+{
+  "title": "SH_T Function Block",
+  "description": "The SH_T function block takes a real number input and a boolean enable signal. If the enable signal (E) is true, it passes the input value (IN) to the output (OUT). If E is false, the output remains unchanged.",
+  "type": "FUNCTION_BLOCK",
+  "name": "SH_T",
+  "input": [
+    {
+      "name": "IN",
+      "type": "REAL",
+      "description": "The input value that will be passed to the output when enabled."
+    },
+    {
+      "name": "E",
+      "type": "BOOL",
+      "description": "The enable signal that determines whether the input is passed to the output."
+    }
+  ],
+  "output": [
+    {
+      "name": "OUT",
+      "type": "REAL",
+      "description": "The output value that reflects the input value when enabled."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

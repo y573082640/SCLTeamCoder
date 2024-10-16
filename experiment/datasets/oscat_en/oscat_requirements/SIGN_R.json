@@ -1,0 +1,22 @@
+
+{
+  "title": "Sign Function",
+  "description": "This function determines the sign of a given real number. It returns TRUE if the input number is less than zero, indicating it is negative; otherwise, it returns FALSE.",
+  "type": "FUNCTION",
+  "name": "SIGN_R",
+  "input": [
+    {
+      "name": "in",
+      "type": "REAL",
+      "description": "The real number input for which the sign is to be determined."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "The return value indicating the sign of the input number. TRUE if negative, FALSE otherwise."
+  }
+}
+
+

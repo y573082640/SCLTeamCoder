@@ -1,0 +1,35 @@
+
+{
+  "title": "Boolean Logic Function Block",
+  "description": "This function block takes two boolean inputs, D and A, and produces two boolean outputs, Q0 and Q1. The output Q0 is the result of a logical AND operation between input D and the negation of input A, while Q1 is the result of a logical AND operation between input D and input A.",
+  "type": "FUNCTION_BLOCK",
+  "name": "DEC_2",
+  "input": [
+    {
+      "name": "D",
+      "type": "BOOL",
+      "description": "Boolean input that influences both outputs."
+    },
+    {
+      "name": "A",
+      "type": "BOOL",
+      "description": "Boolean input that determines the value of Q1 along with D."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q0",
+      "type": "BOOL",
+      "description": "Boolean output representing the result of D AND NOT A."
+    },
+    {
+      "name": "Q1",
+      "type": "BOOL",
+      "description": "Boolean output representing the result of D AND A."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

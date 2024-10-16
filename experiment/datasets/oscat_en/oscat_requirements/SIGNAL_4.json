@@ -1,0 +1,65 @@
+
+{
+  "title": "Signal Processing Block",
+  "description": "This FUNCTION_BLOCK processes input signals and generates an output signal Q based on the input boolean parameters IN1, IN2, IN3, and IN4. It also utilizes a timestamp and local signal patterns for processing.",
+  "type": "FUNCTION_BLOCK",
+  "name": "SIGNAL_4",
+  "input": [
+    {
+      "name": "IN1",
+      "type": "BOOL",
+      "description": "Boolean input representing the first signal."
+    },
+    {
+      "name": "IN2",
+      "type": "BOOL",
+      "description": "Boolean input representing the second signal."
+    },
+    {
+      "name": "IN3",
+      "type": "BOOL",
+      "description": "Boolean input representing the third signal."
+    },
+    {
+      "name": "IN4",
+      "type": "BOOL",
+      "description": "Boolean input representing the fourth signal."
+    },
+    {
+      "name": "TS",
+      "type": "TIME",
+      "description": "Timestamp indicating the time at which the signals are processed."
+    },
+    {
+      "name": "S1",
+      "type": "BYTE",
+      "description": "Byte pattern for the first signal, initialized to 16#FF."
+    },
+    {
+      "name": "S2",
+      "type": "BYTE",
+      "description": "Byte pattern for the second signal, initialized to 16#F0."
+    },
+    {
+      "name": "S3",
+      "type": "BYTE",
+      "description": "Byte pattern for the third signal, initialized to 16#AA."
+    },
+    {
+      "name": "S4",
+      "type": "BYTE",
+      "description": "Byte pattern for the fourth signal, initialized to 16#A0."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "Output boolean indicating whether an alarm condition is present."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

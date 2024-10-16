@@ -1,0 +1,23 @@
+
+{
+  "title": "OSCAT_VERSION Function",
+  "description": "This function returns a DWORD value representing the OSCAT version. The value returned is based on the input parameter; if the input is TRUE, it will return a date converted to DWORD (specifically the date July 16, 2024); otherwise, it returns the integer 335.",
+  "type": "FUNCTION",
+  "name": "OSCAT_VERSION",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BOOL",
+      "description": "A boolean input parameter that determines which version number to return."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "The DWORD value representing the OSCAT version based on the input parameter.",
+    "fields": []
+  }
+}
+
+

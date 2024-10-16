@@ -1,0 +1,22 @@
+
+{
+  "title": "Calculate the Inverse Hyperbolic Cotangent",
+  "description": "This function computes the inverse hyperbolic cotangent (ACOTH) of a given real number X. The result is calculated using the natural logarithm of the expression (X + 1) divided by (X - 1), scaled by 0.5. It takes a single real number as input and returns a real number as output.",
+  "type": "FUNCTION",
+  "name": "ACOTH",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The input value for which the inverse hyperbolic cotangent is to be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated inverse hyperbolic cotangent of the input value X."
+  }
+}
+
+

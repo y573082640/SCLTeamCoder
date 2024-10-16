@@ -1,0 +1,32 @@
+
+{
+  "title": "Maximum of Three Real Numbers",
+  "description": "This function computes the maximum value among three input real numbers. It takes three real inputs and returns the largest of the three.",
+  "type": "FUNCTION",
+  "name": "MAX3",
+  "input": [
+    {
+      "name": "in1",
+      "type": "REAL",
+      "description": "The first real number input."
+    },
+    {
+      "name": "in2",
+      "type": "REAL",
+      "description": "The second real number input."
+    },
+    {
+      "name": "in3",
+      "type": "REAL",
+      "description": "The third real number input."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The maximum value among the three input real numbers."
+  }
+}
+
+

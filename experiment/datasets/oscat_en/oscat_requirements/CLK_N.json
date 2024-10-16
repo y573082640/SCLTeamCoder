@@ -1,0 +1,25 @@
+
+{
+  "title": "Clock N Function Block",
+  "description": "This function block generates a clock signal based on a specified period defined by the input parameter N. The output Q provides a boolean representation of the clock state, transitioning based on the specified time interval.",
+  "type": "FUNCTION_BLOCK",
+  "name": "CLK_N",
+  "input": [
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "An integer that specifies the number of milliseconds for the clock period."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "A boolean output that represents the current state of the clock."
+    }
+  ],
+  "in/out": [],
+  "return_value": {}
+}
+
+

@@ -1,0 +1,28 @@
+
+{
+  "title": "Convert Two Words to a DWORD",
+  "description": "This function takes two 16-bit WORD values and combines them into a single 32-bit DWORD value by shifting the first WORD to the left by 16 bits, and then performing a bitwise OR with the second WORD.",
+  "type": "FUNCTION",
+  "name": "DWORD_OF_WORD",
+  "input": [
+    {
+      "name": "W1",
+      "type": "WORD",
+      "description": "The first 16-bit WORD value to be converted and shifted."
+    },
+    {
+      "name": "W0",
+      "type": "WORD",
+      "description": "The second 16-bit WORD value to be combined with the first."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "The resulting 32-bit DWORD value formed by combining W1 and W0.",
+    "fields": []
+  }
+}
+
+

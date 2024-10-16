@@ -1,0 +1,30 @@
+
+{
+  "title": "Filter Block",
+  "description": "The FILTER_W function block is designed to implement a filtering algorithm that processes an input value (X) over a specified time interval (T). It initializes on the first call, maintains state across calls, and adjusts the output (Y) based on the input and time elapsed.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FILTER_W",
+  "input": [
+    {
+      "name": "X",
+      "type": "WORD",
+      "description": "Input value to be filtered."
+    },
+    {
+      "name": "T",
+      "type": "TIME",
+      "description": "Time interval for filtering."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "WORD",
+      "description": "Filtered output value."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

@@ -1,0 +1,16 @@
+Type Function: BOOL
+Input IN: BOOL (Input)
+ON: BOOL (manual mode on)
+OFF: BOOL (manual mode of)
+Output BOOL (output)
+MANUAL can override an input signal IN with TRUE or FALSE.
+IN ON OFF Q
+0 0 0 0
+1 0 0 1
+- - 1 0 Manual operation position OFF
+- 1 0 1 Manual operation position ON
+The typical use of MANUAL by means of a switch with 3 positions (OFF,
+AUTO, ON) where the connections are OFF at OFF and On at On and AUTO
+of the switch remains open.
+The following diagram shows the possible connection of a switch with 3
+positions:

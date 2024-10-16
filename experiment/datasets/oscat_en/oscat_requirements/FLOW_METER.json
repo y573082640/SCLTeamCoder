@@ -1,0 +1,56 @@
+
+{
+  "title": "Flow Meter Function Block",
+  "description": "This function block computes the flow measurement based on the input velocity (VX) and maintains the state of measurement through various parameters. It handles initialization, pulse operation, integration, and calculates the current flow rate based on the update time.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FLOW_METER",
+  "input": [
+    {
+      "name": "VX",
+      "type": "REAL",
+      "description": "Input velocity for flow calculation."
+    },
+    {
+      "name": "E",
+      "type": "BOOL",
+      "description": "Enable signal for the flow measurement."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Reset signal to initialize flow measurement parameters."
+    },
+    {
+      "name": "PULSE_MODE",
+      "type": "BOOL",
+      "description": "Flag to indicate if the flow meter is operating in pulse mode."
+    },
+    {
+      "name": "UPDATE_TIME",
+      "type": "TIME",
+      "description": "Time interval for updating flow calculation. Default is 1 second."
+    }
+  ],
+  "output": [
+    {
+      "name": "F",
+      "type": "REAL",
+      "description": "Calculated flow rate based on input parameters."
+    }
+  ],
+  "in/out": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "Current flow measurement value."
+    },
+    {
+      "name": "Y",
+      "type": "UDINT",
+      "description": "Counter for flow measurements, incremented based on calculated results."
+    }
+  ],
+  "return_value": null
+}
+
+

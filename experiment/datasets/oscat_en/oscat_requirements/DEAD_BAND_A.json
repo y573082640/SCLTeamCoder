@@ -1,0 +1,45 @@
+
+{
+  "title": "Dead Band Filter Function Block",
+  "description": "This function block implements a dead band filter that processes an input signal to filter out noise and stabilize it. It computes the filtered output by determining a dead band around the input signal X based on given time parameters and constants.",
+  "type": "FUNCTION_BLOCK",
+  "name": "DEAD_BAND_A",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The input signal to be filtered."
+    },
+    {
+      "name": "T",
+      "type": "TIME",
+      "description": "The time constant for the filtering process."
+    },
+    {
+      "name": "KL",
+      "type": "REAL",
+      "description": "A scaling factor for the dead band, default value is 1.0."
+    },
+    {
+      "name": "LM",
+      "type": "REAL",
+      "description": "The maximum limit for the dead band's width."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "The processed output signal after applying dead band filtering."
+    },
+    {
+      "name": "L",
+      "type": "REAL",
+      "description": "The computed width of the dead band, representing stability."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

@@ -1,0 +1,12 @@
+Type Function : STRING
+Input IN: DWORD (input value)
+Output STRING(8) (result string ) 
+DWORD_TO_STRH converts a DWORD, Word or byte in a STRING of fxed
+length. The output string is exactly 8 characters long and is the hexadeci￾mal notation of the value of IN. The output string consists of the charac￾ters '0 '.. '1' and 'A '.. 'F'. The least signifcant hexadecimal character is
+right in the string. DWORD_TO_STRH can process input as byte, word and
+DWORD types. The output is independent of the input type is always a
+STRING of 32 characters. If a shorter string is needed, it can be cut with
+the standard function RIGHT() accordingly. The call
+RIGHT(DWORD_TO_STRH(X),4) results to a string of 4 characters to the
+contents of the lower 2 bytes of X.
+Example: DWORD_TO_STRH(127) = '0000007F'

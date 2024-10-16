@@ -1,0 +1,22 @@
+
+{
+  "title": "Convert Degrees to Radians with Modulo Operation",
+  "description": "This function converts an angle in degrees to radians while ensuring that the result is restricted to the range [0, 2PI]. The conversion follows the formula: radians = degrees * (π / 180). The output value is then limited using the MODR operation.",
+  "type": "FUNCTION",
+  "name": "RAD",
+  "input": [
+    {
+      "name": "DEG",
+      "type": "REAL",
+      "description": "Degrees as input variable."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated radians value, constrained to be within the range [0, 2PI]."
+  }
+}
+
+

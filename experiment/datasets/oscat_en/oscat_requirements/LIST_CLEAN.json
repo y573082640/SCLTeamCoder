@@ -1,0 +1,28 @@
+
+{
+  "title": "List Cleaning Function",
+  "description": "This function cleans a provided list by removing consecutive separators and ensuring that the list is properly terminated. The cleaning ensures that there are no empty elements at the end of the list and handles the removal of redundant separator characters.",
+  "type": "FUNCTION",
+  "name": "LIST_CLEAN",
+  "input": [
+    {
+      "name": "SEP",
+      "type": "BYTE",
+      "description": "The separator character used to determine element boundaries in the list."
+    }
+  ],
+  "output": [],
+  "in/out": [
+    {
+      "name": "LIST",
+      "type": "STRING[LIST_LENGTH]",
+      "description": "The list of strings that will be cleaned. The function modifies this list in-place."
+    }
+  ],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Indicates the success of the cleaning operation. The function returns TRUE upon successful completion."
+  }
+}
+
+

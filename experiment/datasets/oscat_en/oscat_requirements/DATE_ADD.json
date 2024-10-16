@@ -1,0 +1,42 @@
+
+{
+  "title": "Date Addition Function",
+  "description": "This function adds a specified number of days, weeks, months, and years to a given date and returns the resulting date. It correctly handles month and year transitions.",
+  "type": "FUNCTION",
+  "name": "DATE_ADD",
+  "input": [
+    {
+      "name": "IDATE",
+      "type": "DATE",
+      "description": "The initial date to which the adjustments will be made."
+    },
+    {
+      "name": "D",
+      "type": "INT",
+      "description": "The number of days to add to the initial date."
+    },
+    {
+      "name": "W",
+      "type": "INT",
+      "description": "The number of weeks to add to the initial date."
+    },
+    {
+      "name": "M",
+      "type": "INT",
+      "description": "The number of months to add to the initial date."
+    },
+    {
+      "name": "Y",
+      "type": "INT",
+      "description": "The number of years to add to the initial date."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DATE",
+    "description": "The resulting date after the specified additions."
+  }
+}
+
+

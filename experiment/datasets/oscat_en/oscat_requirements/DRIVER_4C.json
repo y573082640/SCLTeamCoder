@@ -1,0 +1,63 @@
+
+{
+  "title": "4-channel Driver Function Block",
+  "description": "This function block implements a 4-channel driver that counts the input edges and controls outputs based on the count. It has a reset feature and uses a timeout mechanism to manage output states.",
+  "type": "FUNCTION_BLOCK",
+  "name": "DRIVER_4C",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BOOL",
+      "description": "Input signal indicating a trigger event."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Reset signal to reset the counter."
+    },
+    {
+      "name": "Timeout",
+      "type": "TIME",
+      "description": "Timeout duration for automatic reset of the output when active."
+    },
+    {
+      "name": "SX",
+      "type": "ARRAY[1..7] OF BYTE",
+      "description": "An array of byte values used to generate output signals, initialized with specific values."
+    }
+  ],
+  "output": [
+    {
+      "name": "SN",
+      "type": "INT",
+      "description": "Current count of the input edges."
+    },
+    {
+      "name": "Q0",
+      "type": "BOOL",
+      "description": "Output signal corresponding to the first channel."
+    },
+    {
+      "name": "Q1",
+      "type": "BOOL",
+      "description": "Output signal corresponding to the second channel."
+    },
+    {
+      "name": "Q2",
+      "type": "BOOL",
+      "description": "Output signal corresponding to the third channel."
+    },
+    {
+      "name": "Q3",
+      "type": "BOOL",
+      "description": "Output signal corresponding to the fourth channel."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": null,
+    "description": null
+  }
+}
+
+

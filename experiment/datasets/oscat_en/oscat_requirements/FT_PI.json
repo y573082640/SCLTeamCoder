@@ -1,0 +1,60 @@
+
+{
+  "title": "Proportional-Integral Controller",
+  "description": "This function block implements a Proportional-Integral (PI) controller with the ability to limit the output of the integrator. The function block receives an input signal, applies proportional and integral gains, handles output limits, and indicates if the integrator has reached its limits.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FT_PI",
+  "input": [
+    {
+      "name": "IN",
+      "type": "REAL",
+      "description": "The input value to the PI controller."
+    },
+    {
+      "name": "KP",
+      "type": "REAL",
+      "description": "The proportional gain parameter, default is 1.0."
+    },
+    {
+      "name": "KI",
+      "type": "REAL",
+      "description": "The integral gain parameter, default is 1.0."
+    },
+    {
+      "name": "ILIM_L",
+      "type": "REAL",
+      "description": "The lower limit for the integrator output, default is -1E+38."
+    },
+    {
+      "name": "ILIM_H",
+      "type": "REAL",
+      "description": "The upper limit for the integrator output, default is 1E+38."
+    },
+    {
+      "name": "IEN",
+      "type": "BOOL",
+      "description": "Indicator to enable or disable the integrator, default is TRUE."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Reset signal for the integrator."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "The output value of the PI controller after applying the gains."
+    },
+    {
+      "name": "LIM",
+      "type": "BOOL",
+      "description": "Indicator that shows if the integrator has reached its output limits."
+    }
+  ],
+  "in/out": [],
+  "return_value": {}
+}
+
+

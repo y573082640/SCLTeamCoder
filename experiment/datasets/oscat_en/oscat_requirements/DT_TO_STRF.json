@@ -1,0 +1,44 @@
+
+{
+  "title": "Date and Time Formatting Function",
+  "description": "This function takes a DateTime input and produces a formatted string representation based on the specified format and language settings. It decodes the DateTime input to extract date and time components and applies the formatting rules defined in the format string.",
+  "type": "FUNCTION",
+  "name": "DT_TO_STRF",
+  "input": [
+    {
+      "name": "DTI",
+      "type": "TIME_DT",
+      "description": "Date and Time Input representing the DateTime value to format."
+    },
+    {
+      "name": "MS",
+      "type": "INT",
+      "description": "Additional Integer Input specifying milliseconds."
+    },
+    {
+      "name": "FMT",
+      "type": "STRING",
+      "description": "Format String Input that defines the desired output format for the DateTime."
+    },
+    {
+      "name": "LANG",
+      "type": "INT",
+      "description": "Language Input that specifies the language for formatting the output."
+    }
+  ],
+  "output": [
+    {
+      "name": "DT_TO_STRF",
+      "type": "string",
+      "description": "Formatted string representation of the DateTime based on the input format and language."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The formatted string output of the function.",
+    "fields": []
+  }
+}
+
+

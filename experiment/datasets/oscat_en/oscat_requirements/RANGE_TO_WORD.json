@@ -1,0 +1,33 @@
+
+{
+  "title": "Range to Word Conversion",
+  "description": "This function converts a given real number into a word representation based on specified lower and upper limits. The conversion is performed by normalizing the input value within the limits and scaling it to fit into a word format.",
+  "type": "FUNCTION",
+  "name": "RANGE_TO_WORD",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The input real number that needs to be converted."
+    },
+    {
+      "name": "low",
+      "type": "REAL",
+      "description": "The lower limit for the range."
+    },
+    {
+      "name": "high",
+      "type": "REAL",
+      "description": "The upper limit for the range."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "WORD",
+    "description": "The word representation of the normalized input value.",
+    "fields": []
+  }
+}
+
+

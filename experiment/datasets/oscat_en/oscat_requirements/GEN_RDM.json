@@ -1,0 +1,40 @@
+
+{
+  "title": "Random Duty Cycle Generator",
+  "description": "This function block generates a random duty cycle signal based on a specified period (PT) and modulation parameters (AM for amplitude and OS for offset). The output signal can be used for various automation and control applications.",
+  "type": "FUNCTION_BLOCK",
+  "name": "GEN_RDM",
+  "input": [
+    {
+      "name": "PT",
+      "type": "TIME",
+      "description": "The time period for the duty cycle generation."
+    },
+    {
+      "name": "AM",
+      "type": "REAL",
+      "description": "The amplitude factor that scales the random signal, default value is 1."
+    },
+    {
+      "name": "OS",
+      "type": "REAL",
+      "description": "The offset added to the generated random signal."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "A boolean output indicating whether the output signal is active."
+    },
+    {
+      "name": "Out",
+      "type": "REAL",
+      "description": "The generated output signal based on the random duty cycle."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

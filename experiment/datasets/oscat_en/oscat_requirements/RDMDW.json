@@ -1,0 +1,28 @@
+
+{
+  "title": "Read and Compute Data with Bit Manipulation",
+  "description": "This function takes a DWORD input, processes it to compute a DWORD output by performing bit counting and mathematical operations, including multiplication with constants PI and E, as well as bitwise shifting and logical OR operations.",
+  "type": "FUNCTION",
+  "name": "RDMDW",
+  "input": [
+    {
+      "name": "last",
+      "type": "DWORD",
+      "description": "The DWORD value used for bit counting and subsequent mathematical operations."
+    }
+  ],
+  "output": [
+    {
+      "name": "RDMDW",
+      "type": "DWORD",
+      "description": "The resulting DWORD after applying bit manipulation and mathematical computations based on the input value."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "The final computed DWORD value returned from the function."
+  }
+}
+
+

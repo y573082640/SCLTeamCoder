@@ -1,0 +1,28 @@
+
+{
+  "title": "Calculate Area of an Ellipse",
+  "description": "This function calculates the area of an ellipse using the radii R1 and R2. The area is computed using the formula A = π * R1 * R2, where π is a mathematical constant.",
+  "type": "FUNCTION",
+  "name": "ELLIPSE_A",
+  "input": [
+    {
+      "name": "R1",
+      "type": "REAL",
+      "description": "The length of the semi-major axis of the ellipse."
+    },
+    {
+      "name": "R2",
+      "type": "REAL",
+      "description": "The length of the semi-minor axis of the ellipse."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated area of the ellipse.",
+    "fields": []
+  }
+}
+
+

@@ -1,0 +1,46 @@
+Type Function module
+Input T_EXT1: REAL (external temperature sensor 1)
+T_EXT2: REAL (external temperature sensor 2)
+T_EXT3: REAL (external temperature sensor 3)
+T_EXT_Setup: BYTE (query mode)
+DT_IN: DATE_TIME (daytime)
+Output T_EXT: REAL (output outside temperature)
+HEAT: BOOL (heating signal)
+COOL: BOOL (cooling signal)
+Setup T_EXT_MIN: REAL (minimum outdoor temperature)
+T_EXT_MAX: REAL (maximum outside temperature)
+T_EXT_DEFAULT: REAL (default external temperature)
+HEAT_PERIOD_START: DATE (start of heating season)
+HEAT_PERIOD_STOP: DATE (end of heating season)
+COOL_PERIOD_START: DATE (start of cooling period)
+COOL_PERIOD_STOP: DATE (end of cooling period)
+HEAT_START_TEAMP_DAY (heating trigger temperature day)
+HEAT_START_TEAMP_NIGHT (heating trigger temperature night)
+HEAT_STOP_TEMP: REAL (heating stop temperature)
+COOL_START_TEAMP_DAY (cooling start temperature day)
+COOL_START_TEMP_NIGHT (cooling start temperature night)
+COOL_STOP_TEMP: REAL (cooling stop temperature)
+START_DAY: TOD (start of the day)
+START_NIGHT: TOD (early night)
+CYCLE_TIME: TIME (query time for outside temperature)
+TEMP_EXT processes up to 3 remote temperature sensor and provides by
+mode a selected external temperature to the heating control. It calculates
+signals for heating and cooling depending on outdoor temperature, date
+and time. With the input T_EXT_Setup is defned how the output value
+T_EXT is determined. If T_EXT_Setup is not connected, then the default va￾lue 0. The setup values T_EXT_MIN and T_EXT_Max set the minimum and
+maximum value of the external temperature inputs. If these limits are ex￾ceeded or not reached, a fault in the sensor or broken wire is assumed and
+instead of measured valued the default value T_EXT_DEFAULT is used. 
+T_EXT_Setup T_EXT
+0 Average of T_EXT1, T_ext2 and T_ext3
+1 T_EXT1
+2 T_EXT2
+3 T_EXT3
+4 T_EXT_DEFAULT
+5 Lowest value of the 3 inputs
+6 Highest value of 3 inputs
+7 Average value of 3 inputs
+With the setup variables HEAT_PERIOD and COOL_PERIOD is defnes when
+heating and when cooling is allowed. The decision, whether the output
+HEAT or COOL gets TRUE, still depends on the setup values HEAT_START -
+HEAT_STOP and COOL_START and COOL_STOP. These values can be def￾ned separately for day and night. The start of a day and night period can
+be determined by the setup variables START_DAY and START_NIGHT. A va￾riable CYCLE_TIME specifes how often the outside temperature to be que￾ried.

@@ -1,0 +1,70 @@
+
+{
+  "title": "MESSAGE_4R Function Block",
+  "description": "This function block, MESSAGE_4R, is designed to manage the selection of messages based on a rising edge trigger. It takes in several message strings and outputs the selected message alongside a counter and a trigger signal. The block uses a timer to regulate the message selection process.",
+  "type": "FUNCTION_BLOCK",
+  "name": "MESSAGE_4R",
+  "input": [
+    {
+      "name": "M0",
+      "type": "STRING(STRING_LENGTH)",
+      "description": "First message string."
+    },
+    {
+      "name": "M1",
+      "type": "STRING(STRING_LENGTH)",
+      "description": "Second message string."
+    },
+    {
+      "name": "M2",
+      "type": "STRING(STRING_LENGTH)",
+      "description": "Third message string."
+    },
+    {
+      "name": "M3",
+      "type": "STRING(STRING_LENGTH)",
+      "description": "Fourth message string."
+    },
+    {
+      "name": "MM",
+      "type": "INT",
+      "description": "Increment value for the message counter. Default is 3."
+    },
+    {
+      "name": "ENQ",
+      "type": "BOOL",
+      "description": "Enable signal for the message selection process. Default is TRUE."
+    },
+    {
+      "name": "CLK",
+      "type": "BOOL",
+      "description": "Clock signal used for timing the message selection process. Default is TRUE."
+    },
+    {
+      "name": "T1",
+      "type": "TIME",
+      "description": "Time interval for the timer. Default is 3 seconds."
+    }
+  ],
+  "output": [
+    {
+      "name": "MX",
+      "type": "STRING(STRING_LENGTH)",
+      "description": "Selected message string based on the current counter value."
+    },
+    {
+      "name": "MN",
+      "type": "INT",
+      "description": "Current message counter value."
+    },
+    {
+      "name": "TR",
+      "type": "BOOL",
+      "description": "Trigger signal indicating that a new message has been selected."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

@@ -1,0 +1,35 @@
+
+{
+  "title": "First-Order Transfer Function Implementation",
+  "description": "This function block implements a first-order transfer function characterized by time constant T and scaling factor K. It processes an input signal and outputs a signal that is the result of applying the transfer function to the input.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FT_IMP",
+  "input": [
+    {
+      "name": "in",
+      "type": "REAL",
+      "description": "The input signal to the transfer function."
+    },
+    {
+      "name": "T",
+      "type": "TIME",
+      "description": "The time constant of the transfer function."
+    },
+    {
+      "name": "K",
+      "type": "REAL",
+      "description": "The scaling factor applied to the output, default is 1.0."
+    }
+  ],
+  "output": [
+    {
+      "name": "out",
+      "type": "REAL",
+      "description": "The output signal after applying the transfer function."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

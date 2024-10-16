@@ -1,0 +1,7 @@
+Type Function: INT
+Input STR : STRING (input STRING)
+POS : INT (start position)
+Output INT (the frst character is a control character)
+FIND_CTRL searches the string str starting at position POS and returns the
+position at which the next control character is. Control characters are all
+characters whose value is less than 32 or 127.

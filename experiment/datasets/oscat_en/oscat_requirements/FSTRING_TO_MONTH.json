@@ -1,0 +1,27 @@
+
+{
+  "title": "Convert String to Month Integer",
+  "description": "This function takes a string representation of a month and converts it into its corresponding integer value, using a specified language setting. If the string does not match any of the month names in the chosen language, it attempts to convert the string directly to an integer.",
+  "type": "FUNCTION",
+  "name": "FSTRING_TO_MONTH",
+  "input": [
+    {
+      "name": "MTH",
+      "type": "STRING(20)",
+      "description": "A string representing the month to be converted."
+    },
+    {
+      "name": "LANG",
+      "type": "INT",
+      "description": "An integer representing the language setting. Use 0 for default language, or a specific language index."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "Returns the integer representation of the month (1-12), or the integer value of the string if no match is found."
+  }
+}
+
+

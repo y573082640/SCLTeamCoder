@@ -1,0 +1,27 @@
+
+{
+  "title": "Check if Array is Sorted",
+  "description": "This function checks whether a given array of REAL numbers is sorted in ascending order. The function takes a pointer to the array and its size as inputs and returns a boolean value indicating whether the array is sorted.",
+  "type": "FUNCTION",
+  "name": "IS_SORTED",
+  "input": [
+    {
+      "name": "pt",
+      "type": "pointer to ARRAY[0..32000] of REAL",
+      "description": "A pointer to an array containing REAL numbers."
+    },
+    {
+      "name": "size",
+      "type": "UINT",
+      "description": "The size of the array, specifying the number of elements in the pointer array."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns TRUE if the array is sorted in ascending order, otherwise returns FALSE."
+  }
+}
+
+

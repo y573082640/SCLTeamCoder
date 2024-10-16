@@ -1,0 +1,23 @@
+
+{
+  "title": "Float to Real Conversion Function",
+  "description": "This function converts a string representation of a floating-point number into its real number equivalent. It handles the detection of sign, digits, and optional exponent in the input string.",
+  "type": "FUNCTION",
+  "name": "FLOAT_TO_REAL",
+  "input": [
+    {
+      "name": "FLT",
+      "type": "STRING[20]",
+      "description": "The string input representing a floating-point number to be converted."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The converted real number value from the input string.",
+    "fields": []
+  }
+}
+
+

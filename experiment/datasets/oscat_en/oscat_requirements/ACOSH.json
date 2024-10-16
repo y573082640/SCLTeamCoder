@@ -1,0 +1,23 @@
+
+{
+  "title": "Inverse Hyperbolic Cosine Calculation",
+  "description": "This function calculates the inverse hyperbolic cosine (ACOSH) of a given real number input. The function uses the mathematical formula ACOSH(x) = ln(sqrt(x^2 - 1) + x) to compute the result.",
+  "type": "FUNCTION",
+  "name": "ACOSH",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The input value for which the inverse hyperbolic cosine is to be calculated. This value must be greater than or equal to 1."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The result of the inverse hyperbolic cosine calculation.",
+    "fields": []
+  }
+}
+
+

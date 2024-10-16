@@ -1,0 +1,8 @@
+Type Function: BOOL
+Input IN: BYTE (characters)
+Output BOOL (TRUE IN a sign is 0..9)
+ISC_HEX tests whether a sign IN is a hex character, If IN is a sign 0..9, A..F,
+a..f the function returns TRUE if the function returns FALSE.
+The signs are 0..9 are the codes (48..57)
+The characters A..F are the codes (65..70)
+The characters a..f are the codes (97..102)

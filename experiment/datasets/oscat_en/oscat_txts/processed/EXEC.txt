@@ -1,0 +1,9 @@
+Type Function: STRING
+Input STR : STRING (input STRING)
+Output STRING (result STRING)
+The function EXEC calculates mathematic expressions and results a string.
+The expression can only be a simple expression with an operator and wi￾thout brackets. For errors, such as a divide by zero EXEC provides the re￾turn string 'ERROR'.
+The valid operators are: +, - *, /, ^, SIN, COS, TAN, SQRT.
+REAL as numbers and integer numbers are allowed.
+Example: EXEC('3^2') = '9'
+EXEC('4-2') = '2'

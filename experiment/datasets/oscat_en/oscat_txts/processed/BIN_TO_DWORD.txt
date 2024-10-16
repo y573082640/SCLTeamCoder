@@ -1,0 +1,6 @@
+Type Function: DWORD
+Input BIN: STRING (40) (Octal string)
+Output DWORD (output value)
+The function BIN_TO_DWORD converts a binary encoded string in a BYTE
+value. There, this method only binary characters are '0 'and '1' is interpre￾ted, others in BIN occurring characters are ignored.
+Example: BIN_TO_DWORD ('11 ') result 3.

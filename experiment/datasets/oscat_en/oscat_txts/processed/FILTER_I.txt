@@ -1,0 +1,5 @@
+Type Function: INT
+Input X: INT (input)
+T: TIME (time constant of the flter)
+Output Y: INT (fltered value)
+FILTER_I is a flter of the frst degree for 16-bit INT data. The main applica￾tion is the fltering of sensor signals for noise reduction. The basic functio￾nality of a flter of the frst degree can be found in the module FT_PT1.

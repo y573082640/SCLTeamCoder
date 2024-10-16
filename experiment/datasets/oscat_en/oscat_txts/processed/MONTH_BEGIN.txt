@@ -1,0 +1,6 @@
+Type Function: DATE
+Input IDATE: DATE (current date)
+Output DATE (date of the 1st day of current month)
+MONTH_BEGIN calculates the date of frst Day of the current month and
+current year.
+MONTH_BEGIN(D#2008-2-13) = D#2008-2-1

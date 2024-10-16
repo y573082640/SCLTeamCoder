@@ -1,0 +1,34 @@
+
+{
+  "title": "String Cleaning Function",
+  "description": "This function cleans a given input string by removing characters that are not found in a specified allowed character set. The function scans through each character of the input string and constructs a new string containing only the valid characters.",
+  "type": "FUNCTION",
+  "name": "CLEAN",
+  "input": [
+    {
+      "name": "IN",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "The input string that needs to be cleaned."
+    },
+    {
+      "name": "CX",
+      "type": "STRING[80]",
+      "description": "A string containing the allowed characters. Only characters found in this string will remain in the output."
+    }
+  ],
+  "output": [
+    {
+      "name": "CLEAN",
+      "type": "STRING",
+      "description": "The cleaned string, containing only allowed characters."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The final cleaned version of the input string.",
+    "fields": []
+  }
+}
+
+

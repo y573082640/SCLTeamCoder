@@ -1,0 +1,4 @@
+Type Function: BYTE
+Input IN: INT (input)
+Output BYTE (BCD coded output value)
+INT_TO_BCDC converts the input value IN to a BCD coded output value.

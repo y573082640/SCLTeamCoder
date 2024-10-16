@@ -1,0 +1,23 @@
+
+{
+  "title": "UML Character Replacement Function",
+  "description": "The function REPLACE_UML is designed to replace umlaut characters in a given string with their corresponding representations. It ensures that non-umlaut characters are copied directly to the output string. The function handles pointer manipulation and ensures that the output does not exceed the defined string length.",
+  "type": "FUNCTION",
+  "name": "REPLACE_UML",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING",
+      "description": "The input string that may contain umlaut characters which need to be replaced."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "STRING",
+    "description": "The output string after replacing umlaut characters, with appropriate handling for non-umlaut characters.",
+    "fields": []
+  }
+}
+
+

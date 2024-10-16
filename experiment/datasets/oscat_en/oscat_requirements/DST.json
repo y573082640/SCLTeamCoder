@@ -1,0 +1,29 @@
+
+{
+  "title": "Determine Daylight Saving Time",
+  "description": "This function calculates whether the given UTC date and time falls within the period of Daylight Saving Time (DST) in Europe. It specifically checks if the provided date corresponds to the period when clocks are set forward in March and when they are set back in October. The function utilizes specific equations based on the year to determine the transition dates for DST.",
+  "type": "FUNCTION",
+  "name": "DST",
+  "input": [
+    {
+      "name": "UTC",
+      "type": "DT",
+      "description": "The date and time in UTC format that needs to be evaluated for Daylight Saving Time."
+    }
+  ],
+  "output": [
+    {
+      "name": "DST",
+      "type": "BOOL",
+      "description": "Returns TRUE if the given UTC date and time is within the Daylight Saving Time period, otherwise FALSE."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Indicates whether the input date is within Daylight Saving Time.",
+    "fields": []
+  }
+}
+
+

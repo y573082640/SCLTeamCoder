@@ -1,0 +1,28 @@
+
+{
+  "title": "Calculate Stair Value",
+  "description": "This function calculates the stair value of the input 'X' based on the provided step size 'D'. If 'D' is greater than zero, the function will compute the largest multiple of 'D' that is less than or equal to 'X'. If 'D' is zero or negative, the function will return 'X' unchanged.",
+  "type": "FUNCTION",
+  "name": "STAIR",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The value from which the stair calculation is derived."
+    },
+    {
+      "name": "D",
+      "type": "REAL",
+      "description": "The step size used for the stair calculation. Should be greater than zero for the operation to apply."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated stair value based on the inputs.",
+    "fields": []
+  }
+}
+
+

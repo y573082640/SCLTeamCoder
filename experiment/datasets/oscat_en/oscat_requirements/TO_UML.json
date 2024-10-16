@@ -1,0 +1,28 @@
+
+{
+  "title": "Convert Byte to UML Representation",
+  "description": "This function converts a given BYTE input into its respective UML formatted string representation. Special German characters are transformed into their UML representations, while other BYTE values are handled using a character to string conversion.",
+  "type": "FUNCTION",
+  "name": "TO_UML",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BYTE",
+      "description": "A BYTE input that represents a character in a specific encoding."
+    }
+  ],
+  "output": [
+    {
+      "name": "TO_UML",
+      "type": "string",
+      "description": "The UML representation of the input byte, transformed according to predefined rules."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The resulting UML string representation of the input BYTE."
+  }
+}
+
+

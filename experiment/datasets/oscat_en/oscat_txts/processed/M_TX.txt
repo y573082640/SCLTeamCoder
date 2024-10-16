@@ -1,0 +1,24 @@
+Type Function module
+Input IN: BOOL (Input)
+TMAX : TIME (Timeout für ET)
+RST: BOOL (Reset input)
+Output TH: TIME (Ontime the input signal)
+TL: TIME (Of time of the input signal)
+DC: REAL (duty cycle / Duty Cycle the input signal) 
+F: REAL (the input signal frequency in Hz)
+ET: TIME (Elapsed time during the measurement)
+M_TX determined from the input signal IN the time which the signal IN was
+TRUE (TH) and the time the signal was set to FALSE (TL). The times of TH
+and TL are only measured after a rising or falling edge. If IN is at the frst
+call of the module already high, this is not seen as a rising edge. From the
+measured values of TH and TL the Duty Cycle and the frequency in Hz are
+calculated. A Duty Cycle of 0.4 means the signal was 40% TRUE and 60%
+FALSE. Output ET of type TIME is started with each rising edge at 0 and
+runs up until the next rising edge it starts again at 0. With a TRUE at the
+input RST, the outputs can be reset at any time to 0. The input TMAX sets,
+after which the elapsed time at ET, the outputs automatically are reseted.
+TMAX is internally assigned a default value of T#10d and can normally be
+left open. The input TMAX is primarily used to reset in the absence of input
+signal for a defned time the outputs. An example of a possible application
+is to measure the speed of a wave, indicating absence of the sensor si￾gnals to the speed (frequency) 0. TMAX is used with caution because, for
+example, a TMAX of 10 seconds at the same time limits the smallest mea￾surable frequency to 0.1 Hz.

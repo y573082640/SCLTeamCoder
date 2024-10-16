@@ -1,0 +1,38 @@
+Type Function module
+Input VX: REAL (volume per hour)
+E: BOOL (Enable Input)
+RST: BOOL (Reset input)
+I / O X:REAL fow rate fractional part)
+Y:UDINT (fow rate integer part)
+SETUP PULSE_MODE: BOOL (pulse counter when TRUE)
+UPDATE_TIME: TIME (measuring time for F)
+Output F: REAL (actual fow)
+The function module FLOW_METER determines the fow rate per unit of
+time and count quantities. FLOW_METER determines the fow rate from the
+input VX and E. The module supports two operating modes are determined
+by the variable setup PULSE_MODE. If PULSE_MODE = TRUE is the volume
+fow and the amount determined by is added at each rising edge at E, the
+value of VX upon itself. If the PULSE_MODE = FALSE the input VX is inter￾preted as fow per unit time and is added up as long as E = TRUE. Using
+the input RST, the internal counter can be always set to zero. X and Y are
+external to be declared variables and can be declared retentive / perma￾nent to be permanent in case of power failure. The module provides the
+instantaneous fow value F as the Real in accordance to the unit connec￾ted to VX. If a value at VX is applied eg. in liters / hour so is the measured
+value at the output F in l / h. The output F is set at the constant intervals
+UPDATE_TIME. The outputs X and Y make up the over time accumulated
+measure values where X in REAL represent in the decimal point and Y in
+UDINT the integer part. A count of 234.111234 is represented by 0.111234
+at X and a value of 234 at Y. If for count only a REAL is used then the reso￾lution (for Real to IEEE32), is only 7-8 position . The above described me￾thod can provide more than 9 digits before the decimal point (2^32-1) and
+at least 7 digits after the decimal point. Since in this case X is always
+smaller than 1, Y can be used for output without decimal places. The two
+variables X and Y must be declared external and can, as the following ex￾ample, also be secured against power failure.
+Example 1:
+VX := 4 m³/h;
+PULSE_MODE := FALSE;
+UPDATE_TIME := T#100ms;
+The device measures the fow in m³/h and counts the fow as long as the
+input E is TRUE. The output F shows (4.0m³/h) as long as E is TRUE, other￾wise it shows (0.0). The value of F is re-calculated every 100 milliseconds.
+Example2:
+VX := 0,024 l/Puls;
+PULS_MODE := TRUE;
+UPDATE_TIME := T#1s;
+In this example, the fow at the output F is displayed in l/h and with each
+rising edge at E the counter is increased by 0.024 l.

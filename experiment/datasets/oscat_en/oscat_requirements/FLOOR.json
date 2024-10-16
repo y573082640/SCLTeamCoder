@@ -1,0 +1,20 @@
+{
+  "title": "Integer Floor Function",
+  "description": "This function calculates the floor value of a given real number by converting it to an integer. If the converted integer value is greater than the original real number, it reduces the integer value by one to ensure correct flooring behavior.",
+  "type": "FUNCTION",
+  "name": "FLOOR",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The real number input for which the floor value needs to be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The integer floor value of the input real number X.",
+    "fields": []
+  }
+}

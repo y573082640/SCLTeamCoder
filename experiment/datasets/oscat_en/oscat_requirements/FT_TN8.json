@@ -1,0 +1,35 @@
+
+{
+  "title": "FT_TN8 Function Block",
+  "description": "The FT_TN8 function block processes a real input over a given time interval and outputs a value based on the input, triggering a boolean output when certain conditions are met.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FT_TN8",
+  "input": [
+    {
+      "name": "in",
+      "type": "REAL",
+      "description": "The real input value that will be processed by the function block."
+    },
+    {
+      "name": "T",
+      "type": "TIME",
+      "description": "The time interval that determines how frequently the input is sampled."
+    }
+  ],
+  "output": [
+    {
+      "name": "out",
+      "type": "REAL",
+      "description": "The real output value which corresponds to the last sampled input."
+    },
+    {
+      "name": "trig",
+      "type": "BOOL",
+      "description": "A boolean output that indicates if the input was processed and the output was updated."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

@@ -1,0 +1,28 @@
+
+{
+  "title": "Array Sum Function",
+  "description": "This function calculates the sum of elements in a given array of real numbers, using a pointer to the array and its size as input parameters.",
+  "type": "FUNCTION",
+  "name": "ARRAY_SUM",
+  "input": [
+    {
+      "name": "pt",
+      "type": "POINTER TO ARRAY[0..32000] OF REAL",
+      "description": "Pointer to the array of real numbers to be summed."
+    },
+    {
+      "name": "size",
+      "type": "UINT",
+      "description": "The size of the array. This indicates the number of elements in the array to be processed."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The sum of the elements of the array.",
+    "fields": []
+  }
+}
+
+

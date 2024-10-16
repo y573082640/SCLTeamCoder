@@ -1,0 +1,27 @@
+
+{
+  "title": "Temperature Calculation Function",
+  "description": "This function computes the temperature based on two input parameters, Res and R0, by applying a mathematical formula. The output is a real number representing the calculated temperature.",
+  "type": "FUNCTION",
+  "name": "TEMP_NI",
+  "input": [
+    {
+      "name": "Res",
+      "type": "REAL",
+      "description": "The resistance value measured."
+    },
+    {
+      "name": "R0",
+      "type": "REAL",
+      "description": "The reference resistance value for the calculation."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated temperature derived from the formula using Res and R0."
+  }
+}
+
+

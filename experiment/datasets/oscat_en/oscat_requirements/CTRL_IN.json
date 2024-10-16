@@ -1,0 +1,33 @@
+
+{
+  "title": "Control Input Function",
+  "description": "This function calculates the process error by determining the difference between the set point and actual value while accounting for noise through a dead zone mechanism.",
+  "type": "FUNCTION",
+  "name": "CTRL_IN",
+  "input": [
+    {
+      "name": "SET_POINT",
+      "type": "REAL",
+      "description": "The desired target value that the system aims to achieve."
+    },
+    {
+      "name": "ACTUAL",
+      "type": "REAL",
+      "description": "The current value of the system that is being evaluated."
+    },
+    {
+      "name": "NOISE",
+      "type": "REAL",
+      "description": "The acceptable range of fluctuation around the set point which will be considered as 'noise'."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated process error after applying the dead zone function.",
+    "fields": []
+  }
+}
+
+

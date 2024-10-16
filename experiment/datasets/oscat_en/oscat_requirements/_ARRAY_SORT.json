@@ -1,0 +1,27 @@
+
+{
+  "title": "Array Sorting Function",
+  "description": "This function sorts an array of real numbers using a quicksort algorithm. It utilizes a stack to manage recursive function calls and sorts the array in place. The function takes a pointer to the array and its size as input and returns a boolean indicating whether the sorting was successful.",
+  "type": "FUNCTION",
+  "name": "_ARRAY_SORT",
+  "input": [
+    {
+      "name": "PT",
+      "type": "POINTER TO ARRAY[1..32000] OF REAL",
+      "description": "A pointer to the array of real numbers to be sorted."
+    },
+    {
+      "name": "SIZE",
+      "type": "UINT",
+      "description": "The size of the array."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Indicates whether the sorting was successful or not."
+  }
+}
+
+

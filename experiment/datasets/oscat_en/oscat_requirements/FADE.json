@@ -1,0 +1,45 @@
+
+{
+  "title": "Fade Function Block",
+  "description": "This function block implements a fade effect based on input parameters. It takes two input values and uses a ramp module to generate a fading output based on a boolean trigger, a time parameter, and reset signal.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FADE",
+  "input": [
+    {
+      "name": "IN1",
+      "type": "REAL",
+      "description": "The starting value for the fade effect."
+    },
+    {
+      "name": "IN2",
+      "type": "REAL",
+      "description": "The target value for the fade effect."
+    },
+    {
+      "name": "F",
+      "type": "BOOL",
+      "description": "A boolean flag that indicates whether the fade operation should be active."
+    },
+    {
+      "name": "TF",
+      "type": "TIME",
+      "description": "The duration of the fade effect."
+    },
+    {
+      "name": "rst",
+      "type": "BOOL",
+      "description": "A reset signal that initializes the ramp module and stops the fade effect."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "The output value after applying the fade effect between IN1 and IN2."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

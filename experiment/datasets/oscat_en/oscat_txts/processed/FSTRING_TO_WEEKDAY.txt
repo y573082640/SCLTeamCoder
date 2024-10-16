@@ -1,0 +1,12 @@
+Type Function: INT
+Input WDAY: STRING(20) (String input)
+LANG: INT (language)
+Output INT (weekday)
+FSTRING_TO_WEEKDAY decodes a weekday in the form 'MO' to an integer,
+1 = MO ... 7 = Sun. For the analysis the frst two letters of the string WDAY
+are evaluated, all others are ignored. If the string contains spaces they will
+be removed. The days of the week can be present in both upper-or lower￾case. Since the function evaluates only the frst two characters, the week￾days may also be spelled out (Monday) format.
+Mo = 1; Di, Tu = 2; We, Mi = 3; Th, Do = 4; Fr = 5; Sa = 6; So, Su = 7
+As an alternative form, the weekday can be specifed as number 1..7.
+LANG specifes the used language, 1 = English, 2 = German, 0 = defned
+default language in the Setup.

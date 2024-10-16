@@ -1,0 +1,38 @@
+
+{
+  "title": "Polynomial Interpolation Calculation",
+  "description": "This function calculates the value of a polynomial at a given point using interpolation based on provided data points. The function receives a value 'X' and an array of data points, 'XY', then computes the polynomial's value at 'X' using interpolation formulae derived from the inputs.",
+  "type": "FUNCTION",
+  "name": "POLYNOM_INT",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The point at which the polynomial value is to be calculated."
+    },
+    {
+      "name": "XY",
+      "type": "ARRAY[1..5, 0..1] OF REAL",
+      "description": "A two-dimensional array containing the data points for polynomial interpolation, where each element corresponds to an (x, y) coordinate."
+    },
+    {
+      "name": "Pts",
+      "type": "INT",
+      "description": "The number of data points provided in the 'XY' array, limited to a maximum of 5."
+    }
+  ],
+  "output": [
+    {
+      "name": "POLYNOM_INT",
+      "type": "REAL",
+      "description": "The calculated value of the polynomial at the point 'X'."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The result of the polynomial interpolation at the specified point 'X'."
+  }
+}
+
+

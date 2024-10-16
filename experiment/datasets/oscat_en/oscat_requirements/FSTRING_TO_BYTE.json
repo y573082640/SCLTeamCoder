@@ -1,0 +1,28 @@
+
+{
+  "title": "String to Byte Conversion",
+  "description": "This function converts a string representation of a number to a byte value. The string can represent the number in various formats including binary, octal, hexadecimal, or decimal. The function identifies the format based on specific prefixes ('2#' for binary, '8#' for octal, '16#' for hexadecimal) and processes the string accordingly.",
+  "type": "FUNCTION",
+  "name": "FSTRING_TO_BYTE",
+  "input": [
+    {
+      "name": "IN",
+      "type": "STRING[12]",
+      "description": "A string representation of a number, which can be in binary, octal, hexadecimal, or decimal format."
+    }
+  ],
+  "output": [
+    {
+      "name": "FSTRING_TO_BYTE",
+      "type": "BYTE",
+      "description": "The byte value converted from the input string representation."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BYTE",
+    "description": "The byte result of the conversion based on the provided input string."
+  }
+}
+
+

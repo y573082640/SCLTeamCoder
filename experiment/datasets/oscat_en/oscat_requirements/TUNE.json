@@ -1,0 +1,85 @@
+
+{
+  "title": "Tuning Function Block",
+  "description": "This function block implements a tuning system for adjusting a value Y based on various input signals for setting, incrementing, decrementing, and resetting values. The block manages state changes and time-based ramps for gradual adjustments while ensuring that the output value remains within specified limits.",
+  "type": "FUNCTION_BLOCK",
+  "name": "TUNE",
+  "input": [
+    {
+      "name": "SET",
+      "type": "BOOL",
+      "description": "A boolean flag to set the value of Y to SET_val."
+    },
+    {
+      "name": "SU",
+      "type": "BOOL",
+      "description": "A boolean flag indicating a request to increment the value of Y slowly."
+    },
+    {
+      "name": "SD",
+      "type": "BOOL",
+      "description": "A boolean flag indicating a request to decrement the value of Y slowly."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "A boolean flag to reset the value of Y to RST_val."
+    },
+    {
+      "name": "SS",
+      "type": "REAL",
+      "description": "A real number representing the step size for slow adjustments, default value is 0.1."
+    },
+    {
+      "name": "Limit_L",
+      "type": "REAL",
+      "description": "The lower limit for the output value Y."
+    },
+    {
+      "name": "LIMIT_H",
+      "type": "REAL",
+      "description": "The upper limit for the output value Y, default value is 100.0."
+    },
+    {
+      "name": "RST_val",
+      "type": "REAL",
+      "description": "The value to set Y to when RST is true."
+    },
+    {
+      "name": "SET_val",
+      "type": "REAL",
+      "description": "The value to set Y to when SET is true, default value is 100.0."
+    },
+    {
+      "name": "T1",
+      "type": "TIME",
+      "description": "The duration for the slow ramp operation, default value is 500 ms."
+    },
+    {
+      "name": "T2",
+      "type": "TIME",
+      "description": "The duration for the fast ramp operation, default value is 2 s."
+    },
+    {
+      "name": "S1",
+      "type": "REAL",
+      "description": "The step size for the slow ramp up operation, default value is 2.0."
+    },
+    {
+      "name": "S2",
+      "type": "REAL",
+      "description": "The step size for the fast ramp up operation, default value is 10.0."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "The output value that is adjusted based on the input states and limits."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

@@ -1,0 +1,27 @@
+
+{
+  "title": "Combine Two Bytes into a Word",
+  "description": "This function takes two input parameters, B1 and B0, both of type BYTE, and combines them into a single WORD by shifting the first byte (B1) left by 8 bits and OR-ing it with the second byte (B0). The function is designed to ensure compatibility and improved performance in the conversion process.",
+  "type": "FUNCTION",
+  "name": "WORD_OF_BYTE",
+  "input": [
+    {
+      "name": "B1",
+      "type": "BYTE",
+      "description": "The first byte to be combined, which will be shifted left by 8 bits."
+    },
+    {
+      "name": "B0",
+      "type": "BYTE",
+      "description": "The second byte to be combined, which will remain in its original position."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "WORD",
+    "description": "The resulting WORD obtained by combining B1 and B0."
+  }
+}
+
+

@@ -1,0 +1,29 @@
+
+{
+  "title": "Convert Byte to Lowercase",
+  "description": "This function converts an input byte to its lowercase representation if it falls within the uppercase ASCII range or extended ASCII settings. The function checks if the input byte is an uppercase letter in the ASCII table and converts it to lowercase by applying a bitwise OR operation with the hexadecimal value 20. For extended ASCII characters, the function checks specific conditions before applying the conversion.",
+  "type": "FUNCTION",
+  "name": "TO_LOWER",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BYTE",
+      "description": "The input byte to be converted to lowercase."
+    }
+  ],
+  "output": [
+    {
+      "name": "TO_LOWER",
+      "type": "BYTE",
+      "description": "The lowercase representation of the input byte."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BYTE",
+    "description": "Returns the converted lowercase byte if applicable, otherwise returns the input byte.",
+    "fields": []
+  }
+}
+
+

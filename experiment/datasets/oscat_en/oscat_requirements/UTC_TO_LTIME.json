@@ -1,0 +1,39 @@
+
+{
+  "title": "UTC to Local Time Conversion",
+  "description": "This function converts a given UTC time to local time based on the specified time zone offset and daylight saving time (DST) considerations. The function takes into account whether DST is enabled and adjusts the time accordingly.",
+  "type": "FUNCTION",
+  "name": "UTC_TO_LTIME",
+  "input": [
+    {
+      "name": "UTC",
+      "type": "DT",
+      "description": "The UTC date and time to be converted."
+    },
+    {
+      "name": "DST_ENABLE",
+      "type": "BOOL",
+      "description": "A boolean flag indicating whether daylight saving time adjustments should be applied."
+    },
+    {
+      "name": "TIME_ZONE_OFFSET",
+      "type": "INT",
+      "description": "The time zone offset in minutes to be applied to the UTC time."
+    }
+  ],
+  "output": [
+    {
+      "name": "UTC_TO_LTIME",
+      "type": "DT",
+      "description": "The converted local time in date and time format."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "DT",
+    "description": "The function returns the local time corresponding to the input UTC time after applying the necessary adjustments for the time zone and DST.",
+    "fields": []
+  }
+}
+
+

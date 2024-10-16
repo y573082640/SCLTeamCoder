@@ -1,0 +1,23 @@
+
+{
+  "title": "Convert Octal String to Byte",
+  "description": "This function converts an octal string (up to 10 characters long) into its corresponding byte value. Each character in the octal string should represent a digit from 0 to 7. The function processes each character by converting it from its ASCII value to the corresponding decimal value and combines them to form the final byte value.",
+  "type": "FUNCTION",
+  "name": "OCT_TO_BYTE",
+  "input": [
+    {
+      "name": "OCT",
+      "type": "STRING[10]",
+      "description": "An octal string consisting of up to 10 characters representing values in the octal numeral system."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BYTE",
+    "description": "The resulting byte value obtained from converting the octal string.",
+    "fields": []
+  }
+}
+
+

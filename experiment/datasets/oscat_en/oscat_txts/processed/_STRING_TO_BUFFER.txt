@@ -1,0 +1,19 @@
+Type Function : INT
+Input STR: STRING ( string to be copied)
+POS: INT (position from which the string is copied into the buf￾fer) 
+PT: POINTER TO BYTE (address of the Bufer ) 
+SIZE: UINT (size of the bufer)
+Output INT (returns the position in bufer post the imported string
+)
+The function _STRING_TO_BUFFER copies a string in any array of Byte .
+The string is stored from any position POS in the bufer. The frst element
+in the array has the position number 0. When called, a pointer to the array
+and its size in bytes is passed to the function. Under CoDeSys the call
+reads: _STRING_TO_BUFFER(STR, POS, ADR(Array), SIZEOF(Array)), where
+array is the name of the array to be manipulated. ADR() is a standard
+function which identifes the pointer to the array and SIZEOF() is a stan￾dard function, which determines the size of the array. The function returns
+the string copied from the bufer as STRING. The array specifed by the
+pointer is manipulated directly in memory. 
+This type of processing arrays is very efcient because no additional me￾mory is required and no surrender values must be copied.
+Example:
+_STRING_TO_BUFFER(STR, POS, ADR(bigarray), SIZEOF(bigarray))

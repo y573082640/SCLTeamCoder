@@ -1,0 +1,23 @@
+
+{
+  "title": "Integer Truncation Function",
+  "description": "This function takes a real number as input and truncates it to its nearest integer value, following specific rounding rules based on whether the input is positive or negative. The function adjusts the truncated value based on whether it is greater than or less than the original input.",
+  "type": "FUNCTION",
+  "name": "D_TRUNC",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The real number to be truncated to an integer."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DINT",
+    "description": "The truncated integer value of the input real number.",
+    "fields": []
+  }
+}
+
+

@@ -1,0 +1,24 @@
+Type Function: REAL
+Input IN_1: REAL (input 1)
+IN_2: REAL (input 2)
+IN_3: REAL (input 3)
+DEFAULT: REAL (default value)
+IN_MIN: REAL (lower limit for inputs)
+IN_MAX: REAL (upper limit for inputs)
+MODE: Byte (selection of the operating mode)
+Output REAL (output)
+MULTI_IN is a sensor interface that accepts up to 3 sensors to check for er￾rors, and depending on the input mode, an output value is calculated.
+Mode Function
+0 MULTI_in = average of the inputs in_1.. 3
+1 MULTI_in = input in_1
+2 MULTI_in = input in_2
+3 MULTI_in = input in_3
+4 MULTI_in = Default Input 
+5 MULTI_in = smallest value of the inputs in_1.. 3
+6 MULTI_in = largest value of the inputs in_1 .. 3
+7 MULTI_in = mean value of the inputs in_1..3
+>7 MULTI_in = 0
+Regardless of the mode input values that are greater than IN_MAX or less
+than IN_MIN be ignored. If no calculation is possible as defned by mode,
+the input Default is used as a output value. Multi_in is used when diferent
+sensors measures the same value and high security and reliability is requi￾red. A possible application is to measure the outside temperature at va￾rious points and the surveillance on cable or sensor failure.

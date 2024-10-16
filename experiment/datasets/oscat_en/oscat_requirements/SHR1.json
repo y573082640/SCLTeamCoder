@@ -1,0 +1,28 @@
+
+{
+  "title": "Shift Right Operation",
+  "description": "This function performs a logical right shift operation on a given DWORD input. The function takes an input value and a shift amount, and it shifts the input to the right by the specified number of bits, filling the leftmost bits with zeros. The operation utilizes a temporary constant for internal calculations.",
+  "type": "FUNCTION",
+  "name": "SHR1",
+  "input": [
+    {
+      "name": "IN",
+      "type": "DWORD",
+      "description": "The input DWORD value to be shifted."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "The number of bits to shift the input value to the right."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "The result of the logical right shift operation on the input value.",
+    "fields": []
+  }
+}
+
+

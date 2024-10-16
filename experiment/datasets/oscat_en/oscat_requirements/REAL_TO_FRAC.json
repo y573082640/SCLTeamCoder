@@ -1,0 +1,50 @@
+
+{
+  "title": "Convert Real Number to Fraction",
+  "description": "This function takes a real number and converts it into its fractional representation with a maximum allowable denominator size. The function calculates the numerator and denominator iteratively until the denominator exceeds the specified maximum size, ensuring the fraction is correctly represented even if the real number is negative.",
+  "type": "FUNCTION",
+  "name": "REAL_TO_FRAC",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The real number to be converted into a fraction."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "The maximum allowed size of the denominator."
+    }
+  ],
+  "output": [
+    {
+      "name": "NUMERATOR",
+      "type": "DINT",
+      "description": "The calculated numerator of the resulting fraction."
+    },
+    {
+      "name": "DENOMINATOR",
+      "type": "DINT",
+      "description": "The calculated denominator of the resulting fraction."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "FRACTION",
+    "description": "The fraction representation of the given real number containing numerator and denominator.",
+    "fields": [
+      {
+        "name": "NUMERATOR",
+        "type": "DINT",
+        "description": "The numerator value of the fraction."
+      },
+      {
+        "name": "DENOMINATOR",
+        "type": "DINT",
+        "description": "The denominator value of the fraction."
+      }
+    ]
+  }
+}
+
+

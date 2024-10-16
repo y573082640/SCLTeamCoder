@@ -1,0 +1,45 @@
+
+{
+  "title": "CLK_PULSE Function Block",
+  "description": "This function block generates a pulse output for a specified number of cycles based on a given time period. It can be reset and counts the number of pulses generated. The output, Q, is set to TRUE during the pulse generation cycle.",
+  "type": "FUNCTION_BLOCK",
+  "name": "CLK_PULSE",
+  "input": [
+    {
+      "name": "PT",
+      "type": "TIME",
+      "description": "The time period for generating each pulse."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "The number of pulses to generate. A value of 0 means continuous pulses."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "A reset flag to initialize the pulse generation process."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "Indicates when a pulse is generated (TRUE during a pulse)."
+    },
+    {
+      "name": "CNT",
+      "type": "INT",
+      "description": "Counts the number of pulses generated."
+    },
+    {
+      "name": "RUN",
+      "type": "BOOL",
+      "description": "Indicates if pulse generation is currently running."
+    }
+  ],
+  "in/out": [],
+  "return_value": {}
+}
+
+

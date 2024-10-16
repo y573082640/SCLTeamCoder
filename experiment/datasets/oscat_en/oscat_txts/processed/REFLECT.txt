@@ -1,0 +1,17 @@
+Type Function: DWORD
+Input D: DWORD (input)
+L: INT (number of bits to be rotated)
+Output DWORD (output value)
+REFLECT reverses the order specifed by the number of L BitsBits in a
+DWORD. The most signifcant bits than specifed by the length L remain
+unchanged.
+Example: REVERSE(10101010 00000000 11111111 10011110, 8)
+results 10101010 00000000 11111111 01111001
+Example: REVERSE(10101010 00000000 11111111 10011110, 32)
+results 01111001 11111111 00000000 01010101
+the following example in ST would reverse all the bytes in a DWORD X, but
+the byte order remains:
+FOR i := 0 TO 3 DO
+REVERSE(X, 8);
+ROR(X,8);
+END_FOR

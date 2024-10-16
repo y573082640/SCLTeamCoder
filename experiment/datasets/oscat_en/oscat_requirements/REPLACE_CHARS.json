@@ -1,0 +1,38 @@
+
+{
+  "title": "Character Replacement Function",
+  "description": "This function replaces occurrences of a specified substring (SRC) in a given string (STR) with another substring (REP). It ensures that the lengths of SRC and REP are the same before proceeding with the replacement. If SRC is longer than REP, SRC will be trimmed to match the length of REP, and vice versa. The function then performs the replacement for each character in the original string.",
+  "type": "FUNCTION",
+  "name": "REPLACE_CHARS",
+  "input": [
+    {
+      "name": "STR",
+      "type": "STRING",
+      "description": "The string in which the replacement will occur."
+    },
+    {
+      "name": "SRC",
+      "type": "STRING",
+      "description": "The substring to be replaced in STR."
+    },
+    {
+      "name": "REP",
+      "type": "STRING",
+      "description": "The substring that will replace occurrences of SRC."
+    }
+  ],
+  "output": [
+    {
+      "name": "REPLACE_CHARS",
+      "type": "STRING",
+      "description": "The resulting string after replacement operations."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The modified string after replacing characters according to the defined rules."
+  }
+}
+
+

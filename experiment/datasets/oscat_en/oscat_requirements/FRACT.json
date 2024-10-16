@@ -1,0 +1,28 @@
+
+{
+  "title": "Fractional Part Calculation",
+  "description": "This function calculates the fractional part of a given real number. If the absolute value of the input number is less than 2 billion, the function returns the fractional part calculated by subtracting the truncated integer value from the original number. If the absolute value of the input number exceeds or equals 2 billion, the function returns 0.",
+  "type": "FUNCTION",
+  "name": "FRACT",
+  "input": [
+    {
+      "name": "x",
+      "type": "REAL",
+      "description": "The real number from which the fractional part is to be calculated."
+    }
+  ],
+  "output": [
+    {
+      "name": "FRACT",
+      "type": "REAL",
+      "description": "The calculated fractional part of the input number, or 0 if the absolute value of the input number is greater than or equal to 2 billion."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "Returns the fractional component of the input real number."
+  }
+}
+
+

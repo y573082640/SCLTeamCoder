@@ -1,0 +1,34 @@
+
+{
+  "title": "Bitwise Shift Left Function",
+  "description": "This function performs a bitwise left shift on a given input value based on a specified shift amount. The function calculates the result by combining a shifted constant value and the left-shifted input value.",
+  "type": "FUNCTION",
+  "name": "SHL1",
+  "input": [
+    {
+      "name": "IN",
+      "type": "DWORD",
+      "description": "The input value that will be shifted."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "The number of positions to shift the input value to the left."
+    }
+  ],
+  "output": [
+    {
+      "name": "SHL1",
+      "type": "DWORD",
+      "description": "The result of the left shift operation applied to the input value."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "The final computed value after applying bitwise operations.",
+    "fields": []
+  }
+}
+
+

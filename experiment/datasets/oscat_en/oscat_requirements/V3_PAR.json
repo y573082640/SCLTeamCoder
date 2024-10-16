@@ -1,0 +1,27 @@
+
+{
+  "title": "Vector Parallelism Check",
+  "description": "This function checks if two 3-dimensional vectors A and B are parallel by determining if the cross product between them is a zero vector.",
+  "type": "FUNCTION",
+  "name": "V3_PAR",
+  "input": [
+    {
+      "name": "A",
+      "type": "Vector_3",
+      "description": "The first 3-dimensional vector to check for parallelism."
+    },
+    {
+      "name": "B",
+      "type": "Vector_3",
+      "description": "The second 3-dimensional vector to check for parallelism."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns TRUE if the vectors A and B are parallel, otherwise returns FALSE."
+  }
+}
+
+

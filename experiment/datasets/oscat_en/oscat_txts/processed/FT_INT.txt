@@ -1,0 +1,26 @@
+Type Function module
+Input IN: REAL (input signal)
+K: REAL (multiplier)
+RUN: BOOL (enable input)
+RST: BOOL (Reset input)
+OUT_MIN: REAL (lower output limit)
+OUT_MAX: REAL (upper output limit)
+Output OUT_MAX: REAL (upper output limit)
+LIM: BOOL (TRUE if the output is at a limit)
+FT_INT is an integrator module which provides the integral of the input si￾gnal at the output. The input K is a multiplier for the output signal. Run
+switches the integrator on if TRUE and of when FALSE. RST (reset) sets
+the output to 0. The inputs OUT_MIN and OUT_MAX serve upper and lower
+limits for the output of the integrator . FT_INT 
+works internally in microseconds and is thus fulfll also the requirements
+very fast PLC controller with cycle times under one millisecond.
+A fundamental problem with integrator is the resolution.The output of type
+real has a resolution of 7-8 points. This will result in a calculated integrati-
+on step of 1 at an output value of more than one hundred million (1E8).
+Thus the step can not be added up because it falls below the resolution li￾mit of a maximum of 8 points in type Real. This limitation is important
+when using FT_INT.
+For example, an input signal of 0.0001 would be at a sampling time of 1
+millisecond and a baseline of 100000 to add a value of 0.0001 * 0.001 se￾conds = 0.000001 to the baseline of 100000, which inevitably results in
+the value of 100000 again, because the resolution of the data type Real
+can only collect up to 8. This should be considered especially if FT_INT
+should serve as a utility meter or similar applications.
+Structure diagram:

@@ -1,0 +1,22 @@
+
+{
+  "title": "Check if Character is Lowercase",
+  "description": "This function determines whether a given BYTE input value corresponds to a lowercase ASCII character. It takes into account whether extended ASCII settings are used.",
+  "type": "FUNCTION",
+  "name": "ISC_LOWER",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BYTE",
+      "description": "Input variable representing the ASCII value of a character."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns TRUE if the input corresponds to a lowercase ASCII character, otherwise returns FALSE."
+  }
+}
+
+

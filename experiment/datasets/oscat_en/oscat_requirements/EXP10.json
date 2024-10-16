@@ -1,0 +1,22 @@
+
+{
+  "title": "Exponential Function Base 10 Calculation",
+  "description": "This function computes the base 10 exponential of a given real number input X. It leverages the natural exponential function by converting the base 10 exponent into a natural logarithm calculation.",
+  "type": "FUNCTION",
+  "name": "EXP10",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "A real number input for which the base 10 exponential is to be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The output is the result of the base 10 exponential function for the input X."
+  }
+}
+
+

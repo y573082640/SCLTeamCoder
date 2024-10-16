@@ -1,0 +1,16 @@
+Type Function: BOOL
+Input D1: DATE (period begin)
+DX: DATE (date to be tested)
+D2: DATE (period end)
+Output BOOL (TRUE if DX within the period D1 .. D2)
+The function checks whether an input date DX is greater or equal than D1
+and is less equal D2. If the date DX in the period between D1 and D2 (D1
+and D2 included) is the output of the function TRUE. PERIOD ignores the
+years in the dates D1, D2 and DX. The test is performed only for months
+and days, so this function works for each year. The test period can also af￾ter 31 Extend beyond December, so for example from 9/1 - 3/15, a typical
+application is to determine whether there is a heating period. That PERIOD
+work properly the two dates D1 and D2 may not be in a leap year. It can,
+for example, always be 2001, or even any other year that is not a leap
+year.
+PERIOD (10/1/2001, 11/11/2007, 31/03/2001) returns TRUE, because the
+test date within the period from 10/1 - 3/31 content.

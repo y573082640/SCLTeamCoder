@@ -1,0 +1,36 @@
+Type Function : REAL
+Input TF: REAL (fow temperature in °C)
+TR: REAL (back fow temperature in °C)
+LPH: REAL (Flow in L/h or L/pulse)
+E: BOOL ( Enable Signal) 
+RST: BOOL (asynchronous reset input)
+Setup CP: REAL (Specifc heat capacity 2nd component)
+DENSITY: REAL (density of the 2nd component)
+CONTENT: REAL (share, 1 = 100%)
+PULSE_MODE: BOOL (pulse counter if TRUE)
+RETURN_METER: BOOL (fow meter in the return
+if TRUE)
+AVG_TIME: TIME (time interval for current consumption)
+Output C: REAL (current consumption in joules/hour)
+I / O Y: REAL (amount of heat in joules)
+HEAT_METER is a calorimeter. The amount of heat Y is measured in joules.
+The inputs of TF and TR are the forward and return temperature of the me￾dium. At the input LPH the fow rate in liters/hour, resp. the fow rate per
+pulse of E is specifed. The property of E is determined by the Setup Varia￾ble PULSE_MODE. PULSE_MODE = FALSE means the amount of heat is ad￾ded continuously as long as E is set to TRUE. PULSE_MODE = TRUE means
+the amount of heat with each rising edge of E is added up. The
+PULSE_MODE is turned on the use of heat meters, while indicating the fow
+rate in liters per pulse at the input LPH and the heat meter is connected
+at the input E. If no fow meter is present, the the pump signal is connec￾ted at input E and at the input LPH given the pump capacity in liters per
+hour. When using a fow meter with analog output is the output to be con￾verted to liters per hour and sent to the input LPH, the input E will be set
+to TRUE. With the setup variables CP, DENSITY and CONTENT the 2nd
+component of the medium is specifed. For operation with pure water no
+details of CP, DENSITY and CONTENT are necessary. [fzy] If a mixture of
+water and a 2nd media is present, with CP the specifc heat capacity in
+J/KgK, with DENSITY the density in KG/l and with CONTENT the portion of
+the 2nd component is specifed. A proportion of 0.5 means 50% and 1
+would be equivalent to 100%. The setup variables RETURN_METER is spe￾cifed whether the fow meter sits in forward or reverse. RETRUN_METER =
+TRUE for return measurement and FALSE for fow measurement. The out￾put C of the module represents the current consumption. The current con￾sumption is measured in joules/hour, and is determined at the intervals of
+AVG_TIME. 
+The module has the following default values that are active when the cor￾responding values are not set by the user:
+PULSE_MODE = FALSE
+RETURN_METER = FALSE
+AVG_TIME = T#5s

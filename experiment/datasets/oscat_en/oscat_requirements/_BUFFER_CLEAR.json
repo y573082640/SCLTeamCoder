@@ -1,0 +1,28 @@
+
+{
+  "title": "Buffer Clear Function",
+  "description": "This function clears a specified buffer in memory by setting the bytes to zero. It uses efficient 32-bit accesses to enhance performance. The function takes a pointer to a BYTE and the size of the buffer as inputs.",
+  "type": "FUNCTION",
+  "name": "_BUFFER_CLEAR",
+  "input": [
+    {
+      "name": "PT",
+      "type": "POINTER TO BYTE",
+      "description": "A pointer indicating the start of the buffer to be cleared."
+    },
+    {
+      "name": "SIZE",
+      "type": "UINT",
+      "description": "The size of the buffer in bytes that needs to be cleared."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns TRUE if the buffer was successfully cleared.",
+    "fields": []
+  }
+}
+
+

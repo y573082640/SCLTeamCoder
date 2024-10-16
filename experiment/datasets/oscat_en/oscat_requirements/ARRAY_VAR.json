@@ -1,0 +1,33 @@
+
+{
+  "title": "Calculate Array Variance",
+  "description": "This function calculates the variance of a given array of real numbers. It first computes the arithmetic average of the array elements and then uses that average to compute the variance.",
+  "type": "FUNCTION",
+  "name": "ARRAY_VAR",
+  "input": [
+    {
+      "name": "pt",
+      "type": "POINTER TO ARRAY[0..32000] OF REAL",
+      "description": "Pointer to an array of real numbers whose variance will be calculated."
+    },
+    {
+      "name": "size",
+      "type": "UINT",
+      "description": "The size of the array, indicating the number of elements present within the array."
+    }
+  ],
+  "output": [
+    {
+      "name": "ARRAY_VAR",
+      "type": "REAL",
+      "description": "The calculated variance of the real numbers in the array."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "Returns the computed variance of the array of real numbers."
+  }
+}
+
+

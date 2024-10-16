@@ -1,0 +1,7 @@
+Type Function: INT
+Input STR: STRING (String input)
+Output INT (of the last character, which is a number or point)
+The function FINDB_NUM searches STR from right to left and returns the
+last position that is a number.
+Numbers are the letters "0..9" and "."
+Example: FINDB_NUM('4+33+1hh') = 6

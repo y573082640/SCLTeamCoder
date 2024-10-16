@@ -1,0 +1,5 @@
+Type Function: DWORD
+Input IN: STRING(40) (String input)
+Output DWORD (32bit value)
+FSTRING_TO_DWORD converts a formatted string to a 32bit Value. It sup￾ports following input formats:
+2#0101 (binary), 8#345 (octal), 16#2a33 (hexadecimal) and 234 (deci￾mal).

@@ -1,0 +1,22 @@
+
+{
+  "title": "Get Hour from TIME_OF_DAY",
+  "description": "This function calculates the hour from a given input of type TIME_OF_DAY by converting it to DWORD format and then deriving the hour value in INT format.",
+  "type": "FUNCTION",
+  "name": "HOUR",
+  "input": [
+    {
+      "name": "itod",
+      "type": "TIME_OF_DAY",
+      "description": "The input variable representing the time of day from which the hour will be extracted."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The hour value extracted from the input TIME_OF_DAY, represented as an integer."
+  }
+}
+
+

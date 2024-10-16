@@ -1,0 +1,19 @@
+
+{
+  "title": "Time Calculation Function Block",
+  "description": "This function block calculates the elapsed time in seconds from the system timer and updates the output variable TC accordingly. The first invocation initializes the block and sets TC to zero, while subsequent calls calculate the time difference from the last recorded timer value.",
+  "type": "FUNCTION_BLOCK",
+  "name": "TC_S",
+  "input": [],
+  "output": [
+    {
+      "name": "TC",
+      "type": "REAL",
+      "description": "The elapsed time in seconds since the last invocation of the block."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

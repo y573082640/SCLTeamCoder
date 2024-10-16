@@ -1,0 +1,30 @@
+Type Function: STRING
+Input SEP: BYTE (separation sign the list)
+RST: BOOL (Asynchronous Reset)
+I / O LIST: STRING(LIST_LENGTH) (input list)
+Output LEL: STRING(LIST_LENGTH) (list item)
+NUL: BOOL (TRUE if list is executed or empty)
+LIST_NEXT always delivers the next item from a list. The list is a STRING
+whose elements are separated with the character SEP. The frst element
+of the list has the position 1. After the frst call to LIST_NEXT or a reset, at
+output LEL the frst element of the list is passed. For each subsequent call
+the module returns the next element of the list. When the end of the list is
+reached, an empty string Issued and set the output NUL = TRUE. With the
+command RST = TRUE, the list can be edited again and again.
+Example of application:
+FUNCTION_BLOCK testll
+VAR_INPUT
+s1 : STRING(255);
+END_VAR
+VAR
+Element: array [0..20] OF STRING( LIST_LENGTH) ;
+list_n : LIST_NEXT;
+pos : INT;
+END_VAR
+pos := 0;
+list_n(LIST := s1, SEP := 44);
+WHILE NOT list_n.NUL and pos <= 20 DO
+element[pos] := list_n.LEL;
+list_n(list := s1);
+pos := pos + 1;
+END_WHILE;

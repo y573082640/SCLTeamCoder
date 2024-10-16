@@ -1,0 +1,10 @@
+Type Function: STRING(2)
+Input IN: BYTE ( Characters to be converted ) 
+Output STRING (2) (converted characters)
+TO_UML converts individual characters of the character set to greater than
+127 in a combination of two letters. It is here the extended ASCII character
+set ISO 8859-1 (Latin1).
+It will be converted the following characters:
+Ä >> Ae ä >> ae Ö >> Oe ö >> oe Ü >> Ue ü >> ue
+ß >> ss
+All other characters are returned as a string with the character IN.

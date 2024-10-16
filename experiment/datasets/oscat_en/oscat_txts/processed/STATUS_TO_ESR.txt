@@ -1,0 +1,18 @@
+Type Function: ESR_DATA
+Input STATUS : BYTE (status byte)
+ADRESS: Byte (address, bytes)
+LINE: Byte (input number)
+DT_IN: DATE_TIME (time-date-input)
+TS: TIME (time for timestamp)
+Output ESR_DATA (ESR data block)
+STATUS_TO_ESR generates a record from the input values.
+A STATUS in the range between 1.. 99 is an error message and will be mar￾ked as Type 1. Status 100 .. 199 is characterized as type 2 and 200 .. 255
+is marked as Type 3 ( Debug I nformation). 
+The ESR data at the output consist of the following items:
+.TYPE 1 = error, 2 = State, 3 = Debug 
+.ADRESS Byte address of ISR data recording
+.LINE Line number (input) of the ESR data recording
+.DS Date stamp of type DATE_TIME
+.DT Timestamp of type TIME (PLC-timer)
+.Data Data block of 8 bytes
+ 5. Mathematics

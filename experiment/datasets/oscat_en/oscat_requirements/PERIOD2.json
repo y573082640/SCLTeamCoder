@@ -1,0 +1,28 @@
+
+{
+  "title": "Date Period Check",
+  "description": "The function checks if a given date falls within any of the defined date periods in the array. It returns true if the date is within at least one of the periods and false otherwise.",
+  "type": "FUNCTION",
+  "name": "PERIOD2",
+  "input": [
+    {
+      "name": "DP",
+      "type": "ARRAY[0..3, 0..1] OF DATE",
+      "description": "An array containing pairs of dates that define specific periods."
+    },
+    {
+      "name": "DX",
+      "type": "DATE",
+      "description": "A single date to check against the periods defined in the DP array."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "A boolean value indicating whether the date DX is within any of the defined date periods in DP.",
+    "fields": []
+  }
+}
+
+

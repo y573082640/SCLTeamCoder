@@ -1,0 +1,28 @@
+
+{
+  "title": "Calculate Harmonic Average of an Array",
+  "description": "This function calculates the harmonic average of a given array of real numbers. It takes as input a pointer to the array and its size. The function iterates through the array elements, summing the reciprocals of the non-zero elements. If a zero element is encountered, the function immediately returns a harmonic average of zero. Otherwise, it divides the total count of valid elements by the sum of their reciprocals to produce the final harmonic average.",
+  "type": "FUNCTION",
+  "name": "ARRAY_HAV",
+  "input": [
+    {
+      "name": "pt",
+      "type": "POINTER TO ARRAY [0..32000] OF REAL",
+      "description": "Pointer to the array of real numbers for which the harmonic average is to be calculated."
+    },
+    {
+      "name": "size",
+      "type": "UINT",
+      "description": "The size of the array, indicating the number of elements to consider for the calculation."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The harmonic average of the array elements.",
+    "fields": []
+  }
+}
+
+

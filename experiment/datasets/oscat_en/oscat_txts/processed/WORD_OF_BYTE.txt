@@ -1,0 +1,5 @@
+Type Function: WORD
+Input B1: Byte (input byte 1)
+B0: Byte (input byte 0)
+Output Word (Word Score)
+WORD_OF_BYTE composes a Word of 2 separate bytes B0 and B1.

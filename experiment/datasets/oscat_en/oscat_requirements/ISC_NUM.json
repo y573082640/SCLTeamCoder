@@ -1,0 +1,22 @@
+
+{
+  "title": "Check If Byte Is Numeric",
+  "description": "This function checks if the input byte is a numeric character by verifying if it falls within the ASCII range for numeric characters (48 to 57). The function returns true if the input is a numeric character and false otherwise.",
+  "type": "FUNCTION",
+  "name": "ISC_NUM",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BYTE",
+      "description": "The input byte to be checked."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns true if the input byte is within the ASCII range for numeric characters, otherwise returns false."
+  }
+}
+
+

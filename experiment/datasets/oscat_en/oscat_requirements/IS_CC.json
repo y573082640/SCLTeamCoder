@@ -1,0 +1,27 @@
+
+{
+  "title": "Check if All Characters are Present",
+  "description": "This function checks whether all characters from a specified comparison string are present in the leading portion of a given input string. It takes two strings as input and returns a boolean indicating if the input string meets the criteria.",
+  "type": "FUNCTION",
+  "name": "IS_CC",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING(STRING_LENGTH)",
+      "description": "The input string to be checked against the comparison string."
+    },
+    {
+      "name": "cmp",
+      "type": "STRING(STRING_LENGTH)",
+      "description": "The comparison string containing characters to look for in the input string."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns TRUE if the input string contains all characters from the comparison string in the specified portion; otherwise, returns FALSE."
+  }
+}
+
+

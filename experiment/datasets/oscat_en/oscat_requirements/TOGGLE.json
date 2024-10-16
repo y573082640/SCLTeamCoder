@@ -1,0 +1,30 @@
+
+{
+  "title": "Toggle Function Block",
+  "description": "This function block implements a toggle mechanism that changes the state of the output Q each time there is a rising edge detected on the CLK input, while also handling a reset functionality through the rst input.",
+  "type": "FUNCTION_BLOCK",
+  "name": "TOGGLE",
+  "input": [
+    {
+      "name": "CLK",
+      "type": "BOOL",
+      "description": "Clock input signal used for toggling the output state."
+    },
+    {
+      "name": "rst",
+      "type": "BOOL",
+      "description": "Reset input signal that sets the output Q to false when high."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "Current state of the output signal, toggled based on the CLK input."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

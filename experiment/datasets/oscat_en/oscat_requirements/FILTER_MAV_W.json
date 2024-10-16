@@ -1,0 +1,35 @@
+
+{
+  "title": "Moving Average Filter",
+  "description": "This function block implements a moving average filter that calculates the average of the last N input values. It takes an input word value and produces an output word value representing the average. The block also includes a reset functionality.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FILTER_MAV_W",
+  "input": [
+    {
+      "name": "X",
+      "type": "WORD",
+      "description": "Input variable which is a word value to be averaged."
+    },
+    {
+      "name": "N",
+      "type": "UINT",
+      "description": "Input variable that specifies the number of samples to average. It is limited to a maximum of 32."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Reset variable that initializes the moving average calculation when set to TRUE."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "WORD",
+      "description": "Output variable which holds the current average value."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

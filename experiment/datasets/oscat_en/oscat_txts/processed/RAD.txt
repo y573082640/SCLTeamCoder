@@ -1,0 +1,9 @@
+Type Function: REAL
+Input DEG: REAL (angle in degrees)
+Output REAL (angle in radians)
+The RAD function converts an angle value from degrees to radians. Taking
+into account that the DEG will not be greater than 360. If DEG is greater
+than 360, 360 is to be subtracted as long as DEG is again between 0-360
+°.
+RAD(0) = 0 RAD(180) = π
+RAD(360) = 0 RAD(540) = π

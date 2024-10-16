@@ -1,0 +1,29 @@
+
+{
+  "title": "Calculate Day of the Week",
+  "description": "This function calculates the day of the week for a given date. It takes a date as input and returns an integer representing the day of the week, with 1 for Sunday, 2 for Monday, and so on.",
+  "type": "FUNCTION",
+  "name": "DAY_OF_WEEK",
+  "input": [
+    {
+      "name": "IDATE",
+      "type": "DATE",
+      "description": "The input date for which the day of the week is to be calculated."
+    }
+  ],
+  "output": [
+    {
+      "name": "DAY_OF_WEEK",
+      "type": "INT",
+      "description": "An integer representing the day of the week, where 1 corresponds to Sunday."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The day of the week as an integer.",
+    "fields": []
+  }
+}
+
+

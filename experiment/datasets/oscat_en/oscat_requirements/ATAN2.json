@@ -1,0 +1,33 @@
+
+{
+  "title": "Calculate the Arctangent of Two Variables",
+  "description": "This function computes the arctangent (angle) given two parameters Y and X, which correspond to the coordinates on a Cartesian plane. The function applies different mathematical rules based on the values of X and Y to determine the correct angle in radians.",
+  "type": "FUNCTION",
+  "name": "ATAN2",
+  "input": [
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "The Y-coordinate used to calculate the arctangent."
+    },
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The X-coordinate used to calculate the arctangent."
+    }
+  ],
+  "output": [
+    {
+      "name": "ATAN2",
+      "type": "REAL",
+      "description": "The resulting angle in radians based on the input coordinates Y and X."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The angle in radians computed from the given Y and X coordinates."
+  }
+}
+
+

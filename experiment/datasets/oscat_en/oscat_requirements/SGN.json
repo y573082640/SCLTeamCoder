@@ -1,0 +1,26 @@
+{
+  "title": "Sign Function (SGN)",
+  "description": "This function calculates the sign of a given real number. It returns 1 if the input number is greater than zero, -1 if the input number is less than zero, and 0 if the input number is exactly zero.",
+  "type": "FUNCTION",
+  "name": "SGN",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The real number for which the sign is to be determined."
+    }
+  ],
+  "output": [
+    {
+      "name": "SGN",
+      "type": "INT",
+      "description": "The sign of the input number, which will be 1, -1, or 0."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "Returns the sign of the input number as an integer value.",
+    "fields": []
+  }
+}

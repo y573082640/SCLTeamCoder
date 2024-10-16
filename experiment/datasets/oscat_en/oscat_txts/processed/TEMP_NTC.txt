@@ -1,0 +1,9 @@
+Type TEMP_NTC
+Input RES: REAL (measured resistance in ohms)
+RN: REAL (resistance of the sensor at 25°C)
+B: REAL (specifcation of the sensor)
+Output REAL (measured temperature)
+TEMP_NTC calculates from the measured resistance and the parameters of
+the sensor, the measured temperature. RN is the resistance of the sensor
+at 25°C, and B depends on the sensor and the specifcation of the sensor.
+The module calculates the temperature according to the following formu￾la:

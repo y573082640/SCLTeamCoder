@@ -1,0 +1,11 @@
+Type Function: DATE_TIME
+Input YEAR: INT (year)
+MONTH: INT (month)
+DAY: INT (day)
+HOUR: INT (hour)
+MINUTE: INT (min)
+SECOND: INT (seconds)
+Output DATE_TIME (Composite time date)
+The function SET_DT calculates a time-date value (DATE_TIME) from the
+input values, day, month, year, hour, minute and seconds.
+Example: Set_DT(2007, 1, 22, 13, 10, 22) = DT#2007-1-22-13:10:22

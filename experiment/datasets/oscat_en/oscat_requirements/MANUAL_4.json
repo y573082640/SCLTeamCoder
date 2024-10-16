@@ -1,0 +1,90 @@
+
+{
+  "title": "Manual Control Function Block",
+  "description": "This function block enables manual control of outputs based on input boolean signals and operational states, including the control of four discrete outputs and a status indicator. The function block transitions between manual and automatic modes, managing state changes on inputs and controlling the output based on the position index.",
+  "type": "FUNCTION_BLOCK",
+  "name": "MANUAL_4",
+  "input": [
+    {
+      "name": "I0",
+      "type": "BOOL",
+      "description": "Input boolean signal 0."
+    },
+    {
+      "name": "I1",
+      "type": "BOOL",
+      "description": "Input boolean signal 1."
+    },
+    {
+      "name": "I2",
+      "type": "BOOL",
+      "description": "Input boolean signal 2."
+    },
+    {
+      "name": "I3",
+      "type": "BOOL",
+      "description": "Input boolean signal 3."
+    },
+    {
+      "name": "MAN",
+      "type": "BOOL",
+      "description": "Manual control signal; when true, switches to manual mode."
+    },
+    {
+      "name": "STP",
+      "type": "BOOL",
+      "description": "Stop signal; when true, triggers state change."
+    },
+    {
+      "name": "M0",
+      "type": "BOOL",
+      "description": "Manual mode output 0."
+    },
+    {
+      "name": "M1",
+      "type": "BOOL",
+      "description": "Manual mode output 1."
+    },
+    {
+      "name": "M2",
+      "type": "BOOL",
+      "description": "Manual mode output 2."
+    },
+    {
+      "name": "M3",
+      "type": "BOOL",
+      "description": "Manual mode output 3."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q0",
+      "type": "BOOL",
+      "description": "Output boolean signal 0."
+    },
+    {
+      "name": "Q1",
+      "type": "BOOL",
+      "description": "Output boolean signal 1."
+    },
+    {
+      "name": "Q2",
+      "type": "BOOL",
+      "description": "Output boolean signal 2."
+    },
+    {
+      "name": "Q3",
+      "type": "BOOL",
+      "description": "Output boolean signal 3."
+    },
+    {
+      "name": "STATUS",
+      "type": "BYTE",
+      "description": "Status indicator reflecting current operation mode and state."
+    }
+  ],
+  "in/out": [],
+  "return_value": {}
+}
+
+

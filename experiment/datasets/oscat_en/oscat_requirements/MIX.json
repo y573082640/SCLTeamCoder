@@ -1,0 +1,32 @@
+
+{
+  "title": "Mixing Two Real Values",
+  "description": "This function takes two real values and a mixing factor and returns a mixed value based on the specified factor. The mixing is done by taking a weighted sum of the two input values, where the weight is determined by the mixing factor M.",
+  "type": "FUNCTION",
+  "name": "MIX",
+  "input": [
+    {
+      "name": "A",
+      "type": "REAL",
+      "description": "The first real value to be mixed."
+    },
+    {
+      "name": "B",
+      "type": "REAL",
+      "description": "The second real value to be mixed."
+    },
+    {
+      "name": "M",
+      "type": "REAL",
+      "description": "The mixing factor, which determines the weight of each input value in the final result."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The result of the mixing operation, calculated as (1.0 - M) * A + M * B."
+  }
+}
+
+

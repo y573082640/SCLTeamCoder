@@ -9,19 +9,19 @@ import subprocess
 import os
 import tempfile
 
-model="gpt-4o"
+model="gpt-4o-mini"
 dataset="competition_en"
 api_key = glovar.GPT_API_KEY
 client = OpenAI(api_key=api_key,base_url=f"https://www.gptapi.us/v1")
 dataset_path = f"{glovar.EXPERIMENT_DIR}/datasets/"
-output_path = f"{glovar.EXPERIMENT_DIR}/output/{dataset}/llm4plc/"
+output_path = f"{glovar.EXPERIMENT_DIR}/output/{dataset}/llm4plc"
 # 获取当前时间
 current_time = datetime.now()
 # 格式化日期和时间
 date_folder = current_time.strftime("%Y-%m-%d")
 time_folder = current_time.strftime("%H-%M-%S")
 # 构建输出文件路径
-output_to = output_path + f"{date_folder}_{time_folder}.jsonl"
+output_to = f"{output_path}/{date_folder}_{time_folder}.jsonl"
 
 
 
@@ -38,14 +38,14 @@ def save_logs(user_input, assistant_output):
         os.makedirs("logs")
     
     # 日志文件路径
-    log_file = f"logs/log.txt"
+    log_file = f"{output_path}/logs/log.txt"
 
     # 以追加模式打开文件，写入新的对话记录   
     with open(log_file, "a", encoding="utf-8") as f:
-        f.write("\n---\n")  # 每轮对话之间添加分隔符
-        f.write("User:\n")
+        f.write("\n================================\n")  # 每轮对话之间添加分隔符
+        f.write("====== User: ======\n")
         f.write(user_input + "\n\n")
-        f.write("Assistant:\n")
+        f.write("====== Assistant: ======\n")
         f.write(assistant_output + "\n")
         
 def load_prompt(repo="prompts"):
@@ -78,7 +78,7 @@ def call_gpt4_wo_history(prompt,max_tokens=2048,temperature=0.5):
     response_content = response.choices[0].message.content
     return response_content
 
-def call_gpt4_with_history(prompt, max_tokens=2048):
+def call_gpt4_with_history(prompt, max_tokens=4096):
     """
     与 GPT-4 模型进行交互，发送给定的提示并接收模型的响应。
     
@@ -117,26 +117,25 @@ def call_gpt4_with_history(prompt, max_tokens=2048):
 
 def syntax_check(plc_code):
     # 创建一个临时文件来保存 PLC 代码
-    temp_filename = f"{output_path}temp_file.plc"
+    temp_filename = f"{output_path}/temp_file.plc"
     with open(temp_filename, "w", encoding='utf-8') as f:
         f.write(plc_code)
-    
     try:
         # 使用 subprocess 调用 matiec 工具，假设 iec2iec 工具在 ~/matiec/ 目录下
         result = subprocess.run(
-            f"/root/matiec/iec2iec -f -p {temp_filename} 2>&1 > /dev/null",
+            f"./iec2iec -f -p {temp_filename} 2>&1 > /dev/null",
             stdout=subprocess.PIPE,  # 捕获标准输出
             stderr=subprocess.PIPE,  # 捕获标准错误输出
+            cwd="/root/matiec",  # 设置工作目录为 matiec 目录
             shell=True  # 启用 shell 特性
         )
-        
         # 获取输出结果
         stdout = result.stdout.decode('utf-8')
         stderr = result.stderr.decode('utf-8')
         
         # 如果 stdout 和 stderr 都为空，表示语法检查通过
         if not stdout and not stderr:
-            return True, ""  # 检查通过，返回 True 和空反馈信息
+            return True, "no syntax error"  # 检查通过，返回 True 和空反馈信息
         else:
             # 如果有输出或错误，表示检查不通过，返回 False 和错误信息
             return False, stderr if stderr else stdout  # 优先返回错误输出
@@ -155,15 +154,15 @@ def call_nuXmv(smv_code, smv_command):
     返回:
         tuple: 包含验证结果和输出信息的元组。如果验证成功，第一个元素为 True，否则为 False；第二个元素为验证工具的输出信息。
     """
-    smv_filename = f"{output_path}tmp_smv" # 临时的.smv 文件名
-    command_filename = f"{output_path}tmp_command" # 临时的 command_file 文件名
+    smv_filename = f"{output_path}/tmp_smv" # 临时的.smv 文件名
+    command_filename = f"{output_path}/tmp_command" # 临时的 command_file 文件名
     
     # 创建一个临时文件来保存 SMV 代码
     with open(smv_filename, "w") as f:
         f.write(smv_code)
     
     # 在 smv_command 中替换为实际的 smv 文件名
-    smv_command = smv_command.replace("VERIFICATION.SMV", smv_filename)
+    smv_command = smv_command.replace("smv_model.smv", smv_filename)
     smv_command = f"set on_failure_script_quits\n{smv_command}"
     
     # 创建一个临时文件来保存 nuXmv 的 command_file
@@ -232,136 +231,180 @@ def extract_target_output(text,start="START_SCL",end="END_SCL"):
     # 使用 re.findall 提取所有匹配的内容，re.DOTALL 使 . 能匹配换行符
     matches = re.findall(pattern, text, re.DOTALL)
     
-    return matches
+    # 返回获取到的第一个内容
+    if len(matches) == 0:
+        return ""
+    return matches[0]
 
 def pipeline(nl_task_requirements):
     
+    print("开始任务管道...")
+    
     # 定义prompt输出文件路径
-    prompt_file = f"{output_path}logs/prompt.txt"
+    prompt_file = f"{output_path}/logs/prompt.txt"
     
     # 加载系统提示模板，获取不同阶段任务的提示语
     sys_prompts = load_prompt()
+    print("加载系统提示模板完成.")
     
-    # 阶段1：生成任务规划，替换用户输入的需求和示例计划、SCL代码
-    # 在没有人工参与的情况下自动生成计划
+    # 阶段1：生成任务规划
     prompt_generate_plan = (
-        sys_prompts['phase1']['task1_planning']  # 任务1的规划生成提示
-        .replace("[USER_SPECIFICATION_INPUT]", nl_task_requirements)  # 将用户输入的自然语言需求嵌入提示中
-        .replace("[PLAN_EXAMPLE]", sys_prompts['meta']['mbd_prompt'])  # 替换示例计划
-        .replace("[SCL_EXAMPLE]", sys_prompts['meta']['scl_prompt'])   # 替换示例SCL代码
+        sys_prompts['phase1']['task1_planning']
+        .replace("[USER_SPECIFICATION_INPUT]", nl_task_requirements)
+        .replace("[PLAN_EXAMPLE]", sys_prompts['meta']['mbd_prompt'])
+        .replace("[SCL_EXAMPLE]", sys_prompts['meta']['scl_prompt'])
     )
+    print("生成任务规划提示完成.")
     
     # 调用GPT模型生成计划
-    plan = extract_target_output(call_gpt4_with_history(prompt_generate_plan),"START_PLAN","END_PLAN")
+    plan = extract_target_output(call_gpt4_with_history(prompt_generate_plan), "START_PLAN", "END_PLAN")
+    print(f"生成任务计划完成: {plan[:30]}")
     
-    # 将生成的计划嵌入提示中
-    save_prompt(prompt_generate_plan,prompt_file)
+    # 保存生成的计划到提示文件
+    save_prompt(prompt_generate_plan, prompt_file)
+    print("保存任务规划提示到文件完成.")
     
     # 阶段2：生成SCL代码并进行反馈循环
-    loop_count = 0  # 循环计数器
-    plc_passed = False  # 初始化SCL代码语法检查状态为未通过
+    loop_count = 0
+    plc_passed = False
     
-    # 生成初始SCL代码的提示
+    # 生成初始SCL代码提示
     prompt_generate_plc_code = (
-        sys_prompts['phase2']['task1_genSCL']  # 任务1：生成SCL代码的提示
-        .replace("[SCL_EXAMPLE]", sys_prompts['meta']['scl_prompt'])  # 使用示例SCL代码替换占位符
+        sys_prompts['phase2']['task1_genSCL']
+        .replace("[SCL_EXAMPLE]", sys_prompts['meta']['scl_prompt'])
     )
+    print("生成初始SCL代码提示完成.")
     
-    # 将生成的计划嵌入提示中
-    save_prompt(prompt_generate_plc_code,prompt_file)
+    # 保存生成的SCL代码提示到文件
+    save_prompt(prompt_generate_plc_code, prompt_file)
+    print("保存初始SCL代码提示到文件完成.")
     
     # 调用GPT模型生成SCL代码
-    plc_code = extract_target_output(call_gpt4_with_history(prompt_generate_plc_code),"START_SCL","END_SCL")
+    plc_code = extract_target_output(call_gpt4_with_history(prompt_generate_plc_code), "START_SCL", "END_SCL")
+    print(f"生成初始SCL代码完成: {plc_code[:30]}...")  # 只打印前100个字符
     
-    loop_count < 2
     # 对生成的SCL代码进行语法检查
     plc_passed, plc_syntax_check_feedback = syntax_check(plc_code)
+    print(f"SCL代码语法检查结果: {'通过' if plc_passed else '未通过'}, 反馈: {plc_syntax_check_feedback}")
     
     # 如果语法检查未通过且未超过循环次数，则根据反馈修正代码并重新生成
-    while plc_passed is not True and loop_count < 2:
+    while not plc_passed and loop_count < 2:
+        print(f"SCL代码语法检查未通过，开始第{loop_count + 1}次修正...")
         
         # 根据语法检查反馈生成新的SCL代码提示
         prompt_generate_plc_code_with_feedback = (
-            sys_prompts['phase2']['task2_sclFeedback']  # 任务2：根据反馈生成SCL代码
-            .replace("[USER_FEEDBACK]", plc_syntax_check_feedback)  # 使用用户反馈替换占位符
+            sys_prompts['phase2']['task2_sclFeedback']
+            .replace("[USER_FEEDBACK]", plc_syntax_check_feedback)
         )
+        print("生成修正后的SCL代码提示完成.")
         
-        # 将生成的计划嵌入提示中
-        save_prompt(prompt_generate_plc_code_with_feedback,prompt_file)
+        # 保存修正后的提示到文件
+        save_prompt(prompt_generate_plc_code_with_feedback, prompt_file)
+        print("保存修正后的SCL代码提示到文件完成.")
         
         # 调用GPT模型生成新的SCL代码
-        plc_code = extract_target_output(call_gpt4_with_history(prompt_generate_plc_code),"START_SCL","END_SCL")
+        plc_code = extract_target_output(call_gpt4_with_history(prompt_generate_plc_code_with_feedback), "START_SCL", "END_SCL")
+        print(f"生成修正后的SCL代码完成: {plc_code[:30]}...")
         
         # 再次进行语法检查
         plc_passed, plc_syntax_check_feedback = syntax_check(plc_code)
+        print(f"SCL代码语法检查结果: {'通过' if plc_passed else '未通过'}, 反馈: {plc_syntax_check_feedback}")
         
-        # 更新循环次数
-        loop_count += 1  
+        loop_count += 1
     
     # 阶段3：生成SMV代码并进行反馈循环
-    loop_count = 0  # 重置循环计数器
-    smv_passed = False  # 初始化SMV代码验证状态为未通过
+    loop_count = 0
+    smv_passed = False
     
-    # 生成初始SMV代码的提示
+    # 生成初始SMV代码提示
     prompt_generate_smv_code = (
-        sys_prompts['phase2']['task3_scl2smv']  # 任务3：从SCL代码转换为SMV代码
-        .replace("[SMV_GRAMMAR]", sys_prompts['meta']['VacuumGripper.smv'])  # 替换SMV语法示例
-        .replace("[SMV_COMMAND_GRAMMAR]", sys_prompts['meta']['smv_command_prompt'])  # 替换SMV语法示例
+        sys_prompts['phase2']['task3_scl2smv']
+        .replace("[SMV_GRAMMAR]", sys_prompts['meta']['VacuumGripper.smv'])
+        .replace("[SMV_COMMAND_GRAMMAR]", sys_prompts['meta']['smv_command_prompt'])
     )
-    # 将生成的计划嵌入提示中
-    save_prompt(prompt_generate_smv_code,prompt_file)
+    print("生成初始SMV代码提示完成.")
+    
+    # 保存生成的SMV代码提示到文件
+    save_prompt(prompt_generate_smv_code, prompt_file)
+    print("保存初始SMV代码提示到文件完成.")
+    
     # 调用GPT模型生成SMV代码
-    smv_raw = call_gpt4_with_history(prompt_generate_plc_code)
-    smv_code = extract_target_output(smv_raw,"START_SMV","END_SMV")
-    smv_command = extract_target_output(smv_raw,"START_COMMAND","END_COMMAND")
+    smv_raw = call_gpt4_with_history(prompt_generate_smv_code)
+    smv_code = extract_target_output(smv_raw, "START_SMV", "END_SMV")
+    smv_command = extract_target_output(smv_raw, "START_SMV_COMMAND", "END_SMV_COMMAND")
+    print(f"生成初始SMV代码完成: {smv_code[:30]}...")  # 只打印前100个字符
+    
     # 对生成的SMV代码进行语法验证
-    smv_passed, smv_check_feedback = call_nuXmv(smv_code,smv_command)
+    smv_passed, smv_check_feedback = call_nuXmv(smv_code, smv_command)
+    print(f"SMV代码语法验证结果: {'通过' if smv_passed else '未通过'}, 反馈: {smv_check_feedback}")
+    
     # 如果验证未通过且未超过循环次数，则根据反馈修正代码并重新生成
-    while smv_passed is not True and loop_count < 2:
+    while not smv_passed and loop_count < 2:
+        print(f"SMV代码语法验证未通过，开始第{loop_count + 1}次修正...")
+        
         # 根据SMV反馈生成新的SMV代码提示
         prompt_generate_smv_code_with_feedback = (
-            sys_prompts['phase2']['task4_smvFeedback']  # 任务4：根据反馈生成SMV代码
-            .replace("[USER_FEEDBACK]", smv_check_feedback)  # 使用用户反馈替换占位符
+            sys_prompts['phase2']['task4_smvFeedback']
+            .replace("[USER_FEEDBACK]", smv_check_feedback)
         )
-        # 将生成的计划嵌入提示中
-        save_prompt(prompt_generate_smv_code_with_feedback,prompt_file)        
-        # 调用GPT模型生成SMV代码
-        smv_raw = call_gpt4_with_history(prompt_generate_plc_code)
-        smv_code = extract_target_output(smv_raw,"START_SMV","END_SMV")
-        smv_command = extract_target_output(smv_raw,"START_COMMAND","END_COMMAND")
+        print("生成修正后的SMV代码提示完成.")
+        
+        # 保存修正后的提示到文件
+        save_prompt(prompt_generate_smv_code_with_feedback, prompt_file)
+        print("保存修正后的SMV代码提示到文件完成.")
+        
+        # 调用GPT模型生成新的SMV代码
+        smv_raw = call_gpt4_with_history(prompt_generate_smv_code_with_feedback)
+        smv_code = extract_target_output(smv_raw, "START_SMV", "END_SMV")
+        smv_command = extract_target_output(smv_raw, "START_COMMAND", "END_COMMAND")
+        print(f"生成修正后的SMV代码完成: {smv_code[:30]}...")
+        
         # 再次进行SMV代码验证
-        smv_passed, smv_check_feedback = call_nuXmv(smv_code,smv_command)
-        loop_count += 1  # 更新循环次数
+        smv_passed, smv_check_feedback = call_nuXmv(smv_code, smv_command)
+        print(f"SMV代码语法验证结果: {'通过' if smv_passed else '未通过'}, 反馈: {smv_check_feedback}")
+        
+        loop_count += 1
     
     # 阶段4：验证SMV对计划的反馈结果，并使用反馈重新生成SCL代码
-    loop_count = 0  # 重置循环计数器
-    smv_passed = False  # 重置SMV验证状态
-    plc_passed = False  # 重置SCL验证状态
+    loop_count = 0
+    smv_passed = False
+    plc_passed = False
     
     # 同时检查SMV和SCL代码的状态，直到二者都通过或超过循环次数
-    while (plc_passed is not True or smv_passed is not True) and loop_count < 2:
+    while (not plc_passed or not smv_passed) and loop_count < 2:
+        print(f"开始第{loop_count + 1}次工具链反馈处理...")
+        
         # 对SMV代码进行验证
-        smv_passed, smv_feedback = call_nuXmv(smv_code,smv_command)
+        smv_passed, smv_feedback = call_nuXmv(smv_code, smv_command)
+        print(f"SMV代码验证结果: {'通过' if smv_passed else '未通过'}, 反馈: {smv_feedback}")
+        
         # 对SCL代码进行语法检查
         plc_passed, plc_syntax_check_feedback = syntax_check(plc_code)
+        print(f"SCL代码语法检查结果: {'通过' if plc_passed else '未通过'}, 反馈: {plc_syntax_check_feedback}")
         
         # 根据SMV和SCL工具链的反馈生成新的SCL代码提示
         prompt_generate_plc_code_with_toolChainFeedback = (
-            sys_prompts['phase3']['task1_logicFeedback']  # 任务1：根据工具链反馈生成SCL代码
+            sys_prompts['phase3']['task1_logicFeedback']
             .replace(
                 "[TOOLCHAIN_FEEDBACK]",
-                f"smv check feedback:\n{smv_check_feedback}\nplc syntax check feedback:\n{plc_syntax_check_feedback}"
-            )  # 替换反馈占位符，加入SMV和SCL检查的反馈
+                f"smv check feedback:\n{smv_feedback}\nplc syntax check feedback:\n{plc_syntax_check_feedback}"
+            )
         )
-        save_prompt(prompt_generate_plc_code_with_toolChainFeedback,prompt_file)        
+        print("生成工具链反馈处理后的SCL代码提示完成.")
+        
+        # 保存生成的提示到文件
+        save_prompt(prompt_generate_plc_code_with_toolChainFeedback, prompt_file)
+        print("保存工具链反馈处理后的SCL代码提示到文件完成.")
         
         # 调用GPT模型生成新的SCL代码
-        plc_code = call_gpt4_with_history(prompt_generate_plc_code_with_toolChainFeedback)
-        loop_count += 1  # 更新循环次数
+        plc_code = extract_target_output(call_gpt4_with_history(prompt_generate_plc_code_with_toolChainFeedback), "START_SCL", "END_SCL")
+        print(f"生成工具链反馈处理后的SCL代码完成: {plc_code[:30]}...")
+        
+        loop_count += 1
     
     # 返回最终的任务计划、SCL代码、SMV代码，以及验证结果
+    print("任务管道执行完毕.")
     return plan, plc_code, smv_code, smv_passed and plc_passed
-
 
 def run_llm4plc():
     """

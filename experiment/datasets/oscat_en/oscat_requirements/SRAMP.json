@@ -1,0 +1,65 @@
+
+{
+  "title": "SRAMP Function Block",
+  "description": "The SRAMP function block is designed to perform a ramping operation based on the input value 'X'. It controls the output 'Y' to reach the target value 'X' gradually, using specified acceleration and deceleration rates while respecting specified limits.",
+  "type": "FUNCTION_BLOCK",
+  "name": "SRAMP",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The target value that the output 'Y' should reach."
+    },
+    {
+      "name": "A_UP",
+      "type": "REAL",
+      "description": "The acceleration rate when ramping up towards the target value."
+    },
+    {
+      "name": "A_DN",
+      "type": "REAL",
+      "description": "The deceleration rate when ramping down away from the target value."
+    },
+    {
+      "name": "VU_MAX",
+      "type": "REAL",
+      "description": "The maximum speed limit when ramping up."
+    },
+    {
+      "name": "VD_MAX",
+      "type": "REAL",
+      "description": "The maximum speed limit when ramping down."
+    },
+    {
+      "name": "LIMIT_HIGH",
+      "type": "REAL",
+      "description": "The upper limit for the output 'Y'."
+    },
+    {
+      "name": "LIMIT_LOW",
+      "type": "REAL",
+      "description": "The lower limit for the output 'Y'."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "A boolean reset signal. If true, it resets the internal states."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "The current output value of the function block, which is ramped towards 'X'."
+    },
+    {
+      "name": "V",
+      "type": "REAL",
+      "description": "The current speed of the ramping operation, determining how quickly 'Y' approaches 'X'."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

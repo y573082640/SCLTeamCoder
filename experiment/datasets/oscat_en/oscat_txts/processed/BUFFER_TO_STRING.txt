@@ -1,0 +1,20 @@
+Type Function : STRING
+Input PT: POINTER TO BYTE (address of the Bufer ) 
+SIZE: UINT (size of the bufer)
+START: UINT (position from which the String will be from the
+bufer 
+copied)
+STOP: UINT (end of Strings in the bufer) 
+Output STRING (a string that was copied from the bufer)
+The function BUFFER_To_STRING extracts a String from any array of Byte.
+The String is copied from any position START from the bufer and ends at
+the STOP position. The frst element in the array is at position number 0.
+When called aPointer to the array and its size in bytes is passed to the
+function. Under CoDeSys the call reads: BUFFER_TO_STRING (ADR (Array),
+SIZEOF (ARRAY), START, STOP), ARRAY is the name of the array. ADR() is a
+standard function which identifes the pointer to the array and SIZEOF() is
+a standard function, which determines the size of the array. The function
+returns the string copied from the bufer as STRING. This type of proces￾sing arrays is very efcient because no additional memory is required and
+no surrender values must be copied.
+Example: BUFFER_TO_STRING(ADR(Array), SIZEOF(ARRAY), START, STOP)
+ 26. List Processing

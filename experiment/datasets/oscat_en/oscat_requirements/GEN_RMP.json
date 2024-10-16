@@ -1,0 +1,45 @@
+
+{
+  "title": "Generator for Ramp Modulated Pulse (RMP)",
+  "description": "The GEN_RMP function block generates a ramp-modulated pulse output based on specified time and amplitude parameters. It calculates the output in real-time, adjusting the output based on the input settings for pulse time, amplitude, offset, and duty cycle.",
+  "type": "FUNCTION_BLOCK",
+  "name": "GEN_RMP",
+  "input": [
+    {
+      "name": "PT",
+      "type": "TIME",
+      "description": "Pulse time duration for the generation of the ramp-modulated pulse."
+    },
+    {
+      "name": "AM",
+      "type": "REAL",
+      "description": "Amplitude of the ramp signal."
+    },
+    {
+      "name": "OS",
+      "type": "REAL",
+      "description": "Offset added to the ramp signal."
+    },
+    {
+      "name": "DL",
+      "type": "REAL",
+      "description": "Duty cycle of the pulse signal, represented as a fraction between 0 and 1."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "Boolean flag indicating if the current output is less than the previous output."
+    },
+    {
+      "name": "OUT",
+      "type": "REAL",
+      "description": "Calculated output value of the ramp signal."
+    }
+  ],
+  "in/out": [],
+  "return_value": {}
+}
+
+

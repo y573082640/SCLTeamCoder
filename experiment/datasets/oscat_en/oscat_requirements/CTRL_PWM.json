@@ -1,0 +1,40 @@
+
+{
+  "title": "PWM Control Function Block",
+  "description": "This function block, CTRL_PWM, is designed to control Pulse Width Modulation (PWM) signals based on the provided inputs. It calculates the PWM duty cycle using either a control input or a manual input depending on the manual override status.",
+  "type": "FUNCTION_BLOCK",
+  "name": "CTRL_PWM",
+  "input": [
+    {
+      "name": "CI",
+      "type": "REAL",
+      "description": "The control input value used for PWM calculation."
+    },
+    {
+      "name": "MAN_IN",
+      "type": "REAL",
+      "description": "The manual input value that can override the control input when MANUAL is true."
+    },
+    {
+      "name": "MANUAL",
+      "type": "BOOL",
+      "description": "A boolean flag indicating whether to use MAN_IN (true) or CI (false) for the PWM calculation."
+    },
+    {
+      "name": "F",
+      "type": "REAL",
+      "description": "The frequency used for PWM signal generation."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "The output status indicating whether the PWM signal is active."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

@@ -1,0 +1,29 @@
+
+{
+  "title": "Binary to Byte Conversion",
+  "description": "This function converts a binary string representation (up to 12 characters) into its corresponding byte value. The input binary string should consist only of '0's and '1's, and the function processes each character to compute the final byte value.",
+  "type": "FUNCTION",
+  "name": "BIN_TO_BYTE",
+  "input": [
+    {
+      "name": "BIN",
+      "type": "STRING(12)",
+      "description": "A binary string consisting of '0's and '1's with a maximum length of 12 characters."
+    }
+  ],
+  "output": [
+    {
+      "name": "BIN_TO_BYTE",
+      "type": "BYTE",
+      "description": "The resulting byte value obtained from the binary string."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BYTE",
+    "description": "The byte value that represents the input binary string.",
+    "fields": []
+  }
+}
+
+

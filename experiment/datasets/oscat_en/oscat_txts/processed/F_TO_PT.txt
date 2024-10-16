@@ -1,0 +1,4 @@
+Type Function: REAL
+Input F : REAL (frequency)
+Output TIME (period)
+F_TO_PT converts a frequency value of Hz in the corresponding period.

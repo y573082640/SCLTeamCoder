@@ -1,0 +1,23 @@
+
+{
+  "title": "Function to Convert Frequency to Period Time",
+  "description": "This function calculates the period time based on a given frequency. The input frequency is provided in Hertz (REAL), and the function outputs the corresponding period time in TIME format. The calculation involves converting the frequency to a period using the formula: period_time = 1 / frequency * 1000, where the result is then converted from DWORD to TIME format.",
+  "type": "FUNCTION",
+  "name": "F_TO_PT",
+  "input": [
+    {
+      "name": "F",
+      "type": "REAL",
+      "description": "The input frequency in Hertz."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "TIME",
+    "description": "The calculated period time corresponding to the given frequency.",
+    "fields": []
+  }
+}
+
+

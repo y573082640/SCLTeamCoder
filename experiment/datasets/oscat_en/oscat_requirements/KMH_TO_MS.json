@@ -1,0 +1,22 @@
+
+{
+  "title": "Convert Kilometers per Hour to Meters per Second",
+  "description": "This function converts a speed value from kilometers per hour (km/h) to meters per second (m/s). It takes a real number input representing speed in km/h and returns the equivalent speed in m/s.",
+  "type": "FUNCTION",
+  "name": "KMH_TO_MS",
+  "input": [
+    {
+      "name": "kmh",
+      "type": "REAL",
+      "description": "The speed value in kilometers per hour to be converted."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The equivalent speed value in meters per second after conversion."
+  }
+}
+
+

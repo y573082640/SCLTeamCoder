@@ -1,0 +1,27 @@
+
+{
+  "title": "Array Shuffle Function",
+  "description": "This function shuffles an array of real numbers in a random order. It takes a pointer to an array of real numbers and the size of the array as input, and it performs in-place swapping of elements to randomize their order.",
+  "type": "FUNCTION",
+  "name": "_ARRAY_SHUFFLE",
+  "input": [
+    {
+      "name": "pt",
+      "type": "POINTER TO ARRAY [0..32000] OF REAL",
+      "description": "A pointer to the array of real numbers that needs to be shuffled."
+    },
+    {
+      "name": "size",
+      "type": "UINT",
+      "description": "The size of the array, determining how many elements will be shuffled."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns TRUE if the array was shuffled successfully."
+  }
+}
+
+

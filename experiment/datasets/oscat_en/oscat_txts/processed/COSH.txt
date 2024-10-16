@@ -1,0 +1,4 @@
+Type Function: REAL
+Input X: REAL (input)
+Output REAL (output value)
+COSH calculates the hyperbolic cosine using the formula:

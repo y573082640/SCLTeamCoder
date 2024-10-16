@@ -1,0 +1,32 @@
+
+{
+  "title": "Array Initialization Function",
+  "description": "This function initializes an array of real numbers to a specified value. It takes a pointer to the array, the size of the array, and the initial value as input parameters. The function will iterate through the first quarter of the array, setting each element to the initial value. The function returns TRUE upon successful execution.",
+  "type": "FUNCTION",
+  "name": "_ARRAY_INIT",
+  "input": [
+    {
+      "name": "pt",
+      "type": "POINTER TO ARRAY [0..32000] OF REAL",
+      "description": "A pointer to the array that needs to be initialized."
+    },
+    {
+      "name": "size",
+      "type": "UINT",
+      "description": "The size of the array to be initialized."
+    },
+    {
+      "name": "init",
+      "type": "REAL",
+      "description": "The initial value to set for each element of the array."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns TRUE if the array initialization was successful."
+  }
+}
+
+

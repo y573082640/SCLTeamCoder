@@ -1,0 +1,10 @@
+Type Function module
+Input IN: BOOL (Input)
+PT: TIME (switch of delay)
+Output Q: BOOL (output)
+Z: BOOL ( Trigger Output) 
+TMAX limits the duration of the output pulse to the time PT. The output Q
+follows the input IN, as long as the TRUE time of IN is shorter than PT. If IN
+is longer than PT to TRUE, the output pulse is shortened. Whenever an
+output changes by a timeout to FALSE, the output Z is set to TRUE for a
+cycle.

@@ -1,0 +1,32 @@
+
+{
+  "title": "Convert Geographic Coordinates to Decimal Degrees",
+  "description": "This function takes geographic coordinates in degrees, minutes, and seconds and converts them into decimal degrees format. The degrees, minutes, and seconds are input as separate parameters.",
+  "type": "FUNCTION",
+  "name": "GEO_TO_DEG",
+  "input": [
+    {
+      "name": "D",
+      "type": "INT",
+      "description": "The degree component of the geographic coordinate"
+    },
+    {
+      "name": "M",
+      "type": "INT",
+      "description": "The minute component of the geographic coordinate"
+    },
+    {
+      "name": "SEC",
+      "type": "REAL",
+      "description": "The second component of the geographic coordinate"
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The resulting decimal degrees calculated from the input geographic coordinates"
+  }
+}
+
+

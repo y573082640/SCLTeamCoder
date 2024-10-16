@@ -1,0 +1,23 @@
+
+{
+  "title": "Convert Frequency to Angular Frequency",
+  "description": "This function converts a frequency value given in Hertz to angular frequency in radians per second by multiplying it with 2π. The input parameter is the frequency (F), and the function returns the corresponding angular frequency as a real number.",
+  "type": "FUNCTION",
+  "name": "F_TO_OM",
+  "input": [
+    {
+      "name": "F",
+      "type": "REAL",
+      "description": "The frequency value in Hertz to be converted to angular frequency."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The converted angular frequency in radians per second.",
+    "fields": []
+  }
+}
+
+

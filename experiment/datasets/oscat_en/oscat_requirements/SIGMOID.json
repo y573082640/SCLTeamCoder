@@ -1,0 +1,29 @@
+
+{
+  "title": "Sigmoid Function",
+  "description": "This function calculates the sigmoid of a given real number input. The function utilizes specific conditions to return 1.0 for inputs greater than 20.0 and 0.0 for inputs less than -85.0. For inputs within this range, the sigmoid function is computed using the standard mathematical formula.",
+  "type": "FUNCTION",
+  "name": "SIGMOID",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The input value for which the sigmoid function is to be calculated."
+    }
+  ],
+  "output": [
+    {
+      "name": "SIGMOID",
+      "type": "REAL",
+      "description": "The output of the sigmoid function calculated based on the input value X."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated sigmoid value based on the input X, returning 1.0, 0.0, or the computed value based on the sigmoid formula.",
+    "fields": []
+  }
+}
+
+

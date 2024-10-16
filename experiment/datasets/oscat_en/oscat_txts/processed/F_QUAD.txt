@@ -1,0 +1,6 @@
+Type Function: REAL
+Input X : REAL
+A, B, C: REAL
+Output REAL (F_QUAD = A * X² + B * X + C)
+F_QUAD calculates the result of a quadratic equation using the formula
+f_QUAD = A * X ² + B * X + C.

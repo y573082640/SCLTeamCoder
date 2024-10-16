@@ -1,0 +1,5 @@
+Type Function
+Input RX: REAL (circle radius)
+RX: REAL (circle radius)
+Output REAL (area of circle segment)
+CIRCLE_A calculates the area of a circle segment with the angle AX and ra￾dius RX. If the angle is set AX = 360 so the circle area is calculated.

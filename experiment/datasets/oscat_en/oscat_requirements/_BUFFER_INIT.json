@@ -1,0 +1,32 @@
+
+{
+  "title": "Buffer Initialization Function",
+  "description": "This function initializes a buffer with a specified byte value. It ensures that the buffer is properly aligned for 32-bit access, filling in the required number of bytes either individually or in blocks of 32 bits until the entire specified size is initialized.",
+  "type": "FUNCTION",
+  "name": "_BUFFER_INIT",
+  "input": [
+    {
+      "name": "PT",
+      "type": "POINTER TO BYTE",
+      "description": "Pointer to the buffer that needs to be initialized."
+    },
+    {
+      "name": "SIZE",
+      "type": "UINT",
+      "description": "The size in bytes of the buffer to be initialized."
+    },
+    {
+      "name": "INIT",
+      "type": "BYTE",
+      "description": "The byte value with which to initialize the buffer."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns TRUE upon successful initialization of the buffer."
+  }
+}
+
+

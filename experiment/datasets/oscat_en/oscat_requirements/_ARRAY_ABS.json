@@ -1,0 +1,27 @@
+
+{
+  "title": "Array Absolute Value Calculation",
+  "description": "This function iterates through an array of real numbers and replaces each element with its absolute value. The input is a pointer to the array and its size. The function should return TRUE upon successful execution.",
+  "type": "FUNCTION",
+  "name": "_ARRAY_ABS",
+  "input": [
+    {
+      "name": "pt",
+      "type": "POINTER TO ARRAY[0..32000] OF REAL",
+      "description": "A pointer to the array of real numbers whose absolute values need to be calculated."
+    },
+    {
+      "name": "size",
+      "type": "UINT",
+      "description": "The number of elements in the array."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns TRUE if the absolute values were successfully calculated."
+  }
+}
+
+

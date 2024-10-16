@@ -1,0 +1,27 @@
+
+{
+  "title": "Dead Band Calculation Function",
+  "description": "This function calculates the dead band value based on the input value X and a specified limit L. If X exceeds L, the function returns the difference between X and L. If X is lower than -L, it returns the sum of X and L. If X is within the range of -L to L, it returns 0.0.",
+  "type": "FUNCTION",
+  "name": "DEAD_BAND",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The input value for which the dead band is calculated."
+    },
+    {
+      "name": "L",
+      "type": "REAL",
+      "description": "The limit value used to determine the dead band thresholds."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated dead band value based on the input conditions."
+  }
+}
+
+

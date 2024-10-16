@@ -1,0 +1,7 @@
+Type Function: BYTE
+Input IN: BYTE (input data)
+POS: INT (Position)
+Output BYTE (output byte)
+BIT_TOGGLE_B inverts a specifed bit at IN.
+BIT_TOGGLE_W(2#0000_1111, 2) = 2#0000_1011
+BIT_TOGGLE_W(2#0000_1111, 7) = 2#1000_1111

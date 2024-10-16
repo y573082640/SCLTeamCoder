@@ -1,0 +1,14 @@
+Type Function: REAL
+Input ELEV: REAL (elevation in degrees above the horizon)
+Output REAL (refraction in degrees)
+REFRACTION calculates the atmospheric refraction outside the atmosphe￾re and celestial bodies. A celestial body appears by the refraction of light
+in the atmosphere by the refraction higher above the horizon than he ac￾tually is. The refraction is 0 at the zenith (at 12:00 noon) and increases
+much close to the horizon. At 0° (the horizon), the refraction is -0.59° and
+10° above the horizon, it is 0.09°. The refraction is needed to calculated
+orbits of celestial bodies and to correct satellite so that they match with
+observation. The module calculates an average value for the pressure of
+1010mBar and 10° C. When the sun is actually at 0°, so exactly in the ho￾rizon, it appears above the horizon because of refraction at 0.59 degrees .
+The visible sun position is the actual (astronomical) sun position H + the
+refraction of the sun. The refraction angle is also calculated below the ho￾rizon ELEV < - 2°, so that below the horizon always the refraction is added
+to the astronomical refraction angle, so as the distance to the sun can be
+calculated correctly at any time. For astronomical angle < -1.9 ° is the re￾fraction remains constant at 0.744 degrees.

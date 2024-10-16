@@ -1,0 +1,29 @@
+
+{
+  "title": "Convert Day to Time",
+  "description": "This function converts a given number of days (as a real number) into a time representation, specifically returning the result in TIME format. The conversion is performed by multiplying the input days by the number of milliseconds in a day (86400000) and then converting the resultant value to TIME type.",
+  "type": "FUNCTION",
+  "name": "DAY_TO_TIME",
+  "input": [
+    {
+      "name": "IN",
+      "type": "REAL",
+      "description": "The input value representing a duration in days that needs to be converted into time."
+    }
+  ],
+  "output": [
+    {
+      "name": "TIME",
+      "type": "TIME",
+      "description": "The output value representing the equivalent time format after conversion from the input days."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "TIME",
+    "description": "The TIME value that represents the input duration in days converted to time.",
+    "fields": []
+  }
+}
+
+

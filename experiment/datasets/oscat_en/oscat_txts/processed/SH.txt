@@ -1,0 +1,9 @@
+Type Function module
+Input IN: REAL (input signal)
+CLK: BOOL (clock input)
+Output OUT_MAX: REAL (upper output limit)
+TRIG: BOOL ( Trigger Output) 
+SH is a Sample and Hold module. It saves on each rising edge of CLK, the
+input signal IN at the output OUT. After each update of TRIG OUT is TRUE
+for one cycle. 
+The following Example explains the function of SH:

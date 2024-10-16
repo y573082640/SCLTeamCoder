@@ -1,0 +1,94 @@
+
+{
+  "title": "Scale Function Implementation",
+  "description": "This function, SCALE_B4, scales four input bytes (in1, in2, in3, in4) based on the provided minimum and maximum values for each input, a scaling factor K, and an offset O. The final output is a real number that results from the scaling calculation.",
+  "type": "FUNCTION",
+  "name": "SCALE_B4",
+  "input": [
+    {
+      "name": "in1",
+      "type": "BYTE",
+      "description": "First input value to be scaled."
+    },
+    {
+      "name": "in2",
+      "type": "BYTE",
+      "description": "Second input value to be scaled."
+    },
+    {
+      "name": "in3",
+      "type": "BYTE",
+      "description": "Third input value to be scaled."
+    },
+    {
+      "name": "in4",
+      "type": "BYTE",
+      "description": "Fourth input value to be scaled."
+    },
+    {
+      "name": "K",
+      "type": "REAL",
+      "description": "Scaling factor to adjust the output."
+    },
+    {
+      "name": "O",
+      "type": "REAL",
+      "description": "Offset value added to the final result."
+    },
+    {
+      "name": "in1_min",
+      "type": "REAL",
+      "description": "Minimum value for the first input."
+    },
+    {
+      "name": "in1_max",
+      "type": "REAL",
+      "description": "Maximum value for the first input. Defaults to 1000.0."
+    },
+    {
+      "name": "in2_min",
+      "type": "REAL",
+      "description": "Minimum value for the second input."
+    },
+    {
+      "name": "in2_max",
+      "type": "REAL",
+      "description": "Maximum value for the second input. Defaults to 1000.0."
+    },
+    {
+      "name": "in3_min",
+      "type": "REAL",
+      "description": "Minimum value for the third input."
+    },
+    {
+      "name": "in3_max",
+      "type": "REAL",
+      "description": "Maximum value for the third input. Defaults to 1000.0."
+    },
+    {
+      "name": "in4_min",
+      "type": "REAL",
+      "description": "Minimum value for the fourth input."
+    },
+    {
+      "name": "in4_max",
+      "type": "REAL",
+      "description": "Maximum value for the fourth input. Defaults to 1000.0."
+    }
+  ],
+  "output": [
+    {
+      "name": "SCALE_B4",
+      "type": "REAL",
+      "description": "The scaled output value based on the provided inputs, minimums, maximums, scaling factor, and offset."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The final scaled and offset output value.",
+    "fields": []
+  }
+}
+
+

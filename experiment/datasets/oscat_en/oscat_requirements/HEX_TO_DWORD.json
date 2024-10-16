@@ -1,0 +1,23 @@
+
+{
+  "title": "Hexadecimal to DWORD Converter",
+  "description": "This function converts a hexadecimal string into a DWORD value. It processes each character in the input string, interpreting valid hexadecimal digits and appropriately converting them to their decimal representation. The function ignores invalid characters and can handle both upper and lower case hexadecimal representations.",
+  "type": "FUNCTION",
+  "name": "HEX_TO_DWORD",
+  "input": [
+    {
+      "name": "Hex",
+      "type": "STRING",
+      "description": "A hexadecimal string input with a maximum length of 20 characters."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "The DWORD value that results from converting the hexadecimal input string.",
+    "fields": []
+  }
+}
+
+

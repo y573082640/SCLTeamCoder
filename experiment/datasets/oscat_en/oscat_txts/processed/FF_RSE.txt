@@ -1,0 +1,9 @@
+Type Function module
+Input CS: BOOL (edge-sensitive Set)
+CR: BOOL (edge-sensitive reset)
+RST: BOOL (asynchronous reset)
+Output Q: BOOL (output)
+FF_RSE an edge-triggered RS fip-fop. The output Q is set by a rising edge
+of CS and cleared by a rising edge on CR. If both edges (CS and CR) rise at
+the same time, the output is set to FALSE. An asynchronous reset input
+RST sets the output at any time to FALSE.

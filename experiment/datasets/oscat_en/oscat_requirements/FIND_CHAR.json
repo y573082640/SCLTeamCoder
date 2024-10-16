@@ -1,0 +1,28 @@
+
+{
+  "title": "Find Character in String",
+  "description": "This function aims to find the index of the first character in a given string that meets specific criteria, starting from a specified position. It returns the index of the character if found, or 0 if no such character exists.",
+  "type": "FUNCTION",
+  "name": "FIND_CHAR",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING(STRING_LENGTH)",
+      "description": "The string in which to search for the character."
+    },
+    {
+      "name": "pos",
+      "type": "INT",
+      "description": "The starting position in the string from which to begin the search."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The index of the found character if it meets the criteria; otherwise, 0.",
+    "fields": []
+  }
+}
+
+

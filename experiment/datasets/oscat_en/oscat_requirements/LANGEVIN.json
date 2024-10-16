@@ -1,0 +1,28 @@
+
+{
+  "title": "Langevin Function",
+  "description": "The function calculates the Langevin value based on the input parameter X. If X is 0, the function returns 0.0. Otherwise, it computes the Langevin value using the formula COTH(X) - 1.0 / X.",
+  "type": "FUNCTION",
+  "name": "LANGEVIN",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "Input parameter representing a real number."
+    }
+  ],
+  "output": [
+    {
+      "name": "LANGEVIN",
+      "type": "REAL",
+      "description": "The calculated Langevin value based on the input parameter X."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "Returns the Langevin value, which is a real number calculated based on the input X."
+  }
+}
+
+

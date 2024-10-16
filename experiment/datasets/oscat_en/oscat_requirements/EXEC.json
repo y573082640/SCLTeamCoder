@@ -1,0 +1,29 @@
+
+{
+  "title": "Mathematical Expression Evaluator",
+  "description": "This function parses a mathematical expression provided as a string, extracts numbers and an operator, performs the corresponding mathematical operation, and returns the result as a string. It handles various mathematical operations such as addition, subtraction, multiplication, and division while ensuring proper formatting of the return value.",
+  "type": "FUNCTION",
+  "name": "EXEC",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "The input string representing the mathematical expression to be evaluated."
+    }
+  ],
+  "output": [
+    {
+      "name": "EXEC",
+      "type": "STRING",
+      "description": "The result of the evaluated mathematical expression as a string."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The result or error message returned after evaluating the expression.",
+    "fields": []
+  }
+}
+
+

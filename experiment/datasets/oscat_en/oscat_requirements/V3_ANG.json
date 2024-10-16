@@ -1,0 +1,28 @@
+
+{
+  "title": "Calculate Angle Between Two Vectors",
+  "description": "This function calculates the angle (in radians) between two three-dimensional vectors A and B using the cosine formula. The function computes the absolute values of both vectors and uses them to find the angle only if their product is greater than zero. The result is returned as a real number.",
+  "type": "FUNCTION",
+  "name": "V3_ANG",
+  "input": [
+    {
+      "name": "A",
+      "type": "Vector_3",
+      "description": "The first input vector for angle calculation."
+    },
+    {
+      "name": "B",
+      "type": "Vector_3",
+      "description": "The second input vector for angle calculation."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The angle in radians between vectors A and B.",
+    "fields": []
+  }
+}
+
+

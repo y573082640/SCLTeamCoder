@@ -1,0 +1,33 @@
+
+{
+  "title": "Temperature Calculation from NTC Resistance",
+  "description": "This function calculates the temperature based on the resistance of an NTC thermistor. It receives the resistance value, nominal resistance, and a material-specific constant B as input parameters. The function computes the temperature in Celsius using the given formula when the resistance is greater than zero.",
+  "type": "FUNCTION",
+  "name": "TEMP_NTC",
+  "input": [
+    {
+      "name": "RES",
+      "type": "REAL",
+      "description": "The resistance value of the NTC thermistor."
+    },
+    {
+      "name": "RN",
+      "type": "REAL",
+      "description": "The nominal resistance of the thermistor at a reference temperature."
+    },
+    {
+      "name": "B",
+      "type": "REAL",
+      "description": "The material constant used in the calculation for the NTC thermistor."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated temperature in degrees Celsius based on the thermistor resistance.",
+    "fields": []
+  }
+}
+
+

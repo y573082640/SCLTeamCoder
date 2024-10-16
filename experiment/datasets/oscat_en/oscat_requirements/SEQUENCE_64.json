@@ -1,0 +1,45 @@
+
+{
+  "title": "Sequence Control Block",
+  "description": "This function block manages a sequential process based on input signals. It initializes a state sequence controlled by a start signal, a reset signal, and an array of timing intervals. The block updates its internal state and triggers an output signal based on the defined program.",
+  "type": "FUNCTION_BLOCK",
+  "name": "SEQUENCE_64",
+  "input": [
+    {
+      "name": "START",
+      "type": "BOOL",
+      "description": "A boolean signal to start the sequence."
+    },
+    {
+      "name": "SMAX",
+      "type": "INT",
+      "description": "The maximum state index for the sequence."
+    },
+    {
+      "name": "PROG",
+      "type": "ARRAY[0..63] OF TIME",
+      "description": "An array containing timing intervals for each state in the sequence."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "A boolean signal to reset the sequence state."
+    }
+  ],
+  "output": [
+    {
+      "name": "STATE",
+      "type": "INT",
+      "description": "The current state of the sequence, initialized to -1."
+    },
+    {
+      "name": "TRIG",
+      "type": "BOOL",
+      "description": "A trigger signal that indicates when a state transition has occurred."
+    }
+  ],
+  "in/out": [],
+  "return_value": {}
+}
+
+

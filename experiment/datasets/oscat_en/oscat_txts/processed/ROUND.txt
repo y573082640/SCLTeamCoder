@@ -1,0 +1,11 @@
+Type Function: REAL
+Input IN: REAL (input value)
+N: integer (number of decimal places)
+Output REAL (rounded value)
+The function ROUND rounds the input value IN to N digits. Follows the last
+digit a digit greater than 5 the last digit is rounded up. ROUND internally
+uses the standard function TRUNC() which converts the input value to an
+INTEGER type DINT. This may come as an overfow because DINT can store
+in maximum +/-2.14*10^9. The range of ROUND is therefore limited to +/-
+2.14 * 10^9.
+Example: ROUND(3.555, 2) = 3.56

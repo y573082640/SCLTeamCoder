@@ -1,0 +1,35 @@
+
+{
+  "title": "ONTIME Function Block",
+  "description": "This function block, named ONTIME, is designed to keep track of elapsed time in seconds and cycles based on input signals. It utilizes the system clock to count milliseconds and updates the SECONDS and CYCLES outputs accordingly. The block can be reset using the RST input.",
+  "type": "FUNCTION_BLOCK",
+  "name": "ONTIME",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BOOL",
+      "description": "This input signal indicates whether the timing should be active."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "This input signal resets the SECONDS and CYCLES outputs."
+    }
+  ],
+  "output": [
+    {
+      "name": "SECONDS",
+      "type": "UDINT",
+      "description": "The total elapsed time in seconds."
+    },
+    {
+      "name": "CYCLES",
+      "type": "UDINT",
+      "description": "The total count of active cycles."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

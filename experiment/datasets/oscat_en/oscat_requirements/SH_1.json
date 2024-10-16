@@ -1,0 +1,35 @@
+
+{
+  "title": "Sample Time Trigger Function Block",
+  "description": "This function block triggers an output based on the elapsed time since the last trigger. It reads the system time and compares it with a specified period (PT). If the elapsed time meets or exceeds the specified period, it outputs the input value and sets a trigger flag. Otherwise, the trigger flag is set to false.",
+  "type": "FUNCTION_BLOCK",
+  "name": "SH_1",
+  "input": [
+    {
+      "name": "in",
+      "type": "REAL",
+      "description": "The input value to be output when the trigger condition is met."
+    },
+    {
+      "name": "PT",
+      "type": "TIME",
+      "description": "The time period that must elapse before the output is updated."
+    }
+  ],
+  "output": [
+    {
+      "name": "out",
+      "type": "REAL",
+      "description": "The output value that reflects the input when the trigger condition is met."
+    },
+    {
+      "name": "Trig",
+      "type": "BOOL",
+      "description": "A boolean flag that indicates whether the output has been updated."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

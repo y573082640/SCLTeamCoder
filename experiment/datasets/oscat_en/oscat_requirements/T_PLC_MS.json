@@ -1,0 +1,38 @@
+
+{
+  "title": "Time Conversion and Correction Function",
+  "description": "This function calculates the time in a DWORD format while accommodating a time range of -24 days to +24 days. It ensures that the timer wraps around correctly and does not reset to 0 during overflow. A debug mode is included to modify the timer's value based on specific conditions.",
+  "type": "FUNCTION",
+  "name": "T_PLC_MS",
+  "input": [
+    {
+      "name": "debug",
+      "type": "BOOL",
+      "description": "Flag to enable debug mode for detailed processing."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "Shift value used for adjusting the timer."
+    },
+    {
+      "name": "offset",
+      "type": "DWORD",
+      "description": "Additive offset to adjust the timer value."
+    }
+  ],
+  "output": [
+    {
+      "name": "T_PLC_MS",
+      "type": "DWORD",
+      "description": "Resulting timer value in DWORD format after conversion and correction."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "Final timer value in DWORD format."
+  }
+}
+
+

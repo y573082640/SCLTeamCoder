@@ -1,0 +1,10 @@
+Type Function
+Input X: WORD (input)
+LOW: REAL (initial value at X = 0)
+HIGH: REAL (initial value at X = 65535)
+Output REAL (output value)
+WORD_TO_RANGE converts a WORD value to a REAL value. An input value
+of 0 corresponds to the real value of LOW and an input value of 65535 cor￾responds to the input value of HIGH.
+To convert a WORD value of 0..65535 in a percentage of 0..100, the modu￾le is called as follows:
+WORD_TO_RANGE(X,100,0)
+ 20. Sensors

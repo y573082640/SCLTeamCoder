@@ -1,0 +1,29 @@
+
+{
+  "title": "Fibonacci Function",
+  "description": "This function calculates the Fibonacci number for a given integer input X. The function returns -1 for any input less than 0 or greater than 46. For inputs between 0 and 46, it computes the Fibonacci number using an iterative method. If the input is less than 2, it returns the input value directly.",
+  "type": "FUNCTION",
+  "name": "FIB",
+  "input": [
+    {
+      "name": "X",
+      "type": "INT",
+      "description": "An integer input for which the Fibonacci number needs to be calculated."
+    }
+  ],
+  "output": [
+    {
+      "name": "FIB",
+      "type": "DINT",
+      "description": "The calculated Fibonacci number, or -1 for invalid input."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "DINT",
+    "description": "The final result of the Fibonacci calculation.",
+    "fields": []
+  }
+}
+
+

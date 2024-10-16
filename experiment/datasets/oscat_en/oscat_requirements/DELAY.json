@@ -1,0 +1,35 @@
+
+{
+  "title": "Delay Function Block",
+  "description": "This function block implements a delay mechanism that holds a buffer of input values. It takes a real input value and delays its output based on a specified number of cycles. The buffer is reset under certain conditions.",
+  "type": "FUNCTION_BLOCK",
+  "name": "DELAY",
+  "input": [
+    {
+      "name": "IN",
+      "type": "REAL",
+      "description": "The real number input value to be processed by the delay block."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "The number of cycles to delay the input. This value is limited to a maximum of 32."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "A boolean flag to reset the block. If true, the buffer will be reset."
+    }
+  ],
+  "output": [
+    {
+      "name": "OUT",
+      "type": "REAL",
+      "description": "The output value from the delay block, which is the delayed version of the input."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

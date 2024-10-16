@@ -1,0 +1,13 @@
+Type Function: STRING
+Input STR: STRING (String input)
+L: INT (fxed-length od output string)
+C: BYTE (padding character when padding)
+M: INT (mode for padding)
+Output STRING (string of fxed length N)
+FIX creates a string of fxed length N. The string STR at the input is trunca￾ted to the length N respective flled with the fll character C. If the string
+STR is shorter than the length L to be created, will the string be flled de￾pending on M, with the fll character C. If M = 0, the padding at the end of
+the string is appended, if M = 1, the padding is attached the beginning
+and when M = 2, the string is centered between fll character. If the num￾ber of the necessary padding is odd and if M = 2, the fll at the end has a
+fll character more than at the beginning. The FIX function evaluates the
+Global Setup string_length constant and limits the maximum length L of
+the string to string_length.

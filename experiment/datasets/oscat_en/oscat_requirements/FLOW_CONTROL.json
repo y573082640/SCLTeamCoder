@@ -1,0 +1,55 @@
+
+{
+  "title": "Flow Control Function Block",
+  "description": "This function block is designed to manage flow control based on the provided input signals. It handles multiple logical states, manages a timer for delays, and sets output signals accordingly.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FLOW_CONTROL",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BOOL",
+      "description": "Input boolean signal that influences the flow control."
+    },
+    {
+      "name": "REQ",
+      "type": "BOOL",
+      "description": "Request boolean signal that triggers the timing and operations."
+    },
+    {
+      "name": "ENQ",
+      "type": "BOOL",
+      "description": "Enquiry boolean signal that enables or disables certain operations."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Reset signal that clears the state of the function block."
+    },
+    {
+      "name": "T_AUTO",
+      "type": "TIME",
+      "description": "The automatic timing duration for the timer, defaulting to 60 minutes."
+    },
+    {
+      "name": "T_DELAY",
+      "type": "TIME",
+      "description": "The delay duration applied after the automatic timing, defaulting to 1380 minutes."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "Output boolean signal that indicates the state of the flow control."
+    },
+    {
+      "name": "STATUS",
+      "type": "BYTE",
+      "description": "Status code reflecting the current state of the function block."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

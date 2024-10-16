@@ -1,0 +1,23 @@
+
+{
+  "title": "String Lowercase Check",
+  "description": "This function checks whether all characters in the provided string are lowercase. It initiates a loop through each character of the string and verifies if each character is a lowercase letter. If any character is not lowercase, the function returns false; otherwise, it checks if the string length is greater than zero to return true.",
+  "type": "FUNCTION",
+  "name": "IS_LOWER",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "The input string that needs to be checked for lowercase characters."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns true if all characters in the string are lowercase; otherwise, false.",
+    "fields": []
+  }
+}
+
+

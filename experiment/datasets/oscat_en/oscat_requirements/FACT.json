@@ -1,0 +1,28 @@
+
+{
+  "title": "Factorial Calculation Function",
+  "description": "This function calculates the factorial of a given integer X. If X is between 0 and 12 inclusive, it retrieves the factorial from a predefined array. If X is outside this range, it returns -1. The function handles edge cases such as negative numbers and ensures proper performance.",
+  "type": "FUNCTION",
+  "name": "FACT",
+  "input": [
+    {
+      "name": "X",
+      "type": "INT",
+      "description": "The integer input for which the factorial is to be calculated."
+    }
+  ],
+  "output": [
+    {
+      "name": "FACT",
+      "type": "DINT",
+      "description": "Returns the factorial of the input integer X, or -1 if the input is out of valid range."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "DINT",
+    "description": "The factorial of the integer X or -1 if X is out of the acceptable range."
+  }
+}
+
+

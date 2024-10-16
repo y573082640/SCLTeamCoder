@@ -1,0 +1,32 @@
+
+{
+  "title": "Range Checking Function",
+  "description": "This function checks if a given input value falls within a specified range defined by low and high bounds. It returns a boolean value indicating whether the input is within the range or not.",
+  "type": "FUNCTION",
+  "name": "WINDOW2",
+  "input": [
+    {
+      "name": "LOW",
+      "type": "REAL",
+      "description": "The lower bound of the range."
+    },
+    {
+      "name": "IN",
+      "type": "REAL",
+      "description": "The input value to be checked against the range."
+    },
+    {
+      "name": "HIGH",
+      "type": "REAL",
+      "description": "The upper bound of the range."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns TRUE if the input value is within the specified range (inclusive), otherwise returns FALSE."
+  }
+}
+
+

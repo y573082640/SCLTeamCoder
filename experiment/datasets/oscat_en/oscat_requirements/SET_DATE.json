@@ -1,0 +1,33 @@
+
+{
+  "title": "Set Date Function",
+  "description": "This function calculates and returns a date based on the provided year, month, and day inputs. It also accounts for leap years when necessary.",
+  "type": "FUNCTION",
+  "name": "SET_DATE",
+  "input": [
+    {
+      "name": "YEAR",
+      "type": "INT",
+      "description": "The year of the date to be set."
+    },
+    {
+      "name": "MONTH",
+      "type": "INT",
+      "description": "The month of the date to be set."
+    },
+    {
+      "name": "DAY",
+      "type": "INT",
+      "description": "The day of the date to be set."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DATE",
+    "description": "The calculated date based on the provided year, month, and day.",
+    "fields": []
+  }
+}
+
+

@@ -1,0 +1,22 @@
+
+{
+  "title": "Hour Extraction from DateTime",
+  "description": "This function extracts the hour part from a given DateTime value. The input is a DateTime variable, and the function performs a calculation to convert it to an integer representing the hour of the day.",
+  "type": "FUNCTION",
+  "name": "HOUR_OF_DT",
+  "input": [
+    {
+      "name": "XDT",
+      "type": "DT",
+      "description": "A DateTime value from which the hour will be extracted."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "An integer representing the hour part of the given DateTime value, in the range of 0 to 23."
+  }
+}
+
+

@@ -1,0 +1,5 @@
+Type Function: COMPLEX
+Input X: COMPLEX (Input) 
+Output COMPLEX (result)
+CASINH calculates the arc hyperbolic sine of a complex number
+[fzy] The range of values of the result is between [-  ,+  ] For the imagi￾nary part.

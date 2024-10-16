@@ -1,0 +1,5 @@
+Type Function: COMPLEX
+Input X: COMPLEX (Input) 
+Output COMPLEX (result)
+CATANH calculates the arc hyperbolic tangent of a complex number
+The range of values of the result is between [- /2,+/2 ] for the imagina￾ry part.

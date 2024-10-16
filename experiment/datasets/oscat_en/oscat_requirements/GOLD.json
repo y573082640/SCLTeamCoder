@@ -1,0 +1,22 @@
+
+{
+  "title": "Calculate the Gold Value",
+  "description": "This function calculates a value based on the input parameter X using the formula GOLD := (X + SQRT(X*X + 4.0)) * 0.5. The function returns the calculated Gold value as a REAL type.",
+  "type": "FUNCTION",
+  "name": "GOLD",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The input real number for which the Gold value will be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated Gold value based on the input X."
+  }
+}
+
+

@@ -1,0 +1,22 @@
+
+{
+  "title": "Sign Function",
+  "description": "This function determines the sign of the input integer value. It takes a 32-bit integer (DINT) as input and returns a boolean value indicating whether the sign bit is set (1) or not (0).",
+  "type": "FUNCTION",
+  "name": "SIGN_I",
+  "input": [
+    {
+      "name": "IN",
+      "type": "DINT",
+      "description": "A 32-bit signed integer input whose sign is to be checked."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "A boolean value indicating the sign of the input integer. Returns true if the sign bit is set (input is negative), otherwise returns false."
+  }
+}
+
+

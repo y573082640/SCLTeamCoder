@@ -1,0 +1,6 @@
+Type Function
+Input A: DINT (input value A)
+B: DINT (input value B)
+Output INT (Greatest common divisor)
+The GCD function calculates the greatest common divisor (GCD) of A and
+B.

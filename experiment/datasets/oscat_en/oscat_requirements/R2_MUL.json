@@ -1,0 +1,39 @@
+
+{
+  "title": "R2_MUL Function",
+  "description": "This function takes a REAL2 structure and a REAL value as input, and multiplies the components of the REAL2 structure by the REAL value, returning a new REAL2 structure with the results.",
+  "type": "FUNCTION",
+  "name": "R2_MUL",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL2",
+      "description": "Input structure containing two REAL components RX and R1 to be multiplied."
+    },
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "A REAL value to multiply with the components of the structure X."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL2",
+    "description": "The new REAL2 structure resulting from multiplying the components of X by Y.",
+    "fields": [
+      {
+        "name": "RX",
+        "type": "REAL",
+        "description": "The result of multiplying the RX component of X by Y."
+      },
+      {
+        "name": "R1",
+        "type": "REAL",
+        "description": "The result of multiplying the R1 component of X by Y."
+      }
+    ]
+  }
+}
+
+

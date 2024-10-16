@@ -1,0 +1,38 @@
+
+{
+  "title": "Real to String Formatting Function",
+  "description": "This function converts a real number into a string representation with a specified number of decimal places and a specified decimal separator. The output string is formatted to ensure it has at least 8 characters, adding leading zeros if necessary, and includes a decimal point if the specified number of decimal places is greater than zero.",
+  "type": "FUNCTION",
+  "name": "REAL_TO_STRF",
+  "input": [
+    {
+      "name": "IN",
+      "type": "REAL",
+      "description": "The real number to be converted to a string."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "The number of decimal places to round the real number to. Must be limited to the range 0..7."
+    },
+    {
+      "name": "D",
+      "type": "STRING[1]",
+      "description": "The character to be used as the decimal separator."
+    }
+  ],
+  "output": [
+    {
+      "name": "REAL_TO_STRF",
+      "type": "string",
+      "description": "The resulting string representation of the real number."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The string representation of the real number after conversion and formatting."
+  }
+}
+
+

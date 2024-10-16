@@ -1,0 +1,33 @@
+
+{
+  "title": "Calculate Temperature from Resistance",
+  "description": "This function calculates the temperature in degrees Celsius based on the resistance input. It uses the resistance value and a reference resistance to determine the temperature either directly via a quadratic formula or through successive approximation if the quadratic equation does not yield a valid result.",
+  "type": "FUNCTION",
+  "name": "TEMP_PT",
+  "input": [
+    {
+      "name": "Res",
+      "type": "REAL",
+      "description": "The resistance value to be used for temperature calculation."
+    },
+    {
+      "name": "R0",
+      "type": "REAL",
+      "description": "The reference resistance value used for comparison."
+    }
+  ],
+  "output": [
+    {
+      "name": "TEMP_PT",
+      "type": "REAL",
+      "description": "The calculated temperature in degrees Celsius based on the input resistance."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "Returns the computed temperature value."
+  }
+}
+
+

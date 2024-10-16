@@ -1,0 +1,27 @@
+
+{
+  "title": "Dead Zone Function",
+  "description": "This function calculates the dead zone effect based on the input value X and a threshold L. If the absolute value of X exceeds L, the function returns X; otherwise, it returns 0.0.",
+  "type": "FUNCTION",
+  "name": "DEAD_ZONE",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "Input variable X of type REAL which is evaluated against the threshold L."
+    },
+    {
+      "name": "L",
+      "type": "REAL",
+      "description": "Input variable L of type REAL which serves as the threshold for the dead zone."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The result of the dead zone calculation, which is either the value of X if |X| > L or 0.0 if |X| <= L."
+  }
+}
+
+

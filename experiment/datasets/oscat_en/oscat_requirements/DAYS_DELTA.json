@@ -1,0 +1,28 @@
+
+{
+  "title": "Calculate Days Delta",
+  "description": "This function calculates the difference in days between two date values, returning a positive or negative integer depending on the order of the dates. If date_1 is later than date_2, the result will be negative, otherwise it will be positive.",
+  "type": "FUNCTION",
+  "name": "DAYS_DELTA",
+  "input": [
+    {
+      "name": "date_1",
+      "type": "DATE",
+      "description": "The first date for comparison."
+    },
+    {
+      "name": "date_2",
+      "type": "DATE",
+      "description": "The second date for comparison."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DINT",
+    "description": "The difference in days between date_1 and date_2.",
+    "fields": []
+  }
+}
+
+

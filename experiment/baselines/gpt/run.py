@@ -39,7 +39,7 @@ def run_gpt(dataset="competition_en"):
     model = "gpt-4o"
     
     # 构建提示文件和数据集文件的路径
-    prompt_path = f"{glovar.EXPERIMENT_DIR}/baselines/gpt/prompt"
+    prompt_path = f"{glovar.EXPERIMENT_DIR}/baselines/gpt/prompt st"
     dataset_path = f"{glovar.EXPERIMENT_DIR}/datasets/"
     output_path = f"{glovar.EXPERIMENT_DIR}/output/{dataset}/gpt/"
     

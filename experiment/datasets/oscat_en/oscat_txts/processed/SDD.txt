@@ -1,0 +1,8 @@
+Type Function : REAL
+Input T: REAL (air temperature in ° C)
+ICE: BOOL (TRUE for air over ice and FALSE for air over
+water)
+Output REAL (saturation vapor pressure in Pa)
+SDD calculates the saturation vapor pressure for water vapor in air. The
+temperature T is given in Celsius. The result can be calculated for air over
+ice (ICE = TRUE) and for air to water (ICE = FALSE). The scope of the func￾tion is -30°C to 70°C over water and at -60°C to 0°C on ice. The calculati￾on is performed according to the Magnus formula.

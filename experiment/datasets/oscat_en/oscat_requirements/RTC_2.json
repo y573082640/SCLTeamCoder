@@ -1,0 +1,60 @@
+
+{
+  "title": "Real-Time Clock Function Block (RTC_2)",
+  "description": "This function block RTC_2 is responsible for managing the real-time clock, adjusting for daylight savings time, and calculating the local time based on a provided offset in minutes. It takes various input parameters related to time settings and outputs the adjusted local time along with other status indicators.",
+  "type": "FUNCTION_BLOCK",
+  "name": "RTC_2",
+  "input": [
+    {
+      "name": "SET",
+      "type": "BOOL",
+      "description": "Boolean value to set the RTC."
+    },
+    {
+      "name": "SDT",
+      "type": "DT",
+      "description": "Start date and time for the RTC."
+    },
+    {
+      "name": "SMS",
+      "type": "INT",
+      "description": "Milliseconds to set for the RTC."
+    },
+    {
+      "name": "DEN",
+      "type": "BOOL",
+      "description": "Boolean value indicating if daylight savings time adjustment is needed."
+    },
+    {
+      "name": "OFS",
+      "type": "INT",
+      "description": "Offset in minutes to adjust the local time."
+    }
+  ],
+  "output": [
+    {
+      "name": "UDT",
+      "type": "DT",
+      "description": "Updated date and time from the RTC."
+    },
+    {
+      "name": "LOCAL_DT",
+      "type": "DT",
+      "description": "Calculated local date and time after applying offset."
+    },
+    {
+      "name": "DSO",
+      "type": "BOOL",
+      "description": "Boolean value indicating if daylight savings time is in effect."
+    },
+    {
+      "name": "XMS",
+      "type": "INT",
+      "description": "Milliseconds value derived from the RTC."
+    }
+  ],
+  "in/out": [],
+  "return_value": {}
+}
+
+

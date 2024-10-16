@@ -1,0 +1,45 @@
+
+{
+  "title": "Click Edge Detection and Counting Function Block",
+  "description": "This function block detects rising edges on the input signal and counts the number of falling edges that follow. It activates specific output signals based on the count of detected edges for a single cycle only. The block resets the output signals when the input is false.",
+  "type": "FUNCTION_BLOCK",
+  "name": "CLICK_DEC",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BOOL",
+      "description": "Boolean input signal that triggers edge detection."
+    },
+    {
+      "name": "TC",
+      "type": "TIME",
+      "description": "Time constant used for timing operations within the block."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q0",
+      "type": "BOOL",
+      "description": "Output signal activated when the count is zero."
+    },
+    {
+      "name": "Q1",
+      "type": "BOOL",
+      "description": "Output signal activated when the count is one."
+    },
+    {
+      "name": "Q2",
+      "type": "BOOL",
+      "description": "Output signal activated when the count is two."
+    },
+    {
+      "name": "Q3",
+      "type": "BOOL",
+      "description": "Output signal activated when the count is three."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

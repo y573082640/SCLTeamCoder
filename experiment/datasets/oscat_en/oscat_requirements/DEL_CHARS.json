@@ -1,0 +1,34 @@
+
+{
+  "title": "Delete Characters from String",
+  "description": "This function takes an input string and removes specific characters defined in another string. The process continues until all occurrences of the specified characters are removed from the input string.",
+  "type": "FUNCTION",
+  "name": "DEL_CHARS",
+  "input": [
+    {
+      "name": "IN",
+      "type": "STRING",
+      "description": "The input string from which characters will be deleted."
+    },
+    {
+      "name": "CX",
+      "type": "STRING[80]",
+      "description": "A string containing the characters to be deleted from the input string."
+    }
+  ],
+  "output": [
+    {
+      "name": "DEL_CHARS",
+      "type": "STRING",
+      "description": "The modified string after the specified characters have been deleted."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The resulting string after all specified characters have been removed.",
+    "fields": []
+  }
+}
+
+

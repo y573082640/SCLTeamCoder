@@ -1,0 +1,57 @@
+
+{
+  "title": "Count Manager",
+  "description": "This function block manages a count value, allowing for incrementing and decrementing based on input signals while ensuring the count stays within specified limits.",
+  "type": "FUNCTION_BLOCK",
+  "name": "COUNT_DR",
+  "input": [
+    {
+      "name": "SET",
+      "type": "BOOL",
+      "description": "Signal to initialize the count to the input value."
+    },
+    {
+      "name": "IN",
+      "type": "DWORD",
+      "description": "Input value used to set the count when 'SET' is true."
+    },
+    {
+      "name": "UP",
+      "type": "BOOL",
+      "description": "Signal to increment the count."
+    },
+    {
+      "name": "DN",
+      "type": "BOOL",
+      "description": "Signal to decrement the count."
+    },
+    {
+      "name": "STEP",
+      "type": "DWORD",
+      "description": "Amount to increment or decrement the count, defaulted to 1.",
+      "fields": []
+    },
+    {
+      "name": "MX",
+      "type": "DWORD",
+      "description": "Maximum value for the count, defaulted to 16#FFFFFFFF.",
+      "fields": []
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Signal to reset the count to zero."
+    }
+  ],
+  "output": [
+    {
+      "name": "CNT",
+      "type": "DWORD",
+      "description": "Current value of the count."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

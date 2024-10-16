@@ -1,0 +1,27 @@
+
+{
+  "title": "Circle Calculation Function",
+  "description": "This function computes a value based on the radius and axis parameters of a circle. The output is a real number calculated using a specific formula that incorporates both the radius and an axis factor.",
+  "type": "FUNCTION",
+  "name": "CIRCLE_C",
+  "input": [
+    {
+      "name": "Rx",
+      "type": "REAL",
+      "description": "The radius of the circle."
+    },
+    {
+      "name": "Ax",
+      "type": "REAL",
+      "description": "The axis factor used in the calculation."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The computed value from the formula that involves the radius and axis factor."
+  }
+}
+
+

@@ -1,0 +1,48 @@
+
+{
+  "title": "Scale a Value between Two Ranges",
+  "description": "This function scales a given input value from one range to another. The input value X is constrained by the low and high limits (I_LO and I_HI). If the input high limit is the same as the input low limit, the output will be set to the output low limit (O_LO). Otherwise, the function computes the scaled value based on the specified output range (O_LO to O_HI).",
+  "type": "FUNCTION",
+  "name": "SCALE_D",
+  "input": [
+    {
+      "name": "X",
+      "type": "DWORD",
+      "description": "The input value to be scaled."
+    },
+    {
+      "name": "I_LO",
+      "type": "DWORD",
+      "description": "The lower limit of the input range."
+    },
+    {
+      "name": "I_HI",
+      "type": "DWORD",
+      "description": "The upper limit of the input range."
+    },
+    {
+      "name": "O_LO",
+      "type": "REAL",
+      "description": "The lower limit of the output range."
+    },
+    {
+      "name": "O_HI",
+      "type": "REAL",
+      "description": "The upper limit of the output range."
+    }
+  ],
+  "output": [
+    {
+      "name": "SCALE_D",
+      "type": "REAL",
+      "description": "The scaled output value based on the input range and output range."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The function returns the scaled value."
+  }
+}
+
+

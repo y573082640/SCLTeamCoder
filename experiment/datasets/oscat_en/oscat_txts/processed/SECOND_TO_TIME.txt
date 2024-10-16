@@ -1,0 +1,6 @@
+Type Function: TIME
+Input IN: REAL (number of seconds with decimals)
+Output TIME (TIME)
+The function SECOND_TO_TIME calculates a value (TIME) from the input
+value in seconds as a REAL.
+Example: SECOND_TO_TIME(63.123) = T#1m3s123ms

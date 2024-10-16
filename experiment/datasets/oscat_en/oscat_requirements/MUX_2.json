@@ -1,0 +1,32 @@
+
+{
+  "title": "2-to-1 Multiplexer Function",
+  "description": "This function implements a 2-to-1 multiplexer. It takes two data inputs and a single selection input to output one of the two data inputs based on the selection input's value.",
+  "type": "FUNCTION",
+  "name": "MUX_2",
+  "input": [
+    {
+      "name": "D0",
+      "type": "BOOL",
+      "description": "The first data input to the multiplexer."
+    },
+    {
+      "name": "D1",
+      "type": "BOOL",
+      "description": "The second data input to the multiplexer."
+    },
+    {
+      "name": "A0",
+      "type": "BOOL",
+      "description": "The selection input that determines which data input to output."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "The output of the multiplexer, which is either D0 or D1 based on the value of A0."
+  }
+}
+
+

@@ -1,0 +1,27 @@
+
+{
+  "title": "String to Weekday Conversion",
+  "description": "This function converts a given string representing a weekday into its corresponding integer value (1 to 7) based on the language specified. If the input string does not match any weekday in the specified language, the function will return the integer value derived from the input string using STRING_TO_INT.",
+  "type": "FUNCTION",
+  "name": "FSTRING_TO_WEEKDAY",
+  "input": [
+    {
+      "name": "WDAY",
+      "type": "STRING[20]",
+      "description": "A string representation of the weekday to be converted."
+    },
+    {
+      "name": "LANG",
+      "type": "INT",
+      "description": "An integer representing the language index to be used for weekday conversion. 0 refers to the default language."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "An integer representing the corresponding weekday (1 to 7) if a match is found, otherwise the result of STRING_TO_INT on WDAY."
+  }
+}
+
+

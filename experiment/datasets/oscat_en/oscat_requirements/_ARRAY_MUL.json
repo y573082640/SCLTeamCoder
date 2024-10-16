@@ -1,0 +1,32 @@
+
+{
+  "title": "Array Multiplication Function",
+  "description": "This function multiplies each element of a real number array by a specified real number. The function takes a pointer to an array as input, along with the size of the array and the multiplier. The function processes half the elements of the array based on the size provided.",
+  "type": "FUNCTION",
+  "name": "_ARRAY_MUL",
+  "input": [
+    {
+      "name": "pt",
+      "type": "POINTER TO ARRAY [0..32000] OF REAL",
+      "description": "A pointer to the array of real numbers that will be modified."
+    },
+    {
+      "name": "size",
+      "type": "UINT",
+      "description": "The size of the array indicating how many elements are present."
+    },
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The real number by which each element of the array will be multiplied."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns TRUE to indicate successful completion of the multiplication operation."
+  }
+}
+
+

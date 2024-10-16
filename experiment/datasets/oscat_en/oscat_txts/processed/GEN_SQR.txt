@@ -1,0 +1,15 @@
+Type Function module
+Input PT: TIME (period time)
+AM: REAL (signal amplitude)
+OS: REAL (signal ofset)
+DC: REAL (duty cycle 0..1)
+DL: REAL (signal delay 0..1 * PT )
+Output Q: BOOL (binary output)
+OUT: REAL (analog output)
+GEN_SQR is a sqare wave generator with programmable period, adjustable
+amplitude and signal ofset and duty cycle DC ( Duty Cycle ). A special
+feature is a adjustable delay so that with multiple generators overlapping
+signals can be generated.
+The following Example shows 2 GEN_SQR, one runs with a delay of 0.25 (¼ 
+period). In the trace record clearly shows the signal of the frst generator 
+and the delayed signal of the second generator.

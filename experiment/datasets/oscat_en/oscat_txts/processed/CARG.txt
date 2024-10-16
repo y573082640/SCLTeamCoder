@@ -1,0 +1,5 @@
+Type Function: REAL
+Input X: COMPLEX (Input value)
+Output REAL (result)
+CARG calculates the angle of a complex number in the coordinate system.
+The range of values of the result is between [-π , +π ].

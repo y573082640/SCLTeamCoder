@@ -1,0 +1,28 @@
+
+{
+  "title": "Toggle Bit in Word",
+  "description": "This function toggles a specific bit in a given WORD input. The bit position to toggle is specified by the POS parameter. The output is the modified WORD with the specified bit changed from 0 to 1 or from 1 to 0.",
+  "type": "FUNCTION",
+  "name": "BIT_TOGGLE_W",
+  "input": [
+    {
+      "name": "IN",
+      "type": "WORD",
+      "description": "The WORD input value whose specific bit is to be toggled."
+    },
+    {
+      "name": "POS",
+      "type": "INT",
+      "description": "The position of the bit to be toggled, where 0 represents the least significant bit."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "WORD",
+    "description": "The resulting WORD after toggling the specified bit.",
+    "fields": []
+  }
+}
+
+

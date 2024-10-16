@@ -1,0 +1,9 @@
+Type Function module
+Input F: REAL (output frequency)
+DC: REAL (duty cycle 0..1)
+Output Q: BOOL (output)
+PWM_DC is a Duty - cycle modulated frequency generator. The generator
+generates a fxed frequency F with a duty cycle (TON / TOFF) which can be
+modulated (adjusted) by the input DC. A value of 0.5 at the input DC ge￾nerates a duty cycle of 50%. 
+The following image shows an output signal with a duty - cycle 2 / 1, which
+corresponds to a DC (ratio) of 0.67.

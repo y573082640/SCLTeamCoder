@@ -1,0 +1,43 @@
+
+{
+  "title": "Bit Load Function",
+  "description": "This function performs bit loading operations on a 16-bit word based on the specified parameters. It can either shift and rotate the input based on the control signal 'D' to either left or right, and applies the appropriate bit manipulation according to the values of 'N' and 'P'.",
+  "type": "FUNCTION",
+  "name": "BIT_LOAD_W2",
+  "input": [
+    {
+      "name": "I",
+      "type": "WORD",
+      "description": "The input word to be manipulated."
+    },
+    {
+      "name": "D",
+      "type": "BOOL",
+      "description": "Control signal that determines the bit loading operation; TRUE for right operations, FALSE for left operations."
+    },
+    {
+      "name": "P",
+      "type": "INT",
+      "description": "The number of positions to shift or rotate the word."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "Specifies the number of positions for loading bits."
+    }
+  ],
+  "output": [
+    {
+      "name": "BIT_LOAD_W2",
+      "type": "WORD",
+      "description": "The result of the bit manipulation operation on the input word."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "WORD",
+    "description": "The manipulated word after applying the specified bit operations."
+  }
+}
+
+

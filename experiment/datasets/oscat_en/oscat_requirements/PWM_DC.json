@@ -1,0 +1,30 @@
+
+{
+  "title": "PWM_DC Function Block",
+  "description": "This function block generates a pulse width modulation (PWM) signal based on a defined frequency (F) and duty cycle (DC). It calculates the time period for a given frequency and uses it to configure and control a clock signal, which is then used to create a pulse signal. The output signal indicates the state of the pulse.",
+  "type": "FUNCTION_BLOCK",
+  "name": "PWM_DC",
+  "input": [
+    {
+      "name": "F",
+      "type": "REAL",
+      "description": "The frequency of the PWM signal in Hz."
+    },
+    {
+      "name": "DC",
+      "type": "REAL",
+      "description": "The duty cycle of the PWM signal, specified as a fraction (0.0 to 1.0)."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "The output state of the PWM signal, where TRUE indicates the pulse is active."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

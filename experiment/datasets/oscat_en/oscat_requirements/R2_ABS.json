@@ -1,0 +1,34 @@
+
+{
+  "title": "Absolute Value Function for REAL2",
+  "description": "This function computes the absolute value of a given REAL2 input. The function checks the value of the RX component of the input REAL2 structure and returns its absolute value along with the absolute value of the R1 component. If the RX value is non-negative, it returns the input values as is. If it is negative, it negates both components.",
+  "type": "FUNCTION",
+  "name": "R2_ABS",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL2",
+      "description": "Input parameter of type REAL2 containing the values to compute the absolute value from."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL2",
+    "description": "The output result of type REAL2 that holds the absolute values of the input's components.",
+    "fields": [
+      {
+        "name": "RX",
+        "type": "REAL",
+        "description": "The absolute value of the RX component of the input REAL2."
+      },
+      {
+        "name": "R1",
+        "type": "REAL",
+        "description": "The absolute value of the R1 component of the input REAL2."
+      }
+    ]
+  }
+}
+
+

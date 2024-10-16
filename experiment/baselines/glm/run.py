@@ -41,7 +41,7 @@ def run_glm(dataset="competition_en"):
     model = "glm-4-plus"
     
     # 构建提示文件和数据集文件的路径
-    prompt_path = f"{glovar.EXPERIMENT_DIR}/baselines/glm/prompt"
+    prompt_path = f"{glovar.EXPERIMENT_DIR}/baselines/glm/prompt st"
     dataset_path = f"{glovar.EXPERIMENT_DIR}/datasets/"
     output_path = f"{glovar.EXPERIMENT_DIR}/output/{dataset}/glm/"
     

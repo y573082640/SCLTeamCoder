@@ -1,0 +1,35 @@
+
+{
+  "title": "Integration Function Block",
+  "description": "This function block performs numerical integration based on the input value and a factor. It updates the output based on a simple trapezoidal rule integration method and incorporates system time.",
+  "type": "FUNCTION_BLOCK",
+  "name": "INTEGRATE",
+  "input": [
+    {
+      "name": "E",
+      "type": "BOOL",
+      "description": "Enable flag to execute the integration calculation. Default is TRUE."
+    },
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The current value to be integrated."
+    },
+    {
+      "name": "K",
+      "type": "REAL",
+      "description": "Scaling factor for the integration calculation. Default value is 1.0."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "The resulting integrated value."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

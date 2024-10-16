@@ -1,0 +1,7 @@
+Type Function: BYTE
+Input DEC: STRING(10) (decimal-encoded string)
+Output BYTE (output value)
+The function DEC_TO_BYTE converts a decimal encoded string into a byte
+value. Here only decimal characters '0 '.. '9' are interpreted, others in DEC
+occurring characters are ignored .
+Example: DEC_TO_BYTE('34 ') is 34.

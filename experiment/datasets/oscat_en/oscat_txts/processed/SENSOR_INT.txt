@@ -1,0 +1,14 @@
+Type Function: REAL
+Input VOLTAGE : REAL (measured in volts) 
+ CURRENT : REAL (Current measured in amperes) 
+RP: REAL (parallel parasitic resistance in ohms)
+RS: REAL (serial parasitic resistance in ohms)
+Output REAL (resistance of the sensor)
+SENSOR_INT calculate the sensor resistance, taking into account the para￾sitic resistances, which usually afect the measurement. The A / D conver￾ter measures either current at a fxed voltage or voltage at a fxed current.
+The resulting resistance is not only the resistance of the sensor, but is
+composed of the resistance of the sensor and two parasitic resistances RS
+and RP. Since the parasitic resistances remain constant, they can be com￾pensated and the real resistance of the sensor can be calculated.
+Between the terminals A and B measured resistance (measured by current
+and voltage) is a total resistance of the sensor resistance in parallel to the
+parasitic resistance RP and the line resistance RS. RS and RP, are compen￾sated the real resistance RX is calculated. The modules can TEMP_ then be
+calculated as the exact temperature.

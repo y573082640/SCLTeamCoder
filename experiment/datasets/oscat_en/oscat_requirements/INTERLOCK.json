@@ -1,0 +1,40 @@
+
+{
+  "title": "Interlock Function Block",
+  "description": "This function block implements an interlock mechanism where two input signals are processed with a specified time delay before affecting the output signals. The outputs will be enabled based on the current state of the inputs and the delay condition.",
+  "type": "FUNCTION_BLOCK",
+  "name": "INTERLOCK",
+  "input": [
+    {
+      "name": "I1",
+      "type": "BOOL",
+      "description": "First input signal."
+    },
+    {
+      "name": "I2",
+      "type": "BOOL",
+      "description": "Second input signal."
+    },
+    {
+      "name": "TL",
+      "type": "TIME",
+      "description": "Time delay for the interlock mechanism."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q1",
+      "type": "BOOL",
+      "description": "Output signal 1, reflects the state of I1 considering the delay of I2."
+    },
+    {
+      "name": "Q2",
+      "type": "BOOL",
+      "description": "Output signal 2, reflects the state of I2 considering the delay of I1."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

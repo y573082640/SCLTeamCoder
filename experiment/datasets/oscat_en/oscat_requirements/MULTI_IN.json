@@ -1,0 +1,58 @@
+
+{
+  "title": "Multi Input Selector Function",
+  "description": "This function, MULTI_IN, processes multiple input values (in_1, in_2, in_3) based on a specified mode, returning a real number. The function determines which inputs to consider based on their comparison to defined minimum and maximum values, and applies specific arithmetic operations based on the selection mode. It also allows for a default value in circumstances where inputs do not meet the criteria.",
+  "type": "FUNCTION",
+  "name": "MULTI_IN",
+  "input": [
+    {
+      "name": "in_1",
+      "type": "REAL",
+      "description": "The first input value."
+    },
+    {
+      "name": "in_2",
+      "type": "REAL",
+      "description": "The second input value."
+    },
+    {
+      "name": "in_3",
+      "type": "REAL",
+      "description": "The third input value."
+    },
+    {
+      "name": "default",
+      "type": "REAL",
+      "description": "The default value used when no inputs meet the criteria."
+    },
+    {
+      "name": "in_min",
+      "type": "REAL",
+      "description": "The minimum threshold value for validation of inputs."
+    },
+    {
+      "name": "in_max",
+      "type": "REAL",
+      "description": "The maximum threshold value for validation of inputs."
+    },
+    {
+      "name": "mode",
+      "type": "BYTE",
+      "description": "The mode which determines the operational behavior of the function."
+    }
+  ],
+  "output": [
+    {
+      "name": "MULTI_IN",
+      "type": "REAL",
+      "description": "The computed result based on the selected inputs and mode."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The resulting value after processing inputs according to the selected mode."
+  }
+}
+
+

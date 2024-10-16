@@ -1,0 +1,49 @@
+
+{
+  "title": "Scale a Value",
+  "description": "This function scales a given value X from an input range defined by I_LO and I_HI to an output range defined by O_LO and O_HI. The function accounts for cases where the input range is zero (I_LO = I_HI) by returning O_LO. If the input value X is outside the defined input range, it is limited to the nearest boundary using the LIMIT function.",
+  "type": "FUNCTION",
+  "name": "SCALE_R",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The value to be scaled."
+    },
+    {
+      "name": "I_LO",
+      "type": "REAL",
+      "description": "The lower bound of the input range."
+    },
+    {
+      "name": "I_HI",
+      "type": "REAL",
+      "description": "The upper bound of the input range."
+    },
+    {
+      "name": "O_LO",
+      "type": "REAL",
+      "description": "The lower bound of the output range."
+    },
+    {
+      "name": "O_HI",
+      "type": "REAL",
+      "description": "The upper bound of the output range."
+    }
+  ],
+  "output": [
+    {
+      "name": "SCALE_R",
+      "type": "REAL",
+      "description": "The scaled output value corresponding to the input value X."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The final scaled value based on the input parameters.",
+    "fields": []
+  }
+}
+
+

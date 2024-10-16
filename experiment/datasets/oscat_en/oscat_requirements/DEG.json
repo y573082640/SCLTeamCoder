@@ -1,0 +1,23 @@
+
+{
+  "title": "Degree Conversion Function",
+  "description": "This function converts an angle in radians to degrees while ensuring that the output value is constrained between 0 and 360 degrees using the MODR function. The input is defined in radians, and the function returns the corresponding angle in degrees.",
+  "type": "FUNCTION",
+  "name": "DEG",
+  "input": [
+    {
+      "name": "rad",
+      "type": "REAL",
+      "description": "The angle in radians to be converted to degrees."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The angle in degrees, constrained to be between 0 and 360 degrees.",
+    "fields": []
+  }
+}
+
+

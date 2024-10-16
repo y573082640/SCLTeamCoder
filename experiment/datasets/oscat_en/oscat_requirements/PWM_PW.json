@@ -1,0 +1,30 @@
+
+{
+  "title": "Pulse Width Modulation Control",
+  "description": "This function block implements pulse width modulation (PWM) based on frequency and pulse width time inputs. It generates a PWM signal output that can be used to control various devices.",
+  "type": "FUNCTION_BLOCK",
+  "name": "PWM_PW",
+  "input": [
+    {
+      "name": "F",
+      "type": "REAL",
+      "description": "The frequency of the PWM signal in Hertz."
+    },
+    {
+      "name": "PW",
+      "type": "TIME",
+      "description": "The duration of the pulse width."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "The output Boolean signal representing the PWM signal."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

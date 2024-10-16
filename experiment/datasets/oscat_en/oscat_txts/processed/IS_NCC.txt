@@ -1,0 +1,11 @@
+Type Function: BOOL
+Input STR: STRING (String input)
+CMP: STRING (comparison characters)
+Output BOOL (TRUE if STR none of the character listed in the STRING
+CMP
+contains)
+IS_NCC tests whether the string STR none of the in STR listed characters
+are included. Is a character of CMP found in STR, the function returns FAL￾SE.
+Examples:
+IS_NCC('3.14', ',-+()') = TRUE
+IS_NCC('-3.14', ',-+()') = FALSE

@@ -1,0 +1,32 @@
+
+{
+  "title": "Minimum of Three Real Numbers",
+  "description": "This function calculates the minimum value among three input real numbers. It takes three parameters and returns the smallest of the three values.",
+  "type": "FUNCTION",
+  "name": "MIN3",
+  "input": [
+    {
+      "name": "in1",
+      "type": "REAL",
+      "description": "The first real number input."
+    },
+    {
+      "name": "in2",
+      "type": "REAL",
+      "description": "The second real number input."
+    },
+    {
+      "name": "in3",
+      "type": "REAL",
+      "description": "The third real number input."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The minimum value among the three input real numbers."
+  }
+}
+
+

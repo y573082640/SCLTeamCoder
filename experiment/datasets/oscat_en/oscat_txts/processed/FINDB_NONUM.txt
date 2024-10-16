@@ -1,0 +1,7 @@
+Type Function: INT
+Input STR: STRING (String input)
+Output INT (position of the last letter that is not a number)
+The function FINDB_NONUM STR searches from right to left and returns
+the last position which is not a number.
+Numbers are the letters "0..9" and "."
+Example: FINDB_NONUM('4+33+1') = 5

@@ -1,0 +1,29 @@
+
+{
+  "title": "Convert DWORD to String",
+  "description": "This function converts a DWORD input into a string representation consisting of 32 binary characters. Each bit of the DWORD is converted to its corresponding binary character ('0' or '1') and the resulting string is null-terminated.",
+  "type": "FUNCTION",
+  "name": "DWORD_TO_STRB",
+  "input": [
+    {
+      "name": "IN",
+      "type": "DWORD",
+      "description": "The input DWORD value that needs to be converted to a string."
+    }
+  ],
+  "output": [
+    {
+      "name": "DWORD_TO_STRB",
+      "type": "string",
+      "description": "The output string representation of the input DWORD value, containing binary characters."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The resulting binary string derived from the input DWORD.",
+    "fields": []
+  }
+}
+
+

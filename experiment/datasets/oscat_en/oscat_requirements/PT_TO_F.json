@@ -1,0 +1,23 @@
+
+{
+  "title": "Convert Process Time to Frequency",
+  "description": "This function converts a given process time in TIME format to a frequency in REAL format by calculating the reciprocal multiplier of the time value.",
+  "type": "FUNCTION",
+  "name": "PT_TO_F",
+  "input": [
+    {
+      "name": "PT",
+      "type": "TIME",
+      "description": "The input process time that needs to be converted to frequency."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The frequency value calculated from the process time.",
+    "fields": []
+  }
+}
+
+

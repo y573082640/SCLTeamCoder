@@ -1,0 +1,6 @@
+Type Function: COMPLEX
+Input X: COMPLEX (Input) 
+Output COMPLEX (result)
+CCON calculated the conjugation of a complex number
+CCON.RE = X.RE
+CCON.IM = -X.IM

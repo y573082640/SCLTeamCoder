@@ -1,0 +1,30 @@
+
+{
+  "title": "D_TRIG Function Block",
+  "description": "This function block detects changes in the input signal and calculates the difference between the current and previous input values. It provides an output indicating whether a change has occurred and the amount of change.",
+  "type": "FUNCTION_BLOCK",
+  "name": "D_TRIG",
+  "input": [
+    {
+      "name": "in",
+      "type": "DWORD",
+      "description": "Current input value to be monitored."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "Output flag indicating whether the input has changed since the last scan."
+    },
+    {
+      "name": "X",
+      "type": "DWORD",
+      "description": "Output value that represents the difference between the current input and the last input."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

@@ -1,0 +1,23 @@
+
+{
+  "title": "Extract Second from Date and Time",
+  "description": "This function takes a date and time input parameter and extracts the second component from it. The output is an integer representing the second value (0-59).",
+  "type": "FUNCTION",
+  "name": "SECOND_OF_DT",
+  "input": [
+    {
+      "name": "XDT",
+      "type": "DT",
+      "description": "The date and time value from which the second component will be extracted."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "An integer representing the second component extracted from the input date and time.",
+    "fields": []
+  }
+}
+
+

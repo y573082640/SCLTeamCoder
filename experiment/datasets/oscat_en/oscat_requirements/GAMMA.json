@@ -1,0 +1,29 @@
+
+{
+  "title": "Gamma Function Calculation",
+  "description": "This function calculates the Gamma value for a given input X based on mathematical formulas. It utilizes two different approaches depending on the value of X to ensure better accuracy.",
+  "type": "FUNCTION",
+  "name": "GAMMA",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The input value for which the Gamma function is to be calculated."
+    }
+  ],
+  "output": [
+    {
+      "name": "GAMMA",
+      "type": "REAL",
+      "description": "The computed Gamma value based on the input X."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The result of the Gamma function calculation.",
+    "fields": []
+  }
+}
+
+

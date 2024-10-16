@@ -1,0 +1,22 @@
+
+{
+  "title": "Check if a String is Alphanumeric",
+  "description": "This function checks whether a given string is alphanumeric, meaning it contains only letters and numbers. If the string is empty or contains any non-alphanumeric characters, the function returns false; otherwise, it returns true.",
+  "type": "FUNCTION",
+  "name": "IS_ALNUM",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING(STRING_LENGTH)",
+      "description": "The input string to be checked for alphanumeric characters."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns true if the string is alphanumeric and not empty; otherwise returns false."
+  }
+}
+
+

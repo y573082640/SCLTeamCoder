@@ -1,0 +1,31 @@
+
+{
+  "title": "Find Last Numeric Character in String",
+  "description": "This function, FINDB_NUM, aims to find the position of the last numeric character or a period in a given string. If a numeric character (0-9) or a period is found, the function returns the position (1-based index) of that character. If there are no numeric characters or periods in the string, it returns 0.",
+  "type": "FUNCTION",
+  "name": "FINDB_NUM",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING",
+      "description": "Input variable of type STRING with a specified length.",
+      "fields": []
+    }
+  ],
+  "output": [
+    {
+      "name": "FINDB_NUM",
+      "type": "INT",
+      "description": "The position of the last numeric character or period in the input string, or 0 if none exists.",
+      "fields": []
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The return value indicates the position of the last numeric character or period found in the string.",
+    "fields": []
+  }
+}
+
+

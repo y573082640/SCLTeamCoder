@@ -1,0 +1,45 @@
+
+{
+  "title": "Real2 Addition Function",
+  "description": "This function performs addition operations involving a Real2 derived type and a REAL type. It updates the Real2 output structure based on the provided inputs.",
+  "type": "FUNCTION",
+  "name": "R2_ADD",
+  "input": [
+    {
+      "name": "X",
+      "type": "Real2",
+      "description": "A derived type that contains two real numbers, RX and R1."
+    },
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "A real number that will be added to the components of the Real2 input."
+    }
+  ],
+  "output": [
+    {
+      "name": "R2_ADD",
+      "type": "REAL2",
+      "description": "The output structure of type Real2 containing the results of the addition operations."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL2",
+    "description": "The resulting Real2 structure after performing the addition.",
+    "fields": [
+      {
+        "name": "RX",
+        "type": "REAL",
+        "description": "The result of adding Y, X.R1, and X.RX."
+      },
+      {
+        "name": "R1",
+        "type": "REAL",
+        "description": "The result of computing temp minus RX, plus Y, and X.R1."
+      }
+    ]
+  }
+}
+
+

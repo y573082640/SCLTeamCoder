@@ -1,0 +1,60 @@
+
+{
+  "title": "Ramp Function Block (RMP_B)",
+  "description": "This function block implements a ramp functionality, allowing for an adjustable output based on set conditions, timing, and the direction of ramping. It generates an output value that ramps up or down based on input parameters and maintains the state of the busy flag to indicate processing status.",
+  "type": "FUNCTION_BLOCK",
+  "name": "RMP_B",
+  "input": [
+    {
+      "name": "SET",
+      "type": "BOOL",
+      "description": "A boolean indicating if the ramp should be set to its maximum value."
+    },
+    {
+      "name": "PT",
+      "type": "TIME",
+      "description": "The time duration over which the ramp should occur."
+    },
+    {
+      "name": "E",
+      "type": "BOOL",
+      "description": "Enable input that allows the ramp operation to process; defaults to TRUE."
+    },
+    {
+      "name": "UP",
+      "type": "BOOL",
+      "description": "A boolean that determines the direction of the ramp; if TRUE, the ramp will increase, if FALSE, it will decrease."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "A boolean that, when set, resets the output value to zero."
+    }
+  ],
+  "output": [
+    {
+      "name": "OUT",
+      "type": "BYTE",
+      "description": "The current value of the ramp output."
+    },
+    {
+      "name": "BUSY",
+      "type": "BOOL",
+      "description": "Indicates if the function block is currently busy processing the ramp operation."
+    },
+    {
+      "name": "HIGH",
+      "type": "BOOL",
+      "description": "Indicates if the output is currently at its maximum value (255)."
+    },
+    {
+      "name": "LOW",
+      "type": "BOOL",
+      "description": "Indicates if the output is currently at its minimum value (0)."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

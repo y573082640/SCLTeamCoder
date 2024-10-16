@@ -1,0 +1,4 @@
+Type Function: BYTE
+Input IN: DWORD (DWORD input)
+Output BYTE (output byte)
+BYTE_OF_DWORD extracts a byte (B0 .. B3) a DWORD. The individual by￾tes are selected with 0-3 at the input IN.

@@ -1,0 +1,8 @@
+Type Function module
+Output TC: DWORD (last cycle time in milliseconds)
+TC_US determines the last cycle time, that is the time since the last call of
+the module has passed. The time comes in milliseconds. The module calls
+the function T_PLC_US(). T_PLC_US () returns the internal PLC Timer in mi￾croseconds with a step width of 1000 microseconds. If a higher resolution
+is required the function T_PLC_US() has to be adjusted to the appropriate
+system. 
+ 22. Calculations

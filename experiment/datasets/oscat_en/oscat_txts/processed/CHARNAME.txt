@@ -1,0 +1,7 @@
+Type Function : STRING(10)
+Input C: BYTE (character code)
+Output STRING (character name)
+CHARNAME determines the character name for a character code.
+Example: CHARNAME(128) = 'euro'
+If no name is known for a code, the code is returned as a single character.
+For the Code 0 an empty string is returned. CHARNAME uses the global va￾riables SETUP.CHARNAMES which includes the list of names with codes.

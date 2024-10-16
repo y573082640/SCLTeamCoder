@@ -1,0 +1,33 @@
+Type Function module
+Input IN0: DWORD (bit sequence for Q0)
+IN1: DWORD (bit sequence for Q1)
+IN2: DWORD (bit sequence for Q1)
+IN3: DWORD (bit sequence for Q1)
+CLK: BOOL (clock input)
+STEPS: INT (number of generated clocks)
+REP: INT
+RST: BOOL
+Output Q0: BOOL (bit sequence Q0)
+Q1: BOOL (bit sequence Q1)
+Q2: BOOL (bit sequence Q2)
+Q3: BOOL (bit sequence Q3)
+CNT: INT (number of output bits already generated)
+RUN: BOOL (TRUE if the sequencer is running)
+GEN_BIT is a fully programmable pattern generator. At the inputs in0 .. IN7
+are the bit patterns at the input CLK in each case as a DWORD and passed
+by each clock pulse to the outputs Q0 .. Q3 starting from bit 0 of ascen￾ding. After the frst clock pulse at the input CLK the output Q0 has bit 0 of
+IN0 , at Q1 is bit 0 of In1 ... on Q7 is bit 0 of IN3. After the next clock pulse
+at the CLK input, the bit 1 of the inputs IN is passed to the outputs Q and
+so on, until the sequence is completed. The input STEPS determines how
+many bits of the input DWORDS be passed to the outputs. The input REP
+determines how often this sequence is repeated. If the input set to 0, the
+sequence is repeated continuously. An asynchronous reset can always re￾set the sequencer. The outputs CNT and RUN indicate which bit is current￾ly passed to the output and whether the sequencer is running, or the se￾quence (RUN inactive) has fnished. After the sequences have expired the
+last bit patterns remains on the outputs available until a reset restarts the
+generator.
+Example:
+In this example, the lowest 8 bits (bits 0 .. 7) at the inputs IN are pushed
+to the outputs Q. The sequence begins with bit 0 and ends at bit 7 (8
+Steps are defned by the input 8). This sequence is repeated 2 times (2 re￾petitions at the input REP) and then stopped. 
+The Trace Recording shows the reset signal becoming inactive (green),
+which starts the generator and after the frst clock pulse passes bit 0 to
+the outputs.

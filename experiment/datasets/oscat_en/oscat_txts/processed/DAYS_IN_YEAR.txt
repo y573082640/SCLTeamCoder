@@ -1,0 +1,5 @@
+Type Function: INT
+Input IDATE: DATE (current date)
+Output INT (number of days in the current year)
+The DAYS_IN_YEAR function calculates the number of days in the current
+year.

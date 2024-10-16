@@ -1,0 +1,36 @@
+
+{
+  "title": "Ticker Function Block",
+  "description": "The TICKER function block generates a ticker display from a given text at specified time intervals. It takes in a character count and a time delay and outputs a portion of text based on these inputs, updating incrementally as time progresses.",
+  "type": "FUNCTION_BLOCK",
+  "name": "TICKER",
+  "input": [
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "The starting index of the ticker text to display."
+    },
+    {
+      "name": "PT",
+      "type": "TIME",
+      "description": "The time period for which the delay is set before the next ticker update."
+    }
+  ],
+  "output": [
+    {
+      "name": "Display",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "The portion of text to be displayed in the ticker."
+    }
+  ],
+  "in/out": [
+    {
+      "name": "Text",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "The full text that is processed to create the ticker display."
+    }
+  ],
+  "return_value": null
+}
+
+

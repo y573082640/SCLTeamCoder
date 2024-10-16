@@ -1,0 +1,28 @@
+
+{
+  "title": "Leap Year Determination Function",
+  "description": "This function determines whether a given year is a leap year or not. A leap year is defined as any year that is divisible by 4, except for end-of-century years, which must be divisible by 400. The function leverages bit manipulation for performance improvements in version 1.2.",
+  "type": "FUNCTION",
+  "name": "LEAP_YEAR",
+  "input": [
+    {
+      "name": "yr",
+      "type": "INT",
+      "description": "The year for which the leap year status is to be determined."
+    }
+  ],
+  "output": [
+    {
+      "name": "LEAP_YEAR",
+      "type": "BOOL",
+      "description": "Returns TRUE if the year is a leap year, FALSE otherwise."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Indicates whether the year is a leap year."
+  }
+}
+
+

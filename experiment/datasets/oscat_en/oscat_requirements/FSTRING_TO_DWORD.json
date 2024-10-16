@@ -1,0 +1,29 @@
+
+{
+  "title": "String to DWORD Conversion Function",
+  "description": "This function converts a formatted string representation of a number into a DWORD. The function handles binary, octal, hexadecimal, and decimal formats based on specific prefixes in the input string.",
+  "type": "FUNCTION",
+  "name": "FSTRING_TO_DWORD",
+  "input": [
+    {
+      "name": "IN",
+      "type": "STRING[40]",
+      "description": "The input string which can represent a number in binary, octal, hexadecimal, or decimal format."
+    }
+  ],
+  "output": [
+    {
+      "name": "FSTRING_TO_DWORD",
+      "type": "DWORD",
+      "description": "The DWORD representation of the input string after conversion from its specified format."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "Returns the converted DWORD value from the input string.",
+    "fields": []
+  }
+}
+
+

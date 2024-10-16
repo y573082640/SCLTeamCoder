@@ -1,0 +1,22 @@
+
+{
+  "title": "Convert BCD to Integer",
+  "description": "This function converts a Binary-Coded Decimal (BCD) represented as a BYTE into its corresponding INTEGER value. The conversion process masks the lower four bits of the BYTE and shifts the upper four bits to compute the integer representation.",
+  "type": "FUNCTION",
+  "name": "BCDC_TO_INT",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BYTE",
+      "description": "A BYTE input representing the BCD value to be converted."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The resulting integer value derived from the given BCD input."
+  }
+}
+
+

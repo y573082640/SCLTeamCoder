@@ -1,0 +1,22 @@
+
+{
+  "title": "Convert Time of Day to Seconds",
+  "description": "This function takes a Time of Day (TOD) value as input and converts it to the equivalent number of seconds. The conversion involves transforming the TOD to a DWORD, performing arithmetic operations to discard the minute portion, and then converting the result back to seconds.",
+  "type": "FUNCTION",
+  "name": "SECOND",
+  "input": [
+    {
+      "name": "itod",
+      "type": "TOD",
+      "description": "The input time of day value that needs to be converted to seconds."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The output value represents the time in seconds converted from the input TOD."
+  }
+}
+
+

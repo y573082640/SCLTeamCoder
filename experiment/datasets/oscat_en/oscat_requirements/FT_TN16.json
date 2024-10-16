@@ -1,0 +1,35 @@
+
+{
+  "title": "FT_TN16 Function Block",
+  "description": "The FT_TN16 Function Block receives a real input value and a time duration, processing these to maintain a circular array of input values and produce an output value. The block triggers an output signal when the conditions are met based on the time elapsed.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FT_TN16",
+  "input": [
+    {
+      "name": "in",
+      "type": "REAL",
+      "description": "The real input value to be processed."
+    },
+    {
+      "name": "T",
+      "type": "TIME",
+      "description": "The time duration that influences the input processing frequency."
+    }
+  ],
+  "output": [
+    {
+      "name": "out",
+      "type": "REAL",
+      "description": "The output value from the circular array of input values."
+    },
+    {
+      "name": "trig",
+      "type": "BOOL",
+      "description": "A boolean flag that indicates whether a new value has been output."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

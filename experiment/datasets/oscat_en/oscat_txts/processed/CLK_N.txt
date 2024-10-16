@@ -1,0 +1,9 @@
+Type Function module
+Input N: INT ( Clock Divider)
+Output Q: BOOL (clock output)
+CLK_N generates a pulse every X milliseconds, based on the PLC internal 1
+ms reference. The pulses are exactly one PLC cycle length and are genera￾ted every 2^N milliseconds.
+The period is 1 ms for N = 0, 2ms for N = 1, 4ms, for N=2
+CLK_N replaces the modules CLK_1ms, CLK_2ms, CLK_4ms and CLK_8ms
+from older libraries.
+The following picture shows the output signal for N=0:

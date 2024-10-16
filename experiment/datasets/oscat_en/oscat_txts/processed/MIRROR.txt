@@ -1,0 +1,6 @@
+Type Function: STRING
+Input STR: STRING (String input)
+Output STRING (input string read backwards)
+MIRROR reads the string STR reverse and passes the characters in reverse
+order.
+Example: MIRROR ('This is a test') = 'tset a si siht'

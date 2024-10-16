@@ -1,0 +1,33 @@
+
+{
+  "title": "Convert BYTE to Range",
+  "description": "This function converts a BYTE value into a specified range defined by low and high real numbers. It scales the BYTE value, which ranges from 0 to 255, to the specified range.",
+  "type": "FUNCTION",
+  "name": "BYTE_TO_RANGE",
+  "input": [
+    {
+      "name": "X",
+      "type": "BYTE",
+      "description": "The BYTE value to be converted, which should be in the range of 0 to 255."
+    },
+    {
+      "name": "low",
+      "type": "REAL",
+      "description": "The lower boundary of the desired range."
+    },
+    {
+      "name": "high",
+      "type": "REAL",
+      "description": "The upper boundary of the desired range."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The scaled value in the range defined by low and high based on the input BYTE value.",
+    "fields": []
+  }
+}
+
+

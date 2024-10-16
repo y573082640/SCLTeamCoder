@@ -1,0 +1,23 @@
+
+{
+  "title": "Conversion from SDT to DT",
+  "description": "This function takes an input of type SDT (Structured Date Time) and converts it into a DT (Date Time) format. The conversion utilizes specific fields from the SDT structure such as year, month, day, hour, minute, and second to generate the corresponding DT value.",
+  "type": "FUNCTION",
+  "name": "SDT_TO_DT",
+  "input": [
+    {
+      "name": "DTI",
+      "type": "SDT",
+      "description": "Input parameter of type SDT that holds the structured date time information."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DT",
+    "description": "The resulting date time value in DT format after conversion from the SDT input.",
+    "fields": []
+  }
+}
+
+

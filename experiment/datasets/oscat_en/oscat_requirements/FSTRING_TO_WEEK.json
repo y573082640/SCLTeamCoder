@@ -1,0 +1,34 @@
+
+{
+  "title": "Convert String to Week Representation",
+  "description": "This function converts a comma-separated string representation of weekdays into a byte value that represents those weekdays. The conversion takes into account the specified language by using a language index.",
+  "type": "FUNCTION",
+  "name": "FSTRING_TO_WEEK",
+  "input": [
+    {
+      "name": "WEEK",
+      "type": "STRING[60]",
+      "description": "A string containing the weekdays separated by commas."
+    },
+    {
+      "name": "LANG",
+      "type": "INT",
+      "description": "An integer representing the language index for weekday conversion."
+    }
+  ],
+  "output": [
+    {
+      "name": "FSTRING_TO_WEEK",
+      "type": "BYTE",
+      "description": "A byte value representing the converted weekdays."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BYTE",
+    "description": "Returns a byte value that encodes the weekdays from the input string.",
+    "fields": []
+  }
+}
+
+

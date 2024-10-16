@@ -1,0 +1,49 @@
+
+{
+  "title": "Output Calculation Function",
+  "description": "This function calculates a 32-bit output value based on the input real number and specified constraints including bit manipulation for the sign. It applies limits to the input and computes the final output according to the provided high and low bounds.",
+  "type": "FUNCTION",
+  "name": "AOUT",
+  "input": [
+    {
+      "name": "in",
+      "type": "REAL",
+      "description": "The input real number to be processed."
+    },
+    {
+      "name": "Bits",
+      "type": "BYTE",
+      "description": "The number of bits to be used in the output calculation."
+    },
+    {
+      "name": "sign",
+      "type": "BYTE",
+      "description": "The sign bit, defaults to 255 if not specified."
+    },
+    {
+      "name": "low",
+      "type": "REAL",
+      "description": "The lower limit for the input value."
+    },
+    {
+      "name": "high",
+      "type": "REAL",
+      "description": "The upper limit for the input value, defaults to 10.0 if not specified."
+    }
+  ],
+  "output": [
+    {
+      "name": "Aout",
+      "type": "DWORD",
+      "description": "The calculated 32-bit output value based on the processed input."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "The final computed output value.",
+    "fields": []
+  }
+}
+
+

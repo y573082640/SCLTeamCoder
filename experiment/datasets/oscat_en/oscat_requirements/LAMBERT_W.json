@@ -1,0 +1,29 @@
+
+{
+  "title": "Lambert W Function Calculation",
+  "description": "This function calculates the Lambert W value for a given input X. It checks for valid input ranges, applies a formula based on the input value, and iteratively refines the result to provide an accurate calculation of the Lambert W function.",
+  "type": "FUNCTION",
+  "name": "LAMBERT_W",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The input value for which the Lambert W function is to be calculated."
+    }
+  ],
+  "output": [
+    {
+      "name": "LAMBERT_W",
+      "type": "REAL",
+      "description": "The calculated Lambert W value. Returns -1000.0 for invalid inputs and 0 for an input of 0."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The return value of the Lambert W function computation.",
+    "fields": []
+  }
+}
+
+

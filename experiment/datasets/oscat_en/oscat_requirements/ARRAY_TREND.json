@@ -1,0 +1,34 @@
+
+{
+  "title": "Calculate Array Trend",
+  "description": "This function computes the trend of a given array of real numbers by evaluating the sum of its elements based on the specified size. It calculates the sum of the first half of the array and conditionally adjusts the sum based on whether the size is even or odd before returning the average trend value.",
+  "type": "FUNCTION",
+  "name": "ARRAY_TREND",
+  "input": [
+    {
+      "name": "pt",
+      "type": "POINTER TO ARRAY[0..32000] OF REAL",
+      "description": "Pointer to the array of real numbers whose trend needs to be calculated."
+    },
+    {
+      "name": "size",
+      "type": "UINT",
+      "description": "The total number of elements in the array."
+    }
+  ],
+  "output": [
+    {
+      "name": "ARRAY_TREND",
+      "type": "REAL",
+      "description": "The calculated trend value of the array, which is the average based on the input size."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "Average trend of the array values.",
+    "fields": []
+  }
+}
+
+

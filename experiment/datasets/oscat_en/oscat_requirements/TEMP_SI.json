@@ -1,0 +1,32 @@
+
+{
+  "title": "Calculate Temperature Adjustment",
+  "description": "This function computes a temperature adjustment based on input resistance and temperature values. The function uses a mathematical formula to derive the adjusted temperature. It has been enhanced over multiple revisions to accommodate varying target temperatures (TS) and to ensure stability against errors from square root calculations involving negative results.",
+  "type": "FUNCTION",
+  "name": "TEMP_SI",
+  "input": [
+    {
+      "name": "Res",
+      "type": "REAL",
+      "description": "The resistance value input for the temperature calculation."
+    },
+    {
+      "name": "RS",
+      "type": "REAL",
+      "description": "The reference resistance used in the formula."
+    },
+    {
+      "name": "TS",
+      "type": "REAL",
+      "description": "The target temperature that influences the adjustment calculation."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The computed adjusted temperature based on the inputs provided."
+  }
+}
+
+

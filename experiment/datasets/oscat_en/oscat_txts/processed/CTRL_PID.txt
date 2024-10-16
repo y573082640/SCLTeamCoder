@@ -1,0 +1,42 @@
+Type Function module
+Input ACT: REAL (value measured by the way)
+SET: REAL (default)
+SUP: REAL (noise reduction)
+SFO: REAL (ofset for the output)
+M_I: REAL (input value for manual operation)
+MAN: BOOL (switch to manual mode, MANUAL = TRUE)
+RST: BOOL (asynchronous reset input)
+KP: REAL (controller gain)
+TN: REAL (reset of the controller)
+TV: REAL (derivative of the controller)
+LL: REAL (lower output limit)
+LH: REAL (upper output limit)
+Output Y: REAL (output of the controller)
+DIFF: Real (deviation)
+LIM: BOOL (TRUE if the output has reached a limit)
+CTRL_PID is a PID controller with dynamic anti-wind up and manual control
+input. The PID controller operates according to the formula: 
+Y = KP * (DIFF + 1/Tn * INTEG(DIFF) + TV *DERIV(DIFF)) + OFFSET
+where DIFF = SET_POINT - ACTUAL
+In manual mode (manual = TRUE) is: Y = MANUAL_IN+ OFFSET
+ACT is the measured value for the controlled system and SET is the set￾point for the controller. The input values of LH and LL limit the output va￾lue Y. With RST, the internal integrator will always set to 0. The output LIM
+signals that the controller has reached the limit of LL or LH. The PID con￾troller operates free-running and uses the trapezoidal rule to calculate
+with highest accuracy and optimal speed. The default values of the input
+parameters are predefned as follows: KP = 1, TN = 1, TV = 1, LIMIT_L =
+-1000 and LIMIT_H = +1000. With the input SUP a noise reduction is set,
+the value on input SUP determines at which control diference, the control￾ler turns on. With SUP is avoided that the output of the controller wob￾bles. The value at the input SUP should be in dimension that it suppresses
+the noise of the controlled system and the sensors. If the input to SUP is
+set to 0.1, the controller is only at deviations greater than 0.1 active. The
+ouput DIFF passes the measured and through a noise flter (DEAD_BAND)
+fltered control deviation. DIFF is normally not required in a controlled sys￾tem but can be used to infuence the control parameters. The input OFS is
+added as the last value to output, and is used to compensate mainly of
+noise, whose efect can be estimated on the loop. 
+The controller works with a dynamic air- Up that prevents that the integra￾tor, when reaching a output limit and further deviation, continues to run
+unlimited and afects the properties usually negative. In the introduction
+chapter of the control technology, more details can be found on anti-wind￾up. 
+The control parameters are given in the form of KP, TN and TV, and if the￾re are parameters KP, KI and KD they can be converted using the following
+formula:
+TN = KP/KI und TV = KD/KP
+The following graph illustrates the internal structure of the controller:
+In the following example, a PID controller is shown whose SET_POINT is ge￾nerated by module TUNE2 using buttons. Output DIFF is passedto a modu￾le PARSET2 which changes the parameters KP, TN, and TV depending on
+the deviation at the output of DIFF.

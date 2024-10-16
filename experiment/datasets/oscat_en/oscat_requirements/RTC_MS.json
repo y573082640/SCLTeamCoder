@@ -1,0 +1,40 @@
+
+{
+  "title": "Real-Time Clock Management Function Block",
+  "description": "This function block, RTC_MS, is responsible for managing the real-time clock by updating the clock value based on the given parameters and maintaining a count of milliseconds since the last update. The block initializes the clock when the SET input is true or after a power-up, and it increments the clock based on the elapsed time measured in milliseconds.",
+  "type": "FUNCTION_BLOCK",
+  "name": "RTC_MS",
+  "input": [
+    {
+      "name": "SET",
+      "type": "BOOL",
+      "description": "A boolean flag to initiate the clock setting process."
+    },
+    {
+      "name": "SDT",
+      "type": "DT",
+      "description": "The current date and time to set the clock to."
+    },
+    {
+      "name": "SMS",
+      "type": "INT",
+      "description": "The initial count of milliseconds to set."
+    }
+  ],
+  "output": [
+    {
+      "name": "XDT",
+      "type": "DT",
+      "description": "The updated date and time after processing."
+    },
+    {
+      "name": "XMS",
+      "type": "INT",
+      "description": "The updated count of milliseconds since the last clock update."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

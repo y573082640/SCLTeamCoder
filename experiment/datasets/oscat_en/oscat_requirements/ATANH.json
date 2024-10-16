@@ -1,0 +1,23 @@
+
+{
+  "title": "Hyperbolic Arctangent Function (ATANH)",
+  "description": "This function calculates the hyperbolic arctangent of a given real number input, X, using the formula ATANH(X) = 0.5 * LN((1 + X) / (1 - X)). The function returns a real number corresponding to the hyperbolic arctangent of the input value.",
+  "type": "FUNCTION",
+  "name": "ATANH",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "A real number input for which the hyperbolic arctangent is to be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The hyperbolic arctangent of the input value X.",
+    "fields": []
+  }
+}
+
+

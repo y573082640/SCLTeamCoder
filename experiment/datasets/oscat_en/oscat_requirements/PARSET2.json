@@ -1,0 +1,140 @@
+
+{
+  "title": "Parsing Input Data and Generating Output Parameters",
+  "description": "This FUNCTION_BLOCK named 'PARSET2' processes various input parameters related to a set of real numbers and time. It initializes a parameter set and adjusts its internal state based on the input conditions defined by thresholds (L1, L2, L3) to produce multiple output parameters (P1, P2, P3, P4). The goal is to correctly calculate and assign values to the output parameters based on these conditions.",
+  "type": "FUNCTION_BLOCK",
+  "name": "PARSET2",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "Input variable representing a real number."
+    },
+    {
+      "name": "X01",
+      "type": "REAL",
+      "description": "Input variable representing a real number for the parameter set."
+    },
+    {
+      "name": "X02",
+      "type": "REAL",
+      "description": "Input variable representing a real number for the parameter set."
+    },
+    {
+      "name": "X03",
+      "type": "REAL",
+      "description": "Input variable representing a real number for the parameter set."
+    },
+    {
+      "name": "X04",
+      "type": "REAL",
+      "description": "Input variable representing a real number for the parameter set."
+    },
+    {
+      "name": "X11",
+      "type": "REAL",
+      "description": "Input variable representing a real number for the parameter set."
+    },
+    {
+      "name": "X12",
+      "type": "REAL",
+      "description": "Input variable representing a real number for the parameter set."
+    },
+    {
+      "name": "X13",
+      "type": "REAL",
+      "description": "Input variable representing a real number for the parameter set."
+    },
+    {
+      "name": "X14",
+      "type": "REAL",
+      "description": "Input variable representing a real number for the parameter set."
+    },
+    {
+      "name": "X21",
+      "type": "REAL",
+      "description": "Input variable representing a real number for the parameter set."
+    },
+    {
+      "name": "X22",
+      "type": "REAL",
+      "description": "Input variable representing a real number for the parameter set."
+    },
+    {
+      "name": "X23",
+      "type": "REAL",
+      "description": "Input variable representing a real number for the parameter set."
+    },
+    {
+      "name": "X24",
+      "type": "REAL",
+      "description": "Input variable representing a real number for the parameter set."
+    },
+    {
+      "name": "X31",
+      "type": "REAL",
+      "description": "Input variable representing a real number for the parameter set."
+    },
+    {
+      "name": "X32",
+      "type": "REAL",
+      "description": "Input variable representing a real number for the parameter set."
+    },
+    {
+      "name": "X33",
+      "type": "REAL",
+      "description": "Input variable representing a real number for the parameter set."
+    },
+    {
+      "name": "X34",
+      "type": "REAL",
+      "description": "Input variable representing a real number for the parameter set."
+    },
+    {
+      "name": "L1",
+      "type": "REAL",
+      "description": "Threshold value for condition checking."
+    },
+    {
+      "name": "L2",
+      "type": "REAL",
+      "description": "Threshold value for condition checking."
+    },
+    {
+      "name": "L3",
+      "type": "REAL",
+      "description": "Threshold value for condition checking."
+    },
+    {
+      "name": "TC",
+      "type": "TIME",
+      "description": "Time parameter used for initialization of parameter set."
+    }
+  ],
+  "output": [
+    {
+      "name": "P1",
+      "type": "REAL",
+      "description": "Output variable representing the first calculated parameter."
+    },
+    {
+      "name": "P2",
+      "type": "REAL",
+      "description": "Output variable representing the second calculated parameter."
+    },
+    {
+      "name": "P3",
+      "type": "REAL",
+      "description": "Output variable representing the third calculated parameter."
+    },
+    {
+      "name": "P4",
+      "type": "REAL",
+      "description": "Output variable representing the fourth calculated parameter."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

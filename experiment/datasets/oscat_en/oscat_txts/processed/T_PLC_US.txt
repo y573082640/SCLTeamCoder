@@ -1,0 +1,52 @@
+Type Function: DWORD
+Output DWORD (SPS Timer in microseconds) 
+T_PLC_US returns the current internal PLC time in microseconds. This has
+nothing to do with a possibly existing clock (Real Time Module), but is the
+internal Timer of a PLC that is used as a time reference. 
+The source code of the module has the following characteristics:
+FUNCTION T_PLC_US : DWORD
+VAR CONSTANT
+DEBUG : BOOL := FALSE;
+N : INT := 0;
+OFFSET := 0;
+END_VAR
+VAR
+TEMP : DWORD := 1;
+END_VAR
+T_PLC_US := TIME_TO_DWORD(TIME())*1000;
+IF DEBUG THEN
+T_PLC_US := SHL(T_PLC_US,N) OR SHL(TEMP,N)-1 + OFFSET;
+END_IF;
+In normal operation, the module reads the function TIME() the internal
+Timer of the PLC. Since the internal Timer of the PLC works according to
+IEC standard with 1 millisecond resolution, the read value is multiplied by
+1000 to deliver the value in micro-seconds back. This function was created
+for compatibility reasons in that way, to provide microseconds timer for
+controls, that has a resolution no better than milliseconds, which can then
+be used in other modules. If the existing PLC supports microseconds, this
+function can easily be adjusted only at this point and the accuracy chan￾ges by this simple patch for all the modules that call this feature. The soft￾ware remains portable and future proof. Already, virtually all PLC control￾lers support a resolution in microseconds. This will however not be read
+using standard routines, but provided vendor specifc and non-standard.
+The module T_PLC_US provides so an appropriate interface to these ven￾dor-specifc timers. 
+Another feature of T_PLC_US is a Debug Mode, which allows to produce
+the overfow of the internal PLC Timers and test the software developed
+right shure. The internal Timer of any PLC has, independent of manufac￾turer and type of implementation, after a fxed time an overfow. That
+means that it is running against FF..FFFF (highest value of the correspon￾ding type can be stored) and then starts again at 000..0000. At standard
+PLC Timer is the overfow time 2^32 -1 milliseconds, which is about 49.71
+days. Since this Timer is implemented in a hardware, it initial value can
+not be set, so that after starting the PLC it always starts at 0 and runs up
+to the maximum value. After reaching the maximum value, the infamous
+Timer Overfow arises, which causes fatal consequences in the application
+software , but can only be tested extremely difcult. 
+T_PLC_US ofers several ways to test the overfow and time-dependent
+software. With the constant DEBUG, the test mode is switched on and
+then, using the constants N and ofset , starts the timer at a certain level,
+thus specifcally the overfow can be tested without waiting the 49. Ofset
+defnces a value which is added to the value of the internal Timer . With
+the constant N is determined by how many bits of the internal Timer Value
+is shifted to the left, while the lower N bits are flled with 1. With N thus
+the speed of the internal Timers can be increased by factors of 2,4,8,16
+and so on. 
+T_PLC_US thus ofers all possibilities to test time-dependent software, both
+for the problem of overfow, and for very slow time-dependent functions.
+The constant DEBUG, N and OFFSET were intentionally not implemented
+as inputs of the function to avoid accidental misuse.

@@ -1,0 +1,22 @@
+
+{
+  "title": "Decimal to DWORD Conversion Function",
+  "description": "This function converts a decimal string representation into a DWORD (Double Word) numeric format. The function reads each character of the input string, validates if it represents a decimal digit, and accumulates its value to produce the final DWORD result.",
+  "type": "FUNCTION",
+  "name": "DEC_TO_DWORD",
+  "input": [
+    {
+      "name": "DEC",
+      "type": "STRING[20]",
+      "description": "A string of up to 20 characters representing a decimal number."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "The resulting DWORD value obtained from the decimal string conversion."
+  }
+}
+
+

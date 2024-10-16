@@ -1,0 +1,27 @@
+
+{
+  "title": "Find Control Character in String",
+  "description": "This function identifies the position of the first control character (ASCII values less than 32 or equal to 127) in a given string starting from a specified position. If no control character is found, it returns 0.",
+  "type": "FUNCTION",
+  "name": "FIND_CTRL",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING(STRING_LENGTH)",
+      "description": "The string in which to search for control characters."
+    },
+    {
+      "name": "pos",
+      "type": "INT",
+      "description": "The position in the string from which to start the search."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The position of the first control character found in the string. Returns 0 if no control character is found."
+  }
+}
+
+

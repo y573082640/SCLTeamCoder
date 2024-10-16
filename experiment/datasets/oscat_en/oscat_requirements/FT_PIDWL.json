@@ -1,0 +1,60 @@
+
+{
+  "title": "PID Controller with Derivative Action",
+  "description": "This FUNCTION_BLOCK implements a PID (Proportional-Integral-Derivative) controller with an additional derivative action. The block calculates the controller output based on input parameters and applies limits to ensure output stays within specified bounds. The reset functionality allows for reinitialization of the controller state.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FT_PIDWL",
+  "input": [
+    {
+      "name": "IN",
+      "type": "REAL",
+      "description": "The input value to the PID controller."
+    },
+    {
+      "name": "KP",
+      "type": "REAL",
+      "description": "The proportional gain, default value is 1.0."
+    },
+    {
+      "name": "TN",
+      "type": "REAL",
+      "description": "The time constant for the integral term, default value is 1.0."
+    },
+    {
+      "name": "TV",
+      "type": "REAL",
+      "description": "The time constant for the derivative term, default value is 1.0."
+    },
+    {
+      "name": "LIM_L",
+      "type": "REAL",
+      "description": "Lower limit for the output, default value is -1E+38."
+    },
+    {
+      "name": "LIM_H",
+      "type": "REAL",
+      "description": "Upper limit for the output, default value is 1E+38."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Boolean flag to reset the controller state."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "The output value of the PID controller after processing."
+    },
+    {
+      "name": "LIM",
+      "type": "BOOL",
+      "description": "Indicates whether the output has been limited."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

@@ -1,0 +1,5 @@
+Type Function: COMPLEX
+Input X: COMPLEX (Input) 
+Output COMPLEX (result)
+CTANH calculates the hyperbolic tangent of a complex number
+ 8. Arithmetics with Double Precision

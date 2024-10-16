@@ -1,0 +1,15 @@
+Type Function: REAL
+Input T: REAL (temperature in °C)
+R0: REAL (resistance at 0° C)
+Output REAL (resistance)
+RES_PT calculates the resistance of a PT resistance sensor from the input
+values T (temperature in °C) and R0 (resistance at 0°C).
+The calculation is done using the formula:
+for temperatures > 0 °C
+RES_PT = R0 * (1 + A*T + B*T²)
+and for temperatures below 0 ° C
+RES_PT = R0 * (1 + A*T + B*T² + C*(T-100)*T³
+A = 3.90802E-3
+B = -5.80195E-7
+C = -427350E-12
+The calculation is suitable for temperatures from -200.. +850°C.

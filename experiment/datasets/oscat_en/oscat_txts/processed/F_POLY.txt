@@ -1,0 +1,6 @@
+Type Function: REAL
+Input X: REAL (input)
+C: ARRAY[0..7] of REAL (polynomial coefcients) 
+Output REAL (result of the polynomial equation)
+F_POLY calculates a polynomial of 7th degree.
+F_POLY = C[0] + C[1] * X^1 + C[2] * X^2 + ...C[7] * X^7

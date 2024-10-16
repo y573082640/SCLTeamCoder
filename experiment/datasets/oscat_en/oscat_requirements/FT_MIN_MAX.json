@@ -1,0 +1,35 @@
+
+{
+  "title": "Minimum and Maximum Value Calculation",
+  "description": "This function block calculates the minimum and maximum values from a stream of input data. It resets the calculated values when requested and initializes them based on the first input received.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FT_MIN_MAX",
+  "input": [
+    {
+      "name": "in",
+      "type": "REAL",
+      "description": "The input value for which the minimum or maximum is to be calculated."
+    },
+    {
+      "name": "rst",
+      "type": "BOOL",
+      "description": "A reset flag that, when true, resets the minimum and maximum values."
+    }
+  ],
+  "output": [
+    {
+      "name": "mx",
+      "type": "REAL",
+      "description": "The current maximum value calculated."
+    },
+    {
+      "name": "mn",
+      "type": "REAL",
+      "description": "The current minimum value calculated."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

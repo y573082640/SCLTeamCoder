@@ -1,0 +1,30 @@
+
+{
+  "title": "DT Simulation Function Block",
+  "description": "This function block simulates a time-based increment based on an input start time and a speed factor. It calculates the elapsed time using the PLC system timer, modifies the time according to the speed, and updates the output with the new time value.",
+  "type": "FUNCTION_BLOCK",
+  "name": "DT_SIMU",
+  "input": [
+    {
+      "name": "START",
+      "type": "DT",
+      "description": "The starting date and time value for the simulation."
+    },
+    {
+      "name": "SPEED",
+      "type": "REAL",
+      "description": "The speed factor that modifies the time increment, with a default value of 1.0."
+    }
+  ],
+  "output": [
+    {
+      "name": "DTS",
+      "type": "DT",
+      "description": "The updated date and time value after applying the simulation logic."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

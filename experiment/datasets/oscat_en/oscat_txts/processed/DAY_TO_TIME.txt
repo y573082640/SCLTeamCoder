@@ -1,0 +1,6 @@
+Type Function: TIME 
+Input IN : REAL (number of days with decimal places) 
+Output TIME ( TIME ) 
+The function DAY_TO_TIME calculates a value (TIME) from the input value
+in days as REAL.
+Example: DAY_TO_TIME(1.1) = T#26h24m

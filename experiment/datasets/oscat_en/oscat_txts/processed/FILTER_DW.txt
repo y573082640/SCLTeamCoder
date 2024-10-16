@@ -1,0 +1,8 @@
+Type Function: DWORD
+Input X: DWORD (input)
+T: TIME (time constant of the flter)
+Output Y: DWORD (fltered value)
+FILTER_DW is a flter of the frst degree for 32-bit DWORD data. The main
+application is the fltering of sensor signals for noise reduction. The basic
+functionality of a flter of the frst degree can be found in the module
+FT_PT1.

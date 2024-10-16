@@ -1,0 +1,23 @@
+
+{
+  "title": "Convert Omega to Frequency",
+  "description": "This function takes an input represented as 'OM' (Omega) and converts it into a frequency value by dividing it by the constant value of 2 times pi. The output of the function is a real number that represents the frequency.",
+  "type": "FUNCTION",
+  "name": "OM_TO_F",
+  "input": [
+    {
+      "name": "OM",
+      "type": "REAL",
+      "description": "The input value representing Omega (angular velocity) in real number format."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The function returns the computed frequency as a real number value.",
+    "fields": []
+  }
+}
+
+

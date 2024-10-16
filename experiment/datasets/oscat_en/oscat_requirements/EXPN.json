@@ -1,0 +1,33 @@
+
+{
+  "title": "Exponentiation Function",
+  "description": "This function calculates the exponentiation of a real number X raised to the power N, where N can be a positive or negative integer. The function handles negative exponents by returning the reciprocal of the result and utilizes bitwise operations for efficient computation.",
+  "type": "FUNCTION",
+  "name": "EXPN",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The base value which is a real number."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "The exponent value which is an integer. It can be positive or negative."
+    }
+  ],
+  "output": [
+    {
+      "name": "EXPN",
+      "type": "REAL",
+      "description": "The result of the calculation, representing X raised to the power of N."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The real number result of the exponentiation."
+  }
+}
+
+

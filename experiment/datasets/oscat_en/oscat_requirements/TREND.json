@@ -1,0 +1,40 @@
+
+{
+  "title": "Trend Function Block",
+  "description": "The TREND function block is designed to monitor the trend of an input variable 'X'. It computes whether the input has increased or decreased in comparison to its last value, outputs a boolean indicating any change, and provides the difference between the current and last values of 'X'.",
+  "type": "FUNCTION_BLOCK",
+  "name": "TREND",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "Input variable representing the current value being monitored."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "Output indicating whether the input variable 'X' has changed (increased or decreased)."
+    },
+    {
+      "name": "TU",
+      "type": "BOOL",
+      "description": "Output indicating if 'X' is greater than the last recorded value."
+    },
+    {
+      "name": "TD",
+      "type": "BOOL",
+      "description": "Output indicating if 'X' is less than the last recorded value."
+    },
+    {
+      "name": "D",
+      "type": "REAL",
+      "description": "Output representing the difference between the current value 'X' and the last value."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

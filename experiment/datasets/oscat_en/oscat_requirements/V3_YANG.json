@@ -1,0 +1,23 @@
+
+{
+  "title": "Calculate Angle from Vector",
+  "description": "This function calculates the angle of a 3D vector in relation to its Y component, returning the angle in radians. It takes a vector input and processes it to determine the angle only if the vector's magnitude is greater than zero.",
+  "type": "FUNCTION",
+  "name": "V3_YANG",
+  "input": [
+    {
+      "name": "A",
+      "type": "Vector_3",
+      "description": "A 3-dimensional vector for which the angle will be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The computed angle in radians based on the Y component of the vector.",
+    "fields": []
+  }
+}
+
+

@@ -1,0 +1,37 @@
+
+{
+  "title": "String to Buffer Conversion",
+  "description": "This function converts a substring of a given string into a byte buffer, starting from a specified position and adhering to the maximum size constraints of the buffer. The function returns the position following the last byte written to the buffer.",
+  "type": "FUNCTION",
+  "name": "_STRING_TO_BUFFER",
+  "input": [
+    {
+      "name": "STR",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "The input string to be converted to a byte buffer."
+    },
+    {
+      "name": "POS",
+      "type": "INT",
+      "description": "The starting position in the byte buffer to begin writing the bytes."
+    },
+    {
+      "name": "PT",
+      "type": "POINTER TO ARRAY[0..32767] OF BYTE",
+      "description": "A pointer to the byte array where the converted bytes are stored."
+    },
+    {
+      "name": "SIZE",
+      "type": "UINT",
+      "description": "The size of the buffer, which defines the maximum number of bytes that can be written."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The position in the byte buffer after the last byte written from the input string."
+  }
+}
+
+

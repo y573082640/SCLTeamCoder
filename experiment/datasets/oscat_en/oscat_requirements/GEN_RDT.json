@@ -1,0 +1,40 @@
+
+{
+  "title": "GEN_RDT Function Block",
+  "description": "The GEN_RDT function block is designed to manage a timing control mechanism, generating a cyclic output based on specified minimum and maximum time intervals. It utilizes a TON timer for timing generation and a TOF timer for output control. The block enables timed outputs and includes parameters for configuring timing durations.",
+  "type": "FUNCTION_BLOCK",
+  "name": "GEN_RDT",
+  "input": [
+    {
+      "name": "Enable",
+      "type": "BOOL",
+      "description": "A boolean to enable or disable the function block operation."
+    },
+    {
+      "name": "Min_Time_ms",
+      "type": "TIME",
+      "description": "The minimum time interval (Taktzeit) for the output generation."
+    },
+    {
+      "name": "Max_Time_ms",
+      "type": "TIME",
+      "description": "The maximum time interval (Taktzeit) for the output generation."
+    },
+    {
+      "name": "TP_Q",
+      "type": "TIME",
+      "description": "The duration for which the output should remain in the TRUE state."
+    }
+  ],
+  "output": [
+    {
+      "name": "xQ",
+      "type": "BOOL",
+      "description": "A boolean output that indicates the state of the output based on the timing conditions."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

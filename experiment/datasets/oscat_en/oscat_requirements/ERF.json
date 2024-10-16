@@ -1,0 +1,22 @@
+
+{
+  "title": "Error Function Calculation",
+  "description": "This function computes the error function (ERF) for a given real number input. The implementation includes a mathematical transformation to derive the ERF value using the input variable X.",
+  "type": "FUNCTION",
+  "name": "ERF",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "A real number input for which the error function is to be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated value of the error function for the input X."
+  }
+}
+
+

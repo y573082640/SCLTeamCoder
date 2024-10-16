@@ -1,0 +1,27 @@
+
+{
+  "title": "Standard Deviation Calculation",
+  "description": "This function calculates the standard deviation of an array of real numbers. It takes as input a pointer to an array of real numbers and the size of the array. The standard deviation is calculated as the square root of the variance of the given array.",
+  "type": "FUNCTION",
+  "name": "ARRAY_SDV",
+  "input": [
+    {
+      "name": "pt",
+      "type": "POINTER TO ARRAY[0..32000] OF REAL",
+      "description": "A pointer to an array of real numbers whose standard deviation is to be calculated."
+    },
+    {
+      "name": "size",
+      "type": "UINT",
+      "description": "The size of the array, indicating the number of elements in the input array."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated standard deviation of the input array of real numbers."
+  }
+}
+
+

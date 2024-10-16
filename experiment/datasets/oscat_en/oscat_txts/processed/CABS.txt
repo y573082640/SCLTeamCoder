@@ -1,0 +1,5 @@
+Type Function: REAL
+Input X: COMPLEX (Input) 
+Output REAL (result)
+CABS calculates the length of the vector of a complex number The absolu￾te value is also module or Magnitude mentioned.
+CABS = SQRT(X.RE² + X.IM²)

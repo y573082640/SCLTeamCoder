@@ -1,0 +1,32 @@
+Type Function module
+Input IN: REAL (input signal)
+KP: REAL (proportional part of the controller)
+KI: REAL (integral part of the controller)
+LIM_L: REAL (lower limit of the integrator output)
+ILIM_H: REAL (upper limit of the integrator output)
+RST: BOOL (asynchronous reset input)
+Output Y: REAL (output of the controller)
+LIM: BOOL (TRUE if the output has reached a limit)
+FT_PIWL is a PI controller with dynamic anti-wind Up and works according
+the following formular: 
+Y = KP * IN + KI * INTEG(IN)
+The input values LIM_H and LIM_L limit the range of the output Y. With
+RST, the internal Integrator can always be set to 0. The output LIM indica￾tes that the Output Y runs to one of the limits LIM_L orL IM_H. The PI con￾troller is free running and uses the trapezoidal rule to calculate the inte￾grator for the highest accuracy and optimal speed. The default values of
+the input parameters are predefned as follows: KP = 1, CI = 1, ILIM_L=
+-1E38 and ILIM_H = +1E38. 
+Anti Wind-Up: Control modules with Integrator tend to the so-called Wind￾Up Efect. A Wind-Up means that the integrator module continuously run
+again because, for example, the control signal Y is at a limit and the sys￾tem can not compensate the deviation, which then leads to subsequent
+transition into the control range until a long and time-consuming dismant￾ling of the integrator value and the scheme only respond delayed. Since
+the integrator is only necessary to compensate the deviation for all other
+control units, and the range of the integrator should be limited with the
+values of ILIM.
+The module FT_PIWL has a so-called dynamic-wind Up Reset which resets
+reaching a limit (LIM_L, LIM_H) the Integrator to a value corresponding of
+the output limit. After reaching a Limits the controller re-enters the work
+area must the Integrator are not frst or Down-integrated, and the control￾ler is ready for use without delay. The dynamic Anti-Wind Up Method is
+that in most cases without drawbacks preferred method, because it does
+not negatively afect the control and prevents the disadvantages of
+Wind_Up . 
+The following graph illustrates the internal structure of the controller:
+FT_PIWL can used together with the modules CTRL_IN and CTRL_OUT to
+build complex controllers.

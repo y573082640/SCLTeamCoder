@@ -1,0 +1,35 @@
+
+{
+  "title": "TON Timer Function Block",
+  "description": "This function block implements a timer functionality where an input signal 'IN' starts the timer for a specified duration 'PT'. When the timer reaches the specified duration, the output 'Q' is set to FALSE. The timer can be reset using the 'RST' input, which immediately clears the output 'Q'.",
+  "type": "FUNCTION_BLOCK",
+  "name": "TOF_1",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BOOL",
+      "description": "Input signal to start the timer."
+    },
+    {
+      "name": "PT",
+      "type": "TIME",
+      "description": "Preset time duration for the timer."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Reset signal to clear the output."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "Output signal indicating the state of the timer."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

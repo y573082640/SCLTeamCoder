@@ -1,0 +1,23 @@
+
+{
+  "title": "Convert DWORD to REAL",
+  "description": "This function takes an input of type DWORD and converts it into a REAL type. The function uses a pointer to achieve the conversion, ensuring that the value is correctly interpreted as a REAL number.",
+  "type": "FUNCTION",
+  "name": "DW_TO_REAL",
+  "input": [
+    {
+      "name": "X",
+      "type": "DWORD",
+      "description": "The DWORD input variable that needs to be converted to REAL."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The REAL value obtained from the conversion of the input DWORD.",
+    "fields": []
+  }
+}
+
+

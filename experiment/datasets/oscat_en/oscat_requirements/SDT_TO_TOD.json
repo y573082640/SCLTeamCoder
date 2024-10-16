@@ -1,0 +1,23 @@
+
+{
+  "title": "Conversion from SDT to TOD",
+  "description": "This function converts a time represented in the SDT (Structured Date Time) format to the TOD (Time of Day) format. It takes the HOUR, MINUTE, SECOND, and MS (milliseconds) from the SDT structure, performs necessary conversions and calculations, and returns the total time in milliseconds as a DWORD value.",
+  "type": "FUNCTION",
+  "name": "SDT_TO_TOD",
+  "input": [
+    {
+      "name": "DTI",
+      "type": "SDT",
+      "description": "The input parameter of type SDT that contains the hours, minutes, seconds, and milliseconds to be converted."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "TOD",
+    "description": "The converted time of day in milliseconds as a DWORD.",
+    "fields": []
+  }
+}
+
+

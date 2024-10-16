@@ -1,0 +1,23 @@
+
+{
+  "title": "Check Real Number",
+  "description": "This function checks the IEEE754 representation of a real number and returns a corresponding byte value indicating the status of the number: normalized, denormalized, positive infinity, negative infinity, or NaN.",
+  "type": "FUNCTION",
+  "name": "CHK_REAL",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The real number to be checked."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BYTE",
+    "description": "Returns a byte indicating the status of the real number according to IEEE754 standards.",
+    "fields": []
+  }
+}
+
+

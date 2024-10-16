@@ -1,0 +1,40 @@
+
+{
+  "title": "Increment/Decrement Counter Function Block",
+  "description": "This function block implements a counter that can be incremented or decremented based on the input signals. It uses two channels (CHa, CHb) to determine the counting direction and an optional reset signal (RST) to set the counter back to zero.",
+  "type": "FUNCTION_BLOCK",
+  "name": "INC_DEC",
+  "input": [
+    {
+      "name": "CHa",
+      "type": "BOOL",
+      "description": "Input signal for channel A. Determines if an increment or decrement pulse is generated."
+    },
+    {
+      "name": "CHb",
+      "type": "BOOL",
+      "description": "Input signal for channel B. Determines if an increment or decrement pulse is generated."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Reset signal. When active, resets the counter to zero."
+    }
+  ],
+  "output": [
+    {
+      "name": "dir",
+      "type": "BOOL",
+      "description": "Output indicating the direction of counting. TRUE for increment, FALSE for decrement."
+    },
+    {
+      "name": "cnt",
+      "type": "INT",
+      "description": "Output showing the current value of the counter."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

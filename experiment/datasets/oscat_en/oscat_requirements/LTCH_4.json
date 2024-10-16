@@ -1,0 +1,65 @@
+
+{
+  "title": "4-bit Latch Function Block",
+  "description": "This function block implements a 4-bit latch, where the output reflects the state of the inputs as long as a control signal (L) is true. An asynchronous reset (RST) will clear the output regardless of inputs.",
+  "type": "FUNCTION_BLOCK",
+  "name": "LTCH_4",
+  "input": [
+    {
+      "name": "D0",
+      "type": "BOOL",
+      "description": "First data input for the latch."
+    },
+    {
+      "name": "D1",
+      "type": "BOOL",
+      "description": "Second data input for the latch."
+    },
+    {
+      "name": "D2",
+      "type": "BOOL",
+      "description": "Third data input for the latch."
+    },
+    {
+      "name": "D3",
+      "type": "BOOL",
+      "description": "Fourth data input for the latch."
+    },
+    {
+      "name": "L",
+      "type": "BOOL",
+      "description": "Control signal that determines if the latch is transparent."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Asynchronous reset signal that resets the output."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q0",
+      "type": "BOOL",
+      "description": "Output corresponding to the first data input."
+    },
+    {
+      "name": "Q1",
+      "type": "BOOL",
+      "description": "Output corresponding to the second data input."
+    },
+    {
+      "name": "Q2",
+      "type": "BOOL",
+      "description": "Output corresponding to the third data input."
+    },
+    {
+      "name": "Q3",
+      "type": "BOOL",
+      "description": "Output corresponding to the fourth data input."
+    }
+  ],
+  "in/out": [],
+  "return_value": {}
+}
+
+

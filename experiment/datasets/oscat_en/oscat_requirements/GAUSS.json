@@ -1,0 +1,32 @@
+
+{
+  "title": "Gaussian Function",
+  "description": "This function calculates the value of the Gaussian (normal distribution) function based on the input parameters X, U, and SI. It computes the exponential component and normalizes it using the standard deviation.",
+  "type": "FUNCTION",
+  "name": "GAUSS",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The value at which to evaluate the Gaussian function."
+    },
+    {
+      "name": "U",
+      "type": "REAL",
+      "description": "The mean (average) of the distribution."
+    },
+    {
+      "name": "SI",
+      "type": "REAL",
+      "description": "The standard deviation of the distribution."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The computed value of the Gaussian function at the specified point X."
+  }
+}
+
+

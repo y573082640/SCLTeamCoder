@@ -1,0 +1,4 @@
+Type Function: REAL
+Input X: REAL (input)
+Output REAL (output value)
+ACOSH calculates the arcus hyperbolic cosine of the following formula:

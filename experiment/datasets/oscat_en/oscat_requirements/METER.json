@@ -1,0 +1,50 @@
+
+{
+  "title": "METER Function Block",
+  "description": "This function block measures the current consumption based on the input parameters and maintains an output value that can be used for further processing. It accounts for execution timing and supports resetting of the measured values.",
+  "type": "FUNCTION_BLOCK",
+  "name": "METER",
+  "input": [
+    {
+      "name": "M1",
+      "type": "REAL",
+      "description": "First measurement input."
+    },
+    {
+      "name": "M2",
+      "type": "REAL",
+      "description": "Second measurement input."
+    },
+    {
+      "name": "I1",
+      "type": "BOOL",
+      "description": "Boolean indicator for the first measurement."
+    },
+    {
+      "name": "I2",
+      "type": "BOOL",
+      "description": "Boolean indicator for the second measurement."
+    },
+    {
+      "name": "D",
+      "type": "REAL",
+      "description": "Divisor used for calculations, defaults to 1.0."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Reset signal to initialize measured values."
+    }
+  ],
+  "output": [
+    {
+      "name": "MX",
+      "type": "REAL",
+      "description": "Current output value reflecting the consumption measurement."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

@@ -1,0 +1,55 @@
+
+{
+  "title": "Speed Conversion Function Block",
+  "description": "This function block performs conversions between various speed units: meters per second (m/s), kilometers per hour (km/h), knots (kn), and miles per hour (mh). The function block takes input values in each of these units and calculates their equivalent values.",
+  "type": "FUNCTION_BLOCK",
+  "name": "SPEED",
+  "input": [
+    {
+      "name": "ms",
+      "type": "REAL",
+      "description": "Speed in meters per second (m/s)"
+    },
+    {
+      "name": "kmh",
+      "type": "REAL",
+      "description": "Speed in kilometers per hour (km/h)"
+    },
+    {
+      "name": "kn",
+      "type": "REAL",
+      "description": "Speed in knots (kn)"
+    },
+    {
+      "name": "mh",
+      "type": "REAL",
+      "description": "Speed in miles per hour (mh)"
+    }
+  ],
+  "output": [
+    {
+      "name": "Yms",
+      "type": "REAL",
+      "description": "Converted speed in meters per second (m/s)"
+    },
+    {
+      "name": "Ykmh",
+      "type": "REAL",
+      "description": "Converted speed in kilometers per hour (km/h)"
+    },
+    {
+      "name": "Ykn",
+      "type": "REAL",
+      "description": "Converted speed in knots (kn)"
+    },
+    {
+      "name": "Ymh",
+      "type": "REAL",
+      "description": "Converted speed in miles per hour (mh)"
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

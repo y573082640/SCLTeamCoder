@@ -1,0 +1,13 @@
+Type Function: BOOL
+Input PT: Pointer (Pointer to the array) 
+SIZE: UINT (size of the array)
+INIT: REAL (initial value)
+Output BOOL (TRUE)
+The function _ARRAY_INIT initializes an arbitrary array of REAL with an in￾itial value. When called, a pointer to the array and its size in bytes is
+transferred to the function. Under CoDeSys the call reads:
+_ARRAY_INIT(ADR(Array), SIZEOF(Array), INIT), where array is the name of
+the array to be manipulated. ADR() is a standard function which identifes
+the pointer to the array and SIZEOF() is a standard function, which deter￾mines the size of the array. The function only returns TRUE. The array spe￾cifed by the pointer is manipulated directly in memory. 
+This type of processing arrays is very efcient because no additional me￾mory is required and no surrender values must be copied.
+Example: _ARRAY_INIT(ADR(bigarray), SIZEOF(bigarray), 0)
+initialized bigarray with 0.

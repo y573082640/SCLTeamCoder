@@ -1,0 +1,4 @@
+Type Function module
+Input PT: TIME (cycle time)
+Output Q: BOOL (clock output)
+CLK_PRG generates clock pulses with a programmable period PT. The out￾put pulses are only one PLC cycle.

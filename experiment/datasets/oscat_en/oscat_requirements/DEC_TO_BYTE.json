@@ -1,0 +1,23 @@
+
+{
+  "title": "Decimal to Byte Conversion",
+  "description": "This function converts a decimal number given as a string to its corresponding byte value. The input string can be up to 10 characters long and represents a non-negative integer. The function iteratively reads each character of the string, validates it, and converts it to a byte representation.",
+  "type": "FUNCTION",
+  "name": "DEC_TO_BYTE",
+  "input": [
+    {
+      "name": "DEC",
+      "type": "STRING(10)",
+      "description": "A string representation of a decimal number to be converted to byte."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BYTE",
+    "description": "The byte representation of the input decimal string.",
+    "fields": []
+  }
+}
+
+

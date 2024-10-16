@@ -1,0 +1,23 @@
+
+{
+  "title": "Convert Hours to Time",
+  "description": "This function converts a given input in hours (as a REAL type) into a TIME type by multiplying the input by 3600000 (the number of milliseconds in an hour) and converting it to DWORD.",
+  "type": "FUNCTION",
+  "name": "HOUR_TO_TIME",
+  "input": [
+    {
+      "name": "IN",
+      "type": "REAL",
+      "description": "The input value representing time in hours."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "TIME",
+    "description": "The converted time in the TIME format.",
+    "fields": []
+  }
+}
+
+

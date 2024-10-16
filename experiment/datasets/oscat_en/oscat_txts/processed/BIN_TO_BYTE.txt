@@ -1,0 +1,5 @@
+Type Function: BYTE
+Input BIN: STRING (12) (Octal string)
+Output BYTE (output value)
+The function BIN_TO_BYTE converts a binary encoded string in a BYTE va￾lue. There, this method only binary characters are '0 'and '1' is interpre￾ted, others in BIN occurring characters are ignored.
+Example: BIN_TO_BYTE ('11 ') result 3.

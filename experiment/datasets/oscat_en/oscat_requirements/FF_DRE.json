@@ -1,0 +1,40 @@
+
+{
+  "title": "Flip-Flop Dynamic Reset and Set",
+  "description": "This FUNCTION_BLOCK implements a flip-flop with dynamic reset (RST) and set (SET) inputs. The block outputs a boolean Q based on the state of the inputs (D, CLK, RST, SET). It updates the output Q on the rising edge of the clock input (CLK) or when a reset or set request is made. If the reset (RST) is active, Q is set to NOT RST. Otherwise, Q follows the data input (D) when the clock signal rises.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FF_DRE",
+  "input": [
+    {
+      "name": "SET",
+      "type": "BOOL",
+      "description": "Input to set the output Q to high."
+    },
+    {
+      "name": "D",
+      "type": "BOOL",
+      "description": "Data input that determines the value of output Q when CLK is high."
+    },
+    {
+      "name": "CLK",
+      "type": "BOOL",
+      "description": "Clock input that triggers the update of output Q on its rising edge."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Input to reset the output Q."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "Output that represents the state of the flip-flop."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

@@ -1,0 +1,95 @@
+
+{
+  "title": "TUNE2 Function Block",
+  "description": "The TUNE2 function block is designed to control a variable output (Y) based on user-defined inputs including set, reset, and speed adjustment commands. It implements a state machine to handle slow and fast up/down operations while ensuring the output remains within specified limits. The block also allows for timing-based ramp adjustments based on input parameters.",
+  "type": "FUNCTION_BLOCK",
+  "name": "TUNE2",
+  "input": [
+    {
+      "name": "SET",
+      "type": "BOOL",
+      "description": "Indicator to set the output to SET_val."
+    },
+    {
+      "name": "SU",
+      "type": "BOOL",
+      "description": "Signal to initiate a slow step up operation."
+    },
+    {
+      "name": "SD",
+      "type": "BOOL",
+      "description": "Signal to initiate a slow step down operation."
+    },
+    {
+      "name": "FU",
+      "type": "BOOL",
+      "description": "Signal to initiate a fast step up operation."
+    },
+    {
+      "name": "FD",
+      "type": "BOOL",
+      "description": "Signal to initiate a fast step down operation."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Indicator to reset the output to RST_val."
+    },
+    {
+      "name": "SS",
+      "type": "REAL",
+      "description": "The amount to be added or subtracted during each slow step operation."
+    },
+    {
+      "name": "FS",
+      "type": "REAL",
+      "description": "The amount to be added or subtracted during each fast step operation."
+    },
+    {
+      "name": "Limit_L",
+      "type": "REAL",
+      "description": "The lower limit for the output."
+    },
+    {
+      "name": "LIMIT_H",
+      "type": "REAL",
+      "description": "The upper limit for the output."
+    },
+    {
+      "name": "RST_val",
+      "type": "REAL",
+      "description": "The value to assign to Y when the reset is triggered."
+    },
+    {
+      "name": "SET_val",
+      "type": "REAL",
+      "description": "The value to assign to Y when the set operation is triggered."
+    },
+    {
+      "name": "TR",
+      "type": "TIME",
+      "description": "The time duration for the ramp operation."
+    },
+    {
+      "name": "S1",
+      "type": "REAL",
+      "description": "The speed factor used for slow movements."
+    },
+    {
+      "name": "S2",
+      "type": "REAL",
+      "description": "The speed factor used for fast movements."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "The output value after processing commands."
+    }
+  ],
+  "in/out": [],
+  "return_value": {}
+}
+
+

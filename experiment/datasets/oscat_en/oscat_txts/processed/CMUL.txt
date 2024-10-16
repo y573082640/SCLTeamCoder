@@ -1,0 +1,5 @@
+Type Function: COMPLEX
+Input X: COMPLEX (Input) 
+Y:COMPLEX(Input value)
+Output COMPLEX (result)
+CMUL Multiplies two complex numbers X and Y.

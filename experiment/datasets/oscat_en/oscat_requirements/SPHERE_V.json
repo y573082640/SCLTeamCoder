@@ -1,0 +1,22 @@
+
+{
+  "title": "Calculate Volume of a Sphere",
+  "description": "This function calculates the volume of a sphere given its radius. The volume is computed using the formula V = (4/3) * π * r^3. The function takes the radius of the sphere as an input and returns the computed volume as a real number.",
+  "type": "FUNCTION",
+  "name": "SPHERE_V",
+  "input": [
+    {
+      "name": "rx",
+      "type": "REAL",
+      "description": "The radius of the sphere."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated volume of the sphere."
+  }
+}
+
+

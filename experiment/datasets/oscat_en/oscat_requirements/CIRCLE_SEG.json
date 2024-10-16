@@ -1,0 +1,27 @@
+
+{
+  "title": "Calculate Circle Segment Area",
+  "description": "This function calculates the area of a circle segment given the radius (RX) and height (HX) of the segment. The function first checks if the radius is greater than zero. If it is, it proceeds to compute the angle of the segment and then calculates the area using the formula for a circle segment.",
+  "type": "FUNCTION",
+  "name": "CIRCLE_SEG",
+  "input": [
+    {
+      "name": "RX",
+      "type": "REAL",
+      "description": "The radius of the circle."
+    },
+    {
+      "name": "HX",
+      "type": "REAL",
+      "description": "The height of the circle segment."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The area of the circle segment calculated using the provided radius and height."
+  }
+}
+
+

@@ -1,0 +1,34 @@
+
+{
+  "title": "Hyperbolic Complex Inverse Sine Function",
+  "description": "This function calculates the hyperbolic inverse sine of a complex number using its real and imaginary parts. The function processes the input complex number and returns another complex number representing the result.",
+  "type": "FUNCTION",
+  "name": "CASINH",
+  "input": [
+    {
+      "name": "X",
+      "type": "complex",
+      "description": "A complex number for which the hyperbolic inverse sine is to be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "complex",
+    "description": "The hyperbolic inverse sine of the input complex number.",
+    "fields": [
+      {
+        "name": "re",
+        "type": "real",
+        "description": "The real part of the hyperbolic inverse sine result."
+      },
+      {
+        "name": "im",
+        "type": "real",
+        "description": "The imaginary part of the hyperbolic inverse sine result."
+      }
+    ]
+  }
+}
+
+

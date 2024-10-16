@@ -1,0 +1,6 @@
+Type Function
+Input R1: REAL (radius 1)
+R2: REAL (radius 2)
+Output REAL (area of the ellipse)
+ELLIPSE_A calculates the area of an ellipse that is defned by the radii R1
+and R2.

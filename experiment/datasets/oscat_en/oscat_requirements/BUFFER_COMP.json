@@ -1,0 +1,49 @@
+
+{
+  "title": "Buffer Comparison Function",
+  "description": "This function searches for the first occurrence of a specified byte array (PT2) within another byte array (PT1) starting from a specified index (START). If found, it returns the index of the first match in PT1, otherwise it returns -1.",
+  "type": "FUNCTION",
+  "name": "BUFFER_COMP",
+  "input": [
+    {
+      "name": "PT1",
+      "type": "POINTER TO ARRAY [0..32767] OF BYTE",
+      "description": "Pointer to the first byte array where the search will be performed."
+    },
+    {
+      "name": "SIZE1",
+      "type": "INT",
+      "description": "The size of the first byte array (PT1)."
+    },
+    {
+      "name": "PT2",
+      "type": "POINTER TO ARRAY [0..32767] OF BYTE",
+      "description": "Pointer to the second byte array which will be searched within the first byte array."
+    },
+    {
+      "name": "SIZE2",
+      "type": "INT",
+      "description": "The size of the second byte array (PT2)."
+    },
+    {
+      "name": "START",
+      "type": "INT",
+      "description": "The starting index in the first byte array (PT1) from which the search will be initiated."
+    }
+  ],
+  "output": [
+    {
+      "name": "BUFFER_COMP",
+      "type": "INT",
+      "description": "Returns the index of the first match in the first byte array (PT1), or -1 if no match was found."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The return value indicates the position of the first occurrence of the second byte array in the first byte array.",
+    "fields": []
+  }
+}
+
+

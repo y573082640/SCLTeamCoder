@@ -1,0 +1,35 @@
+
+{
+  "title": "FF_RSE Function Block",
+  "description": "The FF_RSE function block is designed to implement a rising edge triggered flip-flop with an asynchronous reset capability. The block uses three input parameters: CS for the clock signal, CR for the reset signal, and RST for an external reset. The output Q indicates the current state of the flip-flop, which can be set to TRUE or FALSE based on the input signals.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FF_RSE",
+  "input": [
+    {
+      "name": "CS",
+      "type": "BOOL",
+      "description": "Clock signal input, triggers a transition on the rising edge."
+    },
+    {
+      "name": "CR",
+      "type": "BOOL",
+      "description": "Reset signal input, sets the output Q to FALSE on the rising edge."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Asynchronous reset signal to set output Q to FALSE immediately."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "Output signal representing the state of the flip-flop (TRUE or FALSE)."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

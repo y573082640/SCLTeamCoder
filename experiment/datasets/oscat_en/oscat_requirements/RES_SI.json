@@ -1,0 +1,33 @@
+
+{
+  "title": "Calculate Resistance Based on Temperature Differences",
+  "description": "This function calculates the resistance based on the input temperature and resistance values, considering the effects of the temperature differences using predefined constants.",
+  "type": "FUNCTION",
+  "name": "RES_SI",
+  "input": [
+    {
+      "name": "T",
+      "type": "REAL",
+      "description": "The current temperature value."
+    },
+    {
+      "name": "RS",
+      "type": "REAL",
+      "description": "The base resistance value."
+    },
+    {
+      "name": "TS",
+      "type": "REAL",
+      "description": "The reference temperature value."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated resistance value based on the inputs and constants.",
+    "fields": []
+  }
+}
+
+

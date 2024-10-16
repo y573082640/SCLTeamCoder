@@ -1,0 +1,34 @@
+
+{
+  "title": "Retrieve Last Element from a List",
+  "description": "This function retrieves the last element from a given list of strings, separating it based on a specified delimiter. The function traverses the list until it finds the last occurrence of the delimiter and returns the substring that comes after it. The input list is modified to terminate at the last delimiter found.",
+  "type": "FUNCTION",
+  "name": "LIST_RETRIEVE_LAST",
+  "input": [
+    {
+      "name": "SEP",
+      "type": "BYTE",
+      "description": "The byte value used as a separator in the list."
+    }
+  ],
+  "output": [
+    {
+      "name": "LIST_RETRIEVE_LAST",
+      "type": "string",
+      "description": "The substring extracted from the list after the last occurrence of the separator."
+    }
+  ],
+  "in/out": [
+    {
+      "name": "LIST",
+      "type": "STRING[LENGTH := LIST_LENGTH]",
+      "description": "The input-output list of characters from which the last element is to be retrieved. This list will be modified to terminate at the last separator."
+    }
+  ],
+  "return_value": {
+    "type": "string",
+    "description": "Returns the last element in the list found after the last separator."
+  }
+}
+
+

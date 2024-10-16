@@ -1,0 +1,9 @@
+Type Function: BOOL
+Input SEP: BYTE (separation sign the list)
+INS: STRING (New Item)
+I / O LIST: STRING(LIST_LENGTH) (input list)
+Output BOOL (TRUE)
+LIST_ADD adds another element to the end of a list. The list consists of
+Strings (elements) that begin with the separation character SEP.
+Example:
+LIST_ADD('&ABC&23&&NEXT', 38, 'NEW') = '&ABC&23&&NEXT&NEW'

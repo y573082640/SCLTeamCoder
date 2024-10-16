@@ -1,0 +1,28 @@
+
+{
+  "title": "Ceil2 Function",
+  "description": "The Ceil2 function takes a real number as input and computes its ceiling value as an integer. The function converts the real number to an integer and checks if the conversion resulted in a value less than the original input, in which case it increments the resultant integer by one to ensure it correctly represents the ceiling.",
+  "type": "FUNCTION",
+  "name": "CEIL2",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The real number input for which the ceiling needs to be computed."
+    }
+  ],
+  "output": [
+    {
+      "name": "CEIL2",
+      "type": "DINT",
+      "description": "The computed ceiling value of the input real number, represented as an integer."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "DINT",
+    "description": "Returns the ceiling of the input real number as an integer."
+  }
+}
+
+

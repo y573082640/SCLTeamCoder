@@ -1,0 +1,33 @@
+
+{
+  "title": "Modulo Operation Function",
+  "description": "This function calculates the modulo of a real number by another real number. If the divisor is zero, the function returns zero. Otherwise, it computes the modulo using the formula: in - DINT_TO_REAL(FLOOR2(in / divi)) * divi.",
+  "type": "FUNCTION",
+  "name": "MODR",
+  "input": [
+    {
+      "name": "IN",
+      "type": "REAL",
+      "description": "The number to be divided."
+    },
+    {
+      "name": "DIVI",
+      "type": "REAL",
+      "description": "The divisor used for the modulo operation."
+    }
+  ],
+  "output": [
+    {
+      "name": "MODR",
+      "type": "REAL",
+      "description": "The result of the modulo operation."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The modulo result, which is either the computed modulo or zero if DIVI is zero."
+  }
+}
+
+

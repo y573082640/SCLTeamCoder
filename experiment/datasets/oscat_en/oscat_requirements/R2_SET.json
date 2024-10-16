@@ -1,0 +1,22 @@
+
+{
+  "title": "Set R2 Parameters",
+  "description": "This function is responsible for setting the parameters of the R2 entity. It takes a single real number input and initializes the first parameter RX to this value while setting the second parameter R1 to a constant value of 0.0.",
+  "type": "FUNCTION",
+  "name": "R2_SET",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "Input parameter representing a real number value to set RX."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL2",
+    "description": "Returns the modified R2 entity which includes RX set to the input value and R1 set to 0.0."
+  }
+}
+
+

@@ -1,0 +1,9 @@
+Type Function: REAL
+Input IN: REAL (Dividend)
+DIVI: REAL (divisor)
+Output REAL (remainder of division)
+The function MODR returns the remainder of a division similar to the stan￾dard MOD function, but for REAL numbers. MODR internally uses the data
+format of type DINT. This may come to an overfow because DINT can sto￾re a maximum of +/-2.14 * 10^9 The range of MODR is therefore limited
+to +/- 2.14 * 10^9. For DIVI = 0 the function returns 0. 
+MODR(A, M) = A - M * FLOOR2(A / M).
+Example: MODR(5.5, 2.5) result 0.5.

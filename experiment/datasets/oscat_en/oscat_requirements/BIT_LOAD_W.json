@@ -1,0 +1,38 @@
+
+{
+  "title": "Bit Load Word Function",
+  "description": "This function modifies a WORD input based on a specified position and a boolean value. If the boolean value is true, it sets a bit at the given position in the input WORD. If false, it clears that bit instead.",
+  "type": "FUNCTION",
+  "name": "BIT_LOAD_W",
+  "input": [
+    {
+      "name": "IN",
+      "type": "WORD",
+      "description": "The input WORD to be modified."
+    },
+    {
+      "name": "VAL",
+      "type": "BOOL",
+      "description": "Boolean value indicating whether to set or clear the bit."
+    },
+    {
+      "name": "POS",
+      "type": "INT",
+      "description": "The position of the bit to be set or cleared."
+    }
+  ],
+  "output": [
+    {
+      "name": "BIT_LOAD_W",
+      "type": "WORD",
+      "description": "The modified WORD after the bit operation."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "WORD",
+    "description": "The resulting WORD after the function's bit manipulation."
+  }
+}
+
+

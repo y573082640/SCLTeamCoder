@@ -1,0 +1,7 @@
+Type Function: BOOL
+Input LOW: REAL (lower limit)
+IN: REAL (input value)
+HIGH: REAL (upper limit)
+Output BOOL (TRUE, if in < HIGH and in > LOW)
+The WINDOW function tests whether the input value is within the limits de￾fned by the LOW and HIGH.
+WINDOW is exactly TRUE if IN < HIGH and IN > LOW.

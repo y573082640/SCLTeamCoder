@@ -1,0 +1,25 @@
+
+{
+  "title": "Clock Pulse Generator",
+  "description": "This function block generates a clock pulse output based on a specified time interval. The time interval can be configured at runtime, and the output pulse is generated whenever the elapsed time since the last pulse meets or exceeds the specified interval.",
+  "type": "FUNCTION_BLOCK",
+  "name": "CLK_PRG",
+  "input": [
+    {
+      "name": "PT",
+      "type": "TIME",
+      "description": "The time period for which the output pulse should remain HIGH. Default value is set to 10 milliseconds."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "A boolean output which is HIGH when the output pulse is generated."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

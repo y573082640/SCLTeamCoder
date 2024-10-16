@@ -1,0 +1,32 @@
+
+{
+  "title": "Difference Check Function",
+  "description": "This function checks if the absolute difference between two real number inputs exceeds a specified threshold. It returns a boolean value indicating the result of the comparison.",
+  "type": "FUNCTION",
+  "name": "DIFFER",
+  "input": [
+    {
+      "name": "in1",
+      "type": "REAL",
+      "description": "The first real number input for the difference calculation."
+    },
+    {
+      "name": "in2",
+      "type": "REAL",
+      "description": "The second real number input for the difference calculation."
+    },
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The threshold value. The function checks if the absolute difference exceeds this value."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns TRUE if the absolute difference between in1 and in2 is greater than X; otherwise, returns FALSE."
+  }
+}
+
+

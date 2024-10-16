@@ -1,0 +1,34 @@
+
+{
+  "title": "Decimal Rounding Function",
+  "description": "This function rounds a given real number to a specified number of decimal places using pre-defined constants for decimal scaling. The function takes a real number and an integer specifying the number of decimal places, applies the rounding logic, and returns the rounded value. This implementation ensures robust handling of negative numbers and optimal performance.",
+  "type": "FUNCTION",
+  "name": "ROUND",
+  "input": [
+    {
+      "name": "in",
+      "type": "REAL",
+      "description": "The real number to be rounded."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "The number of decimal places to round to, limited between 0 and 8."
+    }
+  ],
+  "output": [
+    {
+      "name": "ROUND",
+      "type": "REAL",
+      "description": "The rounded real number."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The result of the rounding operation.",
+    "fields": []
+  }
+}
+
+

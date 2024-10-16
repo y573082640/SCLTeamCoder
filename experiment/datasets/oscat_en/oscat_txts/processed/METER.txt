@@ -1,0 +1,38 @@
+Type Function module
+Input M1: REAL (consumption value of 1)
+M2: REAL (consumption value of 2)
+I1: BOOL (enable input 1)
+I2: BOOL (enable input 2)
+D: REAL (divider for the output)
+RST: BOOL (Reset input)
+I / O MX: REAL (consumption value)
+METER is a meter, the two independent inputs (M1 and M2) are added up
+over time. The counting is controlled the inputs I1 and I2. With the reset
+input RST the counter can be reset at any time. The value of M1 is added
+to the output value per second as long as I1 is TRUE analogous the value
+of M2 is added per second to output value if I2 is TRUE. If I1 and I2 TRUE,
+the value of M1 + M2 is added per seconds once to the output. The input
+D Splits the output MX. Thus i.e. watt-hours can be counted instead of
+watt-seconds. The module uses internally the OSCAT specifc data type
+REAL2 which allows a resolution of 15 digits. This the module can capture
+smallest consumption levels at the inputs of M1 and M2 with short cycle ti￾mes and add them up to high overall values at the output MX. The resolu￾tion of the block can be determined as follows. MX is defned as I/O and
+must be placed on an external variable of type REAL. The external variable
+can be declared as retentive and/or persistent in order to obtain the value
+in case of power failure.
+MX/10^15 corresponds to the minimum resolution at the inputs M1 and
+M2. 
+Example :
+MX = 10E6 the utility meter is at 10 MWh
+M1 = 0.09 Watt Current consumption is 0.1 watts
+D = 3600 Output operates in Wh (Watt hours)
+Cycle time is 10ms
+In this example, at each cycle a value of 0.09[W] * 0.01[S]/3600 = 2.5E-
+7[Wh] on the output MX is added. This represents a change in the 14 deci￾mal place of the output.
+example 1 power consumption meter:
+The power consumption counter of kilowatt second counts the input M1.
+By the input D the output is divided by 3600, so that the output displays
+kilowatt hours.
+Example 2 Consumption calculation for a 2 stage burner:
+In this example, the output of level 1 (M1) 85KW and stage 2 (M2) 60KW.
+The inputs S1 and S1 (I1 and I2) are TRUE, if the corresponding level is
+running. By the constant 3600 at D, the output is divided by 3600, so kilo￾watt hours are shown.

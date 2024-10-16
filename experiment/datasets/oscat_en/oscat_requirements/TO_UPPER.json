@@ -1,0 +1,29 @@
+
+{
+  "title": "Convert Byte to Uppercase",
+  "description": "This function takes a BYTE input and converts it to its uppercase equivalent if applicable. It checks if the input is a lowercase letter in the standard ASCII range or an extended ASCII letter, and returns the corresponding uppercase letter. If the input does not fall within these criteria, it returns the input as is.",
+  "type": "FUNCTION",
+  "name": "TO_UPPER",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BYTE",
+      "description": "The BYTE value to be converted to uppercase."
+    }
+  ],
+  "output": [
+    {
+      "name": "TO_UPPER",
+      "type": "BYTE",
+      "description": "The uppercase equivalent of the input BYTE, or the original input if no conversion is applicable."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BYTE",
+    "description": "The result of the uppercase conversion for the input BYTE.",
+    "fields": []
+  }
+}
+
+

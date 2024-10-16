@@ -1,0 +1,22 @@
+
+{
+  "title": "String Mirror Function",
+  "description": "This function takes an input string and returns its mirrored version. The function processes the input string character by character from the end to the beginning, constructing a new string that is effectively the reverse of the input.",
+  "type": "FUNCTION",
+  "name": "MIRROR",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING(STRING_LENGTH)",
+      "description": "The input string that needs to be mirrored."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The mirrored version of the input string."
+  }
+}
+
+

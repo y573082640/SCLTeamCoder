@@ -1,0 +1,75 @@
+
+{
+  "title": "Pressure Conversion Function Block",
+  "description": "This function block is designed to convert various pressure units into different formats. It takes input values in different pressure units such as millimeters of water, torr, atmospheric pressure, and outputs the corresponding converted values in these units as well as additional pressure measurements.",
+  "type": "FUNCTION_BLOCK",
+  "name": "PRESSURE",
+  "input": [
+    {
+      "name": "mws",
+      "type": "REAL",
+      "description": "Pressure in millimeters of water column."
+    },
+    {
+      "name": "torr",
+      "type": "REAL",
+      "description": "Pressure in torr."
+    },
+    {
+      "name": "att",
+      "type": "REAL",
+      "description": "Pressure in technical atmospheres."
+    },
+    {
+      "name": "atm",
+      "type": "REAL",
+      "description": "Pressure in standard atmospheres."
+    },
+    {
+      "name": "pa",
+      "type": "REAL",
+      "description": "Pressure in pascals."
+    },
+    {
+      "name": "bar",
+      "type": "REAL",
+      "description": "Pressure in bar."
+    }
+  ],
+  "output": [
+    {
+      "name": "Ymws",
+      "type": "REAL",
+      "description": "Converted pressure in millimeters of water column."
+    },
+    {
+      "name": "Ytorr",
+      "type": "REAL",
+      "description": "Converted pressure in torr."
+    },
+    {
+      "name": "Yatt",
+      "type": "REAL",
+      "description": "Converted pressure in technical atmospheres."
+    },
+    {
+      "name": "Yatm",
+      "type": "REAL",
+      "description": "Converted pressure in standard atmospheres."
+    },
+    {
+      "name": "Ypa",
+      "type": "REAL",
+      "description": "Converted pressure in pascals."
+    },
+    {
+      "name": "Ybar",
+      "type": "REAL",
+      "description": "Converted pressure in bar."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

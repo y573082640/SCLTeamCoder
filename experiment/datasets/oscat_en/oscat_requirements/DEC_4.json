@@ -1,0 +1,50 @@
+
+{
+  "title": "4-Bit Digital Decoder",
+  "description": "This function block implements a 4-bit digital decoder based on the input control signals. It takes two address inputs (A0 and A1) and a data input (D) to produce four output signals (Q0, Q1, Q2, Q3) based on the combination of inputs.",
+  "type": "FUNCTION_BLOCK",
+  "name": "DEC_4",
+  "input": [
+    {
+      "name": "D",
+      "type": "BOOL",
+      "description": "Data input that controls the activation of the outputs."
+    },
+    {
+      "name": "A0",
+      "type": "BOOL",
+      "description": "Address input bit 0."
+    },
+    {
+      "name": "A1",
+      "type": "BOOL",
+      "description": "Address input bit 1."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q0",
+      "type": "BOOL",
+      "description": "Output signal 0, active when D is TRUE, A0 is FALSE, and A1 is FALSE."
+    },
+    {
+      "name": "Q1",
+      "type": "BOOL",
+      "description": "Output signal 1, active when D is TRUE, A0 is TRUE, and A1 is FALSE."
+    },
+    {
+      "name": "Q2",
+      "type": "BOOL",
+      "description": "Output signal 2, active when D is TRUE, A0 is FALSE, and A1 is TRUE."
+    },
+    {
+      "name": "Q3",
+      "type": "BOOL",
+      "description": "Output signal 3, active when D is TRUE, A0 is TRUE, and A1 is TRUE."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

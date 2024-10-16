@@ -1,0 +1,33 @@
+
+{
+  "title": "Calculate Minimum Value in an Array",
+  "description": "This function computes the minimum value in an array of real numbers. The function takes a pointer to an array and its size as input parameters, iterates through the array elements, and identifies the smallest value present.",
+  "type": "FUNCTION",
+  "name": "ARRAY_MIN",
+  "input": [
+    {
+      "name": "pt",
+      "type": "POINTER TO ARRAY[0..32000] OF REAL",
+      "description": "Pointer to the array of real numbers from which the minimum value will be computed."
+    },
+    {
+      "name": "size",
+      "type": "UINT",
+      "description": "The size of the array indicating the number of elements to be considered for the minimum calculation."
+    }
+  ],
+  "output": [
+    {
+      "name": "array_min",
+      "type": "REAL",
+      "description": "The minimum value found in the specified array of real numbers."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "Returns the minimum value found within the input array."
+  }
+}
+
+

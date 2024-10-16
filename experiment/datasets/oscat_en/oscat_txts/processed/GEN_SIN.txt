@@ -1,0 +1,16 @@
+Type Function module
+Input PT: TIME (period time)
+AM: REAL (signal amplitude)
+OS: REAL (signal ofset)
+DL: REAL (signal delay 0..1 * PT )
+Output Q: BOOL (binary output)
+OUT: REAL (analog output)
+GEN_SIN is a sine wave generator with programmable period, adjustable
+amplitude and signal ofset. A special feature is a adjustable delay so that
+with multiple generators overlapping signals can be generated. A Binary
+Output Q passes a logical signal, which is generated phase equal to the
+sine signal. The input DL is a delay for the output signal. The Delay is spe￾cifed with DL * PT. A DL of 0.5 delays the signal by half a period. 
+The following example shows GEN_SIN with a trace recording of the sine
+signal and the binary output Q.
+The above example generates a sine wave with 0.1 Hz (PT = 10 s) and a
+lower peak value of 0 and upper peak value of 10.

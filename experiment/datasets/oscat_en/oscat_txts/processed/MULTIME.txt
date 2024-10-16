@@ -1,0 +1,6 @@
+Type Function: TIME
+Input T: TIME (input time)
+M: REAL (multiplier)
+Output TIME (result input time multiplied by M)
+The MULTIME function multiplies a time value with a multiplier.
+Example: MULTIME(T#1h10m, 2.5) = T#2h55m

@@ -1,0 +1,22 @@
+
+{
+  "title": "Check Uppercase String",
+  "description": "This function determines whether all characters in a given string are uppercase. It uses a pointer to traverse each character in the string and checks if each character is uppercase. If any character is not uppercase, the function returns FALSE. If the string is empty, it returns FALSE as well.",
+  "type": "FUNCTION",
+  "name": "IS_UPPER",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING",
+      "description": "The input string to be checked for uppercase characters."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "True if all characters in the string are uppercase, false otherwise."
+  }
+}
+
+

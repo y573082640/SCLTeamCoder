@@ -1,0 +1,22 @@
+
+{
+  "title": "Calculate Work Week from Date",
+  "description": "This function calculates the work week number corresponding to the given input date. It takes into consideration the ISO8601 standard for week numbering, accounting for leap years and the first weekday of the year.",
+  "type": "FUNCTION",
+  "name": "WORK_WEEK",
+  "input": [
+    {
+      "name": "idate",
+      "type": "DATE",
+      "description": "The input date from which the work week number is to be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The work week number for the given date according to ISO8601 standards."
+  }
+}
+
+

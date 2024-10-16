@@ -1,0 +1,4 @@
+Type Function: BYTE
+Input B0 .. B7: BOOL (input bits)
+Output BYTE (output byte)
+BYTE_OF_BIT uses one byte of 8 individual bits (B0 .. B7) together.

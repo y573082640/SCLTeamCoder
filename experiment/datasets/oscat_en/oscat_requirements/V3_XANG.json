@@ -1,0 +1,40 @@
+
+{
+  "title": "Calculate Angle in 3D Space",
+  "description": "This function calculates the angle in 3D space based on a given 3D vector. It computes the angle using the X component of the vector and its magnitude. If the magnitude is greater than zero, it uses the arccosine function to determine the angle.",
+  "type": "FUNCTION",
+  "name": "V3_XANG",
+  "input": [
+    {
+      "name": "A",
+      "type": "Vector_3",
+      "description": "A 3D vector from which the angle is to be calculated.",
+      "fields": [
+        {
+          "name": "X",
+          "type": "REAL",
+          "description": "The X component of the vector."
+        },
+        {
+          "name": "Y",
+          "type": "REAL",
+          "description": "The Y component of the vector."
+        },
+        {
+          "name": "Z",
+          "type": "REAL",
+          "description": "The Z component of the vector."
+        }
+      ]
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The angle in radians calculated from the 3D vector.",
+    "fields": []
+  }
+}
+
+

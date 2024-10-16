@@ -1,0 +1,29 @@
+
+{
+  "title": "Calculate Day of Date",
+  "description": "This function calculates the day of the date from a provided date input. The calculation is performed by converting the date to a DWORD format and then dividing by the number of seconds in a day (86400). The output is returned as a DINT, which allows for a larger range of date values.",
+  "type": "FUNCTION",
+  "name": "DAY_OF_DATE",
+  "input": [
+    {
+      "name": "idate",
+      "type": "DATE",
+      "description": "The date for which the day of the date is to be calculated."
+    }
+  ],
+  "output": [
+    {
+      "name": "DAY_OF_DATE",
+      "type": "DINT",
+      "description": "The calculated day of the date as a DINT value, which accommodates a range of 49710 days."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "DINT",
+    "description": "The computed day of the date returned as a DINT value.",
+    "fields": []
+  }
+}
+
+

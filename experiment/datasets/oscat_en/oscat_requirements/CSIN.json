@@ -1,0 +1,34 @@
+
+{
+  "title": "Complex Sine Function",
+  "description": "The function CSIN calculates the sine of a complex number. It takes a complex number as input and computes both the real and imaginary parts of the result using hyperbolic sine and cosine functions.",
+  "type": "FUNCTION",
+  "name": "CSIN",
+  "input": [
+    {
+      "name": "X",
+      "type": "complex",
+      "description": "A complex number input for which the sine is to be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "complex",
+    "description": "The sine of the complex input X, returned as a complex number.",
+    "fields": [
+      {
+        "name": "re",
+        "type": "real",
+        "description": "The real part of the sine result."
+      },
+      {
+        "name": "im",
+        "type": "real",
+        "description": "The imaginary part of the sine result."
+      }
+    ]
+  }
+}
+
+

@@ -1,0 +1,28 @@
+
+{
+  "title": "Check if Input is Alphabetic",
+  "description": "This function checks if the provided input byte represents an alphabet character. It considers both standard ASCII and extended ASCII characters depending on the setup configuration. Based on the provided byte, it determines if it falls within the ranges for uppercase and lowercase alphabetic characters.",
+  "type": "FUNCTION",
+  "name": "ISC_ALPHA",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BYTE",
+      "description": "The input byte to be checked to see if it represents an alphabet character."
+    }
+  ],
+  "output": [
+    {
+      "name": "ISC_ALPHA",
+      "type": "BOOL",
+      "description": "Returns true if the input byte is an alphabet character, otherwise returns false."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "The boolean result indicating if the input is an alphabetic character."
+  }
+}
+
+

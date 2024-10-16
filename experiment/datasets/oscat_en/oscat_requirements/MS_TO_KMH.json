@@ -1,0 +1,22 @@
+
+{
+  "title": "Convert Meters per Second to Kilometers per Hour",
+  "description": "This function converts a velocity given in meters per second (ms) to kilometers per hour (km/h). The conversion is achieved by multiplying the input value by 3.6.",
+  "type": "FUNCTION",
+  "name": "MS_TO_KMH",
+  "input": [
+    {
+      "name": "ms",
+      "type": "REAL",
+      "description": "The velocity in meters per second."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The converted velocity in kilometers per hour."
+  }
+}
+
+

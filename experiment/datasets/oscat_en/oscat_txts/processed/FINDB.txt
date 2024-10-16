@@ -1,0 +1,8 @@
+Type Function: INT
+Input STR1: STRING (String input)
+STR1: STRING (String input)
+Output INT (position of last occurrence of STR2 in STR1)
+The function FINDB searched for the presence of STR2 in STR1 and returns
+the last position of STR2 in STR1.
+If STR2 is not found, a 0 is returned.
+Example: FINDB('abs12fr12bus12', '12') = 14

@@ -1,0 +1,45 @@
+
+{
+  "title": "Sine Wave Generator Function Block",
+  "description": "This function block generates a sine wave based on a specified period, amplitude, and offset. It takes time as an input and outputs the current value of the sine wave and a boolean indicating the signal's state.",
+  "type": "FUNCTION_BLOCK",
+  "name": "GEN_SIN",
+  "input": [
+    {
+      "name": "PT",
+      "type": "TIME",
+      "description": "The period of the sine wave."
+    },
+    {
+      "name": "AM",
+      "type": "REAL",
+      "description": "The amplitude of the sine wave. Default is 1.0."
+    },
+    {
+      "name": "OS",
+      "type": "REAL",
+      "description": "The offset of the sine wave."
+    },
+    {
+      "name": "DL",
+      "type": "REAL",
+      "description": "The duty cycle of the sine wave, which affects the waveform shape."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "A boolean output indicating the signal state, true if the sine wave is positive."
+    },
+    {
+      "name": "Out",
+      "type": "REAL",
+      "description": "The current value of the generated sine wave."
+    }
+  ],
+  "in/out": [],
+  "return_value": {}
+}
+
+

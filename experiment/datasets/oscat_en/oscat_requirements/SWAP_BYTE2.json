@@ -1,0 +1,23 @@
+
+{
+  "title": "Byte Swap Function",
+  "description": "This function takes a DWORD input and swaps its bytes. Specifically, it rotates the input bits to the right and left to achieve the byte swapping effect, combining the results to produce the final output.",
+  "type": "FUNCTION",
+  "name": "SWAP_BYTE2",
+  "input": [
+    {
+      "name": "IN",
+      "type": "DWORD",
+      "description": "The DWORD value whose bytes are to be swapped."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "The resulting DWORD after the bytes have been swapped.",
+    "fields": []
+  }
+}
+
+

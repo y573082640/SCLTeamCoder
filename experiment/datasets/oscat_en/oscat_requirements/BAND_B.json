@@ -1,0 +1,28 @@
+
+{
+  "title": "Band Operation Function",
+  "description": "This function performs a band operation on two BYTE inputs, X and B. It returns a BYTE result based on the comparison of these inputs. If X is less than B, the result is 0. If X exceeds the maximum allowable value after subtracting B from 255, the result is capped at 255. Otherwise, the function returns X.",
+  "type": "FUNCTION",
+  "name": "BAND_B",
+  "input": [
+    {
+      "name": "X",
+      "type": "BYTE",
+      "description": "The first input value for the band operation."
+    },
+    {
+      "name": "B",
+      "type": "BYTE",
+      "description": "The second input value for the band operation."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BYTE",
+    "description": "The result of the band operation based on the input values.",
+    "fields": []
+  }
+}
+
+

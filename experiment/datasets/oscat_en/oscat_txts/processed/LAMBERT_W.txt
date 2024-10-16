@@ -1,0 +1,5 @@
+Type Function: REAL
+Input X: REAL (input)
+Output REAL (output value)
+The LAMBERT_W function is defned for x > = -1/e. When the value is be￾low the range the is result -1000. The range of LAMBERT_W function is >=
+-1.

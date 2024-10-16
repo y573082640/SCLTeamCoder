@@ -1,0 +1,7 @@
+Type Function: REAL
+Input A : REAL
+X : REAL 
+N : REAL 
+Output REAL (result of the equation F_POWER = A * X^N)
+F_Power calculate the power function according to the equation F_POWER
+= A * Xn .

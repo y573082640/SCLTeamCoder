@@ -1,0 +1,38 @@
+
+{
+  "title": "Convert Degrees to Direction",
+  "description": "This function converts a given degree value to a corresponding cardinal direction based on additional input parameters. It considers a shift operation for performance and adapts the calculation depending on the value of 'N'. The output string represents the direction (e.g., North, East) derived from the degree input.",
+  "type": "FUNCTION",
+  "name": "DEG_TO_DIR",
+  "input": [
+    {
+      "name": "DEG",
+      "type": "INT",
+      "description": "The degree input to be converted to a direction."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "An additional input variable that influences the calculation of the direction."
+    },
+    {
+      "name": "L",
+      "type": "INT",
+      "description": "Length input that determines the language used for direction output."
+    }
+  ],
+  "output": [
+    {
+      "name": "DEG_TO_DIR",
+      "type": "string",
+      "description": "The resulting string that represents the direction based on the degree input."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "Returns the direction corresponding to the given degree input."
+  }
+}
+
+

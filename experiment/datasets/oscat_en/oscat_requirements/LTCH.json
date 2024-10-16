@@ -1,0 +1,35 @@
+
+{
+  "title": "Latch Function Block",
+  "description": "This function block implements a latch that holds a boolean state based on input conditions. The latch remains transparent while the L input is TRUE, allowing the D input value to be transferred to the output Q. An asynchronous reset input (RST) forces the output Q to FALSE regardless of the inputs.",
+  "type": "FUNCTION_BLOCK",
+  "name": "LTCH",
+  "input": [
+    {
+      "name": "D",
+      "type": "BOOL",
+      "description": "The data input that is transferred to the output Q when the latch is transparent."
+    },
+    {
+      "name": "L",
+      "type": "BOOL",
+      "description": "The latch control input that determines whether the latch is transparent."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "The asynchronous reset input that forces the output Q to FALSE."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "The output of the latch that reflects the state based on the inputs D and L."
+    }
+  ],
+  "in/out": [],
+  "return_value": {}
+}
+
+

@@ -1,0 +1,23 @@
+
+{
+  "title": "Calculate Angle from Z-Axis",
+  "description": "This function calculates the angle in radians between a 3D vector and the Z-axis. It takes a 3D vector as input and returns the angle based on the Z component of the vector normalized by its magnitude, returning the angle only if the vector has a non-zero length.",
+  "type": "FUNCTION",
+  "name": "V3_ZANG",
+  "input": [
+    {
+      "name": "A",
+      "type": "Vector_3",
+      "description": "A 3D vector containing the X, Y, and Z components."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The angle in radians between the vector and the Z-axis.",
+    "fields": []
+  }
+}
+
+

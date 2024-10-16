@@ -1,0 +1,23 @@
+
+{
+  "title": "Convert String to Lowercase",
+  "description": "This function takes a string input and converts all characters in the string to lowercase. The function is capable of handling extended ASCII characters, ensuring proper conversion of special characters such as Ä, Ö, and Ü.",
+  "type": "FUNCTION",
+  "name": "LOWERCASE",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "The input string that needs to be converted to lowercase."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The lowercase version of the input string.",
+    "fields": []
+  }
+}
+
+

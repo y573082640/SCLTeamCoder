@@ -1,0 +1,22 @@
+
+{
+  "title": "Input Control Function for ISC",
+  "description": "This function evaluates whether the input byte IN is less than 32 or equal to 127, returning a boolean value indicating the result of this evaluation.",
+  "type": "FUNCTION",
+  "name": "ISC_CTRL",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BYTE",
+      "description": "A byte input value that will be evaluated by the function."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns TRUE if the input IN is less than 32 or equal to 127; otherwise, returns FALSE."
+  }
+}
+
+

@@ -1,0 +1,45 @@
+
+{
+  "title": "Energy Calculation Function Block",
+  "description": "This function block performs calculations related to energy based on input parameters Joules (J), capacity (C), and watt-hours (Wh). It computes various energy-related outputs, converting between different units.",
+  "type": "FUNCTION_BLOCK",
+  "name": "ENERGY",
+  "input": [
+    {
+      "name": "J",
+      "type": "REAL",
+      "description": "Energy in Joules."
+    },
+    {
+      "name": "C",
+      "type": "REAL",
+      "description": "Capacity in a specific energy unit."
+    },
+    {
+      "name": "Wh",
+      "type": "REAL",
+      "description": "Energy in watt-hours."
+    }
+  ],
+  "output": [
+    {
+      "name": "YJ",
+      "type": "REAL",
+      "description": "Calculated energy in Joules after conversion."
+    },
+    {
+      "name": "YC",
+      "type": "REAL",
+      "description": "Energy in a calculated unit based on YJ."
+    },
+    {
+      "name": "YWh",
+      "type": "REAL",
+      "description": "Converted energy from YJ to watt-hours."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

@@ -1,0 +1,30 @@
+
+{
+  "title": "Filter Function Block",
+  "description": "This FUNCTION_BLOCK implements a filtering mechanism that processes an integer input (X) and a time duration (T) to produce a filtered output (Y). The block initializes on startup and updates its internal state based on the system time and input value for enhanced filtering accuracy.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FILTER_I",
+  "input": [
+    {
+      "name": "X",
+      "type": "INT",
+      "description": "An integer input value to be filtered."
+    },
+    {
+      "name": "T",
+      "type": "TIME",
+      "description": "A time duration used to control the filtering process."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "INT",
+      "description": "The filtered output value computed from the input."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

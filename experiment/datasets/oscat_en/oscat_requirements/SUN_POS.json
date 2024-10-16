@@ -1,0 +1,45 @@
+
+{
+  "title": "Sun Position Calculation",
+  "description": "This function block calculates the position of the sun given the geographic coordinates (latitude and longitude) and the current UTC time. The output includes the solar zenith angle (B), the solar altitude angle (H), and the hour angle (HR).",
+  "type": "FUNCTION_BLOCK",
+  "name": "SUN_POS",
+  "input": [
+    {
+      "name": "latitude",
+      "type": "REAL",
+      "description": "Latitude of the geographical position."
+    },
+    {
+      "name": "longitude",
+      "type": "REAL",
+      "description": "Longitude of the geographical position."
+    },
+    {
+      "name": "utc",
+      "type": "DT",
+      "description": "World time in UTC."
+    }
+  ],
+  "output": [
+    {
+      "name": "B",
+      "type": "REAL",
+      "description": "Solar zenith angle in degrees."
+    },
+    {
+      "name": "H",
+      "type": "REAL",
+      "description": "Solar altitude angle in degrees."
+    },
+    {
+      "name": "HR",
+      "type": "REAL",
+      "description": "Hour angle in degrees."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

@@ -1,0 +1,28 @@
+
+{
+  "title": "Byte Reversal Function",
+  "description": "This function takes a single byte input and performs bitwise rotations and shifts to output a modified byte that represents a reversed byte pattern. The function applies various logical operations to the input byte to achieve the reversal effect.",
+  "type": "FUNCTION",
+  "name": "REVERSE",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BYTE",
+      "description": "The input byte value to be reversed."
+    }
+  ],
+  "output": [
+    {
+      "name": "REVERSE",
+      "type": "BYTE",
+      "description": "The output byte value resulting from the bitwise operations on the input byte."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BYTE",
+    "description": "The return value represents the modified byte resulting from the function's operations."
+  }
+}
+
+

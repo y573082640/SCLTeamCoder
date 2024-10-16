@@ -1,0 +1,33 @@
+
+{
+  "title": "Resistance Temperature Detector Calculation",
+  "description": "This function calculates the resistance of a Pt100 temperature sensor based on the input temperature (T) and reference resistance (R0). The calculation takes into account the temperature coefficients A, B, and C to determine the resistance at different temperature ranges.",
+  "type": "FUNCTION",
+  "name": "RES_PT",
+  "input": [
+    {
+      "name": "T",
+      "type": "REAL",
+      "description": "The temperature in degrees Celsius for which the resistance is to be calculated."
+    },
+    {
+      "name": "R0",
+      "type": "REAL",
+      "description": "The reference resistance of the Pt100 sensor at 0 degrees Celsius."
+    }
+  ],
+  "output": [
+    {
+      "name": "RES_PT",
+      "type": "REAL",
+      "description": "The calculated resistance of the Pt100 sensor based on the input temperature and reference resistance."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The resistance value computed from the input parameters for a Pt100 sensor."
+  }
+}
+
+

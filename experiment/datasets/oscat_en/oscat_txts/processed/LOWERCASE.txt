@@ -1,0 +1,7 @@
+Type Function: STRING
+Input STR: STRING (String input)
+Output STRING (STRING in lowercase)
+The function LOWERCASE converts the String STR to lower case. During
+conversion, the Global Setup EXTENDED_ASCII constant is considered. If
+EXTENDED_ASCII = TRUE extended ASCII character set are evaluated ac￾cording to ISO 8859-1. Umlauts like Ä, Ö, Ü are considered only if the glo￾bal constant EXTENDED_ASCII = TRUE. A detailed description of the code
+change is found in the function TO_LOWER.

@@ -1,0 +1,6 @@
+Type Function: REAL
+Input MS: REAL (speed in km/h)
+Output REAL (speed in m/s)
+MS_TO_KMH calculates a speed value of meters/second to kilometers/hour 
+to.
+MS_TO_KMH := MS * 3.6

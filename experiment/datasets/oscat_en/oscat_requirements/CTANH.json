@@ -1,0 +1,52 @@
+
+{
+  "title": "Complex Hyperbolic Cotangent Function",
+  "description": "This function calculates the complex hyperbolic cotangent of a given complex number. The input is a complex number X, and the output is a complex number representing the result.",
+  "type": "FUNCTION",
+  "name": "CTANH",
+  "input": [
+    {
+      "name": "X",
+      "type": "complex",
+      "description": "A complex number for which the hyperbolic cotangent is to be calculated."
+    }
+  ],
+  "output": [
+    {
+      "name": "CTANH",
+      "type": "complex",
+      "description": "The complex hyperbolic cotangent of the input complex number X.",
+      "fields": [
+        {
+          "name": "re",
+          "type": "REAL",
+          "description": "The real part of the complex hyperbolic cotangent."
+        },
+        {
+          "name": "im",
+          "type": "REAL",
+          "description": "The imaginary part of the complex hyperbolic cotangent."
+        }
+      ]
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "complex",
+    "description": "Returns the result of the complex hyperbolic cotangent as a complex number.",
+    "fields": [
+      {
+        "name": "re",
+        "type": "REAL",
+        "description": "The real part of the resulting complex number."
+      },
+      {
+        "name": "im",
+        "type": "REAL",
+        "description": "The imaginary part of the resulting complex number."
+      }
+    ]
+  }
+}
+
+

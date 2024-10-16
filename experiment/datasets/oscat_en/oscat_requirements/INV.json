@@ -1,0 +1,23 @@
+
+{
+  "title": "Inverse Function",
+  "description": "This function computes the inverse of the input value X. If X is not zero, it returns the result as 1.0 divided by X. If X equals zero, the function does not change the value of INV.",
+  "type": "FUNCTION",
+  "name": "INV",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The input value for which the inverse is to be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The computed inverse of the input value X.",
+    "fields": []
+  }
+}
+
+

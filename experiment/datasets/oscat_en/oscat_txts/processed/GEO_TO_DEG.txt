@@ -1,0 +1,8 @@
+Type Function: REAL
+Input D: INT (angle in degrees)
+M: INT (arc minutes)
+SEC: REAL (arc seconds)
+Output REAL (angle specifed in decimal degrees)
+GEO_TO_DEG calculates an angle expressed in degrees from the input
+data level. Minutes, seconds.
+GEO_TO_DEG (2,59,60.0) is 3.0 degrees

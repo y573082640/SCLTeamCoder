@@ -1,0 +1,12 @@
+Type Function : BOOL
+Input PT: POINTER TO BYTE (address of the Bufer ) 
+SIZE: UINT (size of the bufer)
+Output BOOL (Returns TRUE)
+The function _BUFFER_CLEAR initialize any array of Byte with 0. When cal￾led, a pointer to the array and its size in bytes is passed to the function.
+Under CoDeSys is the call: _BUFFER_CLEAR(ADR(Array), SIZEOF(Array)),
+where array is the name of the array to be manipulated. ADR() is a stan￾dard function which identifes the pointer to the array and SIZEOF() is a
+standard function, which determines the size of the array. The function
+only returns TRUE. The array specifed by the pointer is manipulated di￾rectly in memory. 
+This type of processing arrays is very efcient because no additional me￾mory is required and no surrender values must be copied.
+Example: _ARRAY_CLEAR(ADRs(bigarray), SIZEOF(bigarray))
+initialized bigarray with 0.

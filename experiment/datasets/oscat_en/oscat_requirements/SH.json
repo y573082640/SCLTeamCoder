@@ -1,0 +1,35 @@
+
+{
+  "title": "Simple Signal Handler Function Block",
+  "description": "This function block handles input signals by updating the output variable when the clock input transitions from low to high. It captures the input real value and sets a trigger boolean output to indicate when the input value is captured.",
+  "type": "FUNCTION_BLOCK",
+  "name": "SH",
+  "input": [
+    {
+      "name": "in",
+      "type": "REAL",
+      "description": "Input Real Variable that receives the signal to be processed."
+    },
+    {
+      "name": "CLK",
+      "type": "BOOL",
+      "description": "Clock Input Variable that triggers the processing of the input signal."
+    }
+  ],
+  "output": [
+    {
+      "name": "out",
+      "type": "REAL",
+      "description": "Output Real Variable that reflects the captured input value when triggered."
+    },
+    {
+      "name": "trig",
+      "type": "BOOL",
+      "description": "Output BOOL Variable that indicates whether the input has been captured or not."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

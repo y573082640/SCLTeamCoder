@@ -1,0 +1,33 @@
+
+{
+  "title": "Square Root to the Nth Power Calculation",
+  "description": "This function computes the square root of a given number raised to the power of N. It returns 0 if N is less than or equal to 0 for compatibility reasons.",
+  "type": "FUNCTION",
+  "name": "SQRTN",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The base number for which the Nth root needs to be calculated."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "The exponent indicating the degree of the root to compute. Must be greater than 0."
+    }
+  ],
+  "output": [
+    {
+      "name": "SQRTN",
+      "type": "REAL",
+      "description": "The computed Nth root of X, or 0 if N is less than or equal to 0."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The result of the Nth root calculation."
+  }
+}
+
+

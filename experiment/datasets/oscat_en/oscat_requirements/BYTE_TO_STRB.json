@@ -1,0 +1,23 @@
+
+{
+  "title": "Convert BYTE to STRING Representation",
+  "description": "This function converts a BYTE input into its string representation, producing an 8-character string where each character corresponds to a bit from the BYTE. The resulting string is NULL-terminated.",
+  "type": "FUNCTION",
+  "name": "BYTE_TO_STRB",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BYTE",
+      "description": "The BYTE value to be converted into a string."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The string representation of the byte input, consisting of 8 characters representing each bit.",
+    "fields": []
+  }
+}
+
+

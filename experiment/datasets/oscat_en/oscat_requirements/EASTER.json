@@ -1,0 +1,29 @@
+
+{
+  "title": "Easter Date Calculation",
+  "description": "This function calculates the date of Easter Sunday for a given year using algorithms to determine the date based on the Gregorian calendar. It should return a DATE type that represents Easter Sunday for the specified year.",
+  "type": "FUNCTION",
+  "name": "EASTER",
+  "input": [
+    {
+      "name": "year",
+      "type": "INT",
+      "description": "The year for which the Easter date should be calculated, provided as an integer."
+    }
+  ],
+  "output": [
+    {
+      "name": "EASTER",
+      "type": "DATE",
+      "description": "The calculated date of Easter Sunday for the specified year."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "DATE",
+    "description": "The calculated date of Easter Sunday for the year input.",
+    "fields": []
+  }
+}
+
+

@@ -1,0 +1,39 @@
+
+{
+  "title": "Bit Load Function",
+  "description": "This function modifies a specified bit of a BYTE input based on the provided boolean flag. If the flag is true, it sets the bit at the specified position to 1; if false, it clears the bit at that position to 0.",
+  "type": "FUNCTION",
+  "name": "BIT_LOAD_B",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BYTE",
+      "description": "The input BYTE value that will be modified."
+    },
+    {
+      "name": "VAL",
+      "type": "BOOL",
+      "description": "A boolean flag that determines whether to set or clear the bit at the specified position."
+    },
+    {
+      "name": "POS",
+      "type": "INT",
+      "description": "The position of the bit in the BYTE that needs to be set or cleared."
+    }
+  ],
+  "output": [
+    {
+      "name": "BIT_LOAD_B",
+      "type": "BYTE",
+      "description": "The modified BYTE after the bit operation."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BYTE",
+    "description": "The value of the modified BYTE after the operation.",
+    "fields": []
+  }
+}
+
+

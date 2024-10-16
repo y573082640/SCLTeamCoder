@@ -1,0 +1,7 @@
+Type Function: BYTE
+Input OCT: STRING (10) (Octal string)
+Output BYTE (output value)
+The function OCT_TO_BYTE converts an octal encoded string into a byte
+value. Only the octal characters are '0 '..'7' are interpreted, others in HEX
+occurring characters are ignored.
+Example: OCT_TO_BYTE('11') results 9.

@@ -1,0 +1,39 @@
+
+{
+  "title": "Increment Function",
+  "description": "This function computes the increment of a given integer value `X` based on a specified increment `D` and a modulus `M`. The function adds the values together and applies a modulo operation to ensure the result wraps around based on `M`.",
+  "type": "FUNCTION",
+  "name": "INC",
+  "input": [
+    {
+      "name": "X",
+      "type": "INT",
+      "description": "The initial integer value to be incremented."
+    },
+    {
+      "name": "D",
+      "type": "INT",
+      "description": "The increment value that will be added to X."
+    },
+    {
+      "name": "M",
+      "type": "INT",
+      "description": "The modulus value used for wrapping the result."
+    }
+  ],
+  "output": [
+    {
+      "name": "INC",
+      "type": "INT",
+      "description": "The resulting value after incrementing X by D and applying modulo M."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The final computed increment value.",
+    "fields": []
+  }
+}
+
+

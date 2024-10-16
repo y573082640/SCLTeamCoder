@@ -1,0 +1,35 @@
+
+{
+  "title": "Time-based Value Storage and Retrieval",
+  "description": "This FUNCTION_BLOCK implements a time-based mechanism for storing and retrieving real input values over a specified period. It accepts a real input value and a time duration, stores a maximum of 64 values, and provides the most recent stored value based on the elapsed time.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FT_TN64",
+  "input": [
+    {
+      "name": "in",
+      "type": "REAL",
+      "description": "The real input value to be stored."
+    },
+    {
+      "name": "T",
+      "type": "TIME",
+      "description": "The duration that determines how frequently the input values are stored."
+    }
+  ],
+  "output": [
+    {
+      "name": "out",
+      "type": "REAL",
+      "description": "The most recent stored input value."
+    },
+    {
+      "name": "trig",
+      "type": "BOOL",
+      "description": "Boolean trigger indicating that a new value has been stored."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

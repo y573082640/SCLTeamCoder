@@ -1,0 +1,28 @@
+
+{
+  "title": "Convert DWORD to String with Length Limitation",
+  "description": "This function takes a DWORD input and converts it to a string, ensuring that the output string does not exceed a specified maximum length (N). It restricts the output to a maximum of 20 characters.",
+  "type": "FUNCTION",
+  "name": "DWORD_TO_STRF",
+  "input": [
+    {
+      "name": "IN",
+      "type": "DWORD",
+      "description": "The DWORD value to be converted to a string."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "The maximum length of the resulting string, which should be limited to a maximum of 20."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The resulting string representation of the DWORD input, limited to the specified length N.",
+    "fields": []
+  }
+}
+
+

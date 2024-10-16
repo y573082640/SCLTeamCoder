@@ -1,0 +1,22 @@
+
+{
+  "title": "Calculate Day of Year",
+  "description": "This function calculates the day of the year from a given date. It converts the input date into an unsigned integer format, computes the day of the year by performing division and modulus operations, and adjusts the value based on specific criteria.",
+  "type": "FUNCTION",
+  "name": "DAY_OF_YEAR",
+  "input": [
+    {
+      "name": "IDATE",
+      "type": "DATE",
+      "description": "The input date from which the day of the year needs to be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The calculated day of the year as an integer value."
+  }
+}
+
+

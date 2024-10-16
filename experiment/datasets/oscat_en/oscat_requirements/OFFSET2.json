@@ -1,0 +1,79 @@
+
+{
+  "title": "Offset Calculation Function",
+  "description": "This function computes an offset value based on several boolean inputs that determine which offset to apply to the input value X. If the boolean input D is true, the function returns a default offset value; otherwise, it starts with X and adds the appropriate offset based on O1, O2, O3, or O4 flags.",
+  "type": "FUNCTION",
+  "name": "OFFSET2",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The primary input value that may receive an offset."
+    },
+    {
+      "name": "O1",
+      "type": "BOOL",
+      "description": "Flag indicating whether to add Offset_1."
+    },
+    {
+      "name": "O2",
+      "type": "BOOL",
+      "description": "Flag indicating whether to add Offset_2."
+    },
+    {
+      "name": "O3",
+      "type": "BOOL",
+      "description": "Flag indicating whether to add Offset_3."
+    },
+    {
+      "name": "O4",
+      "type": "BOOL",
+      "description": "Flag indicating whether to add Offset_4."
+    },
+    {
+      "name": "D",
+      "type": "BOOL",
+      "description": "Flag that determines if the default value should be returned instead of the adjusted X."
+    },
+    {
+      "name": "Offset_1",
+      "type": "REAL",
+      "description": "Value to be added if O1 is true."
+    },
+    {
+      "name": "Offset_2",
+      "type": "REAL",
+      "description": "Value to be added if O2 is true."
+    },
+    {
+      "name": "Offset_3",
+      "type": "REAL",
+      "description": "Value to be added if O3 is true."
+    },
+    {
+      "name": "Offset_4",
+      "type": "REAL",
+      "description": "Value to be added if O4 is true."
+    },
+    {
+      "name": "default",
+      "type": "REAL",
+      "description": "The default value returned if D is true."
+    }
+  ],
+  "output": [
+    {
+      "name": "OFFSET2",
+      "type": "REAL",
+      "description": "The calculated offset value which is either the adjusted X or the default value."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "Returns the final computed offset value.",
+    "fields": []
+  }
+}
+
+

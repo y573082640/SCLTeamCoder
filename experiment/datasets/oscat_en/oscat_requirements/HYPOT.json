@@ -1,0 +1,27 @@
+
+{
+  "title": "Calculate the Hypotenuse",
+  "description": "This function computes the length of the hypotenuse of a right triangle given the lengths of the two other sides, X and Y, using the Pythagorean theorem. The result is calculated as the square root of the sum of the squares of the input sides.",
+  "type": "FUNCTION",
+  "name": "HYPOT",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The length of one side of the right triangle."
+    },
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "The length of the other side of the right triangle."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated length of the hypotenuse."
+  }
+}
+
+

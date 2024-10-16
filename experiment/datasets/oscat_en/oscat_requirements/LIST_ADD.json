@@ -1,0 +1,34 @@
+
+{
+  "title": "Add Item to List",
+  "description": "This function adds an item to a list by first converting a separation character to a string and then concatenating it with the input string. The function checks if adding the new string will exceed the defined maximum length of the list. If it does, it returns false; otherwise, it appends the item to the list and returns true.",
+  "type": "FUNCTION",
+  "name": "LIST_ADD",
+  "input": [
+    {
+      "name": "SEP",
+      "type": "BYTE",
+      "description": "The separation character that will be converted to a string and prefixed to the input string."
+    },
+    {
+      "name": "INS",
+      "type": "STRING(LIST_LENGTH)",
+      "description": "The input string that is to be added to the list."
+    }
+  ],
+  "output": [],
+  "in/out": [
+    {
+      "name": "LIST",
+      "type": "STRING(LIST_LENGTH)",
+      "description": "The list to which the input string will be added. It is modified in place."
+    }
+  ],
+  "return_value": {
+    "type": "BOOL",
+    "description": "A boolean value indicating the success of the addition operation to the list.",
+    "fields": []
+  }
+}
+
+

@@ -1,0 +1,22 @@
+
+{
+  "title": "Complementary Error Function Calculation",
+  "description": "This function calculates the complementary error function (ERFC) based on the input value X. The function utilizes the standard error function (ERF) and returns the result as a real number.",
+  "type": "FUNCTION",
+  "name": "ERFC",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The input value for which the complementary error function is to be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The value of the complementary error function computed from the input X."
+  }
+}
+
+

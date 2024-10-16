@@ -1,0 +1,28 @@
+
+{
+  "title": "Character Name Generation",
+  "description": "This function generates a character name string based on the input BYTE value. If the input is not zero, it constructs a search string by converting the BYTE to a string, appending special characters, and searching through predefined character names to retrieve the appropriate name. If the input is zero, the output is an empty string.",
+  "type": "FUNCTION",
+  "name": "CHARNAME",
+  "input": [
+    {
+      "name": "C",
+      "type": "BYTE",
+      "description": "A BYTE value used to determine the character name."
+    }
+  ],
+  "output": [
+    {
+      "name": "CHARNAME",
+      "type": "string",
+      "description": "The resulting character name string constructed from the input BYTE."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The character name generated from the BYTE input."
+  }
+}
+
+

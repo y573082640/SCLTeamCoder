@@ -1,0 +1,48 @@
+
+{
+  "title": "Buffer Search Function",
+  "description": "The BUFFER_SEARCH function is designed to search for a specified string within a buffer of data, returning the position of the substring if found. The function allows for case-insensitive searching if the 'IGN' flag is set to true. The search is confined to a defined size of the buffer.",
+  "type": "FUNCTION",
+  "name": "BUFFER_SEARCH",
+  "input": [
+    {
+      "name": "PT",
+      "type": "POINTER TO ARRAY[0..32767] OF BYTE",
+      "description": "A pointer to the array of bytes that represents the buffer to be searched."
+    },
+    {
+      "name": "SIZE",
+      "type": "INT",
+      "description": "The size of the buffer, indicating how many bytes can be considered for the search."
+    },
+    {
+      "name": "STR",
+      "type": "STRING",
+      "description": "The string to search for in the buffer."
+    },
+    {
+      "name": "POS",
+      "type": "INT",
+      "description": "The starting position in the buffer from which to begin the search."
+    },
+    {
+      "name": "IGN",
+      "type": "BOOL",
+      "description": "A boolean flag indicating whether the search should be case-insensitive (true) or case-sensitive (false)."
+    }
+  ],
+  "output": [
+    {
+      "name": "BUFFER_SEARCH",
+      "type": "INT",
+      "description": "The position at which the substring is found within the buffer, or -1 if the substring is not found."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The function returns the index of the first occurrence of the substring in the buffer or -1 if not found."
+  }
+}
+
+

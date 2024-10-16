@@ -1,0 +1,28 @@
+
+{
+  "title": "FindB Function",
+  "description": "This function is designed to find the last occurrence of the substring 'str2' within the string 'str1'. It returns the position of the found substring from the end of 'str1'. If 'str2' is not found, the function returns 0.",
+  "type": "FUNCTION",
+  "name": "FindB",
+  "input": [
+    {
+      "name": "str1",
+      "type": "STRING(STRING_LENGTH)",
+      "description": "The main string in which the search for the substring will be conducted."
+    },
+    {
+      "name": "str2",
+      "type": "STRING(STRING_LENGTH)",
+      "description": "The substring that is being searched for in 'str1'."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The position of the last occurrence of 'str2' in 'str1'. Returns 0 if 'str2' is not found.",
+    "fields": []
+  }
+}
+
+

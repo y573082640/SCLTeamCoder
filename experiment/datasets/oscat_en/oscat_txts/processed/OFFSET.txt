@@ -1,0 +1,18 @@
+Type Function
+Input X: REAL (input)
+O1: BOOL ( Enable Ofset 1) 
+O2 : BOOL (Enable Ofset 2)
+O3 : BOOL (Enable Ofset 3)
+D : BOOL (Enable Default)
+Output REAL (output value with ofset)
+Setup Ofset_1: REAL (ofset that is added when O1 = TRUE)
+Ofset_2: REAL (ofset that is added when O2 = TRUE)
+Ofset_3: REAL (ofset that is added when O3 = TRUE)
+Ofset_4: REAL (ofset is added if O4 = TRUE)
+ Default : REAL (This is used instead of X, if D = TRUE) 
+The function Ofset addes diferent ofsets to an input signal depending on 
+the binary value of O1.. O4. The ofsets can be added individually or 
+simultaneously. With the input D a Default value instead of the input X can 
+be switched to the adder. The ofset and Default value be defned through 
+the setup variables.
+The following example illustrates the operation of ofset:

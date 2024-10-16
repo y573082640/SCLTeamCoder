@@ -1,0 +1,29 @@
+
+{
+  "title": "Check Uppercase Character",
+  "description": "This function checks whether the provided byte value corresponds to an uppercase ASCII character. If the system is configured to recognize extended ASCII characters, it also allows for certain values that fall outside the standard ASCII range.",
+  "type": "FUNCTION",
+  "name": "ISC_UPPER",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BYTE",
+      "description": "The byte value to be checked for uppercase character status."
+    }
+  ],
+  "output": [
+    {
+      "name": "ISC_UPPER",
+      "type": "BOOL",
+      "description": "Returns TRUE if the input byte corresponds to an uppercase ASCII character; otherwise, FALSE."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "The result indicating whether the input byte is an uppercase letter, based on ASCII definitions.",
+    "fields": []
+  }
+}
+
+

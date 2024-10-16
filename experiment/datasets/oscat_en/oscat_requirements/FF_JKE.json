@@ -1,0 +1,45 @@
+
+{
+  "title": "J-K Flip-Flop Function Block",
+  "description": "This function block implements a J-K flip-flop, which is a type of digital memory circuit. The flip-flop has inputs for setting, resetting, clocking, and the J and K conditions. When reset or set signals are activated, the output Q is determined accordingly. On the clock edge, Q changes based on the values of J and K.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FF_JKE",
+  "input": [
+    {
+      "name": "SET",
+      "type": "BOOL",
+      "description": "Input to set the flip-flop to high."
+    },
+    {
+      "name": "J",
+      "type": "BOOL",
+      "description": "Input that determines the next state of Q when activated."
+    },
+    {
+      "name": "CLK",
+      "type": "BOOL",
+      "description": "Clock signal that synchronizes state changes."
+    },
+    {
+      "name": "K",
+      "type": "BOOL",
+      "description": "Input that determines the next state of Q when activated."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Input to reset the flip-flop to low."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "Current state of the flip-flop output."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

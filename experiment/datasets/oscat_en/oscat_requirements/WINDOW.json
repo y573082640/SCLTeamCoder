@@ -1,0 +1,32 @@
+
+{
+  "title": "Window Function",
+  "description": "This function evaluates if a given input value is within a specified range defined by low and high values. The function returns true if the input is greater than the low boundary and less than the high boundary.",
+  "type": "FUNCTION",
+  "name": "WINDOW",
+  "input": [
+    {
+      "name": "low",
+      "type": "REAL",
+      "description": "The lower boundary of the input range."
+    },
+    {
+      "name": "in",
+      "type": "REAL",
+      "description": "The input value to be evaluated."
+    },
+    {
+      "name": "high",
+      "type": "REAL",
+      "description": "The upper boundary of the input range."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns true if the input value is within the specified range, false otherwise."
+  }
+}
+
+

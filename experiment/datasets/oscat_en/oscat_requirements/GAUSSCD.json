@@ -1,0 +1,33 @@
+
+{
+  "title": "Gauss cumulative distribution function",
+  "description": "This function calculates the cumulative distribution function (CDF) of the Gaussian distribution based on the input parameters. It uses the error function to compute the value and returns a real number representing the CDF for the provided inputs.",
+  "type": "FUNCTION",
+  "name": "GAUSSCD",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The value at which to evaluate the cumulative distribution function."
+    },
+    {
+      "name": "U",
+      "type": "REAL",
+      "description": "The mean value of the Gaussian distribution."
+    },
+    {
+      "name": "SI",
+      "type": "REAL",
+      "description": "The standard deviation of the Gaussian distribution."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The cumulative probability for the Gaussian distribution at the given value X.",
+    "fields": []
+  }
+}
+
+

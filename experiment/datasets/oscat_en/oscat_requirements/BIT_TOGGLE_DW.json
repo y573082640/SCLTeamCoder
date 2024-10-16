@@ -1,0 +1,28 @@
+
+{
+  "title": "Bit Toggle Function",
+  "description": "This function toggles a specified bit in a given DWORD input. It shifts the value '1' left by the specified position and performs an XOR operation with the input DWORD to toggle the bit at that position.",
+  "type": "FUNCTION",
+  "name": "BIT_TOGGLE_DW",
+  "input": [
+    {
+      "name": "IN",
+      "type": "DWORD",
+      "description": "The input DWORD value where the bit will be toggled."
+    },
+    {
+      "name": "POS",
+      "type": "INT",
+      "description": "The position of the bit to be toggled, starting from 0 for the least significant bit."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "The resulting DWORD value after the specified bit has been toggled.",
+    "fields": []
+  }
+}
+
+

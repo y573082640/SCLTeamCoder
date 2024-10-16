@@ -1,0 +1,23 @@
+
+{
+  "title": "JD2000 Function",
+  "description": "The JD2000 function converts a given TIME input to a Julian Date format by calculating the number of days since the Julian epoch, which starts on January 1, 2000. The function takes a TIME input representing the date and time, converts it to DWORD, calculates the offset from the Julian epoch, and finally returns the result as a REAL number representing the Julian Date.",
+  "type": "FUNCTION",
+  "name": "JD2000",
+  "input": [
+    {
+      "name": "DTI",
+      "type": "TIME",
+      "description": "The input time value to be converted to Julian Date format."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The computed Julian Date corresponding to the input TIME value.",
+    "fields": []
+  }
+}
+
+

@@ -1,0 +1,4 @@
+Type Function: COMPLEX
+Input X: COMPLEX (Input) 
+Output COMPLEX (result)
+CSINH calculates the hyperbolic sine of a complex number

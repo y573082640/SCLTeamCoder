@@ -1,0 +1,28 @@
+
+{
+  "title": "Refraction Calculation",
+  "description": "This function calculates the refraction value given an elevation input. The elevation value is constrained within specific limits and is used in a mathematical formula to derive the refraction result.",
+  "type": "FUNCTION",
+  "name": "REFRACTION",
+  "input": [
+    {
+      "name": "ELEV",
+      "type": "REAL",
+      "description": "The elevation in degrees which will be used in the refraction calculation."
+    }
+  ],
+  "output": [
+    {
+      "name": "REFRACTION",
+      "type": "REAL",
+      "description": "The calculated refraction value based on the input elevation."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The output value representing the refraction calculated from the given elevation."
+  }
+}
+
+

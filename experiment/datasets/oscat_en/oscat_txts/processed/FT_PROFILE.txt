@@ -1,0 +1,49 @@
+Type Function module
+Input K: REAL (multiplier)
+O: REAL (ofset)
+M: REAL (time multiplier)
+E: BOOL (start signal)
+Output Y: REAL (signal output)
+RUN: BOOL (TRUE, if the output signal is generated)
+ET: TIME (time since start of the initial profle)
+Setup VALUE_0: REAL (output value of the output to start)
+TIME_1: TIME (time when the ramp reaches VALUE_1)
+VALUE_1: REAL (value of the ramp at the time TIME_1)
+TIME_2: TIME (time when the ramp reaches VALUE_2)
+VALUE_2: REAL (value of the ramp at the time TIME_2)
+TIME_3: TIME (time when the ramp reaches VALUE_3)
+VALUE_3: REAL (value of the ramp at the time TIME_3)
+TIME_10: TIME (time when the ramp reaches VALUE_10)
+VALUE_10: REAL (value of the ramp at the time TIME_10)
+TIME_11: TIME (time when the ramp reaches VALUE_11)
+VALUE_11: REAL (value of the ramp at the time TIME_11)
+TIME_12: TIME (time when the ramp reaches VALUE_12)
+VALUE_12: REAL (value of the ramp at the time TIME_12)
+TIME_13: TIME (time when the ramp reaches VALUE_13)
+VALUE_13: REAL (value of the ramp at the time TIME_13)
+FT_PROFILE generates a time-dependent output signal. The output signal
+is defned by time - value pairs. FT_PROFILE generate a output signal Y by
+the value pairs are connected by ramps. A typical application for FT_PRO￾FILE is to generate a temperature profle for a furnace, but also every app￾lication which requires a time-dependent control signal provides an appli￾cation. The time-dependent output signal is initiated by a rising edge at E
+and then runs automatically. After the pair of values (TIME_10, VALUE_10)
+the output signal remains to VALUE_10, until the input E = FALSE. With an
+edge to E the signal can be started and additionally, the input E will also
+used to extend the signal indefnitely. This makes it possible to create a
+course to the value VALUE_3, to stretch it with E and after the falling edge
+of E again to create a course back to baseline. With the inputs K, M and O,
+the output signal can be stretched and scaled dynamically.
+Y = value generated * K + O
+The input M is used for stretching of the signal over time. The actual time
+course is consistent with the defned time course through the setup over
+time multiplied by M. In order to ensure linear ramp, a time extension by
+M works only after completion of an edge. The output RUN is set with a ri￾sing edge of E to TRUE and is only after the time profle FALSE again. At
+the output of ET, the time elapsed since start time can be read.
+The following graphs show the output for the values:
+VALUE_0 = 0
+TIME_1, VALUE_1 = 1s, 50
+TIME_2, VALUE_2 = 3s, 50
+TIME_3, VALUE_3 = 4s, 100
+TIME_10, VALUE_10 = 6s, 100
+TIME_11, VALUE_11 = 7s, 50
+TIME_12, VALUE_12 = 9s, 50
+TIME_13, VALUE_13 = 10s, 0
+The graphs represent the output of both phase 3 is stretched by E, and wi￾thout stretching.

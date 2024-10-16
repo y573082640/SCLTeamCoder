@@ -1,0 +1,23 @@
+
+{
+  "title": "Decimal String to Integer Conversion",
+  "description": "This function takes a decimal string input and converts it to an integer. The function handles both positive and negative numbers based on the presence of the negative sign in the string. It processes each character of the string, converting it to its corresponding integer value and accumulating the result.",
+  "type": "FUNCTION",
+  "name": "DEC_TO_INT",
+  "input": [
+    {
+      "name": "DEC",
+      "type": "STRING[10]",
+      "description": "The input decimal string to be converted to an integer."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The integer value resulting from the conversion of the input decimal string.",
+    "fields": []
+  }
+}
+
+

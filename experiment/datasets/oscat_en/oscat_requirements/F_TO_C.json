@@ -1,0 +1,23 @@
+
+{
+  "title": "Fahrenheit to Celsius Conversion",
+  "description": "This function converts a temperature value from Fahrenheit to Celsius. It accepts a temperature in Fahrenheit as input and returns the corresponding temperature in Celsius.",
+  "type": "FUNCTION",
+  "name": "F_TO_C",
+  "input": [
+    {
+      "name": "fahrenheit",
+      "type": "REAL",
+      "description": "The temperature value in Fahrenheit that needs to be converted to Celsius."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The converted temperature value in Celsius.",
+    "fields": []
+  }
+}
+
+

@@ -1,0 +1,22 @@
+
+{
+  "title": "Capitalize String",
+  "description": "This function takes a string as input and returns a new string where the first character and any character following a space is converted to uppercase. The function processes each character of the input string sequentially.",
+  "type": "FUNCTION",
+  "name": "CAPITALIZE",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING(STRING_LENGTH)",
+      "description": "The input string that needs to be capitalized."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The capitalized version of the input string."
+  }
+}
+
+

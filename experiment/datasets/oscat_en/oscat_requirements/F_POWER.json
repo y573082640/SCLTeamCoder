@@ -1,0 +1,33 @@
+
+{
+  "title": "Power Calculation Function",
+  "description": "This function computes the power of a given base raised to a specified exponent and multiplies it by a coefficient.",
+  "type": "FUNCTION",
+  "name": "F_POWER",
+  "input": [
+    {
+      "name": "a",
+      "type": "REAL",
+      "description": "The coefficient to multiply with the result of the exponentiation."
+    },
+    {
+      "name": "x",
+      "type": "REAL",
+      "description": "The base value which will be raised to the power of n."
+    },
+    {
+      "name": "n",
+      "type": "REAL",
+      "description": "The exponent value to which the base x will be raised."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The result of the calculation, which is the coefficient multiplied by the base raised to the exponent.",
+    "fields": []
+  }
+}
+
+

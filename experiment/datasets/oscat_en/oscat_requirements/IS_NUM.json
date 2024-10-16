@@ -1,0 +1,22 @@
+
+{
+  "title": "Check if String is Numeric",
+  "description": "This function checks whether the input string consists solely of numeric characters. It iterates through each character of the input string and verifies if it is a number. If any character is found to be non-numeric, the function returns false. If all characters are numeric and the string length is greater than zero, it returns true.",
+  "type": "FUNCTION",
+  "name": "IS_NUM",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "Input variable of type STRING with specified length which needs to be checked for numeric characters."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Returns true if the input string consists only of numeric characters and has a length greater than zero; otherwise, returns false."
+  }
+}
+
+

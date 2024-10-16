@@ -1,0 +1,6 @@
+Type Function
+Input BFT: INT (wind force on the Beaufort scale)
+Output MS: REAL (Wind speed in meters / second)
+BFT_TO_MS calculete wind speeds on the Beaufort scale in meters per se￾cond.
+The calculation is done using the formula:
+BFT_TO_MS = 0.836m/s * B^3/2

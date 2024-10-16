@@ -1,0 +1,27 @@
+
+{
+  "title": "Check Parity",
+  "description": "This function computes the parity of a given DWORD input. It processes the bits of the input by checking their values and combines the results to determine if the overall parity is even or odd, adjusting the outcome based on the input parameter 'p'.",
+  "type": "FUNCTION",
+  "name": "CHECK_PARITY",
+  "input": [
+    {
+      "name": "in",
+      "type": "DWORD",
+      "description": "A DWORD input whose parity is to be checked."
+    },
+    {
+      "name": "p",
+      "type": "BOOL",
+      "description": "A boolean parameter that is used to adjust the final parity result."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "The computed parity result, where TRUE indicates odd parity and FALSE indicates even parity."
+  }
+}
+
+

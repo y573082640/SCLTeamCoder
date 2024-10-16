@@ -1,0 +1,22 @@
+
+{
+  "title": "Hyperbolic Tangent Function (TANH)",
+  "description": "This function computes the hyperbolic tangent of a given input X. The function returns 1.0 for values of X greater than 20.0, -1.0 for values of X less than -20.0, and uses the formula 1.0 - 2.0 / (EXP(2.0 * X) + 1.0) for values of X in the range [-20.0, 20.0].",
+  "type": "FUNCTION",
+  "name": "TANH",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The input value for which the hyperbolic tangent is to be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The hyperbolic tangent of the input value X."
+  }
+}
+
+

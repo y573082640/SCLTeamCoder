@@ -1,0 +1,55 @@
+
+{
+  "title": "FIFO Buffer Implementation",
+  "description": "This function block implements a First-In-First-Out (FIFO) buffer with a maximum capacity of 32 DWORD elements. It supports reading from and writing to the buffer, while providing status indicators for empty and full conditions. It also includes a reset functionality to clear the state of the FIFO.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FIFO_32",
+  "input": [
+    {
+      "name": "Din",
+      "type": "DWORD",
+      "description": "The data input to be written to the FIFO."
+    },
+    {
+      "name": "E",
+      "type": "BOOL",
+      "description": "Enable signal, when TRUE allows reading and writing operations."
+    },
+    {
+      "name": "RD",
+      "type": "BOOL",
+      "description": "Read signal, when TRUE initiates a read operation from the FIFO."
+    },
+    {
+      "name": "WD",
+      "type": "BOOL",
+      "description": "Write signal, when TRUE initiates a write operation to the FIFO."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Reset signal, when TRUE resets the FIFO state."
+    }
+  ],
+  "output": [
+    {
+      "name": "Dout",
+      "type": "DWORD",
+      "description": "The data output read from the FIFO."
+    },
+    {
+      "name": "EMPTY",
+      "type": "BOOL",
+      "description": "Status indicator, TRUE if the FIFO is empty."
+    },
+    {
+      "name": "FULL",
+      "type": "BOOL",
+      "description": "Status indicator, TRUE if the FIFO is full."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

@@ -1,0 +1,40 @@
+
+{
+  "title": "Average Calculation Function Block",
+  "description": "This function block calculates the average of incoming real values over a defined number of cycles, utilizing a delay mechanism for buffering the inputs. The block should reinitialize the buffer when reset is triggered and maintain control of the input flow with the enable signal.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FT_AVG",
+  "input": [
+    {
+      "name": "IN",
+      "type": "REAL",
+      "description": "The input real value to be averaged."
+    },
+    {
+      "name": "E",
+      "type": "BOOL",
+      "description": "Enable signal to control the calculation of the average, defaults to TRUE."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "The number of cycles for which the average is calculated, limited to a maximum of 32."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Reset signal to initialize the buffer with the actual input value instead of zero."
+    }
+  ],
+  "output": [
+    {
+      "name": "AVG",
+      "type": "REAL",
+      "description": "The computed average of the input values over the specified cycles."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

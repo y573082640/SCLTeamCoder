@@ -1,0 +1,55 @@
+
+{
+  "title": "Control Output Function Block",
+  "description": "This function block controls an output value based on various input parameters, applying an offset and considering manual input if specified. The output is conditioned within defined limits, and a flag indicates whether the output is within these limits.",
+  "type": "FUNCTION_BLOCK",
+  "name": "CTRL_OUT",
+  "input": [
+    {
+      "name": "CI",
+      "type": "REAL",
+      "description": "Input signal value used for output calculation."
+    },
+    {
+      "name": "OFFSET",
+      "type": "REAL",
+      "description": "Value to be added to the output signal."
+    },
+    {
+      "name": "MAN_IN",
+      "type": "REAL",
+      "description": "Manual input value to be used if manual mode is activated."
+    },
+    {
+      "name": "LIM_L",
+      "type": "REAL",
+      "description": "Lower limit for the output signal."
+    },
+    {
+      "name": "LIM_H",
+      "type": "REAL",
+      "description": "Upper limit for the output signal."
+    },
+    {
+      "name": "MANUAL",
+      "type": "BOOL",
+      "description": "Flag to indicate whether to use manual input."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "REAL",
+      "description": "The calculated output value after applying offset and limits."
+    },
+    {
+      "name": "LIM",
+      "type": "BOOL",
+      "description": "Flag indicating if the output is within the defined limits."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

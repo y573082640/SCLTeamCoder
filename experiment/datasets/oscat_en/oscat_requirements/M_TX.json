@@ -1,0 +1,56 @@
+
+{
+  "title": "Timing Measurement Function Block (M_TX)",
+  "description": "This function block measures timing intervals based on input signals and produces various timing outputs. It takes an input signal that can change state and computes the time between rising and falling edges, as well as provides information about duty cycle and frequency. The function block can be reset with an external reset signal and limits the maximum timing duration.",
+  "type": "FUNCTION_BLOCK",
+  "name": "M_TX",
+  "input": [
+    {
+      "name": "in",
+      "type": "BOOL",
+      "description": "The input signal to be monitored for edges (rising and falling)."
+    },
+    {
+      "name": "tmax",
+      "type": "TIME",
+      "description": "The maximum allowed timing duration; after this duration, the block will reset the measurements.",
+      "fields": []
+    },
+    {
+      "name": "rst",
+      "type": "BOOL",
+      "description": "Reset signal to initialize the measurement outputs."
+    }
+  ],
+  "output": [
+    {
+      "name": "TH",
+      "type": "TIME",
+      "description": "The duration of the high state (rising edge) in time."
+    },
+    {
+      "name": "TL",
+      "type": "TIME",
+      "description": "The duration of the low state (falling edge) in time."
+    },
+    {
+      "name": "DC",
+      "type": "REAL",
+      "description": "The duty cycle computed as the ratio of the high time to the total period."
+    },
+    {
+      "name": "F",
+      "type": "REAL",
+      "description": "The frequency calculated based on the high and low durations."
+    },
+    {
+      "name": "ET",
+      "type": "TIME",
+      "description": "Elapsed time since the last rising edge."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

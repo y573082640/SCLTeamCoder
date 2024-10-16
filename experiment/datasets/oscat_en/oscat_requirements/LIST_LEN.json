@@ -1,0 +1,34 @@
+
+{
+  "title": "List Length Calculation",
+  "description": "This function calculates the number of elements in a list defined by a separator character. The input list comes as a string, and the function counts how many times the separator appears in it, returning the total count as the length of the list.",
+  "type": "FUNCTION",
+  "name": "LIST_LEN",
+  "input": [
+    {
+      "name": "SEP",
+      "type": "BYTE",
+      "description": "The separator byte used to mark the boundaries between elements in the list."
+    }
+  ],
+  "output": [
+    {
+      "name": "LIST_LEN",
+      "type": "INT",
+      "description": "The total number of elements in the list as determined by counting the occurrences of the separator."
+    }
+  ],
+  "in/out": [
+    {
+      "name": "LIST",
+      "type": "STRING(LIST_LENGTH)",
+      "description": "The string representation of the list where elements are separated by the specified separator."
+    }
+  ],
+  "return_value": {
+    "type": "INT",
+    "description": "The return value indicates the count of elements in the list based on the separator provided."
+  }
+}
+
+

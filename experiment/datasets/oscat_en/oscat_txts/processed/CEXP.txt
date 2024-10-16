@@ -1,0 +1,4 @@
+Type Function: COMPLEX
+Input X: COMPLEX (Input) 
+Output COMPLEX (result)
+CEXP calculates the complex exponent to base E, CEXP = E^X.

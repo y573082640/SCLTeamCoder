@@ -1,0 +1,22 @@
+Type Function module
+Input MWS: REAL (water column in meters)
+TORR: REAL (Torr respectively mercury column in mm)
+ATT: REAL (technical atmosphere)
+ATM: REAL (atmospheric physics)
+PA: REAL (Pascal)
+BAR: REAL (Bar)
+Output YMWS: REAL (water column in meters)
+YTORR : REAL (Torr respectively mercury column in mm) 
+Yatt: REAL (technical atmosphere)
+Yatm: REAL (atmospheric physics)
+YPA: REAL (Pascal)
+Ybars: REAL (Bar)
+The module PRESSURE converts diferent, in practice common units, for
+pressure. Normally, only the input to be converted is occupied and the re￾maining inputs remain free. However, if several inputs loaded with values,
+the values of all inputs are converted accordingly and then summed.
+1 MWS = 1 meter of water = 0.0980665 Bar
+1 Torr = 1 mm Hg = 0.133322 bar = 101325/760 Pa
+1 ATT = 1 kp / cm ² = 0.980665 bar
+1 ATM = 1.01325 Bar
+1 PA = 1 N / m²
+1 BAR = 105 Pa

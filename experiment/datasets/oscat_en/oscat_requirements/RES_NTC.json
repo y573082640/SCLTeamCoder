@@ -1,0 +1,32 @@
+
+{
+  "title": "Calculate Resistance at Non-Temperature Coefficient (NTC)",
+  "description": "This function calculates the resistance based on the temperature (T), a reference resistance (RN), and a constant (B) for the NTC thermistor. The calculation is performed using the exponential function to account for the temperature dependence of the resistance.",
+  "type": "FUNCTION",
+  "name": "RES_NTC",
+  "input": [
+    {
+      "name": "T",
+      "type": "REAL",
+      "description": "The temperature in degrees Celsius."
+    },
+    {
+      "name": "RN",
+      "type": "REAL",
+      "description": "The reference resistance at a specified temperature."
+    },
+    {
+      "name": "B",
+      "type": "REAL",
+      "description": "The material characteristic constant for the NTC thermistor."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated resistance value based on the provided inputs."
+  }
+}
+
+

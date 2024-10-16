@@ -1,0 +1,65 @@
+
+{
+  "title": "Temperature Conversion",
+  "description": "This function block performs temperature conversions from Kelvin to Celsius, Fahrenheit, Rankine, and Réaumur. The block takes an input temperature in Kelvin and converts it to other temperature scales using specified conversion formulas.",
+  "type": "FUNCTION_BLOCK",
+  "name": "TEMPERATURE",
+  "input": [
+    {
+      "name": "K",
+      "type": "REAL",
+      "description": "Input temperature in Kelvin."
+    },
+    {
+      "name": "C",
+      "type": "REAL",
+      "description": "Celsius conversion base value, initialized to -273.15."
+    },
+    {
+      "name": "F",
+      "type": "REAL",
+      "description": "Fahrenheit conversion base value, initialized to -459.67."
+    },
+    {
+      "name": "Re",
+      "type": "REAL",
+      "description": "Réaumur conversion base value, initialized to -218.52."
+    },
+    {
+      "name": "Ra",
+      "type": "REAL",
+      "description": "Rankine value to be converted."
+    }
+  ],
+  "output": [
+    {
+      "name": "YK",
+      "type": "REAL",
+      "description": "Converted temperature in Kelvin."
+    },
+    {
+      "name": "YC",
+      "type": "REAL",
+      "description": "Converted temperature in Celsius."
+    },
+    {
+      "name": "YF",
+      "type": "REAL",
+      "description": "Converted temperature in Fahrenheit."
+    },
+    {
+      "name": "YRe",
+      "type": "REAL",
+      "description": "Converted temperature in Réaumur."
+    },
+    {
+      "name": "YRa",
+      "type": "REAL",
+      "description": "Converted temperature in Rankine."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

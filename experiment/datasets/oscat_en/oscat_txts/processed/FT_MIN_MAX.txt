@@ -1,0 +1,7 @@
+Type Function module
+Input IN: REAL (input signal)
+RST: BOOL (Reset input)
+Output MX: REAL (maximum value of the input signal)
+MN: REAL (minimum value of the input signal)
+FT_MIN_MAX stores the minimum and maximum value of an input signal
+IN and provides these two values at the outputs of MN and MX until clea￾red by a reset. A reset sets MN and MX on the reset applied input values.

@@ -1,0 +1,33 @@
+
+{
+  "title": "Retrieve Element from List",
+  "description": "This function retrieves a specific element from a delimited list based on the provided position. The list is defined as a string, and the separator used for delimiting is specified by the user. The function outputs the appropriate list element to the output string and modifies the input list accordingly.",
+  "type": "FUNCTION",
+  "name": "LIST_RETRIEVE",
+  "input": [
+    {
+      "name": "SEP",
+      "type": "BYTE",
+      "description": "The byte value representing the separator used to delimit elements in the list."
+    },
+    {
+      "name": "POS",
+      "type": "INT",
+      "description": "The position of the element to retrieve from the list, where the first element is at position 1."
+    }
+  ],
+  "output": [],
+  "in/out": [
+    {
+      "name": "LIST",
+      "type": "STRING(LIST_LENGTH)",
+      "description": "The list from which an element will be retrieved. This is both the input list and will be updated during the operation."
+    }
+  ],
+  "return_value": {
+    "type": "string",
+    "description": "The retrieved element from the list. If the position is not greater than 0, the function returns an empty string."
+  }
+}
+
+

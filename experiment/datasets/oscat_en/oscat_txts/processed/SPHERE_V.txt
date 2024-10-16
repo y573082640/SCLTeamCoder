@@ -1,0 +1,4 @@
+Type Function
+Input RX: REAL (radius)
+Output REAL (volume of ball)
+SPHERE_V calculates the volume of a sphere with a radius of RX.

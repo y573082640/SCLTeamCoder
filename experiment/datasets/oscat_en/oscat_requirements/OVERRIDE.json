@@ -1,0 +1,47 @@
+
+{
+  "title": "Override Calculation Function",
+  "description": "This function calculates an override value based on the input parameters. The override value is determined by comparing three input values and their corresponding enable flags. If a flag is enabled, the associated value is considered for the override. The function returns the highest absolute value among the inputs that have their enable flags set to true.",
+  "type": "FUNCTION",
+  "name": "OVERRIDE",
+  "input": [
+    {
+      "name": "X1",
+      "type": "REAL",
+      "description": "The first input value used in the override calculation."
+    },
+    {
+      "name": "X2",
+      "type": "REAL",
+      "description": "The second input value used in the override calculation."
+    },
+    {
+      "name": "X3",
+      "type": "REAL",
+      "description": "The third input value used in the override calculation."
+    },
+    {
+      "name": "E1",
+      "type": "BOOL",
+      "description": "Enable flag for the first input value."
+    },
+    {
+      "name": "E2",
+      "type": "BOOL",
+      "description": "Enable flag for the second input value."
+    },
+    {
+      "name": "E3",
+      "type": "BOOL",
+      "description": "Enable flag for the third input value."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated override value based on the input parameters."
+  }
+}
+
+

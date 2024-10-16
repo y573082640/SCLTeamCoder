@@ -1,0 +1,28 @@
+
+{
+  "title": "Determine Month of a Given Date",
+  "description": "This function calculates the month of the year based on the provided date. It considers whether the year is a leap year to accurately determine the month from the day of the year represented by the input date.",
+  "type": "FUNCTION",
+  "name": "MONTH_OF_DATE",
+  "input": [
+    {
+      "name": "IDATE",
+      "type": "DATE",
+      "description": "The date for which the month needs to be determined."
+    }
+  ],
+  "output": [
+    {
+      "name": "MONTH_OF_DATE",
+      "type": "INT",
+      "description": "The month of the year corresponding to the given date, as an integer value."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "Returns the calculated month of the year based on the input date."
+  }
+}
+
+

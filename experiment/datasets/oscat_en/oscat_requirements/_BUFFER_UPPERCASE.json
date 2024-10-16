@@ -1,0 +1,28 @@
+
+{
+  "title": "Buffer Uppercase Conversion",
+  "description": "This function takes a pointer to an array of bytes and converts each byte to its uppercase equivalent. It iterates through the array up to a specified size and modifies the elements in place.",
+  "type": "FUNCTION",
+  "name": "_BUFFER_UPPERCASE",
+  "input": [
+    {
+      "name": "PT",
+      "type": "POINTER TO ARRAY [0..32000] OF BYTE",
+      "description": "A pointer to an array of bytes that will be converted to uppercase."
+    },
+    {
+      "name": "SIZE",
+      "type": "INT",
+      "description": "The number of bytes in the array to be converted."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Indicates whether the uppercase conversion was successful.",
+    "fields": []
+  }
+}
+
+

@@ -1,0 +1,23 @@
+
+{
+  "title": "Calculate Argument of Complex Number",
+  "description": "This function computes the argument (angle) of a complex number represented in polar form using the ATAN2 function, which takes into account the signs of both real and imaginary parts to determine the correct quadrant of the angle.",
+  "type": "FUNCTION",
+  "name": "CARG",
+  "input": [
+    {
+      "name": "X",
+      "type": "COMPLEX",
+      "description": "A complex number for which the argument needs to be calculated."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The calculated argument (angle in radians) of the complex number X.",
+    "fields": []
+  }
+}
+
+

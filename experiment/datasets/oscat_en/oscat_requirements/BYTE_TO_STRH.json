@@ -1,0 +1,23 @@
+
+{
+  "title": "BYTE_To_STRH",
+  "description": "This function converts a BYTE input variable into its corresponding hexadecimal string representation of two characters. The output is a string where each character represents a single digit of the hexadecimal value derived from the input BYTE.",
+  "type": "FUNCTION",
+  "name": "BYTE_TO_STRH",
+  "input": [
+    {
+      "name": "IN",
+      "type": "BYTE",
+      "description": "The BYTE input variable to be converted into a hexadecimal string."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "The resulting string representation of the input BYTE in hexadecimal format.",
+    "fields": []
+  }
+}
+
+

@@ -1,0 +1,4 @@
+Type Function: REAL
+Input X: REAL (input)
+Output REAL ( 1 / X )
+INV calculates the inverse of X:

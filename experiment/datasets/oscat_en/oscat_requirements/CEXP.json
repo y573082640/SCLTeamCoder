@@ -1,0 +1,40 @@
+
+{
+  "title": "Complex Exponential Function",
+  "description": "This function calculates the complex exponential of a given complex number. The exponential of a complex number is computed using its real and imaginary parts, where the result is a complex number with real and imaginary components derived from the exponential and trigonometric functions.",
+  "type": "FUNCTION",
+  "name": "CEXP",
+  "input": [
+    {
+      "name": "X",
+      "type": "COMPLEX",
+      "description": "The input complex number for which the exponential is to be calculated."
+    }
+  ],
+  "output": [
+    {
+      "name": "CEXP",
+      "type": "complex",
+      "description": "The resulting complex number after computing the exponential of the input."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "complex",
+    "description": "Returns the computed complex exponential value.",
+    "fields": [
+      {
+        "name": "re",
+        "type": "REAL",
+        "description": "The real part of the computed complex exponential."
+      },
+      {
+        "name": "im",
+        "type": "REAL",
+        "description": "The imaginary part of the computed complex exponential."
+      }
+    ]
+  }
+}
+
+

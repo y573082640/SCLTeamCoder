@@ -1,0 +1,92 @@
+Type Function : DWORD
+Input PT: POINTER TO ARRAY OF BYTE (data package)
+SIZE: UINT (size of the Arrays ) 
+Setup PL: UINT (length of the polynomial)
+PN: DWORD (polynomial)
+INIT: DWORD (INIT data)
+REV_IN: BOOL (input data bytes invert)
+REV_OUT: BOOL (invert output data)
+XOR_OUT: DWORD (Last XOR of the output)
+Output DWORD (calculated CRC checksum)
+CRC_GEN generates a CRC check sum of an arbitrarily large array of Bytes.
+When the function is called a Pointer is passed on the processed array and
+its size in bytes. In CoDeSys the call reads: CRC_GEN(ADR(array),
+SIZEOF(Array),...), where array is the name of the processed array. ADR is
+a standard function, the Pointer the array is determined and SIZEOF is a
+standard function, which determines the size of the array. The polynomial
+can be any polynomials up to a maximum of 32 bits in length. A polynomi￾al X³ + X² + 1 is represented by 101 (1*X³ + 1*X² + 0+X¹ + 1*X⁰). The
+most signifcant bit, in this case 1*X³ is not specifed in the polynomial, be￾cause it is always one. It can process up polynomials to X³² (CRC 32). By
+the value INIT, the CR can be passed a starting value. Usually are here are
+0000 and FFFF. The appropriate start value is the standard in the litera￾ture, "Direct Initial Value". The input XOR_OUT determines with which bit
+sequence with the checksum at the end of XOR is associated with. The in￾puts and REV_IN REV_OUT set the bit sequence of data. If REV_IN = TRUE,
+each byte with LSB beginning is processed, if REV_IN = FALSE with MSB is
+started. REV_OUT = TRUE turns the bit corresponding sequence to the
+checksum. The module requires a minimum length of the processed data
+of 4 bytes, and is limited up only by the maximum array size. 
+The CRC further down in the following table provides detailed information
+on common CRC's and the setup data for CRC_GEN. Due to the number of
+possible and even common CRC's, it is not possible for us to show a com￾plete list.
+For further research, the website http://regregex.bbcmicro.net/crc-cata￾logue.htm is recommended. 
+Online test calculations are possible for the following Java Tool:
+http://zorc.breitbandkatze.de/crc.html 
+Common CRC'S AND polynomials:
+CRC PL PN [Hex] INIT [Hex] REV
+IN
+REV
+OU
+T
+XOUT [Hex]
+CRC-3/ROHC 3 3 7 T T 0
+CRC-4/ITU 4 3 0 T T 0
+CRC-5/EPC 5 9 9 F F 0
+CRC-5/ITU 5 15 0 T T 0
+CRC-5/USB 5 5 1F T T 1F
+CRC-6/DARC 6 19 0 T F 0
+CRC-6/ITU 6 3 0 T T 0
+CRC-7 7 9 0 F F 0
+CRC-7/ROHC 7 4F 7F T T 0
+CRC-8 8 7 0 F F 0
+CRC-8/DARC 8 39 0 T T 0
+CRC-8/I-CODE 8 1D FD F F 0
+CRC-8/ITU 8 7 0 F F 55
+CRC-8/MAXIM 8 31 0 T T 0
+CRC-8/ROHC 8 7 FF T T 0
+CRC-8/WCDMA 8 9B 0 T T 0
+CRC-10 10 233 0 F F 0
+CRC-11 11 385 1A F F 0
+CRC-12/3GPP 12 80F 0 F T 0
+CRC-12/DECT 12 80F 0 F F 0
+CRC-14/DARC 14 805 0 T T 0
+CRC-15 15 4599 0 F F 0
+CRC-16/LHA 16 8005 0 T T 0
+CRC-16/CCITT-AUG 16 1021 1D0F F F 0
+CRC-16/BUYPASS 16 8005 0 F F 0
+CRC-16/CCITT-FALSE 16 1021 FFFF F F 0
+CRC-16/DDS 16 8005 800D F F 0
+CRC-16/DECT-R 16 589 0 F F 1
+CRC-16/DECT-X 16 589 0 F F 0
+CRC-16/DNP 16 3D65 0 T T FFFF
+CRC-16/EN13757 16 3D65 0 F F FFFF
+CRC-16/GENIBUS 16 1021 FFFF F F FFFF
+CRC-16/MAXIM 16 8005 0 T T FFFF
+CRC-16/MCRF4XX 16 1021 FFFF T T 0
+CRC-16/RIELLO 16 1021 B2AA T T 0
+CRC-16/T10-DIF 16 8BB7 0 F F 0
+CRC-16/TELEDISK 16 A097 0 F F 0
+CRC-16/USB 16 8005 FFFF T T FFFF
+CRC-16/CCITT-TRUE 16 1021 0 T T 0
+CRC-16/MODBUS 16 8005 FFFF T T 0
+CRC-16/X-25 16 1021 FFFF T T FFFF
+CRC-16/XMODEM 16 1021 0 F F 0
+CRC-24/OPENPGP 24 864CFB B704CE F F 0
+CRC-24/FLEXRAY-A 24 5D6DCB FEDCBA F F 0
+CRC-24/FLEXRAY-B 24 5D6DCB ABCDEF F F 0
+CRC-32/PKZIP 32 04C11DB7 FFFFFFFF T T FFFFFFFF
+CRC-32/BZIP2 32 04C11DB7 FFFFFFFF F F FFFFFFFF
+CRC-32/CASTAGNOLI 32 1EDC6F41 FFFFFFFF T T FFFFFFFF
+CRC-32/D 32 A833982B FFFFFFFF T T FFFFFFFF
+CRC-32/MPEG2 32 04C11DB7 FFFFFFFF F F 0
+CRC-32/POSIX 32 04C11DB7 0 F F FFFFFFFF
+CRC-32/Q 32 814141AB 0 F F 0
+CRC-32/JAM 32 04C11DB7 FFFFFFFF T T 0
+CRC-32/XFER 32 AF 0 F F 0

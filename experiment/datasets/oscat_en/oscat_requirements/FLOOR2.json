@@ -1,0 +1,23 @@
+
+{
+  "title": "Floor Function Conversion",
+  "description": "This function takes a real number as input and converts it to a DINT (double integer) by flooring the real number. If the conversion leads to a higher value than the input, it decrements the resultant DINT by 1 to ensure it represents the largest integer less than or equal to the provided real number.",
+  "type": "FUNCTION",
+  "name": "FLOOR2",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "A real number which will be converted to a DINT by flooring."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DINT",
+    "description": "The floored integer value derived from the input real number.",
+    "fields": []
+  }
+}
+
+

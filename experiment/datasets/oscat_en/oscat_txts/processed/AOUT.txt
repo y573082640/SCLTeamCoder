@@ -1,0 +1,28 @@
+Type Function
+Input IN: REAL (input value)
+Output DWORD (output word to the A/D converter)
+Setup BITS: Bytes (number of bits, 16 for a complete word)
+SIGN: Byte ( Sign Bit, 15 for Bit 15) 
+LOW: REAL (smallest value of the input)
+HIGH: REAL (largest value of input)
+Inputs of D/A converters typically require a WORD (16 bit) or DWORD (32
+bit), but they do not have usually 16 bit or 32 bit resolution. D/A converter
+normally generate a fxed output range (ie -10 .. + 10 V) which is repre￾sented, for example, with the digital values 0 .. 65535 (In 16-bit). The
+function AOUT is confgured by setup parameters and calculates the input
+values (IN) to accordingly, so that after the module AOUT is a digital value
+available at the output of the D/A converter generates a value that is the
+REAL value IN matches. Furthermore, the module can insert a Sign- Bit
+anywhere if the D/A converter need a Sign- Bit. By double-clicking on the
+module, several setup variables can be defned. Bits defne how many Bits
+the D/A converter can handle. For a 12 bit converter, this value is 12. Then
+only the bits 0 - 11 are scored. Sign defnes whether a sign bit is needed
+and where to place in the source DWORD. Sign = 255 means that no sign
+bit is needed, and 15 means Bit 15 in the DWORD contains the sign. LOW
+and HIGH defne the smallest and highest input value. If a Sign-Bit is def￾ned ( SIGN< 255), then LOW and HIGH must be positive. Without Sign-Bit
+they can be either positive or negative. 
+Examples :
+A 12-bit D/A converter without a sign and output range from 0-10 is def￾ned as follows: Bits = 12, Sign = 255, LOW = 0, HIGH = 10
+A 14-bit D/A converter with 14 bits with sign and output range -10 - +10 is
+defned as: Bits = 14, Sign = 14, Low = 0, HIGH = +10. 
+ A 24-bit D/A converter without a sign and output range from -10 - +10 is
+defned as follows: Bits = 24, Sign = 255, LOW = -10, HIGH = +10

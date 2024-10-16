@@ -1,0 +1,32 @@
+
+{
+  "title": "Cauchy Function Calculation",
+  "description": "This function computes the value of the Cauchy distribution for given parameters. It takes in three real numbers: X, T, and U, and returns the computed Cauchy value as a real number.",
+  "type": "FUNCTION",
+  "name": "CAUCHY",
+  "input": [
+    {
+      "name": "X",
+      "type": "REAL",
+      "description": "The first parameter of the Cauchy function."
+    },
+    {
+      "name": "T",
+      "type": "REAL",
+      "description": "The second parameter, which alters the position of the distribution."
+    },
+    {
+      "name": "U",
+      "type": "REAL",
+      "description": "The scale parameter for the Cauchy distribution."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "REAL",
+    "description": "The computed value of the Cauchy function based on the provided input parameters."
+  }
+}
+
+

@@ -1,0 +1,29 @@
+
+{
+  "title": "Compute Inverse Hyperbolic Cosine of a Complex Number",
+  "description": "This function calculates the inverse hyperbolic cosine (CACOSH) of a given complex number. The input is a complex number, and the output is also a complex number representing the result of the calculation.",
+  "type": "FUNCTION",
+  "name": "CACOSH",
+  "input": [
+    {
+      "name": "X",
+      "type": "COMPLEX",
+      "description": "Input variable representing a complex number for which the inverse hyperbolic cosine will be calculated."
+    }
+  ],
+  "output": [
+    {
+      "name": "CACOSH",
+      "type": "complex",
+      "description": "The result of the inverse hyperbolic cosine of the input complex number."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "complex",
+    "description": "Returns the complex result of the inverse hyperbolic cosine function.",
+    "fields": []
+  }
+}
+
+

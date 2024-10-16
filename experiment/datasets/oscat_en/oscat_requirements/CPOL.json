@@ -1,0 +1,45 @@
+
+{
+  "title": "Complex Polar Calculator",
+  "description": "This function computes the rectangular (Cartesian) coordinates of a complex number given its polar coordinates. The function takes two inputs: the magnitude (L) and the angle (A) in radians, and returns a complex number with its real and imaginary parts calculated using cosine and sine functions.",
+  "type": "FUNCTION",
+  "name": "CPOL",
+  "input": [
+    {
+      "name": "L",
+      "type": "REAL",
+      "description": "The magnitude of the complex number in polar coordinates."
+    },
+    {
+      "name": "A",
+      "type": "REAL",
+      "description": "The angle (in radians) of the complex number in polar coordinates."
+    }
+  ],
+  "output": [
+    {
+      "name": "CPOL",
+      "type": "complex",
+      "description": "A complex number represented with a real part and an imaginary part."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "complex",
+    "description": "The result of the conversion from polar to rectangular form for the complex number.",
+    "fields": [
+      {
+        "name": "re",
+        "type": "REAL",
+        "description": "The real part of the complex number."
+      },
+      {
+        "name": "im",
+        "type": "REAL",
+        "description": "The imaginary part of the complex number."
+      }
+    ]
+  }
+}
+
+

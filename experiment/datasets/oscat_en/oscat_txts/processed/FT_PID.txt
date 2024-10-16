@@ -1,0 +1,32 @@
+Type Function module
+Input IN: REAL (input value)
+KP: REAL (controller gain)
+TN: REAL (past set time of the controller in seconds)
+TV: REAL (derivative of the controller in seconds)
+ILIM_L: REAL (lower limit of the integrator output)
+ILIM_H: REAL (upper limit of the integrator output)
+IEN: BOOL ( Enable for Integrator ) 
+RST: BOOL (asynchronous reset input)
+Output Y: REAL (output of the controller)
+LIM: BOOL (TRUE if the output has reached a limit)
+FT_PID is a PID controller of the following formula works:
+Y = KP * ( IN + 1/TN * INTEG(IN) + TV *DERIV(IN))
+The control parameters are given in the form of KP, TN and TV, and if the￾re are parameters KP, KI and KD they can be converted using the following
+formula:
+TN = KP/KI und TV = KD/KP
+The input values ILIM_H and ILIM_L limit the working area of the internal
+integrator. With RST, the internal integrator will always set to 0. The out￾put LIM signals that the integrator runs one of the limits or ILIM_L ILIM_H.
+The PI controller is free running and uses the trapezoidal rule to calculate
+the integrator for the highest accuracy and optimal speed. The default va￾lues of the input parameters are predefned as follows: KP = 1, TN = 1s,
+TV = 1s, ILIM_L =-1E38 and ILIM_H = +1 E38.
+ Anti Wind-Up: Control modules with Integrator tend to the so-called Wind￾Up Efect. A Wind-Up means that the integrator module continuously run
+again because, for example, the control signal Y is at a limit and the sys￾tem can not compensate the deviation, which then leads to subsequent
+transition into the control range until a long and time-consuming dismant￾ling of the integrator value and the scheme only respond delayed. Since
+the integrator is only necessary to compensate the deviation for all other
+control units, and the range of the integrator should be limited with the
+values of ILIM. The Integrator then reaches a limit and stops remaining at
+the last valid value. For other wind- Up Action, the Integrator can be con￾trolled with the input IEN = FALSE any time separately, the Integrator only
+runs when IEN = TRUE. 
+The following graph illustrates the internal structure of the controller:
+FT_PD can be used in conjunction with the modules CTRL_IN and
+CTRL_OUT to establish a PD controller.

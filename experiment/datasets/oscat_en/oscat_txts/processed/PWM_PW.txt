@@ -1,0 +1,8 @@
+Type Function module
+Input F: REAL (output frequency)
+PW:TIME (pulse duration high ) 
+Output Q: BOOL (output)
+PWM_PW is a pulse width modulated frequency generator. The generator
+generates a fxed frequency F with a duty cycle (TON / TOFF) which can
+bemodulated (set) by the input PW. The input passes the time before the
+signal remains TRUE.

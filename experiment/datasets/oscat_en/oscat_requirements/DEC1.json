@@ -1,0 +1,27 @@
+
+{
+  "title": "Decrement Function",
+  "description": "This function, DEC1, takes an integer value X and returns a decremented value based on the condition of X. If X equals zero, the function will return N - 1. Otherwise, it will return X - 1. The function is designed to handle integer inputs.",
+  "type": "FUNCTION",
+  "name": "DEC1",
+  "input": [
+    {
+      "name": "X",
+      "type": "INT",
+      "description": "An integer input value that will be decremented."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "An integer input value used for calculation when X is zero."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "INT",
+    "description": "The decremented integer value based on the conditions provided. Returns N - 1 if X is 0, otherwise returns X - 1."
+  }
+}
+
+

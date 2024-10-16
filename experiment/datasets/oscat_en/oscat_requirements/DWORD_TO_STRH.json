@@ -1,0 +1,23 @@
+
+{
+  "title": "Convert DWORD to Hexadecimal String",
+  "description": "This function converts a DWORD (32-bit unsigned integer) into its equivalent hexadecimal string representation. The output string is of fixed length (8 characters) and represents the hexadecimal value of the input DWORD in reverse order.",
+  "type": "FUNCTION",
+  "name": "DWORD_TO_STRH",
+  "input": [
+    {
+      "name": "IN",
+      "type": "DWORD",
+      "description": "The input DWORD value that needs to be converted to a hexadecimal string."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "string",
+    "description": "A string representation of the hexadecimal value of the input DWORD, consisting of 8 hex characters.",
+    "fields": []
+  }
+}
+
+

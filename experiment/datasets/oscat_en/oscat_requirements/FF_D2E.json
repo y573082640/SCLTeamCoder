@@ -1,0 +1,45 @@
+
+{
+  "title": "FF_D2E Function Block",
+  "description": "This function block implements a flip-flop mechanism that responds to input signals and controls its output based on clock and reset signals. When the reset signal is activated, the outputs are set to false. On the rising edge of the clock signal, the outputs are assigned the values of the input signals D0 and D1.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FF_D2E",
+  "input": [
+    {
+      "name": "D0",
+      "type": "BOOL",
+      "description": "Boolean input signal to determine the state of output Q0."
+    },
+    {
+      "name": "D1",
+      "type": "BOOL",
+      "description": "Boolean input signal to determine the state of output Q1."
+    },
+    {
+      "name": "CLK",
+      "type": "BOOL",
+      "description": "Clock input signal that triggers the state change on the flip-flop."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "Reset input signal that sets the output values to false when activated."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q0",
+      "type": "BOOL",
+      "description": "Output signal representing the state determined by input D0."
+    },
+    {
+      "name": "Q1",
+      "type": "BOOL",
+      "description": "Output signal representing the state determined by input D1."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

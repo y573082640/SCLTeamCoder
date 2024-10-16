@@ -1,0 +1,39 @@
+
+{
+  "title": "Check Date Period",
+  "description": "This function determines whether a specified date (dx) falls within a given period defined by two other dates (d1 and d2). It takes into consideration the nuances of leap years and the transition across a new year.",
+  "type": "FUNCTION",
+  "name": "PERIOD",
+  "input": [
+    {
+      "name": "d1",
+      "type": "DATE",
+      "description": "The start date of the period."
+    },
+    {
+      "name": "dx",
+      "type": "DATE",
+      "description": "The date to check if it falls within the period."
+    },
+    {
+      "name": "d2",
+      "type": "DATE",
+      "description": "The end date of the period."
+    }
+  ],
+  "output": [
+    {
+      "name": "PERIOD",
+      "type": "BOOL",
+      "description": "A boolean value indicating if the date dx is within the period defined by d1 and d2."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "The result of whether dx is within the period between d1 and d2.",
+    "fields": []
+  }
+}
+
+

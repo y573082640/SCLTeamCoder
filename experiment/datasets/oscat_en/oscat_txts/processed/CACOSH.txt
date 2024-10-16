@@ -1,0 +1,5 @@
+Type Function: COMPLEX
+Input X: COMPLEX (Input) 
+Output COMPLEX (result)
+CACOSH calculates the arc hyperbolic cosine of a complex number
+[fzy] The range of values of the result is between [-  ,+  ] For the imagi￾nary part.

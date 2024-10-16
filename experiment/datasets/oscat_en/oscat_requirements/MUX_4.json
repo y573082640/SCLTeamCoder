@@ -1,0 +1,47 @@
+
+{
+  "title": "4-to-1 Multiplexer Function",
+  "description": "This function implements a 4-to-1 multiplexer logic that selects one of four boolean inputs based on two select lines. The function returns a boolean value corresponding to the selected input.",
+  "type": "FUNCTION",
+  "name": "MUX_4",
+  "input": [
+    {
+      "name": "D0",
+      "type": "BOOL",
+      "description": "First data input for the multiplexer."
+    },
+    {
+      "name": "D1",
+      "type": "BOOL",
+      "description": "Second data input for the multiplexer."
+    },
+    {
+      "name": "D2",
+      "type": "BOOL",
+      "description": "Third data input for the multiplexer."
+    },
+    {
+      "name": "D3",
+      "type": "BOOL",
+      "description": "Fourth data input for the multiplexer."
+    },
+    {
+      "name": "A0",
+      "type": "BOOL",
+      "description": "First select line for selecting the input."
+    },
+    {
+      "name": "A1",
+      "type": "BOOL",
+      "description": "Second select line for selecting the input."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "The output of the multiplexer, representing the selected boolean input."
+  }
+}
+
+

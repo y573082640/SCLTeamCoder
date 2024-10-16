@@ -1,0 +1,5 @@
+Type Function: STRING
+Input STR: STRING (String input)
+Output STRING (STR without spaces)
+The TRIM function removes all spaces from STR.
+Example: TRIM('fnd BX12') = 'fndBX12'

@@ -1,0 +1,6 @@
+Type Function
+Input RX: REAL (circle radius)
+RX: REAL (circle radius)
+Output REAL (arc length or circumference)
+CIRCLE_C calculates the arc length of an arc with the angle AX and radius
+RX. If the angle is set AX = 360 so the circumference is calculated.

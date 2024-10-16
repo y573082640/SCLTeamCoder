@@ -1,0 +1,37 @@
+
+{
+  "title": "Convert Bytes to DWORD",
+  "description": "This function takes four individual BYTE values and combines them into a single DWORD value. The bytes are combined in the order of B3, B2, B1, and B0, where B3 represents the highest byte and B0 represents the lowest byte.",
+  "type": "FUNCTION",
+  "name": "DWORD_OF_BYTE",
+  "input": [
+    {
+      "name": "B3",
+      "type": "BYTE",
+      "description": "The highest byte of the DWORD."
+    },
+    {
+      "name": "B2",
+      "type": "BYTE",
+      "description": "The second highest byte of the DWORD."
+    },
+    {
+      "name": "B1",
+      "type": "BYTE",
+      "description": "The third byte of the DWORD."
+    },
+    {
+      "name": "B0",
+      "type": "BYTE",
+      "description": "The lowest byte of the DWORD."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "The combined DWORD value generated from the four input BYTE values."
+  }
+}
+
+

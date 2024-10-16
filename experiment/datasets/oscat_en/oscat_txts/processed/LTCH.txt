@@ -1,0 +1,8 @@
+Type Function module
+Input D: BOOL (Data in)
+L : BOOL (Latch enable Signal)
+RST: BOOL (asynchronous reset)
+Output Q : BOOL (Data Out)
+LTCH is a transparent storage element ( Latch ). As long as L is true, Q fol￾lows the input D and the falling edge of L stores the output Q the current
+input signal to D. With the asynchronous reset input of the Latch will be
+deleted at any time regardless of L.

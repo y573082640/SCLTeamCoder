@@ -1,0 +1,7 @@
+Type Function module
+Input IN: REAL (input value)
+N: INT (number of delay cycles) 
+RST: BOOL (asynchronous reset)
+Output OUT: REAL (delayed output value)
+DELAY delays an input signal (IN) for N cycles. The input RESET is asyn￾chronous, and may delete the Delay bufer. 
+The Example shows a generator that produces pulses of 5 to 10 and a De￾lay, that generates a 10 cycles delay.

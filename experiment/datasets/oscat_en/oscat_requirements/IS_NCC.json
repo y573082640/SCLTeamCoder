@@ -1,0 +1,27 @@
+
+{
+  "title": "Check Non-Containment of Substring",
+  "description": "This function checks whether the specified substring (cmp) is contained within a given string (str). If the substring is found in any part of the string, the function will return FALSE. If the substring is not found at all, the function will return TRUE.",
+  "type": "FUNCTION",
+  "name": "IS_NCC",
+  "input": [
+    {
+      "name": "str",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "The main string in which to search for the substring."
+    },
+    {
+      "name": "cmp",
+      "type": "STRING[STRING_LENGTH]",
+      "description": "The substring that needs to be checked for containment in the main string."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "Boolean value indicating whether the substring is not contained in the main string. TRUE if not found; FALSE if found."
+  }
+}
+
+

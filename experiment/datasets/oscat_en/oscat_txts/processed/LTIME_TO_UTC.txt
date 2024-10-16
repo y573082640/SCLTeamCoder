@@ -1,0 +1,12 @@
+Type Function: DATE_TIME
+Input LTIME: DATE_TIME (local time)
+DST: BOOL (TRUE if daylight saving time is true)
+TIME_ZONE_OFFSET: INT (time diference to UTC in minutes)
+Output DATE_TIME (UTC, Universal Time)
+LTIME_TO_UTC calculates UTC (Universal Time) from a given local time. 
+The world time is calculated by subtracting from the TIME_ZONE_OFFSET
+LTIME local time. If the DST is active (DST = TRUE), an additional hour of
+LTIME is deducted.
+Note: The summer time is not regulated the same in all countries. The
+function assumes that in addition to summer time a further hour is added
+to ofset.

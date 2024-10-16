@@ -1,0 +1,11 @@
+Type Function
+Input X: REAL (input)
+L: REAL ( Lockout Value) 
+Output REAL (output value)
+DEAD_BAND is a linear transfer function with dead zone. The function mo￾ves the positive part of the curve to -L and the negative part of the curve
+by +L. DEAD_BAND is used to flter a quantization noise and other noise
+components from a signal. DEAD_BAND, for example, is used in control
+systems in order to prevent that the controller permanently switches in
+small increments, while the actuator is overstressed and worn out.
+DEAD_BAND = X - SGN(X)*L if ABS(X)> L if ABS(X) > L 
+DEAD_BAND = 0 if ABS(X) <= L

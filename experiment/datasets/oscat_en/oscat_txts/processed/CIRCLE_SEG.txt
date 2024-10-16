@@ -1,0 +1,6 @@
+Type Function: REAL
+Input RX: REAL(Circle radius)
+HX: REAL (Height of Sektantlinie)
+Output Real: (Area of segment)
+CIRCLE_SEG calculates the area of a
+circle segment is enclosed by a Sektantli￾nie and the circle.

@@ -1,0 +1,38 @@
+
+{
+  "title": "Time to DWORD Conversion with Offset and Debugging",
+  "description": "This function converts the current time to a DWORD value and applies an offset if debugging is enabled. The conversion process must account for the full range of time values, ensuring that an overflow correctly wraps around rather than resetting to zero. Additional considerations are provided for compatibility with specific hardware setups and debugging purposes.",
+  "type": "FUNCTION",
+  "name": "T_PLC_US",
+  "input": [
+    {
+      "name": "debug",
+      "type": "BOOL",
+      "description": "Flag indicating whether debug mode is active."
+    },
+    {
+      "name": "N",
+      "type": "INT",
+      "description": "Number of bits to shift in the conversion process."
+    },
+    {
+      "name": "offset",
+      "type": "DWORD",
+      "description": "Offset to apply to the converted time value."
+    }
+  ],
+  "output": [
+    {
+      "name": "T_PLC_US",
+      "type": "DWORD",
+      "description": "The resulting DWORD value derived from the time conversion."
+    }
+  ],
+  "in/out": [],
+  "return_value": {
+    "type": "DWORD",
+    "description": "Returns the converted time value as a DWORD."
+  }
+}
+
+

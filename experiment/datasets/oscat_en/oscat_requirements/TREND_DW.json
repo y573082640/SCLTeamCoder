@@ -1,0 +1,40 @@
+
+{
+  "title": "Trend Detection Function Block",
+  "description": "The TREND_DW function block monitors a DWORD input value 'X' and detects trends in its changes. It outputs boolean signals indicating whether there is an upward or downward trend, along with the difference in value from the last input. The function block also produces a boolean output 'Q' indicating a change has occurred.",
+  "type": "FUNCTION_BLOCK",
+  "name": "TREND_DW",
+  "input": [
+    {
+      "name": "X",
+      "type": "DWORD",
+      "description": "The input value to be monitored for trend detection."
+    }
+  ],
+  "output": [
+    {
+      "name": "Q",
+      "type": "BOOL",
+      "description": "Indicates whether the input value 'X' has changed."
+    },
+    {
+      "name": "TU",
+      "type": "BOOL",
+      "description": "True if an upward trend is detected (X has increased)."
+    },
+    {
+      "name": "TD",
+      "type": "BOOL",
+      "description": "True if a downward trend is detected (X has decreased)."
+    },
+    {
+      "name": "D",
+      "type": "DWORD",
+      "description": "The difference in value between the current and last input value."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

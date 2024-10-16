@@ -1,0 +1,50 @@
+
+{
+  "title": "M_D Function Block",
+  "description": "This function block manages the timing operations based on start and stop inputs while allowing for a reset condition. It tracks elapsed and preset time based on the provided inputs.",
+  "type": "FUNCTION_BLOCK",
+  "name": "M_D",
+  "input": [
+    {
+      "name": "start",
+      "type": "BOOL",
+      "description": "A boolean input to start the timer."
+    },
+    {
+      "name": "stop",
+      "type": "BOOL",
+      "description": "A boolean input to stop the timer."
+    },
+    {
+      "name": "tmax",
+      "type": "TIME",
+      "description": "The maximum preset time for the timer, defaults to 14400 minutes."
+    },
+    {
+      "name": "rst",
+      "type": "BOOL",
+      "description": "A boolean input to reset the timer."
+    }
+  ],
+  "output": [
+    {
+      "name": "PT",
+      "type": "TIME",
+      "description": "The preset time that has been set or retained when stopping."
+    },
+    {
+      "name": "ET",
+      "type": "TIME",
+      "description": "The elapsed time counted while the timer is running."
+    },
+    {
+      "name": "run",
+      "type": "BOOL",
+      "description": "A boolean output indicating whether the timer is currently running."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

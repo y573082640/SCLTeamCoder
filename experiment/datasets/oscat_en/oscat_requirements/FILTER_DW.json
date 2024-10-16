@@ -1,0 +1,30 @@
+
+{
+  "title": "Filter Dynamics with Time Integration",
+  "description": "This functional block implements a filter that integrates input over time using differential calculations. It takes an input value 'X' of type DWORD and a time interval 'T' of type TIME to compute an output 'Y' of type DWORD, representing the integrated value. The block initializes the integration process and continuously updates the integrated value based on the elapsed time and input changes.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FILTER_DW",
+  "input": [
+    {
+      "name": "X",
+      "type": "DWORD",
+      "description": "Input value to be filtered."
+    },
+    {
+      "name": "T",
+      "type": "TIME",
+      "description": "Time interval over which the integration is computed."
+    }
+  ],
+  "output": [
+    {
+      "name": "Y",
+      "type": "DWORD",
+      "description": "The filtered output value."
+    }
+  ],
+  "in/out": [],
+  "return_value": {}
+}
+
+

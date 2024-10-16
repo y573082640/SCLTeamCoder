@@ -1,0 +1,5 @@
+Type Function: TIME
+Input IN: REAL (number of minutes with decimals)
+Output TIME (TIME)
+The function MINUTE_TO_TIME calculates a time value (TIME) from the in￾put in minutes as REAL.
+Example: MINUTE_TO_TIME(122.5) = T#2h2m30s

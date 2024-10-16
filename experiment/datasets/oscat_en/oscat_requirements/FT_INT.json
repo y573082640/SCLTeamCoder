@@ -1,0 +1,55 @@
+
+{
+  "title": "Integrator Function Block",
+  "description": "This function block performs integration on a given input value. It takes an input signal and integrates it over time, with optional parameters to specify the integration factor and to enable or disable the operation. It also allows for setting output limits to prevent the integrated value from exceeding predefined bounds.",
+  "type": "FUNCTION_BLOCK",
+  "name": "FT_INT",
+  "input": [
+    {
+      "name": "IN",
+      "type": "REAL",
+      "description": "The input value to be integrated."
+    },
+    {
+      "name": "K",
+      "type": "REAL",
+      "description": "The integration factor, default is set to 1."
+    },
+    {
+      "name": "RUN",
+      "type": "BOOL",
+      "description": "A boolean indicating whether the integration should run or not, default is TRUE."
+    },
+    {
+      "name": "RST",
+      "type": "BOOL",
+      "description": "A reset flag that, when TRUE, resets the output to zero."
+    },
+    {
+      "name": "OUT_MIN",
+      "type": "REAL",
+      "description": "The minimum limit for the output, default is set to -1E+37."
+    },
+    {
+      "name": "OUT_MAX",
+      "type": "REAL",
+      "description": "The maximum limit for the output, default is set to 1E+37."
+    }
+  ],
+  "output": [
+    {
+      "name": "OUT",
+      "type": "REAL",
+      "description": "The result of the integration process."
+    },
+    {
+      "name": "LIM",
+      "type": "BOOL",
+      "description": "A boolean indicating if the output has reached a limit."
+    }
+  ],
+  "in/out": [],
+  "return_value": null
+}
+
+

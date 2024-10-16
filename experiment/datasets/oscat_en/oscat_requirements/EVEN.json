@@ -1,0 +1,19 @@
+{
+  "title": "Check Even Number",
+  "description": "This function checks whether a given integer input is an even number. It returns TRUE if the number is even, and FALSE if it is odd.",
+  "type": "FUNCTION",
+  "name": "EVEN",
+  "input": [
+    {
+      "name": "in",
+      "type": "DINT",
+      "description": "Input variable that represents the integer to be checked for evenness."
+    }
+  ],
+  "output": [],
+  "in/out": [],
+  "return_value": {
+    "type": "BOOL",
+    "description": "The boolean result indicating if the input number is even (TRUE) or odd (FALSE)."
+  }
+}
