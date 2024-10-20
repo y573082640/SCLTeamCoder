@@ -1,0 +1,51 @@
+{
+    "title": "Dual-Word Edge Detection",
+    "description": "Write a function block FB that checks for rising and falling edges in each bit of a dual-word (DWord) input value every cycle. The function block should be able to detect and report changes, rising edges, and falling edges in the input value.",
+    "type": "FUNCTION_BLOCK",
+    "name": "BitEdgeDetector",
+    "source_code": "",
+    "input": [
+        {
+            "name": "value",
+            "type": "DWord",
+            "description": "The input value to be checked for changes and edge triggering"
+        }
+    ],
+    "output": [
+        {
+            "name": "hasChanged",
+            "type": "Bool",
+            "description": "True indicates that the input value has changed"
+        },
+        {
+            "name": "hasRisingEdges",
+            "type": "Bool",
+            "description": "True indicates that rising edges have occurred in the input value"
+        },
+        {
+            "name": "risingBits",
+            "type": "DWord",
+            "description": "The bit stream of rising edges, where each bit indicates whether the corresponding input bit has experienced a rising edge (1 for a rising edge, 0 for no rising edge)"
+        },
+        {
+            "name": "noOfRisingBits",
+            "type": "USInt",
+            "description": "The number of rising edges in the input value"
+        },
+        {
+            "name": "hasFallingEdges",
+            "type": "Bool",
+            "description": "True indicates that falling edges have occurred in the input value"
+        },
+        {
+            "name": "fallingBits",
+            "type": "DWord",
+            "description": "The bit stream of falling edges, where each bit indicates whether the corresponding input bit has experienced a falling edge (1 for a falling edge, 0 for no falling edge)"
+        },
+        {
+            "name": "noOfFallingBits",
+            "type": "USInt",
+            "description": "The number of falling edges in the input value"
+        }
+    ]
+}

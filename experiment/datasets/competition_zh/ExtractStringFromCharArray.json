@@ -1,0 +1,43 @@
+﻿{
+    "title": "从字符数组中截取字符串",
+    "description": "编写一个函数FC，该函数能够根据给定的起始字符串和结束字符串，从字符数组中截取符合要求的子字符串。\n\n1. 函数应遍历searchIn，查找textBefore首次出现的位置，然后查找随后出现的textAfter的位置。\n2. 如果找到了textBefore和textAfter，函数应截取这两个边界之间的字符串（不包括边界字符串本身），并返回这个子字符串。\n3. 如果textBefore或textAfter在searchIn中不存在，函数应返回特定的状态代码。\n\nstatus参数表示程序的执行状态：\n- 16#0000：执行成功\n- 16#8200：输入参数searchIn不是字符数组或字节数组\n\n返回值表示查找的结果：\n- 16#0000：查找成功，头部字符和尾部字符均已找到\n- 16#9001：查找不成功，只找到了起始边界，未找到结束边界\n- 16#9002：查找不成功，起始边界未找到。\n\n示例：\n假设searchIn为\"This is a [sample] string with [multiple] boundaries.\"，textBefore为\"[\"，textAfter为\"]\"。函数应返回\"sample\"作为截取到的子字符串。",
+    "type": "FUNCTION",
+    "name": "ExtractStringFromCharArray",
+    "input": [
+        {
+            "name": "textBefore",
+            "type": "String",
+            "description": "要截取的字符串的起始边界"
+        },
+        {
+            "name": "textAfter",
+            "type": "String",
+            "description": "要截取的字符串的结束边界"
+        }
+    ],
+    "output": [
+        {
+            "name": "extractedString",
+            "type": "String",
+            "description": "截取的字符串"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "状态代码，具体见说明"
+        }
+    ],
+	"in/out": [
+		{
+            "name": "searchIn",
+            "type": "Variant",
+            "description": "要在其中进行搜索的字符或字节数组"
+        }
+	],
+    "return_value": [
+        {
+            "type": "Word",
+            "description": "状态代码，具体见说明"
+        }
+    ]
+}

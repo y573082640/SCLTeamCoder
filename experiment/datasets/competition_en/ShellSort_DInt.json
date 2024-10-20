@@ -1,0 +1,32 @@
+﻿{
+    "title": "Sorting",
+    "description": "Write a function block FB that implements an optional ascending or descending sorting feature. This function block should accept a variable-length array of integers (with a maximum length of 1000 elements) and a parameter indicating the sorting direction (ascending or descending), and write the sorted results back to the original array. If the array elements exceed 1000 or are less than or equal to 1, the function block should output an error status and an error code. Status codes:\n16#0000: Execution of FB without error\n16#8200: The array has less than or equal to 1 element\n16#8201: The array has more than 1000 elements",
+    "type": "FUNCTION_BLOCK",
+    "name": "ShellSort_DInt",
+    "input": [
+        {
+            "name": "sortDirection",
+            "type": "Bool",
+            "description": "When FALSE, it indicates ascending order; when TRUE, it indicates descending order"
+        }
+    ],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: No error occurred; TRUE: An error occurred during the execution of FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status code"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "array",
+            "type": "Array[*] of DInt",
+            "description": "The array to be sorted"
+        }
+    ]
+}

@@ -47,6 +47,7 @@ def read_and_translate(directory):
                     # 假设translate_sentence是一个翻译函数
                     en_sentence = call_llm(data["description_zh"])
                     data['description'] = en_sentence
+                    del data['description_zh']
                 write_jsonl(data, f"{directory}.jsonl")
         except Exception as e:
             print(filename,e)
@@ -139,4 +140,4 @@ def run_process():
     # txt_path = f"{project_base}/experiment/datasets/oscat_en/oscat_txts"
     # requirement_path = f"{project_base}/experiment/datasets/oscat_en/oscat_requirements"
     # get_oscat_requirements(code_path,txt_path,requirement_path)
-    read_and_translate(f"{project_base}/experiment/datasets/oscat_en/oscat_requirements")
+    read_and_translate(f"{project_base}/experiment/datasets/competition_en")

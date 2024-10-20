@@ -1,0 +1,24 @@
+{
+    "title": "Converting date and time of type DTL to a string",
+    "description": "Write a function FC that can convert date and time values of type DTL to a string and output them with a custom separator. The format of the converted string should be YYYY<separator>MM<separator>DD<separator>HH:mm:ss.nnnnnnnn, where <separator> is the character specified by the function parameter. Here, HH represents hours (24-hour format), mm represents minutes, ss represents seconds, and nnnnnnnn represents nanoseconds. Note that the separator should not be applied between hours, minutes, seconds, and nanoseconds.\n\nExample:\nAssuming the input DTL date and time is 2023-09-17 12:34:56.123456789, with a custom separator of -.\nThe function should return the string \"2023-09-17 12:34:56.123456789\" as the conversion result.",
+    "type": "FUNCTION",
+    "name": "DTLToString_ISO",
+    "input": [
+        {
+            "name": "date",
+            "type": "DTL",
+            "description": "Date of type DTL"
+        },
+        {
+            "name": "separator",
+            "type": "Char",
+            "description": "The separator between year and month, and month and day in the converted date"
+        }
+    ],
+    "return_value": [
+        {
+            "type": "String",
+            "description": "The converted date string"
+        }
+    ]
+}

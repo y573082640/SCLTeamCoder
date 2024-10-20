@@ -1,0 +1,40 @@
+﻿{
+    "title": "Integration Function",
+    "description": "Write a function block FB that implements the integration of an input signal, with start and reset functions. Integration is the cumulative summation of the input signal over time, commonly used to calculate the cumulative value of physical quantities such as flow and displacement. The start function is used to begin the integration calculation, while the reset function resets the integration value to zero.\nIf there is an error reading the system time, an error status and error code are output.\nStatus codes:\n16#0000: Execution of FB without error\n16#8600: Error reading system time",
+    "type": "FUNCTION_BLOCK",
+    "name": "Integration",
+    "input": [
+        {
+            "name": "enable",
+            "type": "Bool",
+            "description": "Start signal, when this signal is TRUE, the integration calculation is enabled; if FALSE, the integration calculation will stop, and the integral output will display the last calculated value."
+        },
+        {
+            "name": "value",
+            "type": "LReal",
+            "description": "The input signal value to be integrated"
+        },
+        {
+            "name": "reset",
+            "type": "Bool",
+            "description": "Reset signal, when this signal is TRUE, the integration value is reset to zero"
+        }
+    ],
+    "output": [
+        {
+            "name": "integral",
+            "type": "LReal",
+            "description": "The integrated value"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: No error occurred; TRUE: An error occurred during the execution of FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status code"
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+﻿{
+    "title": "Generate Pulse Signal",
+    "description": "Write a function block FB that generates a periodic signal that toggles between FALSE and TRUE. The duration of the TRUE state and the FALSE state in each cycle is determined by the given frequency and pulse pause ratio. The pulse pause ratio defines the ratio of the duration of the TRUE state to the duration of the FALSE state within each cycle.",
+    "type": "FUNCTION_BLOCK",
+    "name": "PulseGenerator",
+    "input": [
+        {
+            "name": "frequency",
+            "type": "Real",
+            "description": "Clock frequency in Hz"
+        },
+        {
+            "name": "pulsePauseRatio",
+            "type": "Real",
+            "description": "Pulse pause ratio, which defines the ratio of the duration of the TRUE state to the duration of the FALSE state in each cycle. For example, if pulsePauseRatio is 2, the duration of the TRUE state will be twice that of the FALSE state."
+        }
+    ],
+    "output": [
+        {
+            "name": "pulse",
+            "type": "Bool",
+            "description": "Pulse output"
+        },
+        {
+            "name": "remainingTime",
+            "type": "Time",
+            "description": "Remaining time of the current state"
+        }
+    ]
+}

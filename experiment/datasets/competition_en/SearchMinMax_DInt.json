@@ -1,0 +1,35 @@
+﻿{
+    "title": "Find Maximum and Minimum Values",
+    "description": "Write a function FC that can accept a variable-length array of integers as input and return the maximum and minimum values in the array along with their positions in the array.\n\nExample:\nAssuming the input array is array[1..5]=[5, 10, 2, 25, 1], the function should return the maximum value 25, the minimum value 1, the position of the maximum value 4, and the position of the minimum value 5.",
+    "type": "FUNCTION",
+    "name": "SearchMinMax_DInt",
+    "input": [
+        {
+            "name": "values",
+            "type": "Array[*] of DInt",
+            "description": "The array to be searched"
+        }
+    ],
+    "output": [
+        {
+            "name": "minValue",
+            "type": "DInt",
+            "description": "The minimum value in the array"
+        },
+        {
+            "name": "minValueIndex",
+            "type": "DInt",
+            "description": "The position of the minimum value in the array"
+        },
+        {
+            "name": "maxValue",
+            "type": "DInt",
+            "description": "The maximum value in the array"
+        },
+        {
+            "name": "maxValueIndex",
+            "type": "DInt",
+            "description": "The position of the maximum value in the array"
+        }
+    ]
+}

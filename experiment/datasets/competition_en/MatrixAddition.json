@@ -1,0 +1,37 @@
+﻿{
+    "title": "Matrix Addition",
+    "description": "Write a function FC that implements the addition of two matrices.\n\nThe function accepts two two-dimensional arrays of floating-point numbers, matrix1 and matrix2, of variable lengths as input parameters. The function should check whether the two input matrices and the output matrix for the result have the same number of rows and columns. If they do not, it should return an error status and a specific error code.\n\nStatus codes:\n16#0000: Execution of FC without error\n16#8200: The lower bound of the first matrix array rows is different from the lower bound of the second matrix rows\n16#8201: The lower bound of the first matrix array rows is different from the lower bound of the result matrix rows\n16#8202: The lower bound of the first matrix array columns is different from the lower bound of the second matrix columns\n16#8203: The lower bound of the first matrix array columns is different from the lower bound of the result matrix columns\n16#8204: The upper bound of the first matrix array rows is different from the upper bound of the second matrix rows\n16#8205: The upper bound of the first matrix array rows is different from the upper bound of the result matrix rows\n16#8206: The upper bound of the first matrix array columns is different from the upper bound of the second matrix columns\n16#8207: The upper bound of the first matrix array columns is different from the upper bound of the result matrix columns",
+    "type": "FUNCTION",
+    "name": "MatrixAddition",
+    "input": [
+        {
+            "name": "matrix1",
+            "type": "Array[* *] of LReal",
+            "description": "The first matrix"
+        },
+        {
+            "name": "matrix2",
+            "type": "Array[* *] of LReal",
+            "description": "The second matrix"
+        }
+    ],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: No error occurred; TRUE: An error occurred during the execution of FC"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status code"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "matrixResult",
+            "type": "Array[* *] of LReal",
+            "description": "The matrix where the calculation result is stored"
+        }
+    ]
+}

@@ -1,0 +1,55 @@
+﻿{
+    "title": "Calculate Moving Average",
+    "description": "Write a function block FB that calculates and updates a moving arithmetic mean. The moving arithmetic mean is a method of averaging over consecutive data points, where each new data point replaces the oldest data point, and then the average is recalculated.\n\n1. When cyclicExecution is TRUE, a new data value is automatically read and the moving average average is updated every scan cycle.\n2. Provide an external trigger signal trigger, which reads a new data value and updates the moving average upon each rising edge.\n3. Provide a reset function reset, which resets the moving average calculation when the reset signal is TRUE. If the window size is less than 1 or greater than 100, output an error status and status code.\n\nThe status parameter indicates the execution status of the program:\n- 16#0000: Execution successful\n- 16#8200: Window length setting error, please set a value between 1 and 100.",
+    "type": "FUNCTION_BLOCK",
+    "name": "FloatingAverage",
+    "input": [
+        {
+            "name": "cyclicExecution",
+            "type": "Bool",
+            "description": "When TRUE, periodic reading is performed, and trigger has no effect"
+        },
+        {
+            "name": "trigger",
+            "type": "Bool",
+            "description": "External trigger signal, reads value upon each rising edge"
+        },
+        {
+            "name": "value",
+            "type": "LReal",
+            "description": "Newly read data value"
+        },
+        {
+            "name": "windowSize",
+            "type": "Int",
+            "description": "The window size for the moving average, which must be between 1 and 100"
+        },
+        {
+            "name": "reset",
+            "type": "Bool",
+            "description": "Reset signal, resets the moving average calculation when TRUE"
+        }
+    ],
+    "output": [
+        {
+            "name": "average",
+            "type": "LReal",
+            "description": "The moving average"
+        },
+        {
+            "name": "windowSizeReached",
+            "type": "Bool",
+            "description": "FALSE: Maximum window width not yet reached TRUE: Maximum window width has been reached"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: No error occurred TRUE: An error occurred during the execution of FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status code"
+        }
+    ]
+}

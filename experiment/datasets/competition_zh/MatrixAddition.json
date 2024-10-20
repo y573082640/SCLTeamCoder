@@ -1,0 +1,37 @@
+﻿{
+    "title": "矩阵加法",
+    "description": "编写一个函数FC，实现两个矩阵的加法功能。\n\n该函数接受两个可变长度的二维浮点数数组matrix1和matrix2作为输入参数。函数应检查两个输入矩阵以及用于返回结果的输出矩阵是否具有相同的行数和列数，如果不相同，则返回错误状态和特定的错误代码。\n\n状态代码：\n16#0000：执行FB没有出错\n16#8200：第一矩阵数组行的下界值与第二矩阵行的下界值不同\n16#8201：第一矩阵数组行的下界值与结果矩阵行的下界值不同\n16#8202：第一矩阵数组列的下界值与第二矩阵列的下界值不同\n16#8203：第一矩阵数组列的下界值与结果矩阵列的下界值不同\n16#8204：第一矩阵数组行的上界值与第二矩阵行的上界值不同\n16#8205：第一矩阵数组行的上界值与结果矩阵行的上界值不同\n16#8206：第一矩阵数组列的上界值与第二矩阵列的上界值不同\n16#8207：第一矩阵数组列的上界值与结果矩阵列的上界值不同",
+    "type": "FUNCTION",
+    "name": "MatrixAddition",
+    "input": [
+        {
+            "name": "matrix1",
+            "type": "Array[* *] of LReal",
+            "description": "第一矩阵"
+        },
+        {
+            "name": "matrix2",
+            "type": "Array[* *] of LReal",
+            "description": "第二矩阵"
+        }
+    ],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: 没有发生错误; TRUE: 执行FB时出错"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "状态代码"
+        }
+    ],
+    "in_out": [
+        {
+            "name": "matrixResult",
+            "type": "Array[* *] of LReal",
+            "description": "存放计算结果的矩阵"
+        }
+    ]
+}

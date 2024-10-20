@@ -7,7 +7,7 @@ from tqdm import tqdm  # 导入tqdm库
 
 model_name  = snapshot_download("Qwen/Qwen2.5-Coder-7B-Instruct")
 
-def run_qwen(dataset="competition_en"):
+def run_qwen(dataset="competition_en",prompt_file="prompt"):
     """
     使用 Qwen 模型处理数据集并生成代码。
 
@@ -34,7 +34,7 @@ def run_qwen(dataset="competition_en"):
     输出文件的名称基于当前日期和时间。
     """
     # 设置提示文件和数据集文件的路径
-    prompt_path = f"{glovar.EXPERIMENT_DIR}/baselines/qwen/prompt"
+    prompt_path = f"{glovar.EXPERIMENT_DIR}/baselines/qwen/{prompt_file}"
     dataset_path = f"{glovar.EXPERIMENT_DIR}/datasets/"
     output_path = f"{glovar.EXPERIMENT_DIR}/output/{dataset}/qwen/"
     
@@ -56,9 +56,6 @@ def run_qwen(dataset="competition_en"):
     # 读取数据集文件
     test_data = read_jsonl(dataset_path + f"{dataset}.jsonl")
     
-    # 初始化结果列表
-    result = []
-
     # 加载模型和 tokenizer
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
@@ -106,5 +103,5 @@ def run_qwen(dataset="competition_en"):
             data['code'] = response
             
             # 将结果列表保存到输出文件中
-            fp.write(json.dumps(result, ensure_ascii=False))
+            fp.write(json.dumps(data, ensure_ascii=False))
             fp.write("\n")    

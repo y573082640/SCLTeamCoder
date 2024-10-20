@@ -7,9 +7,9 @@ from tqdm import tqdm  # 导入tqdm库
 
 model_id = snapshot_download("LLM-Research/Meta-Llama-3.1-8B-Instruct")
 
-def run_llama3(dataset="competition_en"):
+def run_llama3(dataset="competition_en",prompt_file="prompt"):
     # 设置提示文件和数据集文件的路径
-    prompt_path = f"{glovar.EXPERIMENT_DIR}/baselines/llama3/prompt"
+    prompt_path = f"{glovar.EXPERIMENT_DIR}/baselines/llama3/{prompt_file}"
     dataset_path = f"{glovar.EXPERIMENT_DIR}/datasets/"
     output_path = f"{glovar.EXPERIMENT_DIR}/output/{dataset}/llama3/"
     
@@ -50,14 +50,15 @@ def run_llama3(dataset="competition_en"):
             text = tokenizer.apply_chat_template(
                 messages,
                 tokenize=False,
-                add_generation_prompt=True
+                eos_token_id=2, 
+                pad_token_id=2
             )
             
-            # 将模型输入发送到 Qwen 模型并获取响应
+            # 将模型输入发送到 llama 模型并获取响应
             model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
             generated_ids = model.generate(
                 **model_inputs,
-                max_new_tokens=2048
+                max_new_tokens=4096
             )
             
             # 从响应中提取代码

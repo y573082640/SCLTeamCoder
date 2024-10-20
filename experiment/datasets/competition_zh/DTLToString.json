@@ -1,0 +1,24 @@
+{
+    "title": "数据类型为DTL的日期时间转换为字符串",
+    "description": "编写一个函数FC，该函数能够将数据类型为DTL的日期时间值转换为字符串，并按照自定义的分隔符输出。转换后的字符串格式应为YYYY<分隔符>MM<分隔符>DD<分隔符>HH:mm:ss.nnnnnnnn，其中<分隔符>为函数参数指定的字符。这里HH代表小时（24小时制），mm代表分钟，ss代表秒，nnnnnnnn代表纳秒。注意，分隔符不应用于时分秒纳秒之间。\n\n示例：\n假设输入的DTL日期时间为2023-09-17 12:34:56.123456789，自定义分隔符为-。\n函数应返回字符串\"2023-09-17 12:34:56.123456789\"作为转换结果。",
+    "type": "FUNCTION",
+    "name": "DTLToString_ISO",
+    "input": [
+        {
+            "name": "date",
+            "type": "DTL",
+            "description": "数据类型为DTL的日期"
+        },
+        {
+            "name": "separator",
+            "type": "Char",
+            "description": "转换后的日期中年和月之间，以及月和日之间的分隔符"
+        }
+    ],
+    "return_value": [
+        {
+            "type": "String",
+            "description": "转换后的日期字符串"
+        }
+    ]
+}

@@ -9,8 +9,8 @@ import subprocess
 import os
 import tempfile
 
-model="gpt-4o-mini"
-dataset="competition_en"
+model="gpt-4o"
+dataset="oscat_en"
 api_key = glovar.GPT_API_KEY
 client = OpenAI(api_key=api_key,base_url=f"https://www.gptapi.us/v1")
 dataset_path = f"{glovar.EXPERIMENT_DIR}/datasets/"
@@ -288,7 +288,7 @@ def pipeline(nl_task_requirements):
     print(f"SCL代码语法检查结果: {'通过' if plc_passed else '未通过'}, 反馈: {plc_syntax_check_feedback}")
     
     # 如果语法检查未通过且未超过循环次数，则根据反馈修正代码并重新生成
-    while not plc_passed and loop_count < 2:
+    while not plc_passed and loop_count < 3:
         print(f"SCL代码语法检查未通过，开始第{loop_count + 1}次修正...")
         
         # 根据语法检查反馈生成新的SCL代码提示
@@ -339,7 +339,7 @@ def pipeline(nl_task_requirements):
     print(f"SMV代码语法验证结果: {'通过' if smv_passed else '未通过'}, 反馈: {smv_check_feedback}")
     
     # 如果验证未通过且未超过循环次数，则根据反馈修正代码并重新生成
-    while not smv_passed and loop_count < 2:
+    while not smv_passed and loop_count < 3:
         print(f"SMV代码语法验证未通过，开始第{loop_count + 1}次修正...")
         
         # 根据SMV反馈生成新的SMV代码提示
@@ -371,7 +371,7 @@ def pipeline(nl_task_requirements):
     plc_passed = False
     
     # 同时检查SMV和SCL代码的状态，直到二者都通过或超过循环次数
-    while (not plc_passed or not smv_passed) and loop_count < 2:
+    while (not plc_passed or not smv_passed) and loop_count < 3:
         print(f"开始第{loop_count + 1}次工具链反馈处理...")
         
         # 对SMV代码进行验证

@@ -1,0 +1,30 @@
+﻿{
+    "title": "生成脉冲信号",
+    "description": "编写一个函数块FB，该函数块生成一个周期性的信号，该信号在FALSE和TRUE之间变化。每个周期中TRUE状态的持续时间和FALSE状态的持续时间由给定的频率和脉冲间歇比决定。脉冲间歇比定义的是每个周期中TRUE状态的持续时间与FALSE状态的持续时间之比。\n\n示例：\n假设frequency为0.5Hz，pulsePauseRatio为3。这意味着每个周期是2秒，其中TRUE状态持续1.5秒，FALSE状态持续0.5秒。",
+    "type": "FUNCTION_BLOCK",
+    "name": "Frequency",
+    "input": [
+        {
+            "name": "frequency",
+            "type": "Real",
+            "description": "以Hz为单位的时钟频率"
+        },
+        {
+            "name": "pulsePauseRatio",
+            "type": "Real",
+            "description": "脉冲间歇比，定义为每个周期中TRUE状态的持续时间与FALSE状态的持续时间之比。例如，如果pulsePauseRatio为2，则TRUE状态的持续时间将是FALSE状态的两倍。"
+        }
+    ],
+    "output": [
+        {
+            "name": "clock",
+            "type": "Bool",
+            "description": "脉冲输出"
+        },
+        {
+            "name": "countdown",
+            "type": "Time",
+            "description": "当前状态的剩余时间"
+        }
+    ]
+}

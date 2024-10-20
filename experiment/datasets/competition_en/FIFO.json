@@ -1,0 +1,72 @@
+﻿{
+    "title": "FIFO First-In-First-Out Queue",
+    "description": "Write a function block FB to implement the functionality of a First-In-First-Out (FIFO) circular queue, where the maximum length and data type of the queue are variable. The circular queue should support the following operations:\n\n1. Enqueue operation: Add an element to the end of the queue when the queue is not full.\n2. Dequeue operation: Remove an element from the front of the queue when the queue is not empty and return the value of that element.\n3. Check if the queue is empty: Check if there are no elements in the queue.\n4. Check if the queue is full: Check if the queue has reached its maximum capacity.\n5. Get the number of elements in the queue: Return the current number of elements in the queue.\nStatus codes:\n16#0000: Execution of FB without error\n16#8001: The queue is empty\n16#8002: The queue is full",
+    "type": "FUNCTION_BLOCK",
+    "name": "FIFO",
+    "input": [
+        {
+            "name": "enqueue",
+            "type": "Bool",
+            "description": "Enqueue operation, add an element to the end of the queue when the queue is not full"
+        },
+        {
+            "name": "dequeue",
+            "type": "Bool",
+            "description": "Dequeue operation, remove an element from the front of the queue when the queue is not empty and return the value of that element."
+        },
+        {
+            "name": "reset",
+            "type": "Bool",
+            "description": "Reset operation, reset head and tail pointers, elementCount output is set to zero, and isEmpty output is set to TRUE."
+        },
+        {
+            "name": "clear",
+            "type": "Bool",
+            "description": "Clear operation, reset head and tail pointers, the queue will be cleared and initialized with the initial value initialItem. ElementCount output is set to zero, and isEmpty output is set to TRUE."
+        },
+        {
+            "name": "initialItem",
+            "type": "Variant",
+            "description": "The value used to initialize the queue"
+        }
+    ],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: No error occurred TRUE: An error occurred during the execution of FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status code"
+        },
+        {
+            "name": "elementCount",
+            "type": "DInt",
+            "description": "The number of elements in the queue"
+        },
+        {
+            "name": "isEmpty",
+            "type": "Bool",
+            "description": "TRUE when the queue is empty"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "item",
+            "type": "Variant",
+            "description": "The value used to add to the queue or return from the queue"
+        },
+        {
+            "name": "buffer",
+            "type": "Variant",
+            "description": "Used as an array for the queue"
+        }
+    ],
+    "status_codes": {
+        "16#0000": "No error in execution of FB",
+        "16#8001": "The queue is empty",
+        "16#8002": "The queue is full"
+    }
+}

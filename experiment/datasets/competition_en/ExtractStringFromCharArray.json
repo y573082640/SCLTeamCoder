@@ -1,0 +1,43 @@
+﻿{
+    "title": "Extracting a substring from a character array",
+    "description": "Write a function FC that can extract a substring from a character array based on a given start string and end string.\n\n1. The function should iterate over searchIn to find the first occurrence of textBefore, then find the subsequent occurrence of textAfter.\n2. If both textBefore and textAfter are found, the function should extract the string between these two boundaries (excluding the boundary strings themselves) and return this substring.\n3. If textBefore or textAfter does not exist in searchIn, the function should return a specific status code.\n\nThe status parameter indicates the execution status of the program:\n- 16#0000: Execution successful\n- 16#8200: The input parameter searchIn is not a character array or byte array\n\nThe return value indicates the result of the search:\n- 16#0000: Search successful, both the head and tail characters have been found\n- 16#9001: Search unsuccessful, only the start boundary was found, the end boundary was not found\n- 16#9002: Search unsuccessful, the start boundary was not found.\n\nExample:\nAssuming searchIn is \"This is a [sample] string with [multiple] boundaries.\", textBefore is \"[\", and textAfter is \"]\". The function should return \"sample\" as the extracted substring.",
+    "type": "FUNCTION",
+    "name": "ExtractStringFromCharArray",
+    "input": [
+        {
+            "name": "textBefore",
+            "type": "String",
+            "description": "The start boundary of the string to be extracted"
+        },
+        {
+            "name": "textAfter",
+            "type": "String",
+            "description": "The end boundary of the string to be extracted"
+        }
+    ],
+    "output": [
+        {
+            "name": "extractedString",
+            "type": "String",
+            "description": "The extracted string"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "The status code, see description for details"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "searchIn",
+            "type": "Variant",
+            "description": "The character or byte array in which to search"
+        }
+    ],
+    "return_value": [
+        {
+            "type": "Word",
+            "description": "The status code, see description for details"
+        }
+    ]
+}

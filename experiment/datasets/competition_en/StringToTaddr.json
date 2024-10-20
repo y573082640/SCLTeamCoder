@@ -1,0 +1,31 @@
+﻿{
+    "title": "Convert String to IP Address and Port Number",
+    "description": "In Siemens PLC programming, it is often necessary to receive strings containing IP addresses and port numbers from user input or external devices and parse them into integer formats for network communication.\nWrite a function FC that converts a string containing an IP address and possibly a port number into integer forms of IP address and port number. The string format should be \"xxx.xxx.xxx.xxx[:port]\", where xxx represents numbers between 0-255, and port represents a port number between 0-65535 (optional). If the string contains a port number, return it; if not, return the default port number (e.g., 0). Return the converted IP address and port number to the corresponding positions of the system data type TADDR_Param structure.\nThe function should check if the input string conforms to the \"IP_ADDRESS:PORT\" format requirement, where the IP address consists of four integers between 0 and 255 separated by dots, and the port number is an integer between 0 and 65535.\nIf the string format is correct, the function should parse it into an IP address represented by a four-byte integer array and a port number represented by an integer, and return these values.\nIf the string format is incorrect, the function should output an error status and an error code.\nStatus codes:\n16#0000: Execution of FC without error\n16#811x: IP address contains too many characters, where x indicates the lowest byte sequence number with an error, e.g., if the 2nd byte of the IP address is wrong, then x=2\n16#812x: IP address string is an empty string, x means the same as above\n16#813x: Exceeds the maximum IP address value (255), x means the same as above\n16#8150: Too many port number characters\n16#8151: Port number string is empty\n16#8152: Exceeds the maximum port number value (65535)",
+    "type": "FUNCTION",
+    "name": "StringToTaddr",
+    "input": [
+        {
+            "name": "ipAddressString",
+            "type": "String",
+            "description": "The input string"
+        }
+    ],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: No error occurred; TRUE: An error occurred during the execution of FC"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status code"
+        }
+    ],
+    "return_value": [
+        {
+            "type": "TADDR_Param",
+            "description": "The converted IP address and port number"
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+﻿{
+    "title": "Random Number",
+    "description": "Write a function FC that generates a random integer within a specified range using the PLC's clock value.\nIf the specified range is incorrect or there is an error reading the system time, an error status and error code are output.\n\nStatus codes:\n16#0000: Execution of FC without error\n16#8200: Specified range is incorrect: minValue is greater than maxValue\n16#8600: Error reading system time",
+    "type": "FUNCTION",
+    "name": "RandomRange_DInt",
+    "input": [
+        {
+            "name": "minValue",
+            "type": "DInt",
+            "description": "The minimum value of the random number range"
+        },
+        {
+            "name": "maxValue",
+            "type": "DInt",
+            "description": "The maximum value of the random number range"
+        }
+    ],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: No error occurred; TRUE: An error occurred during the execution of FC"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status code"
+        }
+    ],
+    "return_value": [
+        {
+            "type": "DInt",
+            "description": "The generated random number"
+        }
+    ]
+}
