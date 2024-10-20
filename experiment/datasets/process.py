@@ -127,7 +127,7 @@ def get_oscat_requirements(code_path,txt_path,requirement_path):
     txt_dict = read_files_to_dict(txt_path,prefix="txt")
     # 3.调用大模型根据code和txt生成需求
     for key,value in st_dict.items():
-        user_manual = txt_dict.get(key,"# No manual for this st code")
+        user_manual = txt_dict.get(key,"# No user manual for this st code")
         requirement = call_llm(f"user manual:\n{user_manual}\nst_code:\n{value}\n",prompt_en)
         requirement = parse_response(requirement)
         # 4.将生成的需求保存到requirement_path下的txt文件中
