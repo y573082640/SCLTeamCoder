@@ -1,0 +1,6 @@
+## Short description ##
+
+This function compares two matrices of the data type ARRAY[*,*] of LREAL of equal size.
+If both matrices are identical, the return value of the function is set to TRUE.
+Note Note that all input matrices must have the same lower and upper limit, and, therefore, the 
+same number of columns and rows.

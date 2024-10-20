@@ -1,0 +1,5 @@
+## Short description ##
+
+Adjusts/ switches the endianness of multibyte data typed values.
+For this to achieve, a loop will iterate through the array elements and swap the bytes 
+intrinsically.

@@ -1,0 +1,10 @@
+## Short description ##
+
+The function determines whether a given date is a public holiday.
+All public holidays in Germany are taken into account.
+Holidays that are NOT uniform nationwide can be switched on or off
+
+## Functional description ##
+
+The block calculates the public holiday calendar of the year for a given date and displays whether the given date is a public holiday.
+Optionally, holidays that are not uniform nationwide, such as Epiphany (Three Kings), can be taken into account via the appropriate input parameters in the block.

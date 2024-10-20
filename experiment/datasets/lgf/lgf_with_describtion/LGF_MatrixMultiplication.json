@@ -1,0 +1,52 @@
+{
+    "title": "Matrix Multiplier",
+    "name": "LGF_MatrixMultiplication",
+    "description": "## Short description ##\n\nThis function multiplies two matrices of the data type ARRAY[*,*] of LREAL.\nThe block multiplies two matrices of variable size. The individual elements of the two incoming \nmatrices are read, multiplied, and then output in the matrixResult matrix.\nNote Note that the number of columns in the first matrix must be equal to the number of rows in \nthe second matrix.\nThe size of the initial matrix (m * n) results from the number of rows (m) of matrix1 and the \nnumber of columns (n) of matrix2.",
+    "type": "FUNCTION",
+    "input": [],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "Error flag"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status code"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "matrix1",
+            "type": "Array[*, *] of LReal",
+            "description": "First factor: Matrix to multiply"
+        },
+        {
+            "name": "matrix2",
+            "type": "Array[*, *] of LReal",
+            "description": "Second factor: Matrix to multiply"
+        },
+        {
+            "name": "matrixResult",
+            "type": "Array[*, *] of LReal",
+            "description": "Product: The resulting matrix"
+        }
+    ],
+    "return_value": [
+        {
+            "type": "Void",
+            "description": "Void - Function has no return value"
+        }
+    ],
+    "status_codes": {
+        "16#0000": "STATUS_NO_ERROR",
+        "16#8200": "ERR_MATR1_LOWBOUND_COLUMNS_MATR2_LOWBOUND_ROWS",
+        "16#8201": "ERR_MATR1_UPPBOUND_COLUMNS_MATR2_UPPBOUND_ROWS",
+        "16#8202": "ERR_MATR1_LOWBOUND_ROWS_RESMATR_LOWBOUND_ROWS",
+        "16#8203": "ERR_MATR2_LOWBOUND_COLUMNS_RESMATR_LOWBOUND_COLUMNS",
+        "16#8204": "ERR_MATR1_UPPBOUND_ROWS_RESMATR_UPPBOUND_ROWS",
+        "16#8205": "ERR_MATR2_UPPBOUND_COLUMNS_RESMATR_UPPBOUND_COLUMNS"
+    },
+    "user_defined_types": []
+}

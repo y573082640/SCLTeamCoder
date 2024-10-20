@@ -1,0 +1,14 @@
+## Short description ##
+
+This function generates a random value with each call.
+The random number has the data type DInt.
+
+## Functional description ##
+
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The function generates random values in the range:
+−2147483648 ≤ 𝑅𝑒𝑡𝑢𝑟𝑛𝑉𝑎𝑙 ≤ 2147483647.
+The random value is formed from the nanoseconds of the current system time of the CPU. The 
+byte order of this value is inverted and then converted to DInt.

@@ -1,0 +1,39 @@
+{
+    "title": "Shell Sort for UDInt Arrays",
+    "name": "LGF_ShellSort_UDInt",
+    "description": "## Short description ##\n\nThis block sorts an array of type UDInt with any number of elements (max. 1000) in ascending \nor descending order and returns the sorted version of the array in the same variable.\n\n## Functional description ##\n\nThe block sorts according to the shell sort procedure. Note that the execution time of the block \ndepends significantly on how many elements the array to be sorted has. The overview below \nshows several measured values of the block depending on the number of array elements.\nAverage steps needed for execution: 𝒪(𝑛 ⋅ log(𝑛)^2)\nTable: Execution times of the block LGF_ShellSort…\nNumber of array elements S7-1212C DC/DC/DC S7-1516-3 PN/DP\n100 approx. 11-16 ms approx. 1-2 ms\n1000 approx. 185-205 ms approx. 10-12 ms\nNote The block is executed synchronously and is not split over several PLC cycles. Thus the \nexecution time has a direct effect on the PLC cycle time. Note this behavior for your project \nof the controller used and adjust the monitoring time of the controller if necessary.",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "sortDirection",
+            "type": "Bool",
+            "description": "FALSE: Sort ascending; TRUE: Sort descending"
+        }
+    ],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "An error occurred during the execution of the FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status of the FB, Error identification"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "array",
+            "type": "Array[*] of UDInt",
+            "description": "Array to be sorted"
+        }
+    ],
+    "return_value": [],
+    "status_codes": {
+        "16#0000": "STATUS_NO_ERROR",
+        "16#8200": "ERR_NO_ARRAY",
+        "16#8201": "ERR_TOO_MANY_ELEMENTS"
+    },
+    "user_defined_types": []
+}

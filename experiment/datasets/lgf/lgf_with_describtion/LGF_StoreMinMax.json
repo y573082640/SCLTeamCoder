@@ -1,0 +1,34 @@
+{
+    "title": "Value Min/Max Storer",
+    "name": "LGF_StoreMinMax",
+    "description": "## Short description ##\n\nThis function reads-in a value of a variable at each call and outputs the maximum and minimum \nvalue that has been read in since the first call.\nThe evaluation can be reset if necessary. The block supports the data type LReal.",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "value",
+            "type": "LReal",
+            "description": "Value to be compared with min/max"
+        },
+        {
+            "name": "reset",
+            "type": "Bool",
+            "description": "TRUE: The min/max history is reset and the evaluation starts over again."
+        }
+    ],
+    "output": [
+        {
+            "name": "minValue",
+            "type": "LReal",
+            "description": "Minimum value since first call or `reset`."
+        },
+        {
+            "name": "maxValue",
+            "type": "LReal",
+            "description": "Maximum values since first call or `reset`."
+        }
+    ],
+    "in/out": [],
+    "return_value": [],
+    "status_codes": {},
+    "user_defined_types": []
+}

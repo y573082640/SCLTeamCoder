@@ -1,0 +1,21 @@
+## Short description ##
+
+FIFO (First-In First-Out / Queue / ring buffer memory)
+This function stores incoming data and outputs the oldest unprocessed data.
+
+## Functional description ##
+
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+Note In computer science, the queue is also based on the FIFO principle.
+With the enqueue input, a new item is stored from the InOut parameter item in the next free 
+position in the buffer. The output elementCount is incremented by one.
+With the dequeue input, the next element to be processed is output to the InOut parameter item, 
+and this field in the buffer is replaced by the value in the parameter initialItem. The output 
+elementCount decremented by one.
+With the reset input, the buffer is initialized and the index and counter are reset. The 
+elementCount output is set to zero and the isEmpty output is set to TRUE.
+With the clear input, the buffer is emptied and initialized with the initial value initialItem. Index 
+and counter are reset. The elementCount output is set to zero and the isEmpty output is set to 
+TRUE.

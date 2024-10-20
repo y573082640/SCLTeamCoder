@@ -1,0 +1,10 @@
+## Short description ##
+
+This function converts a date of data type DTL into a character string of data type STRING in 
+the traditional format (DD MM YYYYY…).
+
+## Functional description ##
+
+The block reads a date of data type DTL and converts the individual components of the date 
+(year, month, day, hour…) into a character string and outputs it in traditional format (DE). The 
+separator between the components of the date is variable.

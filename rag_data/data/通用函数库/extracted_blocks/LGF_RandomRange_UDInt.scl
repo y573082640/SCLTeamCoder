@@ -46,6 +46,16 @@ BEGIN
 	  // Restrictions:     ENO disabled - error handling done by error and status
 	  // Requirements:     PLC (S7-1200 / S7-1500)
 	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 11.12.2019  Simatic Systems Support
+	  //                      First released version
+	  //                      copied from "LGF_RandomRange_DInt"
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 04.02.2021  Simatic Systems Support
+	  //                      Insert documentation
 	  //=============================================================================
 	END_REGION Block info header
 	

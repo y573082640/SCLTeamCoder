@@ -27,6 +27,16 @@ BEGIN
 	  // Restrictions:     ENO disabled - ENO mechanism is not used
 	  // Requirements:     PLC (S7-1200 / S7-1500)
 	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 04.10.2019  Siemens Industry Presales Support
+	  //                      First released version
+	  //                      derivate from "CalcDistance_2D" and extended to 3D
+	  // 03.00.00 23.04.2020  Siemens Industry Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 12.11.2020  Simatic Systems Support
+	  //                      Insert documentation
 	  //=============================================================================
 	END_REGION Block info header
 	

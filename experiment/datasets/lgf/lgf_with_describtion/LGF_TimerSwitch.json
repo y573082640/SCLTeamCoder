@@ -1,0 +1,98 @@
+{
+    "title": "Timer with various time switch points",
+    "name": "LGF_TimerSwitch",
+    "description": "## Short description ##\n\nThis block is a timer. It is possible to define daily, weekly, monthly, yearly time switch points and \ntime switch points for working days or weekend days.\nMode: Permanently off: 0, Daily: 1, Weekly: 2, Monthly: 3, Yearly: 4, Workday: 5, Weekend: 6, \nPermanently on: 10\nThe time value is always compared with the local time of the PLC, therefore the time value \nspecified at the On and Off parameters must be specified as local time.\n\n## Functional description ##\n\nNote The status of called commands is output in subFunctionStatus. In this case, the output value \nin status indicates which command caused the error. In this case, refer to the TIA Portal \nOnline Help section for information on the respective commands.\nNote The function uses internally the system function RD_LOC_T to read the local time of the CPU, \nfor the correct function it is therefore necessary that the local time of the CPU is set correctly.\nThe block offers various timer types, which are determined in the mode parameter:\n• Permanently off (mode = 0)\n• Daily timer (mode = 1)\n• Weekly timer (mode = 2)\n• Monthly timer (mode = 3)\n• Yearly timer (mode = 4)\n• Weekdays, Monday to Friday (mode = 5)\n• Weekend, Saturday and Sunday (mode = 6)\n• Permanently on (mode = 10)\nThe time value is always compared with the local time of the PLC, therefore the time value \nspecified at the On and Off parameters must be specified as local time.\nDepending on the mode, the following formal parameters must be interconnected:\nMode. Mode Required - formal parameters\n0 . Permanently OFF – none\n1 . Daily timer – onHour / offHour\n– onMinute / offMinute\n2 . Weekly timer – onWeekday / offWeekday\n– onHour / offHour\n– onMinute / offMinute\n3 . Monthly timer – onDay / offDay\n– onHour / offHour\n– onMinute / offMinute\n4 . Yearly timer – onMonth / offMonth\n– onDay / offDay\n– onHour / offHour\n– onMinute / offMinute\n5 . Weekdays – onHour / offHour\n– onMinute / offMinute\n6 . Weekend – onHour / offHour\n– onMinute / offMinute\n10 . Permanently ON – none\nIf the set start time equals the current local time of the controller, the output signal is set to \nTRUE. If the set switch-off time equals the current local time of the controller, the signal output is \nreset again.\nNote Please note that the block can be used in the “Monthly timer” modes (mode = 3) or “yearly \ntimer” (mode = 4) the block only switches if the days that you specify at the input parameters, \n“onDay” and “offDay”, actually occur in this month.",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "onMonth",
+            "type": "USInt",
+            "description": "Month, in which the signal shall be set."
+        },
+        {
+            "name": "onDay",
+            "type": "USInt",
+            "description": "Day, at which the signal shall be set."
+        },
+        {
+            "name": "onWeekday",
+            "type": "USInt",
+            "description": "Day of the week on which the signal will be set; Sunday: 1, Monday: 2, Tuesday: 3, ..."
+        },
+        {
+            "name": "onHour",
+            "type": "USInt",
+            "description": "Hour, at which the signal shall be set."
+        },
+        {
+            "name": "onMinute",
+            "type": "USInt",
+            "description": "Minute, at which the signal shall be set."
+        },
+        {
+            "name": "offMonth",
+            "type": "USInt",
+            "description": "Month, in which the signal shall be reset."
+        },
+        {
+            "name": "offDay",
+            "type": "USInt",
+            "description": "Day, at which the signal shall be reset."
+        },
+        {
+            "name": "offWeekday",
+            "type": "USInt",
+            "description": "Day of the week on which the signal will be reset; Sunday: 1, Monday: 2, Tuesday: 3, ..."
+        },
+        {
+            "name": "offHour",
+            "type": "USInt",
+            "description": "Hour, at which the signal shall be reset."
+        },
+        {
+            "name": "offMinute",
+            "type": "USInt",
+            "description": "Minute, at which the signal shall be reset."
+        },
+        {
+            "name": "mode",
+            "type": "USInt",
+            "description": "Specifies the mode (see Principle of operation)"
+        }
+    ],
+    "output": [
+        {
+            "name": "signal",
+            "type": "Bool",
+            "description": "Output signal"
+        },
+        {
+            "name": "actLocalTime",
+            "type": "DTL",
+            "description": "Current local time"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: No error / TRUE: An error occurred during the execution of the FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "16#0000-16#7FFF: Status of the FB / 16#8000-16#FFFF: Error identification"
+        },
+        {
+            "name": "subFunctionStatus",
+            "type": "Word",
+            "description": "Sub function status code"
+        }
+    ],
+    "in/out": [],
+    "return_value": [],
+    "status_codes": {
+        "16#0000": "STATUS_NO_ERROR",
+        "16#8200": "ERR_NO_MODE_SELECTED",
+        "16#8600": "ERR_RD_LOC_T"
+    },
+    "user_defined_types": []
+}

@@ -1,0 +1,43 @@
+{
+    "title": "Polynomial Smoothing Function",
+    "name": "LGF_SmoothByPolynomFC",
+    "description": "## Short description ##\n\nThis function calculates the smoothed values by polynomial acyclically.\nFor smoothing, a 3rd degree polynomial is placed through five value points. The error squares \nof the distances between polynomial and real value are minimized. The smoothed values can \nbe determined from the polynomial parameters obtained in this way.\nThe function reads an array that is smoothed. 𝑁 − 4 smoothed measured values can be \ncalculated from N measured values. The output array contains the value 0 in the index (0,1,N-\n1,N). However, replacement values can be calculated.\n\n## Functional description ##\n\nThe 3rd degree compensation polynomial is calculated as follows:\n\n𝑁 − 4 smoothed measured values can thus be calculated from the N measured values. The \noutput array contains the value 0 in the index (0.1, N-1, N).\nThese “missing” values are calculated with the following formalisms:",
+    "type": "FUNCTION",
+    "input": [],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: No error TRUE: An error occurred during the execution of the FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status of the FB"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "values",
+            "type": "Array[*] of LReal",
+            "description": "Values that are to be included in the smoothing."
+        },
+        {
+            "name": "smoothedValues",
+            "type": "Array[*] of LReal",
+            "description": "The smoothed values."
+        }
+    ],
+    "return_value": [
+        {
+            "type": "Void",
+            "description": "Void - Function has no return value"
+        }
+    ],
+    "status_codes": {
+        "16#0000": "STATUS_FINISHED_NO_ERROR",
+        "16#8400": "ERR_ARRAYS_DIFFERENT Error: The Array sizes are not equal.",
+        "16#8401": "ERR_NOT_ENOUGH_VALUES Error: Not enough values."
+    },
+    "user_defined_types": []
+}

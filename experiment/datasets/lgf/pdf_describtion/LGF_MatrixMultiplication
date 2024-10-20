@@ -1,0 +1,9 @@
+## Short description ##
+
+This function multiplies two matrices of the data type ARRAY[*,*] of LREAL.
+The block multiplies two matrices of variable size. The individual elements of the two incoming 
+matrices are read, multiplied, and then output in the matrixResult matrix.
+Note Note that the number of columns in the first matrix must be equal to the number of rows in 
+the second matrix.
+The size of the initial matrix (m * n) results from the number of rows (m) of matrix1 and the 
+number of columns (n) of matrix2.

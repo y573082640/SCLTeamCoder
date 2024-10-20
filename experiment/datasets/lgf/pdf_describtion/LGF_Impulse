@@ -1,0 +1,9 @@
+## Short description ##
+
+This function generates pulses at a given frequency. The pulse is always present for one 
+(control) cycle.
+
+## Functional description ##
+
+The function generates pulses at the output impulse with the frequency frequency.
+The block always begins with a pulse and sets the next pulse after the period that has elapsed.

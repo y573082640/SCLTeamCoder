@@ -57,6 +57,15 @@ BEGIN
 	  // Restrictions:     ENO mechanism is not used, Error handling done by error and status
 	  // Requirements:     PLC (S7-1200 / S7-1500)
 	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge        | Changes applied
+	  //----------|------------|-------------------------|------------------------------
+	  // 01.00.00 | 2019.09.11 | SIMATIC Systems Support | First released version
+	  // 03.00.00 | 2019.04.23 | Siemens Industry Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.02 | 20.01.2021 | Simatic Systems Support
+	  //                         Fix `tempStatus` initialization
+	  //                         Insert documentation
 	  //===============================================================================
 	END_REGION
 	

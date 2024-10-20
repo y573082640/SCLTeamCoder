@@ -1,0 +1,13 @@
+## Short description ##
+
+The simplest case of a regression is the regression line. This means that the assumed 
+relationship between the input and output signal is a linear straight line.
+Figure: Regression line
+
+## Functional description ##
+
+The block calculates the regression line with the following line equation:
+𝑓(𝑥) = 𝑚 ⋅ 𝑥 + 𝑡
+𝑚: Gradient of straight line
+𝑡: Intersection with y-axis
+𝑁: number of array elements

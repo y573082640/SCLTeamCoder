@@ -32,6 +32,18 @@ BEGIN
 	  // Restrictions:     ENO handling done by STRG_VAL
 	  // Requirements:     PLC (S7-1200 / S7-1500)
 	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.01 | 12.06.2019 | Simatic Systems Support
+	  //                         First released version
+	  // 01.00.03 | 30.07.2019 | Simatic Systems Support
+	  //                         Add ENO handling
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         Harmonize the version of the whole library
+	  // 03.00.01 | 23.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  //                         ENO handling done by STRG_VAL system function
 	  //===============================================================================
 	END_REGION Block info header
 	

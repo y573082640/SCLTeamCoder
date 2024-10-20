@@ -32,6 +32,13 @@ BEGIN
 	  // Restrictions:     ENO not in use, set to true, no error handling
 	  // Requirements:     PLC (S7-1200 / S7-1500)
 	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge         | Changes applied
+	  // 01.00.00 | 06.06.2015 | Siemens Industry Support | first release
+	  // 03.00.00 | 23.04.2020 | Siemens Industry Support | Set version to V3.0.0
+	  //                         harmonize the version of the whole library
+	  // 03.00.01 | 19.01.2021 | Simatic Systems Support
+	  //                         Insert documentation
 	  //===============================================================================
 	END_REGION
 	

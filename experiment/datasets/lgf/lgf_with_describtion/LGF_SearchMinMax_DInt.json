@@ -1,0 +1,39 @@
+{
+    "title": "DInt Array Min/Max Value and Index Searcher",
+    "name": "LGF_SearchMinMax_DInt",
+    "description": "## Short description ##\n\nThis function searches, in an array of the data type DInt, for the maximum and minimum value \nand the respective index in the array.\n\n## Functional description ##\n\nAn array of any size is connected via the values input. The elements are then compared in turn. \nThe smallest and largest values, as well as their corresponding index are output to the array.\nNote If there are several identical min. or max. values, the index of the first min. or max. value is \noutput.",
+    "type": "FUNCTION",
+    "input": [],
+    "output": [
+        {
+            "name": "minValue",
+            "type": "DInt",
+            "description": "Minimum value found in the array"
+        },
+        {
+            "name": "minValueIndex",
+            "type": "DInt",
+            "description": "Index of the minimum found value in the array"
+        },
+        {
+            "name": "maxValue",
+            "type": "DInt",
+            "description": "Maximum value found in the array"
+        },
+        {
+            "name": "maxValueIndex",
+            "type": "DInt",
+            "description": "Index of the maximum found value in the array"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "values",
+            "type": "Array[*] of DInt",
+            "description": "Array in whose fields the maximum and minimum are searched"
+        }
+    ],
+    "return_value": [],
+    "status_codes": {},
+    "user_defined_types": []
+}

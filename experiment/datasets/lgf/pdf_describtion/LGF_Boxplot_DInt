@@ -1,0 +1,42 @@
+## Short description ##
+
+If you want to get an overview of existing data, you can use a Boxplot diagram. A Boxplot shows 
+you in which area the data is located and how it is distributed over this area. A Boxplot consists 
+of the following parameters:
+• Minimum (smallest occurring value of the sample)
+• Lower or first quartile (below this value are 25% of the sample values)
+• Median or second quartile (below this value are 50% of the sample values)
+• Upper or third quartile (below this value are 75% of the sample values)
+• Maximum (largest occurring value of the sample)
+Figure: Boxplot
+
+## Functional description ##
+
+The block sorts the data series and then calculates the so-called “five-point summary”:
+Table: Five-point summary
+Characteristic value of the five-point summary Output parameter of the block
+Minimum (smallest occurring value of the sample) min
+Lower or first quartile (below this value are 25% of 
+the sample values)
+q25
+Median or second quartile (below this value are 
+50% of the sample values)
+median
+Upper or third quartile (below this value are 75% of 
+the sample values)
+q75
+Maximum (largest occurring value of the sample) max
+If outlier detection is activated, the block first calculates the limits. From these limit values, the 
+values are recognized as outliers:
+
+The block then calculates new values for the parameters max and min, which lie within the outlier 
+limits. The outliers are counted and output as a percentage.
+To make it easier to judge how the data is distributed, the block also calculates the skew. The 
+skewness lies between the values -1 and 1 with the following meaning:
+• -1: extremely left skewed distribution
+• 0: symmetrical distribution
+• 1: extreme right-skew distribution
+The elements of the passed array are sorted in ascending order by the block. The 
+LGF_Shellsort_DInt block is used for sorting.
+The parameters are calculated as follows:
+Table: Boxplot formulas Parameters Formula

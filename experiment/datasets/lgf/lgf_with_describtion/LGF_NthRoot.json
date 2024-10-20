@@ -1,0 +1,42 @@
+{
+    "title": "N-th root extraction",
+    "name": "LGF_NthRoot",
+    "description": "## Short description ##\n\nThis function extracts the n-th root of a given value.\nThe root is defined as follows:\n𝑟𝑒𝑠𝑢𝑙𝑡 = 𝑟𝑜𝑜𝑡√𝑣𝑎𝑙𝑢𝑒 = 𝑣𝑎𝑙𝑢𝑒^(1/𝑟𝑜𝑜𝑡)\nSTEP 7 (TIA Portal) results in the following formula:\n𝑟𝑒𝑠𝑢𝑙𝑡 = 𝑣𝑎𝑙𝑢𝑒 ** (1/𝑟𝑜𝑜𝑡)",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "value",
+            "type": "LReal",
+            "description": "Value from which the root should be calculated"
+        },
+        {
+            "name": "root",
+            "type": "LReal",
+            "description": "Exponent of root"
+        }
+    ],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "Error flag"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status code"
+        }
+    ],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "LReal",
+            "description": "Returns the Nth root of a value"
+        }
+    ],
+    "status_codes": {
+        "16#0000": "STATUS_NO_ERROR",
+        "16#8200": "ERR_NEG_VAR"
+    },
+    "user_defined_types": []
+}

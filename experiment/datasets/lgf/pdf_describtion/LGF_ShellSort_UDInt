@@ -1,0 +1,18 @@
+## Short description ##
+
+This block sorts an array of type UDInt with any number of elements (max. 1000) in ascending 
+or descending order and returns the sorted version of the array in the same variable.
+
+## Functional description ##
+
+The block sorts according to the shell sort procedure. Note that the execution time of the block 
+depends significantly on how many elements the array to be sorted has. The overview below 
+shows several measured values of the block depending on the number of array elements.
+Average steps needed for execution: 𝒪(𝑛 ⋅ log(𝑛)^2)
+Table: Execution times of the block LGF_ShellSort…
+Number of array elements S7-1212C DC/DC/DC S7-1516-3 PN/DP
+100 approx. 11-16 ms approx. 1-2 ms
+1000 approx. 185-205 ms approx. 10-12 ms
+Note The block is executed synchronously and is not split over several PLC cycles. Thus the 
+execution time has a direct effect on the PLC cycle time. Note this behavior for your project 
+of the controller used and adjust the monitoring time of the controller if necessary.

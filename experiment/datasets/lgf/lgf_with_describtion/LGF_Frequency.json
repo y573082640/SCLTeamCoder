@@ -1,0 +1,34 @@
+{
+    "title": "Frequency Signal Generator",
+    "name": "LGF_Frequency",
+    "description": "## Short description ##\n\nThis function generates a signal that changes between the values FALSE and TRUE depending on \na defined frequency and a pulse pause ratio.\n\n## Functional description ##\n\nThe clock output is a Boolean value that toggles at the desired frequency. The pulsePauseRatio\ninput is used to set the pulse pause ratio.\nThe output countdown outputs the remaining time of the current state of clock.\nIf the desired frequency or pulse pause ratio is less than or equal to 0.0, the output clock = \nFALSE and countdown = 0s.",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "frequency",
+            "type": "Real",
+            "description": "0.0"
+        },
+        {
+            "name": "pulsePauseRatio",
+            "type": "Real",
+            "description": "1.0"
+        }
+    ],
+    "output": [
+        {
+            "name": "clock",
+            "type": "Bool",
+            "description": "Output changes with defined frequency."
+        },
+        {
+            "name": "countdown",
+            "type": "Time",
+            "description": "Remaining time of the current clock state."
+        }
+    ],
+    "in/out": [],
+    "return_value": [],
+    "status_codes": {},
+    "user_defined_types": []
+}

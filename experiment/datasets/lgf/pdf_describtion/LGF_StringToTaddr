@@ -1,0 +1,14 @@
+## Short description ##
+
+The system data type TADDR_Param contains address information consisting of an IPV4 address 
+and the port number.
+The LGF_StringToTaddr function converts a variable od data type String to a TADDR_Param
+system data type variable.
+
+## Functional description ##
+
+The function converts the IPV4 address with or without port number from data type String to 
+TADDR_Param.
+The string must be in the following form:
+• without port number: [0..255].[0..255].[0..255].[0..255]
+• with port number: [0..255].[0..255].[0..255].[0..255]:[0..65535]

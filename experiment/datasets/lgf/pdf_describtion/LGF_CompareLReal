@@ -1,0 +1,14 @@
+## Short description ##
+
+This function checks floating point numbers for equality, by using an approximation formula and 
+a fixed precision by constant 1.0E-12 (pico)
+
+## Functional description ##
+
+The comparison of the LREAL numbers is based on an fixed accuracy of 1.0E-12. The 
+difference between the two input values must be smaller than the PRECISION accuracy multiplied 
+by one of the two input values.
+Equation:
+Note If your application requires a different accuracy when comparing the numbers, adapt the 
+“PRECISION” constant in the function to your requirements.
+Or you may use the FC LGF_CompareLRealByPrecision.

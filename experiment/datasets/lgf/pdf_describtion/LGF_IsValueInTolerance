@@ -1,0 +1,11 @@
+## Short description ##
+
+The function checks whether a value is within a defined value range.
+The value range is defined with a set point, as well as a tolerance range, around the set point in 
+percent (%). The function calculates the low limit and high limit of the value range.
+
+## Functional description ##
+
+The setpoint and tolerance percentage variables define a value range.
+The function checks whether the value is below, in or above the value range. The outputs 
+belowLowLimit, Ret_Val, or overHighLimit show where the value is located.

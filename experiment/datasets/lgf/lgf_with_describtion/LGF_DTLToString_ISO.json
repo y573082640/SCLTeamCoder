@@ -1,0 +1,28 @@
+{
+    "title": "DTL to ISO 8601 Date String",
+    "name": "LGF_DTLToString_ISO",
+    "description": "## Short description ##\n\nThis function converts the date and time of data type DTL to the UNIX time of data type DInt. \nThe timestamp is calculated in UTC. This means that the time zone is not considered.\nOnly times after 01/01/1990 are permitted.",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "date",
+            "type": "DTL",
+            "description": "Date to convert as DTL tag"
+        },
+        {
+            "name": "separator",
+            "type": "Char",
+            "description": "Separator between the components of the output date."
+        }
+    ],
+    "output": [],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "String",
+            "description": "Output string in accordance with the ISO 8601 format."
+        }
+    ],
+    "status_codes": {},
+    "user_defined_types": []
+}

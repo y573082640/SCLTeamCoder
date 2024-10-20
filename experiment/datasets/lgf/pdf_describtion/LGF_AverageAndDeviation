@@ -1,0 +1,11 @@
+## Short description ##
+
+This function calculates the arithmetic mean and the standard deviation from a series of 
+numbers.
+
+## Functional description ##
+
+An array of any size is connected via the variableArray input. After reading-out the array 
+boundaries, the arithmetic mean value and the standard deviation will be calculated from the 
+values and both will be output.
+Note An array with too many elements can cause the cycle monitoring time to be exceeded.

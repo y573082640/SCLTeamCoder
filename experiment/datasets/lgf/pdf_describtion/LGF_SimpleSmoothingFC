@@ -1,0 +1,15 @@
+## Short description ##
+
+The function calculates the linear mean value acyclically.
+The simplest form of smoothing a sequence of measured values is to calculate the linear mean 
+value by three points.
+The function reads an array that is smoothed. 𝑁 − 2 smoothed measured values can be 
+calculated from N measured values. Therefore, the output array in the index (0) and index (N) 
+contains the value 0.
+
+## Functional description ##
+
+The function calculates the smoothed values using the following formula:
+
+The calculated value is output or the calculated values are output at output smoothedValue.
+Based on this formula, the function cannot calculate values for the elements 0 and N.

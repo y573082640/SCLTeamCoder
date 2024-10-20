@@ -1,0 +1,26 @@
+## Short description ##
+
+This function numerically differentiates a signal sampled equidistantly in time. For example, the 
+velocity can be calculated from a measured locus curve, or the acceleration can be calculated 
+from the measured velocity. In order to minimize the effects of a scattering measurement signal, 
+this algorithm uses a compensating polynomial.
+The function calculates the differentiated values acyclically.
+The function reads an array that is differentiated. 𝑁 − 4 smoothed measured values can be 
+calculated from N measured values. The output array contains the value 0 in the index (0,1,N-
+1,N). However, replacement values can be calculated.
+
+## Functional description ##
+
+To calculate the difference quotient of a scattering signal, a third-degree compensation 
+polynomial is first placed through the measured values. This polynomial is then differentiated. 
+With this method, even a distorted input signal can be sensibly differentiated.
+The difference quotient is calculated with the following formula:
+y'(n)= $ \frac {y(n-2)-8y(n-1)+8y(n+1)-y(n+2)}{12 \cdot deltaT} $ 
+𝑑𝑒𝑙𝑡𝑎𝑇: equidistant distance between two measured values (e.g. 1s).
+The function (FC) can calculate 𝑁 − 4 differentiated and smoothed measured values from N 
+measured values. The output array would be assigned with 0 in the index (0,1,N-1,N). However, 
+the following formalisms can be used to calculate substitute values:
+y'(n-2)= $ \frac {-125y(n-2)+136y(n-1)+48y(n)-88y(n+1)+29y(n+2)}{84\cdot deltaT} $ 
+y'(n-1)= $ \frac {-38y(n-2)-2y(n-1)+24y(n)+26y(n+1)-10y(n+2)}{84\cdot deltaT} $ 
+y'(n+1)= $ \frac {10y(n-2)-26y(n-1)-24y(n)+2y(n+1)+38y(n+2)}{84\cdot deltaT} $ 
+y'(n+2)= $ \frac {-29y(n-2)+88y(n-1)-48y(n)-136y(n+1)+125y(n+2)}{84\cdot deltaT} $

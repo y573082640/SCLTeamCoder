@@ -1,0 +1,16 @@
+## Short description ##
+
+Checks if a given value is within a specified tolerance in percent of a given set point.
+The block has a configurable timing for set point change hiding, lower limit and as well for upper 
+limit violation hiding.
+
+## Functional description ##
+
+The setpoint, lowerMinimum and upperMaximum variables define a value range.
+The function checks whether the value is below, in or above the value range. The outputs 
+belowLowLimit, inLimits, or overHighLimit show where the value is located.
+By the configuration it is possible to define whether the borders are given as absolute values or 
+in percentage from set point.
+The timing could be adjusted for set point changes and as well for hiding the violating of the 
+lower or upper limit in case of peaks.
+Figure: Principle of operation

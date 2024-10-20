@@ -1,0 +1,5 @@
+## Short description ##
+
+This block toggles (from TRUE to FALSE and viceversa) a bit at a predefined position in a variable of the data type DWORD.
+Alternatively, Word and Byte can be used instead of DWord by converting the passed
+parameter with, for example, BYTE_TO_DWORD and the result with DWORD_TO_BYTE

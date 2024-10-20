@@ -1,0 +1,1909 @@
+4.1.1          LGF_BitReset (FC / V3.0.1)
+Author: Siemens SIMATIC Systems Support
+Short description
+This block resets a bit at a predefined position in a variable of the data type DWORD.
+Alternatively, Word and Byte can be used instead of DWord by converting the passed
+parameter with, for example, BYTE_TO_DWORD and the result with DWORD_TO_BYTE.
+
+4.1.2          LGF_BitSet (FC / V3.0.1)
+Short description
+This block sets a bit at a given position in a variable of the data type DWORD.
+Alternatively, Word and Byte can be used instead of DWord by converting the passed
+parameter with, for example, BYTE_TO_DWORD and the result with DWORD_TO_BYTE.
+
+4.1.3          LGF_BitSetTo (FC / V3.0.1)
+Author: Siemens SIMATIC Systems Support
+Short description
+This block sets a bit to TRUE or FALSE at a predefined position in a variable of the data type DWORD.
+Alternatively, Word and Byte can be used instead of DWord by converting the passed
+parameter with, for example, BYTE_TO_DWORD and the result with DWORD_TO_BYTE.
+
+4.1.4          LGF_BitTest (FC / V3.0.1)
+Author: Siemens SIMATIC Systems Support
+Short description
+This block checks whether a bit is TRUE or FALSE at a given position in a variable of the data type DWORD.
+Alternatively, Word and Byte can be used instead of DWord by converting the passed
+parameter with, for example, BYTE_TO_DWORD and the result with DWORD_TO_BYTE.
+
+4.1.5          LGF_BitToggle (FC / V3.0.1)
+Author: Siemens SIMATIC Systems Support
+Short description
+This block toggles (from TRUE to FALSE and viceversa) a bit at a predefined position in a variable of the data type DWORD.
+Alternatively, Word and Byte can be used instead of DWord by converting the passed
+parameter with, for example, BYTE_TO_DWORD and the result with DWORD_TO_BYTE
+
+4.1.6          LGF_IecTimerOnOff (FB / V1.0.0)
+Author: Siemens Industry Support
+Short description
+The Block implements an IEC_Timer TON and TOF
+
+4.1.7          LGF_PulseRelay (FB / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This block corresponds to an impulse relay or a toggle flip-flop including set and reset input.   Pulse relay, Surge relay, Toggle-Flip-Flop, Frequency divider reset is leading / prior to set or trigger
+Functional description
+Figure: LGF_PulseRelay Signal diagram
+1.   Each rising edge of the input trigger changes the Boolean value of the output out.    
+2.   Each rising edge of the input set sets the Bboolean value of the output out to TRUE.    
+3.   Each rising edge of the input reset sets the Boolean value of the output out to FALSE. 
+4.   If the inputs set and reset are set in the same cycle, the reset input has priority.
+The block can also be used as a frequency divider. If the input trigger is supplied with a fixed frequency, the output out delivers half the frequency.
+4.2.1          LGF_GetCalendarDay (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function uses the specified date to calculate the number of days that have passed since the beginning of the year (1st January).
+The function is used in the functions “LGF_GetCalendarWeek_ISO” and
+“LGF_GetCalendarWeek_US” .
+
+4.2.2          LGF_GetCalendarWeek_ISO (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function uses the specified date to calculate the calendar week and the number of days that have passed since the beginning of the year for ISO 8601 European countries.
+Functional description
+Counting method for European countries in accordance with ISO 8601
+•     Calendar weeks have 7 days, start on a Monday, and they are counted continuously throughout the year
+•     Calendar week 1 of a year is the week that contains the first Thursday.
+•     Each year has either 52 or 53 calendar weeks.
+•    A year has 53 calendar weeks if the following characteristics apply:
+-    A common year begins on a Thursday and ends on a Thursday.
+-    A leap year begins either on a Wednesday and ends on a Thursday or it begins on a Thursday and ends on a Friday.
+
+
+•    The 29th, 30th and 31st December can belong to the calendar week 1 of the following year.
+•    The 1st, 2nd, and 3rd January can still belong to the last calendar week of the previous year.
+
+4.2.3          LGF_GetCalendarWeek_US (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function uses the specified date to calculate the calendar week and the number of days that have passed since the beginning of the year for the USA and many other countries.
+Functional description
+Counting method for the USA and many other countries
+•     Calendar weeks have 7 days, start on a Sunday and are counted continuously throughout the year
+•     Calendar week 1 of a year is the week that contains January 1.
+•     Each year has either 52 or 53 calendar weeks.
+•    A year has 53 calendar weeks if the following characteristics apply:
+-    A common year begins on a Saturday and ends on a Saturday.
+-    A leap year begins either on a Saturday and ends on a Sunday or it begins on a Friday and ends on a Saturday.
+
+
+•    The days after the last Saturday in December can belong to the first calendar week of the following year.
+
+4.2.4          LGF_IsGermanHoliday (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+The function determines whether a given date is a public holiday.
+All public holidays in Germany are taken into account.
+Holidays that are NOT uniform nationwide can be switched on or off
+Functional description
+The block calculates the public holiday calendar of the year for a given date and displays whether the given date is a public holiday.
+Optionally, holidays that are not uniform nationwide, such as Epiphany (Three Kings), can be taken into account via the appropriate input parameters in the block.
+4.2.5          LGF_AstroClock (FB / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function calculates the times of sunrise and sunset based on the local time for a specific  place on Earth. The exact position is transferred in the form of geographical GPS coordinates (longitude and latitude).
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+If processes must run automatically depending on the change between day and night, the 
+function of an astronomical clock is required. Examples of this would be switching outdoor 
+lighting on and off or opening and closing roller shutters.
+If these processes are to be executed with a time delay i.e. a defined time before or after 
+sunrise or sunset an offset is required in each case.
+Note For precise execution of the function, it must be ensured that system time and local time of 
+the SIMATIC controller are set correctly.
+Based on the system time/local time of the SIMATIC controller and the set coordinates, the 
+block calculates the times for sunrise and sunset. The offset times are added to the sunrise and 
+sunset and output on the sunrise and sunset outputs. If the systems local time of the SIMATIC 
+controller is between these values, the output isDaytime is set to the value TRUE.
+Note Since the times for sunrise and sunset change daily, it is possible that the isDaytime output 
+remains permanently on TRUE or FALSE over a longer period of time:
+• with correspondingly large offset values
+• for a place on the other side of the Arctic Circle
+The input of the GPS coordinate values is checked for valid values. If there are invalid values, 
+an appropriate error code is output to status.
+If there is an invalid coordinate value for a formal parameter, the outputs sunrise and sunset
+are set to the value DTL#1970-01-01-00:00:00.
+4.2.6 LGF_SetTime (FB / V3.0.3)
+Author: Siemens Digital Industry
+Short description
+This block combines the functions of system time, local time, and set time zone.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+Note The function uses internally the system function WR_LOC_T to write the local time of the CPU 
+or WR_SYS_T to write the coordinated world time (UTC). Further it uses the system function 
+SET_TIMEZONE to set the time zone of the PLC.
+This block combines the functions of system time, local time, and set time zone.
+4.2.7 LGF_TimerSwitch (FB / V3.1.0)
+Author: Siemens Digital Industry
+Short description
+This block is a timer. It is possible to define daily, weekly, monthly, yearly time switch points and 
+time switch points for working days or weekend days.
+Mode: Permanently off: 0, Daily: 1, Weekly: 2, Monthly: 3, Yearly: 4, Workday: 5, Weekend: 6, 
+Permanently on: 10
+The time value is always compared with the local time of the PLC, therefore the time value 
+specified at the On and Off parameters must be specified as local time.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+Note The function uses internally the system function RD_LOC_T to read the local time of the CPU, 
+for the correct function it is therefore necessary that the local time of the CPU is set correctly.
+The block offers various timer types, which are determined in the mode parameter:
+• Permanently off (mode = 0)
+• Daily timer (mode = 1)
+• Weekly timer (mode = 2)
+• Monthly timer (mode = 3)
+• Yearly timer (mode = 4)
+• Weekdays, Monday to Friday (mode = 5)
+• Weekend, Saturday and Sunday (mode = 6)
+• Permanently on (mode = 10)
+The time value is always compared with the local time of the PLC, therefore the time value 
+specified at the On and Off parameters must be specified as local time.
+Depending on the mode, the following formal parameters must be interconnected:
+Mode. Mode Required - formal parameters
+0 . Permanently OFF – none
+1 . Daily timer – onHour / offHour
+– onMinute / offMinute
+2 . Weekly timer – onWeekday / offWeekday
+– onHour / offHour
+– onMinute / offMinute
+3 . Monthly timer – onDay / offDay
+– onHour / offHour
+– onMinute / offMinute
+4 . Yearly timer – onMonth / offMonth
+– onDay / offDay
+– onHour / offHour
+– onMinute / offMinute
+5 . Weekdays – onHour / offHour
+– onMinute / offMinute
+6 . Weekend – onHour / offHour
+– onMinute / offMinute
+10 . Permanently ON – none
+If the set start time equals the current local time of the controller, the output signal is set to 
+TRUE. If the set switch-off time equals the current local time of the controller, the signal output is 
+reset again.
+Note Please note that the block can be used in the “Monthly timer” modes (mode = 3) or “yearly 
+timer” (mode = 4) the block only switches if the days that you specify at the input parameters, 
+“onDay” and “offDay”, actually occur in this month.
+4.3.1 LGF_BitCount (FC / V3.0.2)
+Author: SiemensSIMATICSystemsSupport
+Short description
+This block counts in a variable of type DWord how many bits are set (TRUE) and how many are 
+not set (FALSE) and outputs the number at the outputs.
+Instead of DWord, Word and Byte can also be used by converting the past parameter with e.g. 
+BYTE_TO_DWORD and connecting the corresponding bit length of the data type at the 
+parameter “numberOfBits”.
+Byte=8, Word=16, DWord=32
+4.3.2 LGF_CountArrayElements (FC / V1.0.0)
+Author: Siemens Industry Support
+Short description
+Count the number of array elements and returns the number of elements zero based (Array[0..x] 
+of Type).
+4.3.3 LGF_CountBooleanEdges (FB / V1.0.0)
+Author: Siemens Simatic Systems Support
+Short description
+This function evaluates a input signal for different states in a certain amount of time.
+The states are:
+• One edge and input present over the whole monitoring time
+• Single edge
+• Double edge
+• N-Edges in between the monitoring time
+The Output signal is present for at least on cycle after the monitoring time has expired, or as 
+long as the input trigger remains TRUE.
+4.3.4 LGF_CountFalInDWord (FB / V3.0.1)
+Author: Siemens Digital Industry Support
+Short description
+The function analyzes a variable of the type DWORD and outputs how often a 1-0 sequence 
+(falling edge) occurs in the variable.
+Functional description
+In a variable of the data type DWORD, the block counts the falling edges (1-0 transitions) from 
+left to right. The output countFalInDWord outputs the number of falling edges.
+So that falling edges at the variable limit are also detected, the input value is copied to the static 
+variable statDWordPrevCycle at the end of the evaluation and evaluated in the next cycle.
+4.3.5 LGF_CountRisInDWord (FB / V3.0.1)
+Author: Siemens Digital Industry Support
+Short description
+The function analyzes a variable of the type DWORD and outputs how often a 0-1 sequence 
+(rising edge) occurs in the variable.
+Functional description
+In a variable of the data type DWORD, the block counts the rising edges (0-1 transitions) from 
+left to right. The output countRisInDWord outputs the number of rising edges.
+So that rising edges at the variable limit are also detected, the input value is copied to the static 
+variable statDWordPrevCycle at the end of the evaluation and evaluated in the next cycle.
+4.3.6 LGF_GetBitStates (FB / V1.0.0)
+Author: Siemens Simatic Systems Support
+Short description
+This function checks a DWord for falling as well as rising edges.
+It returns the number of edges, a DWord with the edge bits, and a boolean value if edge(s) are 
+present.
+4.4.1 LGF_BinaryMaskCompare (FC / V1.0.0)
+Author: Siemens Simatic Systems Support
+Short description
+This function compares two binary Values source and compare by a given mask.
+Both given values are masked (input AND mask), and the results is than compared and returned.
+Can be used for Word and Byte as well, by convert the passed parameter using for e.g. 
+Byte_to_DWord(...).
+4.4.2 LGF_CompareLReal (FC / V3.0.2)
+Author: Siemens Digital Industry
+Short description
+This function checks floating point numbers for equality, by using an approximation formula and 
+a fixed precision by constant 1.0E-12 (pico)
+Functional description
+The comparison of the LREAL numbers is based on an fixed accuracy of 1.0E-12. The 
+difference between the two input values must be smaller than the PRECISION accuracy multiplied 
+by one of the two input values.
+Equation:
+Note If your application requires a different accuracy when comparing the numbers, adapt the 
+“PRECISION” constant in the function to your requirements.
+Or you may use the FC LGF_CompareLRealByPrecision.
+4.4.3 LGF_CompareLRealByPrecision (FC / V3.0.2)
+Author: Siemens Digital Industry
+Short description
+This function checks floating point numbers for equality, by using an approximation formula and 
+a fixed precision by constant 1.0E-12 (pico)
+Functional description
+The comparison of the LREAL numbers is based on an given accuracy at the parameter 
+precision. The difference between the two input values must be smaller than the precision
+accuracy value multiplied by one of the two input values.
+Equation:
+4.4.4 LGF_CompareString (FC / V1.0.0)
+Author: Siemens Industry Support
+Short description
+Compares two strings and returns a number which indicates the result of the comparison.
+4.4.5 LGF_CompareVariant (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+The function compares two structured actual parameters (array, PLC data type) and outputs 
+whether they are of the same type and have the same values.
+Compare arrays or plc datatypes and their values up to a max lengh of 200 Bytes of the 
+connected variables. If at least one value of an element is not identical –> set function result = 
+false
+Restrictions:
+The attached structure must not include Strings
+The attached structure can not exceed 200 bytes, because of the internal buffer size
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+This block compares two (structured) actual parameters and shows whether they equate to the 
+same value.
+Note The following differences cannot be detected with the comparison method (byte level):
+• Variables of the data type Struct cannot be compared.
+• For strings, there may be differences in the range between the actual length and the maximum 
+length.
+• With REAL numbers in the structure, a disparity can also be displayed for “same” variables.
+• Variables of the type ARRAY of BOOL cannot be checked for equality with the function, because 
+the command used, CountOfElements, also counts the filling elements (e.g. 8 is returned with an 
+ARRAY[0..1] of BOOL).
+
+4.5.1 LGF_CalcDistance_2D (FC / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+The function calculates the distance between two points in the plane.
+Functional description
+The block calculates the distance between two points in a Cartesian coordinate system. The 
+distance is calculated with the following formula:
+result = 2√((x2 − x1)^2 + (y2 − y1)^2)
+
+4.5.2 LGF_CalcDistance_3D (FC / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+The function calculates the distance between two points in 3D space.
+Functional description
+The block calculates the distance between two points in a Cartesian coordinate system. The 
+distance is calculated with the following formula:
+result = 2√((𝑥2 − 𝑥1)^2 + (𝑦2 − 𝑦1)^2 + (𝑧2 − 𝑧1)^2)
+4.5.3 LGF_GetFactorial (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+The function calculates the faculty of a natural number (ℕ!) and returns the result.
+The permissible value range of the input parameter naturalNumber is between 0 and 12, as 12 
+is the maximum factorial result fitting into a DInt type
+4.5.4 LGF_IsValueInLimits (FC / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+The function checks whether a value is within a defined value range. The value range is defined 
+with a lower and an upper limit.
+Functional description
+The variables lowLimit and highLimit define a value range.
+The function checks whether the value is below, in or above the value range. The outputs 
+belowLowLimit, Ret_Val, or overHighLimit show where the value is located.
+4.5.5 LGF_IsValueInRange (FC / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+The function checks whether a value is within a defined value range.
+The value range is defined with a set point and a range around this set point. The function 
+calculates the low limit and high limit of the value range.
+Functional description
+The setpoint and range variables define a range of values.
+The function checks whether the value is below, in or above the value range. The outputs 
+belowLowLimit, Ret_Val, or overHighLimit show where the value is located.
+4.5.6 LGF_IsValueInTolerance (FC / V3.0.2)
+Author: Siemens Digital Industries
+Short description
+The function checks whether a value is within a defined value range.
+The value range is defined with a set point, as well as a tolerance range, around the set point in 
+percent (%). The function calculates the low limit and high limit of the value range.
+Functional description
+The setpoint and tolerance percentage variables define a value range.
+The function checks whether the value is below, in or above the value range. The outputs 
+belowLowLimit, Ret_Val, or overHighLimit show where the value is located.
+4.5.7 LGF_NthRoot (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function extracts the n-th root of a given value.
+The root is defined as follows:
+𝑟𝑒𝑠𝑢𝑙𝑡 = 𝑟𝑜𝑜𝑡√𝑣𝑎𝑙𝑢𝑒 = 𝑣𝑎𝑙𝑢𝑒^(1/𝑟𝑜𝑜𝑡)
+STEP 7 (TIA Portal) results in the following formula:
+𝑟𝑒𝑠𝑢𝑙𝑡 = 𝑣𝑎𝑙𝑢𝑒 ** (1/𝑟𝑜𝑜𝑡)
+4.5.8 LGF_Random_DInt (FC / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+This function generates a random value with each call.
+The random number has the data type DInt.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The function generates random values in the range:
+−2147483648 ≤ 𝑅𝑒𝑡𝑢𝑟𝑛𝑉𝑎𝑙 ≤ 2147483647.
+The random value is formed from the nanoseconds of the current system time of the CPU. The 
+byte order of this value is inverted and then converted to DInt.
+4.5.9 LGF_Random_Real (FC / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+This function generates a random value with each call.
+The random number has the data type Real in the range from 0.0 to 1.0.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The function generates random values in the range:
+0.0 ≤ 𝑅𝑒𝑡𝑢𝑟𝑛𝑉𝑎𝑙 ≤ 1.0.
+The random value is formed from the nanoseconds of the current system time of the CPU. The 
+byte order of this value is inverted and then converted to a floating point.
+4.5.10 LGF_Random_UDInt (FC / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+This function generates a random value with each call.
+The random number has the data type UDInt.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The function generates random values in the range:
+0 ≤ 𝑅𝑒𝑡𝑢𝑟𝑛𝑉𝑎𝑙 ≤ 4294967295.
+The random value is formed from the nanoseconds of the current system time of the CPU. The 
+byte order of this value is inverted and then converted to UDInt.
+4.5.11 LGF_RandomRange_DInt (FC / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+This function generates a random value in defined limits with each call.
+The random number has the data type DInt in the specified range.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The block generates random values that are between the specified minValue and the maxValue. 
+This random value is output via the Ret_Val.
+The random value is formed from the nanoseconds of the current system time of the CPU. The 
+byte order of this value is inverted and then converted to a DInt.
+4.5.12 LGF_RandomRange_Real (FC / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+This function generates a random value in defined limits with each call.
+The random number has the data type Real in the specified range.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The block generates random values that are between the specified minValue and the maxValue. 
+This random value is output via the Ret_Val.The random value is formed from the nanoseconds of the current system time of the CPU. The byte order of this value is inverted and then converted to a floating point.
+4.5.13 LGF_RandomRange_UDInt (FC / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+This function generates a random value in defined limits with each call.
+The random number has the data type UDInt in the specified range.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The block generates random values that are between the specified minValue and the maxValue. 
+This random value is output via the Ret_Val.The random value is formed from the nanoseconds of the current system time of the CPU. The 
+byte order of this value is inverted and then converted to a UDInt.
+4.5.14 LGF_ScaleLinear (FC / V3.0.1)
+Author: Siemens Digital Industry Support
+Short description
+This function scales an input variable (LReal) via a linear straight-line equation.
+Functional description
+The function linearly scales an input variable (e.g. an analog input value) to a specific output 
+variable (e.g. level).
+To determine the output variable, the following linear equation is used in the function:
+𝑥 =
+((𝑦2 − 𝑦1) / (𝑥2 − 𝑥1)) * (𝑥 − 𝑥1) + 𝑦1
+The straight line is described by the two points, P1 and P2. You specify the points as a 
+Cartesian coordinate system using x and y coordinates.
+Note If the values of the parameters x1 and x2 are the same, the value of y1 is output on output y
+By specifying yMin and yMax you can restrict the calculated value of y to a range limited at top 
+and bottom. Thus, you avoid override and underride ranges.
+4.5.15 LGF_SearchMinMax (FC / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+This function searches, in an array of the data type DInt, for the maximum and minimum value 
+and the respective index in the array.
+The following data types of the array elements are supported:
+Int, DInt, UInt, UDInt, USInt, SInt, and Real.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+An array of any size is connected via the variableArray input. After a data type query in the 
+block, the elements are copied one after the other into a variable of the appropriate type and 
+compared. The smallest and largest values, as well as their corresponding index are output to 
+the array.
+Note The following data types of the array elements are supported:
+Int, DInt, UInt, UDInt, USInt, SInt, and Real.
+Note If there are several identical min. or max. values, the index of the first min. or max. value is 
+output.
+4.5.16 LGF_SearchMinMax_DInt (FC / V3.0.2)
+Author: Siemens Digital Industries
+Short description
+This function searches, in an array of the data type DInt, for the maximum and minimum value 
+and the respective index in the array.
+Functional description
+An array of any size is connected via the values input. The elements are then compared in turn. 
+The smallest and largest values, as well as their corresponding index are output to the array.
+Note If there are several identical min. or max. values, the index of the first min. or max. value is 
+output.
+4.5.17 LGF_SearchMinMax_LReal (FC / V3.0.2)
+Author: Siemens Digital Industries
+Short description
+This function searches, in an array of the data type LReal, for the maximum and minimum value 
+and the respective index in the array.
+Functional description
+An array of any size is connected via the values input. The elements are then compared in turn. 
+The smallest and largest values, as well as their corresponding index are output to the array.
+Note If there are several identical min. or max. values, the index of the first min. or max. value is 
+output.
+4.5.18 LGF_SearchMinMax_UDInt (FC / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+This function searches, in an array of the data type UDInt, for the maximum and minimum value 
+and the respective index in the array.
+Functional description
+An array of any size is connected via the values input. The elements are then compared in turn. 
+The smallest and largest values, as well as their corresponding index are output to the array.
+Note If there are several identical min. or max. values, the index of the first min. or max. value is 
+output.
+4.5.19 LGF_Integration (FB / V3.0.2)
+Author: Siemens Digital Industries
+Short description
+The function approximately calculates the area under a function curve. The function curve is 
+transferred as an analog value (LReal) which varies over time. The integral value is output on 
+integral.
+The implementation is based on the trapezoidal rule and uses [ms] as time base.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The integral calculation includes the summation of those trapezoidal areas that span between 
+the last two function values on the “value” input and the time. The elapsed time is calculated via 
+the system time of the CPU. This trapezoidal area is identical to the product of the mean value 
+of the two process values and the time interval.
+Note The calculation takes [ms] as time base. So the analoge value hase to use the same time 
+base, e.g. [volume flow/ms].
+𝐴 = 1/2 * (𝐹𝑡1 + 𝐹𝑡0) * (𝑡1 − 𝑡0) + 1/2 * (𝐹𝑡2 + 𝐹𝑡1) *(𝑡2− 𝑡1) + ...
+Start the integral calculation for the inputvalue at the parameter value:
+• Set the parameter enable to the value TRUE
+• Set the parameter reset to the value FALSE
+If the parameter enable is set to the value FALSE, the integral calculation is stopped and the 
+output integral outputs the last calculated value.
+If the parameter reset is set to the value TRUE, the output integral is reset to 0.0
+4.5.20 LGF_IsValueInToleranceByTime (FB / V1.0.0)
+Author: Siemens Digital Industries
+Short description
+Checks if a given value is within a specified tolerance in percent of a given set point.
+The block has a configurable timing for set point change hiding, lower limit and as well for upper 
+limit violation hiding.
+Functional description
+The setpoint, lowerMinimum and upperMaximum variables define a value range.
+The function checks whether the value is below, in or above the value range. The outputs 
+belowLowLimit, inLimits, or overHighLimit show where the value is located.
+By the configuration it is possible to define whether the borders are given as absolute values or 
+in percentage from set point.
+The timing could be adjusted for set point changes and as well for hiding the violating of the 
+lower or upper limit in case of peaks.
+Figure: Principle of operation
+4.5.21 LGF_StoreMinMax (FB / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+This function reads-in a value of a variable at each call and outputs the maximum and minimum 
+value that has been read in since the first call.
+The evaluation can be reset if necessary. The block supports the data type LReal.
+4.6.1 LGF_MatrixAddition (FC / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+This block adds two matrices of equal size of the data type ARRAY[*,*] of LREAL.
+The individual fields of the two incoming matrices are read, added and then output in the matrix 
+matrixResult.
+Note Note that all input and output matrices must have the same low and high limits and therefore 
+the same number of columns and rows.
+4.6.2 LGF_MatrixCompare (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function compares two matrices of the data type ARRAY[*,*] of LREAL of equal size.
+If both matrices are identical, the return value of the function is set to TRUE.
+Note Note that all input matrices must have the same lower and upper limit, and, therefore, the 
+same number of columns and rows.
+4.6.3 LGF_MatrixInverse (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function inverts a square matrix of the data type ARRAY[*,*] of LREAL.
+The square matrix of any size will be inverted according to the Shipley-Coleman method.
+𝑚𝑎𝑡𝑟𝑖𝑥𝑅𝑒𝑠𝑢𝑙𝑡 = 𝑚𝑎𝑡𝑟𝑖𝑥^(−1)
+Note Note that the input matrix must be square. This means that the number of rows must be 
+equal to the number of columns. The output matrix must be the same size and have the 
+same array boundaries as the input matrix.
+4.6.4 LGF_MatrixMultiplication (FC / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+This function multiplies two matrices of the data type ARRAY[*,*] of LREAL.
+The block multiplies two matrices of variable size. The individual elements of the two incoming 
+matrices are read, multiplied, and then output in the matrixResult matrix.
+Note Note that the number of columns in the first matrix must be equal to the number of rows in 
+the second matrix.
+The size of the initial matrix (m * n) results from the number of rows (m) of matrix1 and the 
+number of columns (n) of matrix2.
+4.6.5 LGF_MatrixScalarMultiplication (FC / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+This function block multiplies a matrix of the data type ARRAY[*,*] of LREAL with a scalar.
+A matrix is multiplied by a scalar, thereby multiplying each matrix element by the scalar. The 
+result is output in the matrixResult matrix.
+Note Note that the input and output matrix must have the same number of columns and rows.
+4.6.6 LGF_MatrixSubtraction (FC / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+This function subtracts a matrix of the data type ARRAY[*,*] of LREAL from another one.
+The individual fields of the two matrices are read, subtracted and then output in the matrix 
+matrixResult.
+Note Note that all input and output matrices must have the same number of columns and rows
+4.6.7 LGF_MatrixTranspose (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function transposes a matrix of the data type ARRAY[*,*] of LREAL.
+Condition: Input matrix (m x n) = output matrix (n x m).
+A matrix is transposed by making columns out of the rows.
+Note Note that the number of rows of the input matrix must be equal to the number of columns of 
+the output matrix. Also, the number of columns of the input matrix must be equal to the 
+number of rows of the output matrix.
+4.7.1 LGF_CalcCRC16 (FC / V3.1.0)
+Author: Siemens Industry Support
+Short description
+The CRC calculation is used for error detection at data transmission. The result of a calculation 
+returns a CRC value via the data sent. The receiver detects a faulty transmission due to the 
+unequal CRC value. The function LGF_CalcCRC16 uses 16 bits as the generator polynomial 
+(mask).
+Functional description
+The function calculates the CRC value from a data stream of any size. The data stream is 
+composed of the individual elements of the array at the input/output parameter array. The start 
+value initValue and the generator polynomial mask can be freely selected.
+The input noOfELements can be used to specify the desired number of elements for calculation, it 
+applies:
+𝑁𝑢𝑚𝑏𝑒𝑟𝑂𝑓𝐸𝑙𝑒𝑚𝑒𝑛𝑡𝑠 <=(𝐴𝑟𝑟𝑎𝑦𝑈𝑝𝑝𝑒𝑟𝐿𝑖𝑚𝑖𝑡 − 𝐴𝑟𝑟𝑎𝑦𝐿𝑜𝑤𝑒𝑟𝑈𝑛𝑑𝑒𝑟𝐿𝑖𝑚𝑖𝑡 + 1)
+Note Various online tools are available for calculating the CRC values. The function of the block 
+was tested with the following online tool, since it supports the input parameters mask
+(Polynomial) and initValue (Initial Value):
+http://www.sunshine2k.de/coding/javascript/crc/crc_js.html
+4.7.2 LGF_CalcCRC16Advanced (FC / V3.1.0)
+Author: Siemens Industry Support
+Short description
+The CRC calculation is used for error detection at data transmission. The result of a calculation 
+returns a CRC value via the data sent. The receiver detects a faulty transmission due to the 
+unequal CRC value. The function LGF_CalcCRC16Advanced uses 16 bits as the generator 
+polynomial (mask) and the parameters finalXorValue, reflectInput, and reflectResult.
+Functional description
+The function calculates the CRC value from a data stream of any size. The data stream is 
+composed of the individual elements of the array at the input/output parameter array. The start 
+value initValue and the generator polynomial mask can be freely selected.
+Via the Boolean input parameters reflectInput and reflectResult, you may optionally mirror 
+the bits of the input data or the CRC value. An XOR operation is also performed with the CRC 
+value at the end and the value finalXorValue.
+The input noOfELements can be used to specify the desired number of elements for calculation, it 
+applies:
+𝑁𝑢𝑚𝑏𝑒𝑟𝑂𝑓𝐸𝑙𝑒𝑚𝑒𝑛𝑡𝑠 <= (𝐴𝑟𝑟𝑎𝑦𝑈𝑝𝑝𝑒𝑟𝐿𝑖𝑚𝑖𝑡 − 𝐴𝑟𝑟𝑎𝑦𝐿𝑜𝑤𝑒𝑟𝑈𝑛𝑑𝑒𝑟𝐿𝑖𝑚𝑖𝑡 + 1)
+Note Various online tools are available for calculating the CRC values. The function of the block 
+was tested with the following online tool, since it supports the input parameters mask
+(Polynomial) and initValue (Initial Value):
+http://www.sunshine2k.de/coding/javascript/crc/crc_js.html
+4.7.3 LGF_CalcCRC32 (FC / V3.1.0)
+Author: Siemens Industry Support
+Short description
+The CRC calculation is used for error detection at data transmission. The result of a calculation 
+returns a CRC value via the data sent. The receiver detects a faulty transmission due to the 
+unequal CRC value. The function LGF_CalcCRC32 uses 32 bits as the generator polynomial 
+(mask).
+Functional description
+The function calculates the CRC value from a data stream of any size. The data stream is 
+composed of the individual elements of the array at the input/output parameter array. The start 
+value initValue and the generator polynomial mask can be freely selected.
+The input noOfELements can be used to specify the desired number of elements for calculation, it 
+applies:
+𝑁𝑢𝑚𝑏𝑒𝑟𝑂𝑓𝐸𝑙𝑒𝑚𝑒𝑛𝑡𝑠 <= (𝐴𝑟𝑟𝑎𝑦𝑈𝑝𝑝𝑒𝑟𝐿𝑖𝑚𝑖𝑡 − 𝐴𝑟𝑟𝑎𝑦𝐿𝑜𝑤𝑒𝑟𝑈𝑛𝑑𝑒𝑟𝐿𝑖𝑚𝑖𝑡 + 1)
+Note Various online tools are available for calculating the CRC values. The function of the block 
+was tested with the following online tool, since it supports the input parameters mask
+(Polynomial) and initValue (Initial Value):
+http://www.sunshine2k.de/coding/javascript/crc/crc_js.html
+4.7.4 LGF_CalcCRC32Advanced (FC / V3.1.0)
+Author: Siemens Industry Support
+Short description
+The CRC calculation is used for error detection at data transmission. The result of a calculation 
+returns a CRC value via the data sent. The receiver detects a faulty transmission due to the 
+unequal CRC value. The function LGF_CalcCRC32Advanced uses 32 bits as the generator 
+polynomial (mask) and the parameters finalXorValue, reflectInput, and reflectResult.
+Functional description
+The function calculates the CRC value from a data stream of any size. The data stream is 
+composed of the individual elements of the array at the input/output parameter array. The start 
+value initValue and the generator polynomial mask can be freely selected.
+Via the Boolean input parameters reflectInput and reflectResult, you may optionally mirror 
+the bits of the input data or the CRC value. An XOR operation is also performed with the CRC 
+value at the end and the value finalXorValue.
+The input noOfELements can be used to specify the desired number of elements for calculation, it 
+applies:
+𝑁𝑢𝑚𝑏𝑒𝑟𝑂𝑓𝐸𝑙𝑒𝑚𝑒𝑛𝑡𝑠 <= (𝐴𝑟𝑟𝑎𝑦𝑈𝑝𝑝𝑒𝑟𝐿𝑖𝑚𝑖𝑡 − 𝐴𝑟𝑟𝑎𝑦𝐿𝑜𝑤𝑒𝑟𝑈𝑛𝑑𝑒𝑟𝐿𝑖𝑚𝑖𝑡 + 1)
+Note Various online tools are available for calculating the CRC values. The function of the block 
+was tested with the following online tool, since it supports the input parameters mask
+(Polynomial) and initValue (Initial Value):
+http://www.sunshine2k.de/coding/javascript/crc/crc_js.html
+4.7.5 LGF_CalcCRC8 (FC / V3.1.0)
+Author: Siemens Industry Support
+Short description
+The CRC calculation is used for error detection at data transmission. The result of a calculation 
+returns a CRC value via the data sent. The receiver detects a faulty transmission due to the 
+unequal CRC value. The function LGF_CalcCRC8 uses 8 bits as the generator polynomial (mask).
+Functional description
+The function calculates the CRC value from a data stream of any size. The data stream is 
+composed of the individual elements of the array at the input/output parameter array. The start 
+value initValue and the generator polynomial mask can be freely selected.
+The input noOfELements can be used to specify the desired number of elements for calculation, it 
+applies:
+𝑁𝑢𝑚𝑏𝑒𝑟𝑂𝑓𝐸𝑙𝑒𝑚𝑒𝑛𝑡𝑠 <= (𝐴𝑟𝑟𝑎𝑦𝑈𝑝𝑝𝑒𝑟𝐿𝑖𝑚𝑖𝑡 − 𝐴𝑟𝑟𝑎𝑦𝐿𝑜𝑤𝑒𝑟𝑈𝑛𝑑𝑒𝑟𝐿𝑖𝑚𝑖𝑡 + 1)
+Note Various online tools are available for calculating the CRC values. The function of the block 
+was tested with the following online tool, since it supports the input parameters mask
+(Polynomial) and initValue (Initial Value):
+http://www.sunshine2k.de/coding/javascript/crc/crc_js.html
+4.7.6 LGF_CalcCRC8Advanced (FC / V3.1.0)
+Author: Siemens Industry Support
+Short description
+The CRC calculation is used for error detection at data transmission. The result of a calculation 
+returns a CRC value via the data sent. The receiver detects a faulty transmission due to the 
+unequal CRC value. The function LGF_CalcCRC8Advanced uses 8 bits as the generator 
+polynomial (mask) and the parameters finalXorValue, reflectInput, and reflectResult.
+Functional description
+The function calculates the CRC value from a data stream of any size. The data stream is 
+composed of the individual elements of the array at the input/output parameter array. The start 
+value initValue and the generator polynomial mask can be freely selected.
+Via the Boolean input parameters reflectInput and reflectResult, you may optionally mirror 
+the bits of the input data or the CRC value. An XOR operation is also performed with the CRC 
+value at the end and the value finalXorValue.
+The input noOfELements can be used to specify the desired number of elements for calculation, it 
+applies:
+𝑁𝑢𝑚𝑏𝑒𝑟𝑂𝑓𝐸𝑙𝑒𝑚𝑒𝑛𝑡𝑠 <= (𝐴𝑟𝑟𝑎𝑦𝑈𝑝𝑝𝑒𝑟𝐿𝑖𝑚𝑖𝑡 − 𝐴𝑟𝑟𝑎𝑦𝐿𝑜𝑤𝑒𝑟𝑈𝑛𝑑𝑒𝑟𝐿𝑖𝑚𝑖𝑡 + 1)
+Note Various online tools are available for calculating the CRC values. The function of the block 
+was tested with the following online tool, since it supports the input parameters mask
+(Polynomial) and initValue (Initial Value):
+http://www.sunshine2k.de/coding/javascript/crc/crc_js.html
+4.7.7 LGF_CalcCRC8For1Byte (FC / V3.0.1)
+Author: Siemens Industry Support
+Short description
+The CRC calculation is used for error detection at data transmission. The result of a calculation 
+returns a CRC value via the data sent (Byte). The receiver detects a faulty transmission due to 
+the unequal CRC value. The function LGF_CalcCRC8For1Byte uses 8 bits as the generator 
+polynomial (mask).
+Functional description
+The function calculates the CRC value from a data byte value. The start value initValue and 
+the generator polynomial mask can be freely selected.
+Note Various online tools are available for calculating the CRC values. The function of the block 
+was tested with the following online tool, since it supports the input parameters mask
+(Polynomial) and initValue (Initial Value):
+http://www.sunshine2k.de/coding/javascript/crc/crc_js.html
+4.7.8 LGF_IsParityEven (FC / V3.0.1)
+Author: Siemens SIMATIC Systems Support
+Short description
+The function checks whether the parity of the input variable of type DWord is even. If the 
+number of bits that are assigned TRUE in the sequence is even, the return value is set to TRUE.
+4.7.9 LGF_IsParityOdd (FC / V3.0.1)
+Author: Siemens SIMATIC Systems Support
+Short description
+The function checks whether the parity of the input variable of type DWord is odd. The return 
+value is set to TRUE if the number of bits that are assigned TRUE in the sequence is odd.
+4.7.10 LGF_DataLogC (FB / V1.0.0)
+Author: Siemens Industry Support
+Short description
+LGF_DataLogC (C -> Compact) function integrates all the datalog system functions and can be 
+used as standalone data logger.
+Functional description
+The function LGF_DataLogC combines the system functions for creating and writing data logs in 
+one block.
+The procedure provides that an existing Datalog is opened on the basis of the name (name), if it 
+was not created before, this is recognized and the function creates the Datalog.
+Afterwards, depending on the parameterization, the data is written from data in an adjustable 
+interval or only on request to triggerLogEntry.
+ReadMe The functionality of Datalogs can be found in the user manual:
+• DataLogCreate
+• DataLogOpen
+• DataLogClose
+• DataLogWrite
+• DataLogClear
+• DataLogDelete
+NOTICE The following parameters are only effective when creating a data log:
+• parameter.header
+• parameter.maxNumberOfEntries
+• parameter.timestampFormat (S7-1200 and the S7-1500 support different formats, see the 
+manual DataLogCreate)
+NOTICE When logging data by interval (isLoggingByInterval) time variances occur, which are 
+caused by a fluctuating cycle time.
+Therefore it is recommended to call the function in a time interrupt OB besides the call in the 
+cyclic program and to set the trigger for writing in this interrupt OB.
+NOTICE A data log which is deleted by the function without deleting the file cannot be created again 
+as long as the file exists, it must first be deleted manually in the system.
+Please also note the parameter parameter.deleteFile which also deletes the file next to the 
+data in case of a delete command deleteLog.
+4.7.11 LGF_FIFO (FB / V3.0.1)
+Author: Siemens Industry Support
+Short description
+FIFO (First-In First-Out / Queue / ring buffer memory)
+This function stores incoming data and outputs the oldest unprocessed data.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+Note In computer science, the queue is also based on the FIFO principle.
+With the enqueue input, a new item is stored from the InOut parameter item in the next free 
+position in the buffer. The output elementCount is incremented by one.
+With the dequeue input, the next element to be processed is output to the InOut parameter item, 
+and this field in the buffer is replaced by the value in the parameter initialItem. The output 
+elementCount decremented by one.
+With the reset input, the buffer is initialized and the index and counter are reset. The 
+elementCount output is set to zero and the isEmpty output is set to TRUE.
+With the clear input, the buffer is emptied and initialized with the initial value initialItem. Index 
+and counter are reset. The elementCount output is set to zero and the isEmpty output is set to 
+TRUE.
+4.7.12 LGF_FileRead (FB / V1.0.0)
+Author: Siemens SIMATIC Systems Support
+Short description
+This function block offers reading data as binary / serialized data stream from files stored on the 
+PLC's memory card in the folder UserFiles.
+Functional description
+With the function LGF_FileRead a file can be read into the data budget of a variable at data. To 
+read the data it is necessary to deserialize it, which the function already takes from the user.
+For deserialization an external buffer in the form of a byte array must be connected which can 
+take up the amount of data, if the buffer is too small an error is output.
+The file name must always be specified in full together with the folder name and the file 
+extension in the following format: UserFiles/test.dat.
+4.7.13 LGF_FileWrite (FB / V1.0.0)
+Author: Siemens SIMATIC Systems Support
+Short description
+This function block offers writing data as binary / serialized data stream to a file which is then 
+stored on the PLC's memory card in the folder UserFiles.
+Functional description
+With the function LGF_FileWrite the data budget of a variable can be written to data in a file. For 
+writing the data it is necessary to serialize it, which the function already takes from the user.
+For serialization an external buffer in the form of a byte array must be connected which can take 
+up the data quantity, if the buffer is too small an error is output.
+The file name must always be specified in full together with the folder name and the file 
+extension in the following format: UserFiles/test.dat.
+Note The file extension (here e.g. dat) can be freely selected or omitted, it is useful for external 
+processing to indicate the format of the file to the user.
+A file extension in the file name has no influence on the content of the file as well as its 
+formatting, to provide the data in an appropriate file format is up to the user.
+4.7.14 LGF_LIFO (FB / V3.0.1)
+Author: Siemens Industry Support
+Short description
+LIFO (Last-In First-Out / Stack buffer memory)
+This function stores incoming data and outputs the latest/most recent not-yet-processed data.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+Note I computer science the stack is also based on the LIFO principle.
+With the push input, a new item is stored from the InOut parameter item in the next free position 
+in the buffer. The output elementCount is incremented by one.
+With the pop input, the latest / most recent item is output to the InOut parameter item, and this 
+field in the buffer is replaced by the value at the parameter initialItem. The output 
+elementCount is decremented by one.
+The peek input allows the last entry in the buffer to be read out. The buffer is not changed.
+With the reset input, the buffer is initialized and the index and counter are reset. The 
+elementCount output is set to zero and the isEmpty output is set to TRUE.
+With the clear input, the buffer is emptied and initialized with the initial value initialItem. Index 
+and counter are reset. The elementCount output is set to zero and the isEmpty output is set to 
+TRUE.
+4.7.15 LGF_ShellSort_DInt (FB / V3.0.1)
+Author: Siemens Industry Support
+Short description
+This block sorts an array of type DInt with any number of elements (max. 1000) in ascending or 
+descending order and returns the sorted version of the array in the same variable.
+Functional description
+The block sorts according to the shell sort procedure. Note that the execution time of the block 
+depends significantly on how many elements the array to be sorted has. The overview below 
+shows several measured values of the block depending on the number of array elements.
+Average steps needed for execution: 𝒪(𝑛 ⋅ log(𝑛)^2)
+Table: Execution times of the block LGF_ShellSort…
+Number of array elements S7-1212C DC/DC/DC S7-1516-3 PN/DP
+100 approx. 11-16 ms approx. 1-2 ms
+Number of array elements S7-1212C DC/DC/DC S7-1516-3 PN/DP
+1000 approx. 185-205 ms approx. 10-12 ms
+Note The block is executed synchronously and is not split over several PLC cycles. Thus the 
+execution time has a direct effect on the PLC cycle time. Note this behavior for your project 
+of the controller used and adjust the monitoring time of the controller if necessary.
+4.7.16 LGF_ShellSort_LReal (FB / V3.0.1)
+Author: Siemens Industry Support
+Short description
+This block sorts an array of type LReal with any number of elements (max. 1000) in ascending 
+or descending order and returns the sorted version of the array in the same variable.
+Functional description
+The block sorts according to the shell sort procedure. Note that the execution time of the block 
+depends significantly on how many elements the array to be sorted has. The overview below 
+shows several measured values of the block depending on the number of array elements.
+Average steps needed for execution: 𝒪(𝑛 ⋅ log(𝑛)^2)
+Table: Execution times of the block LGF_ShellSort…
+Number of array elements S7-1212C DC/DC/DC S7-1516-3 PN/DP
+100 approx. 11-16 ms approx. 1-2 ms
+1000 approx. 185-205 ms approx. 10-12 ms
+Note The block is executed synchronously and is not split over several PLC cycles. Thus the 
+execution time has a direct effect on the PLC cycle time. Note this behavior for your project 
+of the controller used and adjust the monitoring time of the controller if necessary.
+4.7.17 LGF_ShellSort_UDInt (FB / V3.0.1)
+Author: Siemens Industry Support
+Short description
+This block sorts an array of type UDInt with any number of elements (max. 1000) in ascending 
+or descending order and returns the sorted version of the array in the same variable.
+Functional description
+The block sorts according to the shell sort procedure. Note that the execution time of the block 
+depends significantly on how many elements the array to be sorted has. The overview below 
+shows several measured values of the block depending on the number of array elements.
+Average steps needed for execution: 𝒪(𝑛 ⋅ log(𝑛)^2)
+Table: Execution times of the block LGF_ShellSort…
+Number of array elements S7-1212C DC/DC/DC S7-1516-3 PN/DP
+100 approx. 11-16 ms approx. 1-2 ms
+1000 approx. 185-205 ms approx. 10-12 ms
+Note The block is executed synchronously and is not split over several PLC cycles. Thus the 
+execution time has a direct effect on the PLC cycle time. Note this behavior for your project 
+of the controller used and adjust the monitoring time of the controller if necessary.
+4.7.18 LGF_ShiftRegister (FB / V1.0.3)
+Author: Siemens Digital Industry Support
+Short description
+The Function represents a shift register for any kind of Datatype (using variant).
+It is possible to shift the elements in the array at bufferRegister to the left (index 
+array[n]:=array[n+1]) or right (index array[n]:=array[n-1]).
+It could be used for material tracking trough a machine or a process, e.g. for a rotary indexing 
+table.
+Note As this is a real shift operation, it may cause some runtime effects while using big array sizes 
+to move at the input bufferRegister.
+Please consider that a FIFO or LIFO storage, based on indexes, could be used as well for 
+most applications.
+4.8.1 LGF_BinaryToGray (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function converts a binary coded value into a Gray-coded value.
+4.8.2 LGF_DecodeUtf8 (FC / V1.0.0)
+Author: Siemens Online Support
+Short description
+Decodes a UTF-8 encoded byte stream into a WString
+4.8.3 LGF_DTLToJulianDate (FC / V0.0.1)
+Author: Siemens Digital Industry
+Short description
+This function converts the date and time of data type DTL to the Julian date and as well the 
+modified Julian Date to data type LReal (Double).
+The timestamp is calculated based on UTC. This means that the time zone is not considered.
+Only times after 01/01/1990 are permitted.
+4.8.4 LGF_DTLToString_DE (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function converts a date of data type DTL into a character string of data type STRING in 
+the traditional format (DD MM YYYYY…).
+Functional description
+The block reads a date of data type DTL and converts the individual components of the date 
+(year, month, day, hour…) into a character string and outputs it in traditional format (DE). The 
+separator between the components of the date is variable.
+4.8.5 LGF_DTLToString_ISO (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function converts a date of data type DTL into a character string of data type STRING in 
+international format (YYYY MM DD…).
+Functional description
+The block reads a date of data type DTL and converts the individual components of the date 
+(year, month, day, hour…) into a character string and outputs it in international format. The 
+separator between the components of the date is variable.
+Short description
+This function converts the date and time of data type DTL to the UNIX time of data type DInt. 
+The timestamp is calculated in UTC. This means that the time zone is not considered.
+Only times after 01/01/1990 are permitted.
+4.8.6 LGF_DTLToUnixTime (FC / V3.0.2)
+Author: Siemens Digital Industry
+Short description
+This function converts the date and time of data type DTL to the UNIX time of data type DInt. The timestamp is calculated in UTC. This means that the time zone is not considered.
+Only times after 01/01/1990 are permitted.
+4.8.7 LGF_EncodeUtf8 (FC / V1.0.0)
+Author: Siemens Online Support
+Short description
+Encodes a WString into an UTF-8 encoded byte stream.
+4.8.8 LGF_GpsDDToGps (FC / V3.0.2)
+Author: Siemens Digital Industry
+Short description
+This function converts a given GPS-DD data type (decimal degrees) into a GPS data type 
+(direction, degrees, minutes, and seconds).
+GPS decimal degree to GPS “native”.
+4.8.9 LGF_GpsToGpsDD (FC / V3.0.2)
+Author: Siemens Digital Industry
+Short description
+This function converts a given GPS data type (format direction, degrees, minutes, and seconds) 
+into a GPS-DD data type (decimal degrees).
+GPS “native” to GPS decimal Degree.
+4.8.10 LGF_GrayToBinary (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function converts a gray coded value into a binary coded value.
+4.8.11 LGF_IntToString (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function converts a variable of the data type DInt into a variable of the data type String.
+4.8.12 LGF_JulianTimeToDTL (FC / V0.0.1)
+Author: Siemens Digital Industry
+Short description
+This function converts a given Julian Date (regular or modified) of data type LReal (Double) to a 
+date and time of data type DTL.
+The timestamp is calculated based on UTC. This means that the time zone is not considered.
+Only times after 01/01/1990 are permitted.
+4.8.13 LGF_StringToDTL_DE (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function converts a character string in the traditional format (DE) with date components into 
+the data type DTL.
+4.8.14 LGF_StringToDTL_ISO (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function converts a character string in international format with date components into the 
+data type DTL.
+Functional description
+The block reads a date as a character string and converts it to the data type DTL. The individual 
+date components in the character string are separated according to the international format. The 
+separator between the components in the character string is irrelevant.
+4.8.15 LGF_StringToInt (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function converts a variable of data type String into a variable of data type DInt.
+4.8.16 LGF_StringToTaddr (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+The system data type TADDR_Param contains address information consisting of an IPV4 address 
+and the port number.
+The LGF_StringToTaddr function converts a variable od data type String to a TADDR_Param
+system data type variable.
+Functional description
+The function converts the IPV4 address with or without port number from data type String to 
+TADDR_Param.
+The string must be in the following form:
+• without port number: [0..255].[0..255].[0..255].[0..255]
+• with port number: [0..255].[0..255].[0..255].[0..255]:[0..65535]
+4.8.17 LGF_StringToTime (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+The function converts a variable of the data type String into a variable of the system data type 
+Time.
+4.8.18 LGF_TaddrToString (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+The system data type TADDR_Param contains address information consisting of an IPV4 address 
+and the port number.
+The LGF_TaddrToString function converts a TADDR_Param system data type variable to a String
+data type variable.
+Functional description
+The function converts the IPV4 address with or without port number. The system data type 
+TADDR_Param is a structured data type. This structure contains the variable REM_PORT_NR. If this 
+variable is 0, no port is written to the parameter Ret_Val.
+4.8.19 LGF_TimeToString (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function converts a variable of the system data type Time into a variable of the data type 
+String.
+4.8.20 LGF_UnixTimeToDTL (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function converts the Unix time of data type DInt to a date and time of data type DTL. The 
+timestamp is calculated in UTC. This means that the time zone is not considered.
+Only times after 01/01/1990 are permitted.
+4.9.1 LGF_SwapBlockDWord (FC / V1.0.0)
+Author: Siemens Industry Support
+Short description
+Adjusts/ switches the endianness of multibyte data typed values.
+For this to achieve, a loop will iterate through the array elements and swap the bytes 
+intrinsically.
+4.9.2 LGF_SwapBlockLWord (FC / V1.0.0)
+Author: Siemens Industry Support
+Short description
+Adjusts/ switches the endianness of multibyte data typed values.
+For this to achieve, a loop will iterate through the array elements and swap the bytes 
+intrinsically.
+4.9.3 LGF_SwapBlockWord (FC / V1.0.0)
+Author: Siemens Industry Support
+Short description
+Adjusts/ switches the endianness of multibyte data typed values.
+For this to achieve, a loop will iterate through the array elements and swap the bytes 
+intrinsically.
+4.10.1 LGF_MergeBitsToByte (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function merge 8 Bits / 8 Boolean variables into one Byte variable.
+4.10.2 LGF_MergeBitsToDWord (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function merge 32 Bits / 32 Boolean variables into one DWord variable.
+4.10.3 LGF_MergeBitsToWord (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function merge 16 Bits / 16 Boolean variables into one Word variable.
+4.10.4 LGF_MergeBytesToDWord (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function merge 4 Byte variables into one DWord variable.
+4.10.5 LGF_MergeBytesToWord (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function merge 2 Byte variables into one Word variable
+4.10.6 LGF_MergeWordsToDWord (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function merge 2 Word variables into one DWord variable.
+4.10.7 LGF_SplitByteToBits (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function splits a Byte variable into 8 Boolean / 8 Bit variables.
+4.10.8 LGF_SplitDWordToBits (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function splits a DWord variable into 32 Boolean / 32 Bit variables.
+4.10.9 LGF_SplitDWordToBytes (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function splits a DWord variable into 4 Byte variables.
+4.10.10 LGF_SplitDWordToWords (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function splits a DWord variable into 2 Word variables.
+4.10.11 LGF_SplitWordToBits (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function splits a Word variable into 16 Boolean / 16 Bit variables.
+4.10.12 LGF_SplitWordToBytes (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function splits a Word variable into 2 Byte variables.
+4.11.1 LGF_ExtractStringFromCharArray (FC / V1.1.0)
+Author: Siemens Online Support
+Short description
+The function extracts a String specified by a text before and after from an array
+4.11.2 LGF_ExtractStringFromCharArrayAdv (FC / V1.1.0)
+Author: Siemens Online Support
+Short description
+The function extracts a String specified by a text before and after from an array of characters 
+with extended options.
+4.11.3 LGF_FindStringInCharArray (FC / V1.1.0)
+Author: Siemens Online Support
+Short description
+The function searches for a specified String within an array of characters.
+Returning the position of the String in the Array, if the string is not found the return value is -1.
+4.11.4 LGF_ToLower (FC / V1.0.0)
+Author: Siemens Industry Online Support
+Short description
+This function converts the capital letters of a string into their lower case equivalents.
+4.11.5 LGF_ToUpper (FC / V1.0.0)
+Author: Siemens Industry Online Support
+Short description
+This function converts the lowercase letters of a string into their capital equivalents
+4.12.1 LGF_CelsiusToFahrenheit (FC / V3.0.1)
+Author: Siemens Digital Industry Support
+Short description
+This function converts a temperature value - from °Celsius to °Fahrenheit.
+4.12.2 LGF_CelsiusToKelvin (FC / V3.0.1)
+Author: Siemens Digital Industry Support
+Short description
+This function converts a temperature value - from °Celsius to °Kelvin.
+4.12.3 LGF_ConvertTemperature (FC / V3.0.1)
+Author: Siemens Digital Industry Support
+Short description
+This function converts a temperature value from one into another unit by using an appropriate 
+given mode parameter.
+4.12.4 LGF_FahrenheitToCelsius (FC / V3.0.1)
+Author: Siemens Digital Industry Support
+Short description
+This function converts a temperature value - from °Fahrenheit to °Celsius.
+4.12.5 LGF_FahrenheitToKelvin (FC / V3.0.1)
+Author: Siemens Digital Industry Support
+Short description
+This function converts a temperature value - from °Fahrenheit to °Kelvin.
+4.12.6 LGF_KelvinToCelsius (FC / V3.0.1)
+Author: Siemens Digital Industry Support
+Short description
+This function converts a temperature value - from °Kelvin to °Celsius.
+4.12.7 LGF_KelvinToFahrenheit (FC / V3.0.1)
+Author: Siemens Digital Industry Support
+Short description
+This function converts a temperature value - from °Kelvin to °Fahrenheit
+4.12.8 LGF_KelvinToRankine (FC / V3.0.1)
+Author: Siemens Digital Industry Support
+Short description
+This function converts a temperature value - from °Kelvin to °Rankine.
+4.12.9 LGF_RankineToKelvin (FC / V3.0.1)
+Author: Siemens Digital Industry Support
+Short description
+This function converts a temperature value - from °Rankine to °Kelvin.
+4.13.1 LGF_CosinusCI (FB / V3.0.2)
+Author: Siemens Industry Support
+Short description
+This function generates a cosinusoidal signal profile. For this it uses the time interval of the 
+calling Cyclic Interrupt OB.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The block calculates the values for a cosinusoidal signal profile, which is output to the output 
+parameter value.
+The amplitude, the offset in the Y-direction, the period (in ms) and the phase shift (in ms) can 
+be set at the input parameters.
+The input parameter reset resets the signal profile. At the value output parameter, the value 0 is 
+output as long as reset is set to TRUE.
+The block must be called in a cyclic interrupt OB. The time interval of the calling cyclic interrupt 
+OB is determined in the FB with the command QRY_CINT. For this, the constant name of the 
+calling cyclic interrupt OB must be interconnected at the input parameter callOB.
+The number of calculated values of the signal profile per period duration is calculated as follows:
+𝑄𝑢𝑎𝑛𝑡𝑖𝑡𝑦𝑉𝑎𝑙𝑢𝑒𝑠 =𝑃𝑒𝑟𝑖𝑜𝑑𝑑𝑢𝑟𝑎𝑡𝑖𝑜𝑛/𝑇𝑖𝑚𝑒𝑖𝑛𝑡𝑒𝑟𝑣𝑎𝑘𝐶𝑦𝑐𝑙𝑖𝑐𝑖𝑛𝑡𝑒𝑟𝑟𝑢𝑝𝑡𝑂𝐵
+Note To obtain a continuous signal profile of the curve, the time interval of the cyclic interrupt OB 
+should not be selected too large depending on the period duration.
+The Figure below shows the signal profile of the calculated values.
+4.13.2 LGF_Frequency (FB / V3.0.1)
+Author: Siemens Industry Support
+Short description
+This function generates a signal that changes between the values FALSE and TRUE depending on 
+a defined frequency and a pulse pause ratio.
+Functional description
+The clock output is a Boolean value that toggles at the desired frequency. The pulsePauseRatio
+input is used to set the pulse pause ratio.
+The output countdown outputs the remaining time of the current state of clock.
+If the desired frequency or pulse pause ratio is less than or equal to 0.0, the output clock = 
+FALSE and countdown = 0s.
+4.13.3 LGF_Impulse (FB / V3.0.1)
+Author: Siemens Industry Support
+Short description
+This function generates pulses at a given frequency. The pulse is always present for one 
+(control) cycle.
+Functional description
+The function generates pulses at the output impulse with the frequency frequency.
+The block always begins with a pulse and sets the next pulse after the period that has elapsed.
+4.13.4 LGF_RectangleCI (FB / V3.0.1)
+Author: Siemens Industry Support
+Short description
+This function generates a rectangular signal profile. For this it uses the time interval of the 
+calling Cyclic Interrupt OB.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The block calculates the values for a rectangular signal profile, which is output to the output 
+parameter value.
+The amplitude, the offset in the Y-direction, the period, and the phase shift can be set at the 
+input parameters.
+The input parameter reset resets the signal profile. At the value output parameter, the value 0 is 
+output as long as reset is set to TRUE.
+The block must be called in a cyclic interrupt OB. The time interval of the calling cyclic interrupt 
+OB is determined in the FB with the command QRY_CINT. For this, the constant name of the 
+calling cyclic interrupt OB must be interconnected at the input parameter callOB.
+The number of calculated values of the signal profile per period duration is calculated as follows:
+𝑄𝑢𝑎𝑛𝑡𝑖𝑡𝑦𝑉𝑎𝑙𝑢𝑒𝑠 =
+𝑃𝑒𝑟𝑖𝑜𝑑𝑑𝑢𝑟𝑎𝑡𝑖𝑜𝑛
+/𝑇𝑖𝑚𝑒𝑖𝑛𝑡𝑒𝑟𝑣𝑎𝑘𝐶𝑦𝑐𝑙𝑖𝑐𝑖𝑛𝑡𝑒𝑟𝑟𝑢𝑝𝑡𝑂𝐵
+Note To obtain a continuous signal profile of the curve, the time interval of the cyclic interrupt OB 
+should not be selected too large depending on the period duration.
+The Figure below shows the signal profile of the calculated values.
+4.13.5 LGF_SawToothCI (FB / V3.0.1)
+Author: Siemens Industry Support
+Short description
+This function generates a sawtooth-shaped signal profile. For this it uses the time interval of the 
+calling Cyclic Interrupt OB.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The block calculates the values for a sawtooth-shaped signal profile, which is output to the 
+output parameter value.
+The amplitude, the offset in the Y-direction, the period, and the phase shift can be set at the 
+input parameters.
+The input parameter reset resets the signal profile. At the value output parameter, the value 0 is 
+output as long as reset is set to TRUE.
+The block must be called in a cyclic interrupt OB. The time interval of the calling cyclic interrupt 
+OB is determined in the FB with the command QRY_CINT. For this, the constant name of the 
+calling cyclic interrupt OB must be interconnected at the input parameter callOB.
+The number of calculated values of the signal profile per period duration is calculated as follows:
+𝑄𝑢𝑎𝑛𝑡𝑖𝑡𝑦𝑉𝑎𝑙𝑢𝑒𝑠 =
+𝑃𝑒𝑟𝑖𝑜𝑑𝑑𝑢𝑟𝑎𝑡𝑖𝑜𝑛
+/𝑇𝑖𝑚𝑒𝑖𝑛𝑡𝑒𝑟𝑣𝑎𝑘𝐶𝑦𝑐𝑙𝑖𝑐𝑖𝑛𝑡𝑒𝑟𝑟𝑢𝑝𝑡𝑂𝐵
+Note To obtain a continuous signal profile of the curve, the time interval of the cyclic interrupt OB 
+should not be selected too large depending on the period duration.The Figure below shows the signal profile of the calculated values.
+4.13.6 LGF_SinusCI (FB / V3.0.2)
+Author: Siemens Industry Support
+Short description
+This function generates a sinusoidal signal profile. For this it uses the time interval of the calling 
+Cyclic Interrupt OB.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The block calculates the values for a sinusoidal signal profile, which is output to the output 
+parameter value.
+The amplitude, the offset in the Y-direction, the period (in ms) and the phase shift (in ms) can 
+be set at the input parameters.
+The input parameter reset resets the signal profile. At the value output parameter, the value 0 is 
+output as long as reset is set to TRUE.
+The block must be called in a cyclic interrupt OB. The time interval of the calling cyclic interrupt 
+OB is determined in the FB with the command QRY_CINT. For this, the constant name of the 
+calling cyclic interrupt OB must be interconnected at the input parameter callOB.
+The number of calculated values of the signal profile per period duration is calculated as follows:
+𝑄𝑢𝑎𝑛𝑡𝑖𝑡𝑦𝑉𝑎𝑙𝑢𝑒𝑠 =
+𝑃𝑒𝑟𝑖𝑜𝑑𝑑𝑢𝑟𝑎𝑡𝑖𝑜𝑛
+/𝑇𝑖𝑚𝑒𝑖𝑛𝑡𝑒𝑟𝑣𝑎𝑘𝐶𝑦𝑐𝑙𝑖𝑐𝑖𝑛𝑡𝑒𝑟𝑟𝑢𝑝𝑡𝑂𝐵
+Note To obtain a continuous signal profile of the curve, the time interval of the cyclic interrupt OB 
+should not be selected too large depending on the period duration.The Figure below shows the signal profile of the calculated values.
+4.13.7 LGF_TriangleCI (FB / V3.0.1)
+Author: Siemens Industry Support
+Short description
+This function generates a triangular signal profile. For this it uses the time interval of the calling 
+Cyclic Interrupt OB.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The block calculates the values for a triangular signal profile, which is output to the output 
+parameter value.
+The amplitude, the offset in the Y-direction, the period, and the phase shift can be set at the 
+input parameters.
+The input parameter reset resets the signal profile. At the value output parameter, the value 0 is 
+output as long as reset is set to TRUE.
+The block must be called in a cyclic interrupt OB. The time interval of the calling cyclic interrupt 
+OB is determined in the FB with the command QRY_CINT. For this, the constant name of the 
+calling cyclic interrupt OB must be interconnected at the input parameter callOB.
+The number of calculated values of the signal profile per period duration is calculated as follows:
+𝑄𝑢𝑎𝑛𝑡𝑖𝑡𝑦𝑉𝑎𝑙𝑢𝑒𝑠 =
+𝑃𝑒𝑟𝑖𝑜𝑑𝑑𝑢𝑟𝑎𝑡𝑖𝑜𝑛
+/𝑇𝑖𝑚𝑒𝑖𝑛𝑡𝑒𝑟𝑣𝑎𝑘𝐶𝑦𝑐𝑙𝑖𝑐𝑖𝑛𝑡𝑒𝑟𝑟𝑢𝑝𝑡𝑂𝐵
+Note To obtain a continuous signal profile of the curve, the time interval of the cyclic interrupt OB 
+should not be selected too large depending on the period duration.The Figure below shows the signal profile of the calculated values.
+4.14.1 LGF_LimRateOfChangeAdvancedCI (FB / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+The function LGF_LimRateOfChangeAdvanced limits the rate of change of an input variable. Jump 
+functions become ramp functions. In addition, the block has various operating modes.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+For the positive/negative value range, two rates of change in each case for the ramp (rising and 
+falling values) can be parameterized. The following operating modes can be selected via control 
+inputs:
+• Restart
+• Pre-assigning an output
+• Normal operation (automatic)
+• Switch through controlled variable (manual)
+• Tracking
+The output variable can be limited through two parametrize able limits. An active limitation of the 
+rate of change of a ramp, as well as an active limitation of the output variable are reported via 
+outputs.
+The time interval of the calling cyclic interrupt OB is determined by interconnecting the calling 
+cyclic interrupt OB at the input parameter callOB.
+Restart
+At restart reset = TRUE, the output outputValue is reset to 0.0.
+If enDefaultOutValue = TRUE is set, defaultOutValue is output. All signal outputs are set to 
+FALSE.
+Pre-assigning an output
+If enDefaultOutValue = TRUE is set, the value at defaultOutValue is output. When changing 
+from TRUE to FALSE, outputValue is ramped from defaultOutValue to autoValue. When changing 
+from FALSE to TRUE, the output outputValue immediately jumps to defaultOutValue.
+Normal operation
+The ramps are straight lines of limitation and are based on a rate of change per second; if, for 
+example, the parameter setPosUpRateLim = 10.0 is assigned, then at a sampling time of 
+1s/100ms/10ms, 10.0/1.0/0.1 will be added to outputValue at each block call, if autoValue > 
+outputValue, until autoValue is reached.
+The limitation of the rate of change can be parameterized in both positive and negative ranges 
+for the increase and decrease.
+Table: Marking of the ramps
+Parameters Ramp
+setPosUpRateLim outputValue > 0.0 and |outputValue| rising
+setPosDownRateLim
+outputValue > 0.0 and |outputValue| falling
+setNegUpRateLim outputValue < 0.0 and |outputValue| rising
+setNegDownRateLim
+outputValue < 0.0 and |outputValue| falling
+If the ramps are not parameterized (setPosUpRateLim, setPosDownRateLim, setNegUpRateLim, 
+and setNegDownRateLim equal 0.0), the output remains at 0.0 and normal operation is disabled.
+Tracking
+If the input track = TRUE is set, the input variable autoValue is interconnected directly to the 
+output variable outputValue. Thus, jumps of the input variable will also be output.
+Switch through controlled variable
+If manOp = TRUE is set, the controlled variable manualValue is interconnected directly to the 
+output variable outputValue.
+In this operating mode, the parameterization of the ramps or the high/low limitation of the output 
+variable, and the pre-assignment of the output, are ineffective.
+When changing from TRUE to FALSE, the output outputValue is ramped again after autoValue.
+As soon as the value range between the low and high limits is reached, the high and low limits 
+are reactivated.
+Figure: Ramp function sequence, operating modes
+4.14.2 LGF_LimRateOfChangeCI (FB / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+This function limits the rate of change of an input variable. A jump function becomes a ramp 
+function.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The ramp is a limit line and refers to a rate of change per second; if, for example, setChangeRate 
+= 10.0 is parameterized at a sampling time of 1s/100ms/10ms for every block call, then if value 
+> delayedValue, 10.0/1.0/0.1 is added to delayedValue until value is reached.
+The limitation of the rate of change applies to both positive and negative values for the rise and 
+fall.
+The output delayedValue can be preset or initialized.
+The time interval of the calling cyclic interrupt OB is determined by interconnecting the calling 
+cyclic interrupt OB at the input parameter callOB.
+Pre-assigning an output
+If enDefaultOutValue = TRUE is set, the value at defaultOutValue is output. When changing 
+from TRUE to FALSE, the output delayedValue is ramped from defaultOutValue to value. When 
+changing from FALSE to TRUE, the output delayedValue immediately jumps to defaultOutValue.
+4.14.3 LGF_NonLinearInterpolation (FB / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+This function implements a characteristic curve. The characteristic curve is defined via an 
+interpolation point table with linear interpolation between the interpolation points. A prescribed 
+input value generates an output value in each cycle based on the characteristic curve from the 
+interpolation point table.
+Functional description
+The value of the output outputValue based on the following priority:
+1. As long as the input enDefaultOutValue is set, the value defined via the parameter 
+defaultOutValue will be output as output value.
+2. As long as the input reset is set, the block is reset and the output value is 0.0.
+3. If the input track is set, the output value will be output directly as input value, without 
+consideration of the characteristic curve.
+4. Based on the input value, a characteristic curve value is calculated via the linearly 
+interpolated, interpolation point table and output as an output value.
+– If the input value is between two interpolation points within the interpolation point table, 
+the output value is calculated as the intersection with the connecting line between the 
+preceding and following interpolation points (see Figure below).
+– If the input value is before the first interpolation point (lowest value defined in the 
+interpolation point table), the output value will be calculated as the intersection of the 
+line formed by the first two interpolation points of the interpolation point table.
+– If the input value is after the last interpolation point (highest value defined in the 
+interpolation point table), the output value will be calculated as the intersection of the 
+line formed by the last two interpolation points of the interpolation point table.
+Interpolation point table
+The interpolation point table is implemented through a variable of the data type Array. The type 
+of the array corresponds to the PLC data type LGF_typeNonLinSetpoints.
+You can create the interpolation point table in any global data block. The size of the array 
+depends on the number of interpolation points.
+NOTICE To keep the computing time of the block as short as possible, there is no check of the 
+parameterization or the data of the interpolation point table.
+When entering the interpolation points in the interpolation point table, the following 
+particularities must be considered. If these particularities are not taken into account, it can 
+lead to a malfunction of the block.
+• At least two interpolation points must be entered in the interpolation point table.
+• The interpolation points in the interpolation point table must be entered in the Table in ascending 
+order of the input values.
+4.14.4 LGF_RampCI (FB / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+The function generates a speed curve based on an interpolation point table. Linear interpolation 
+occurs between the points within the prescribed time.
+Functional description
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+Global data
+Together with the block, you automatically receive the PLC data type LGF_typeRampTimeTable, 
+which is composed of the parameters outVal for the value of a base point and time for the time, 
+until the next base point is reached. The declaration takes place in a one-dimensional array of 
+the data type LGF_typeRampTimeTable beginning with the index 0. The array is created in a global 
+data block and then passed to the module LGF_RampCI.
+Principle of operation
+With this block, speed curves can be executed based on parameterized interpolation points; in 
+each call cycle values are output according to a schedule, and interpolation takes place 
+between the interpolation points.
+In each cycle the currently approached interpolation point number stepNumber, the actual 
+remaining time remainTime until reaching the interpolation point, the total time totalTime, and 
+the total remaining time until reaching the end of the speed curve remainTotalTime, are output. 
+In addition, the output actTimeTable is set if the projected speed curve is currently being output.
+The time interval of the calling cyclic interrupt OB is determined by interconnecting the calling 
+cyclic interrupt OB at the input parameter callOB.
+Figure: Interconnecting the cyclic interrupt OB
+The following operating modes can be selected via control inputs:
+• Restart
+• Pre-assigning an output
+• Output a speed curve
+• Stop processing
+• Specify processing step and processing time
+• Switch-on cyclic operation+F1
+• Update total time and remaining time
+Restart
+The output outValue is reset to 0.0 with a rising edge at the input reset. With 
+enDefaultOutValue = TRUE, defaultOutValue is output at outputValue. The total time and total 
+remaining time are updated and output.
+Pre-assigning an output
+If the speed curve should begin with a certain output value, then enDefaultOutValue must be 
+TRUE. In this case the value defaultOutValue is present on the output of the timer. The internal 
+processing of the speed curve continues during this time. If enDefaultOutValue changes to 
+FALSE again, interpolation is performed to the currently active calibration point.
+Output a speed curve
+With a rising edge at the input start, the speed curve is output - as long as start is TRUE or until 
+the speed curve is terminated by reaching the last interpolation point. Through a subsequent 
+rising edge, the speed curve is output again. In addition, the total time is updated at each 
+switch-on.
+Switch-on cyclic operation
+If, in addition to the input start, the input cyclicOP is also set to TRUE, the speed curve 
+automatically returns to the start point after outputting the last interpolation point value and 
+starts a new cycle.
+There is no interpolation between the last interpolation point value and the starting point. The 
+following must apply for a smooth transition: last interpolation point value = start point.
+Stop speed curve
+With hold = TRUE the value of the output variable (including time processing) is frozen. When 
+resetting hold = FALSE, the program continues at the point of interruption or at a parameterized 
+point (see “Defining the processing step and processing time”). The processing time of the 
+speed curve is extended by the holding time T1*. (see Figure below).
+Specify processing step and processing time
+If the input parameter continue is set to TRUE for continuation while the speed curve is stopped 
+(hold = TRUE), then after the input hold has been reset the interpolation point number 
+contStepNbr (target interpolation point) will be approached within the time contStepTime
+(interpolation). The total remaining time will be recalculated.
+Updating total time and total remaining time
+If values of the interpolation points are changed, the total time and the total remaining time of 
+the speed curve can change. Since calculation of totalTime and remainTotalTime can 
+significantly increase the processing time of the function block at many interpolation points, the 
+calculation is only executed once with a rising edge on the updateTime input.
+4.15.1 LGF_AverageAndDeviation (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function calculates the arithmetic mean and the standard deviation from a series of 
+numbers.
+Functional description
+An array of any size is connected via the variableArray input. After reading-out the array 
+boundaries, the arithmetic mean value and the standard deviation will be calculated from the 
+values and both will be output.
+Note An array with too many elements can cause the cycle monitoring time to be exceeded.
+4.15.2 LGF_DifferenceQuotientFC (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function numerically differentiates a signal sampled equidistantly in time. For example, the 
+velocity can be calculated from a measured locus curve, or the acceleration can be calculated 
+from the measured velocity. In order to minimize the effects of a scattering measurement signal, 
+this algorithm uses a compensating polynomial.
+The function calculates the differentiated values acyclically.
+The function reads an array that is differentiated. 𝑁 − 4 smoothed measured values can be 
+calculated from N measured values. The output array contains the value 0 in the index (0,1,N-
+1,N). However, replacement values can be calculated.
+Functional description
+To calculate the difference quotient of a scattering signal, a third-degree compensation 
+polynomial is first placed through the measured values. This polynomial is then differentiated. 
+With this method, even a distorted input signal can be sensibly differentiated.
+The difference quotient is calculated with the following formula:
+y'(n)= $ \frac {y(n-2)-8y(n-1)+8y(n+1)-y(n+2)}{12 \cdot deltaT} $ 
+𝑑𝑒𝑙𝑡𝑎𝑇: equidistant distance between two measured values (e.g. 1s).
+The function (FC) can calculate 𝑁 − 4 differentiated and smoothed measured values from N 
+measured values. The output array would be assigned with 0 in the index (0,1,N-1,N). However, 
+the following formalisms can be used to calculate substitute values:
+y'(n-2)= $ \frac {-125y(n-2)+136y(n-1)+48y(n)-88y(n+1)+29y(n+2)}{84\cdot deltaT} $ 
+y'(n-1)= $ \frac {-38y(n-2)-2y(n-1)+24y(n)+26y(n+1)-10y(n+2)}{84\cdot deltaT} $ 
+y'(n+1)= $ \frac {10y(n-2)-26y(n-1)-24y(n)+2y(n+1)+38y(n+2)}{84\cdot deltaT} $ 
+y'(n+2)= $ \frac {-29y(n-2)+88y(n-1)-48y(n)-136y(n+1)+125y(n+2)}{84\cdot deltaT} $ 
+4.15.3 LGF_RegressionLine (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+The simplest case of a regression is the regression line. This means that the assumed 
+relationship between the input and output signal is a linear straight line.
+Figure: Regression line
+Functional description
+The block calculates the regression line with the following line equation:
+𝑓(𝑥) = 𝑚 ⋅ 𝑥 + 𝑡
+𝑚: Gradient of straight line
+𝑡: Intersection with y-axis
+𝑁: number of array elements
+4.15.4 LGF_SimpleSmoothingFC (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+The function calculates the linear mean value acyclically.
+The simplest form of smoothing a sequence of measured values is to calculate the linear mean 
+value by three points.
+The function reads an array that is smoothed. 𝑁 − 2 smoothed measured values can be 
+calculated from N measured values. Therefore, the output array in the index (0) and index (N) 
+contains the value 0.
+Functional description
+The function calculates the smoothed values using the following formula:
+
+The calculated value is output or the calculated values are output at output smoothedValue.
+Based on this formula, the function cannot calculate values for the elements 0 and N.
+
+4.15.5 LGF_SmoothByPolynomFC (FC / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function calculates the smoothed values by polynomial acyclically.
+For smoothing, a 3rd degree polynomial is placed through five value points. The error squares 
+of the distances between polynomial and real value are minimized. The smoothed values can 
+be determined from the polynomial parameters obtained in this way.
+The function reads an array that is smoothed. 𝑁 − 4 smoothed measured values can be 
+calculated from N measured values. The output array contains the value 0 in the index (0,1,N-
+1,N). However, replacement values can be calculated.
+Functional description
+The 3rd degree compensation polynomial is calculated as follows:
+
+𝑁 − 4 smoothed measured values can thus be calculated from the N measured values. The 
+output array contains the value 0 in the index (0.1, N-1, N).
+These “missing” values are calculated with the following formalisms:
+4.15.6 LGF_Boxplot_DInt (FB / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+If you want to get an overview of existing data, you can use a Boxplot diagram. A Boxplot shows 
+you in which area the data is located and how it is distributed over this area. A Boxplot consists 
+of the following parameters:
+• Minimum (smallest occurring value of the sample)
+• Lower or first quartile (below this value are 25% of the sample values)
+• Median or second quartile (below this value are 50% of the sample values)
+• Upper or third quartile (below this value are 75% of the sample values)
+• Maximum (largest occurring value of the sample)
+Figure: Boxplot
+Functional description
+The block sorts the data series and then calculates the so-called “five-point summary”:
+Table: Five-point summary
+Characteristic value of the five-point summary Output parameter of the block
+Minimum (smallest occurring value of the sample) min
+Lower or first quartile (below this value are 25% of 
+the sample values)
+q25
+Median or second quartile (below this value are 
+50% of the sample values)
+median
+Upper or third quartile (below this value are 75% of 
+the sample values)
+q75
+Maximum (largest occurring value of the sample) max
+If outlier detection is activated, the block first calculates the limits. From these limit values, the 
+values are recognized as outliers:
+
+The block then calculates new values for the parameters max and min, which lie within the outlier 
+limits. The outliers are counted and output as a percentage.
+To make it easier to judge how the data is distributed, the block also calculates the skew. The 
+skewness lies between the values -1 and 1 with the following meaning:
+• -1: extremely left skewed distribution
+• 0: symmetrical distribution
+• 1: extreme right-skew distribution
+The elements of the passed array are sorted in ascending order by the block. The 
+LGF_Shellsort_DInt block is used for sorting.
+The parameters are calculated as follows:
+Table: Boxplot formulas Parameters Formula
+4.15.7 LGF_Boxplot_LReal (FB / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+If you want to get an overview of existing data, you can use a Boxplot diagram. A Boxplot shows 
+you in which area the data is located and how it is distributed over this area. A Boxplot consists 
+of the following parameters:
+• Minimum (smallest occurring value of the sample)
+• Lower or first quartile (below this value are 25% of the sample values)
+• Median or second quartile (below this value are 50% of the sample values)
+• Upper or third quartile (below this value are 75% of the sample values)
+• Maximum (largest occurring value of the sample)
+Figure: Boxplot
+Functional description
+The block sorts the data series and then calculates the so-called “five-point summary”:
+Table: Five-point summary
+Characteristic value of the five-point summary Output parameter of the block
+Minimum (smallest occurring value of the sample) min
+Lower or first quartile (below this value are 25% of 
+the sample values)
+q25
+Median or second quartile (below this value are 
+50% of the sample values)
+median
+Upper or third quartile (below this value are 75% of 
+the sample values)
+q75
+Maximum (largest occurring value of the sample) max
+If outlier detection is activated, the block first calculates the limits. From these limit values, the 
+values are recognized as outliers:
+
+The block then calculates new values for the parameters max and min, which lie within the outlier 
+limits. The outliers are counted and output as a percentage.
+To make it easier to judge how the data is distributed, the block also calculates the skew. The 
+skewness lies between the values -1 and 1 with the following meaning:
+• -1: extremely left skewed distribution
+• 0: symmetrical distribution
+• 1: extreme right-skew distribution
+The elements of the passed array are sorted in ascending order by the block. The 
+LGF_Shellsort_LReal block is used for sorting.
+The parameters are calculated as follows:
+Table: Boxplot formulas Parameters Formula
+4.15.8 LGF_Boxplot_UDInt (FB / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+If you want to get an overview of existing data, you can use a Boxplot diagram. A Boxplot shows 
+you in which area the data is located and how it is distributed over this area. A Boxplot consists 
+of the following parameters:
+• Minimum (smallest occurring value of the sample)
+• Lower or first quartile (below this value are 25% of the sample values)
+• Median or second quartile (below this value are 50% of the sample values)
+• Upper or third quartile (below this value are 75% of the sample values)
+• Maximum (largest occurring value of the sample)
+Figure: Boxplot
+Functional description
+The block sorts the data series and then calculates the so-called “five-point summary”:
+Table: Five-point summary
+Characteristic value of the five-point summary Output parameter of the block
+Minimum (smallest occurring value of the sample) min
+Lower or first quartile (below this value are 25% of 
+the sample values)
+q25
+Median or second quartile (below this value are 
+50% of the sample values)
+median
+Upper or third quartile (below this value are 75% of 
+the sample values)
+q75
+Maximum (largest occurring value of the sample) max
+If outlier detection is activated, the block first calculates the limits. From these limit values, the 
+values are recognized as outliers:
+
+The block then calculates new values for the parameters max and min, which lie within the outlier 
+limits. The outliers are counted and output as a percentage.
+To make it easier to judge how the data is distributed, the block also calculates the skew. The 
+skewness lies between the values -1 and 1 with the following meaning:
+• -1: extremely left skewed distribution
+• 0: symmetrical distribution
+• 1: extreme right-skew distribution
+The elements of the passed array are sorted in ascending order by the block. The 
+LGF_Shellsort_UDInt block is used for sorting.
+The parameters are calculated as follows:
+Table: Boxplot formulas Parameters Formula
+4.15.9 LGF_DifferenceQuotientFB (FB / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function numerically differentiates a signal sampled equidistantly in time. For example, the 
+velocity can be calculated from a measured locus curve, or the acceleration can be calculated 
+from the measured velocity. In order to minimize the effects of a scattering measurement signal, 
+this algorithm uses a compensating polynomial.
+The function block calculates the differentiated values cyclically.
+The function block reads-in a value with each positive edge on the insert been read in, the 
+block calculates a differentiated value and outputs it.
+Functional description
+To calculate the difference quotient of a scattering signal, a third-degree compensation 
+polynomial is first placed through the measured values. This polynomial is then differentiated. 
+With this method, even a distorted input signal can be sensibly differentiated.
+The difference quotient is calculated with the following formula:
+
+The function (FC) can calculate 𝑁 − 4 differentiated and smoothed measured values from N 
+measured values. The output array would be assigned with 0 in the index (0,1,N-1,N). However, 
+the following formalisms can be used to calculate substitute values:
+4.15.10 LGF_FloatingAverage (FB / V3.0.2)
+Author: Siemens Digital Industry
+Short description
+This function calculates a moving arithmetic mean value from REAL values. This method can be 
+used to smooth data series. The values can be read in cyclically or triggered.
+Functional description
+Note The block LGF_FloatingAverage does not query the data type for the input parameter value. 
+For data types other than REAL, either an implicit conversion is performed automatically or 
+an error is generated during compilation.
+You can find further information in the Chapter “Overview of Data Type Conversion” in the 
+Online Help section of the TIA Portal or under:
+https://support.industry.siemens.com/cs/ww/en/view/109773506/100611494667
+The block calculates the (moving) mean value based on the set window width. The window 
+width indicates the maximum number of values read in last. After the maximum number of 
+values has been read, the output windowSizeReached is set and each newly read value replaces 
+the oldest value (FIFO principle).
+Two options are available for reading the values. With the input cyclicExecution, the values are 
+read and calculated cyclically. With the trigger input, the values are read in and calculated with 
+each pulse.
+4.15.11 LGF_Histogram_DInt (FB / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+The histogram shows the frequency distribution of a sample by class. A class describes a value 
+interval in which the individual frequencies are added together. After specifying the number of 
+classes, the class width and the respective class center are calculated. The number of classes 
+is limited to 15.
+The distribution is represented as a rectangle around the class mean with the class width and 
+the cumulated frequency as height.
+Figure: Distribution
+Functional description
+The block sorts the transferred data and calculates the general class width using the transferred 
+class count and data range. The block then counts the values that lie within a class. In order to 
+draw a histogram, the block also calculates the necessary X and Y coordinates.
+The elements of the passed array values are sorted in ascending order by the block. The 
+LGF_Shellsort_UDInt block is used for sorting.
+The number of classes can be specified using the following rule of thumb:
+
+Formulas
+The block uses the following formula to calculate the class width:
+4.15.12 LGF_Histogram_LReal (FB / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+The histogram shows the frequency distribution of a sample by class. A class describes a value 
+interval in which the individual frequencies are added together. After specifying the number of 
+classes, the class width and the respective class center are calculated. The number of classes 
+is limited to 15.
+The distribution is represented as a rectangle around the class mean with the class width and 
+the cumulated frequency as height.
+Figure: Distribution
+Functional description
+The block sorts the transferred data and calculates the general class width using the transferred 
+class count and data range. The block then counts the values that lie within a class. In order to 
+draw a histogram, the block also calculates the necessary X and Y coordinates.
+The elements of the passed array values are sorted in ascending order by the block. The 
+LGF_Shellsort_UDInt block is used for sorting.
+The number of classes can be specified using the following rule of thumb:
+
+Formulas
+4.15.13 LGF_Histogram_UDInt (FB / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+The histogram shows the frequency distribution of a sample by class. A class describes a value 
+interval in which the individual frequencies are added together. After specifying the number of 
+classes, the class width and the respective class center are calculated. The number of classes 
+is limited to 15.
+The distribution is represented as a rectangle around the class mean with the class width and 
+the cumulated frequency as height.
+Figure: Distribution
+Functional description
+The block sorts the transferred data and calculates the general class width using the transferred 
+class count and data range. The block then counts the values that lie within a class. In order to 
+draw a histogram, the block also calculates the necessary X and Y coordinates.
+The elements of the passed array values are sorted in ascending order by the block. The 
+LGF_Shellsort_UDInt block is used for sorting.
+The number of classes can be specified using the following rule of thumb:
+
+Formulas
+The block uses the following formula to calculate the class width:
+4.15.14 LGF_SimpleSmoothingFB (FB / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+The function calculates the linear mean value cyclically.
+The simplest form of smoothing a sequence of measured values is to calculate the linear mean 
+value by three points.
+The function reads-in a value with each positive edge on the insert input. As soon as three 
+values have been read in, the block calculates a smoothed value and outputs it.
+Functional description
+The function calculates the smoothed values using the following formula:
+𝑦(𝑛) = (𝑦(𝑛 − 1) + 𝑦(𝑛) + 𝑦(𝑛 + 1)) / 3
+The calculated value is output or the calculated values are output at output smoothedValue.
+Based on this formula, the function cannot calculate values for the elements 0 and N.
+4.15.15 LGF_SmoothByPolynomFB (FB / V3.0.1)
+Author: Siemens Digital Industry
+Short description
+This function calculates the smoothed values by polynomial cyclically.
+For smoothing, a 3rd degree polynomial is placed through five value points. The error squares 
+of the distances between polynomial and real value are minimized. The smoothed values can 
+be determined from the polynomial parameters obtained in this way.
+The function reads-in a value with each positive edge on the insert input. As soon as five 
+values have been read in, the block calculates a smoothed value and outputs it.
+Functional description
+The 3rd degree compensation polynomial is calculated as follows:
+
+𝑁 − 4 smoothed measured values can thus be calculated from the N measured values. The 
+output array contains the value 0 in the index (0.1, N-1, N).
+These “missing” values are calculated with the following formalisms:
+4.16.1 LGF_IsBigEndian (FC / V1.0.0)
+Author: Siemens Industry Support
+Short description
+The function detects the endianness of the executing system.
+4.16.2 LGF_IsLittleEndian (FC / V1.0.0)
+Author: Siemens Industry Support
+Short description
+The function detects the endianness of the executing system.
+4.16.3 LGF_ActDeactDevice (FB / V1.0.0)
+Author: Siemens Industry Support
+Short description
+LGF_ActDeactDevice implements a compact state machine to activate and monitor or deactivate 
+decentral devices.
+The module monitors as well the device connection and error state after activation.
+It works for PN (S7-1200 / S7-1500) and DP (S7-1500) devices.
+Functional description
+The module provides the procedure for activating and deactivating remote IO-Devices in the 
+Profinet (PN, S7-1500 & S7-1200) and Profibus (DP, S7-1500) network.
+The activation of the device (defined at hwId) is initiated by a rising edge at activate, after 
+complete activation this is indicated at the output isActivated and deviceStateOK. After that the 
+connection status is displayed at the deviceStateOK output.
+The connection is monitored and in case of a failure of this of more than the set monitoring time 
+timeOutStateMonitoring at the output and reported as an error. After successful recovery of the 
+connection by the system, the configured time is also waited until the error is reset to ensure 
+stability.
+Note The connection status of the decentralized device can also be displayed in the TIA Portal 
+project navigation in the PLC, which is the controller, under the item ‘Distributed I/O’, if they 
+are online with the engineering system.
+Deactivation of the device (defined at hwId) is initiated by a rising edge at deactivate, after 
+complete activation this is indicated at the output isDeactivated.
+It is possible to define the states for switching on and off, as well as the monitoring times for 
+activating and deactivating and the connection monitoring.All errors are automatically reset as soon as the faulty state is eliminated.
+The exception to this are errors that can only be corrected by an intervention in the software, 
+such as an incorrect or non-existent hardware ID of a non-existent decentralized IO device.
+4.16.4 LGF_ReadPnInterfaceParameter (FB / V1.0.0)
+Author: Siemens Industry Support
+Short description
+The function block provides Interface parameter like the IP Address settings, MAC Address and 
+the PN Name.
+Functional description
+The function reads the Interface settings / parameters using the system function RDREC (Read 
+data record).
+To read the MAC and IP address of the interface provided via it's hardware ID, it is mandatory 
+to read the PD_INTERFACE_DATA_REAL data record of any PROFINET compliant interface.
+Note Upon TIA Portal V17, it’s possible to use as well the system function CommConfig, which is in 
+the Instructions / Communication / Open user communication (Version >= V8.1) located.
+4.17.1 LGF_CountFalInDWord (FC / V3.0.1)
+Author: Siemens Digital Industry Support
+Short description
+The function analyzes a variable of the type DWORD and outputs how often a 1-0 sequence 
+(falling edge) occurs in the variable.
+Note LEGACY FUNCTION
+Please update and use the FB with the same name LGF_CountFalInDWord in the future!
+This function is no longer maintained!
+Functional description
+In a variable of the data type DWORD, the block counts the falling edges (1-0 transitions) from 
+left to right. The output countFalInDWord outputs the number of falling edges.
+So that falling edges at the variable limit are also detected, the input value is copied to the static 
+variable statDWordPrevCycle at the end of the evaluation and evaluated in the next cycle.
+4.17.2 LGF_CountRisInDWord (FC / V3.0.1)
+Author: Siemens Digital Industry Support
+Short description
+The function analyzes a variable of the type DWORD and outputs how often a 0-1 sequence 
+(rising edge) occurs in the variable.
+Note LEGACY FUNCTION
+Please update and use the FB with the same name LGF_CountRisInDWord in the future!
+This function is no longer maintained!
+Functional description
+In a variable of the data type DWORD, the block counts the rising edges (0-1 transitions) from 
+left to right. The output countRisInDWord outputs the number of rising edges.
+So that rising edges at the variable limit are also detected, the input value is copied to the static 
+variable statDWordPrevCycle at the end of the evaluation and evaluated in the next cycle.
+4.18.1 LGF_SawTooth (FB / V3.0.1)
+Author: Siemens Digital Industries
+Short description
+This function generates a sawtooth-shaped signal profile. Each sawtooth consists of a defined 
+number of steps (increments).
+Note LEGACY FUNCTION
+Please update and use the FB with the same name LGF_CountRisInDWord in the future!
+This function is no longer maintained
+Functional description
+Note Please note that changes at the input parameters only become effective with reset.
+The block calculates the values for a sawtooth-shaped signal profile, which is output to the 
+output parameter value. The signal begins with the start value startValue and is added with the 
+value increment after each elapse of the time interval timeRange. The value can also be 
+negative.
+If the variable endlessSteps is set to FALSE, the number of add operations is counted. If this 
+exceeds the value numberSteps, the output parameter value is set back to the start value. A new 
+sawtooth begins.
+If the variable endlessSteps is set to TRUE, the value increment is added without interruption, 
+starting once at startValue. If the maximum positive INT value range (32767) of the output 
+parameter value is exceeded, value changes to the maximum negative INT value range (-32768) and will continue to be added up.
+Note The duration of a sawtooth at endlessSteps on FALSE is calculated as follows:
+Duration = #timeRange * (#numberSteps + 1)

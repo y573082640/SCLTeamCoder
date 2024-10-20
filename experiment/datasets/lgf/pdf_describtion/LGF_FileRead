@@ -1,0 +1,13 @@
+## Short description ##
+
+This function block offers reading data as binary / serialized data stream from files stored on the 
+PLC's memory card in the folder UserFiles.
+
+## Functional description ##
+
+With the function LGF_FileRead a file can be read into the data budget of a variable at data. To 
+read the data it is necessary to deserialize it, which the function already takes from the user.
+For deserialization an external buffer in the form of a byte array must be connected which can 
+take up the amount of data, if the buffer is too small an error is output.
+The file name must always be specified in full together with the folder name and the file 
+extension in the following format: UserFiles/test.dat.

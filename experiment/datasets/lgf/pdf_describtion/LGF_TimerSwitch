@@ -1,0 +1,53 @@
+## Short description ##
+
+This block is a timer. It is possible to define daily, weekly, monthly, yearly time switch points and 
+time switch points for working days or weekend days.
+Mode: Permanently off: 0, Daily: 1, Weekly: 2, Monthly: 3, Yearly: 4, Workday: 5, Weekend: 6, 
+Permanently on: 10
+The time value is always compared with the local time of the PLC, therefore the time value 
+specified at the On and Off parameters must be specified as local time.
+
+## Functional description ##
+
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+Note The function uses internally the system function RD_LOC_T to read the local time of the CPU, 
+for the correct function it is therefore necessary that the local time of the CPU is set correctly.
+The block offers various timer types, which are determined in the mode parameter:
+• Permanently off (mode = 0)
+• Daily timer (mode = 1)
+• Weekly timer (mode = 2)
+• Monthly timer (mode = 3)
+• Yearly timer (mode = 4)
+• Weekdays, Monday to Friday (mode = 5)
+• Weekend, Saturday and Sunday (mode = 6)
+• Permanently on (mode = 10)
+The time value is always compared with the local time of the PLC, therefore the time value 
+specified at the On and Off parameters must be specified as local time.
+Depending on the mode, the following formal parameters must be interconnected:
+Mode. Mode Required - formal parameters
+0 . Permanently OFF – none
+1 . Daily timer – onHour / offHour
+– onMinute / offMinute
+2 . Weekly timer – onWeekday / offWeekday
+– onHour / offHour
+– onMinute / offMinute
+3 . Monthly timer – onDay / offDay
+– onHour / offHour
+– onMinute / offMinute
+4 . Yearly timer – onMonth / offMonth
+– onDay / offDay
+– onHour / offHour
+– onMinute / offMinute
+5 . Weekdays – onHour / offHour
+– onMinute / offMinute
+6 . Weekend – onHour / offHour
+– onMinute / offMinute
+10 . Permanently ON – none
+If the set start time equals the current local time of the controller, the output signal is set to 
+TRUE. If the set switch-off time equals the current local time of the controller, the signal output is 
+reset again.
+Note Please note that the block can be used in the “Monthly timer” modes (mode = 3) or “yearly 
+timer” (mode = 4) the block only switches if the days that you specify at the input parameters, 
+“onDay” and “offDay”, actually occur in this month.

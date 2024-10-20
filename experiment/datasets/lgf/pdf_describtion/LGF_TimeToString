@@ -1,0 +1,4 @@
+## Short description ##
+
+This function converts a variable of the system data type Time into a variable of the data type 
+String.

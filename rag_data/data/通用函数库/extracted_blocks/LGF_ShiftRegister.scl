@@ -79,6 +79,14 @@ BEGIN
 	  // Restrictions:     ENO disabled - error handling done with error and status
 	  // Requirements:     PLC (S7-1200 / S7-1500)
 	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 03.07.2018  Siemens Industry Online Support
+	  //                      First released version
+	  // 03.00.00 09.04.2021  Simatic Systems Support
+	  //                      Refactoring and alignment to Datatype Variant
+	  //                      Insert documentation
 	  //=============================================================================
 	END_REGION Block info header
 	

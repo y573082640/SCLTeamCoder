@@ -1,0 +1,28 @@
+{
+    "title": "Bit status check operation",
+    "name": "LGF_BitTest",
+    "description": "## Short description ##\n\nThis block checks whether a bit is TRUE or FALSE at a given position in a variable of the data type DWORD.\nAlternatively, Word and Byte can be used instead of DWord by converting the passed\nparameter with, for example, BYTE_TO_DWORD and the result with DWORD_TO_BYTE.",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "value",
+            "type": "DWord",
+            "description": "Tag where the bit has to be tested"
+        },
+        {
+            "name": "bitNo",
+            "type": "USInt",
+            "description": "bit number to test in \"value\" parameter"
+        }
+    ],
+    "output": [],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "Bool",
+            "description": "Value of the checked bit."
+        }
+    ],
+    "status_codes": {},
+    "user_defined_types": []
+}

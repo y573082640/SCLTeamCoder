@@ -1,0 +1,28 @@
+{
+    "title": "Bit set operation in DWORD",
+    "name": "LGF_BitSet",
+    "description": "## Short description ##\n\nThis block sets a bit at a given position in a variable of the data type DWORD.\nAlternatively, Word and Byte can be used instead of DWord by converting the passed\nparameter with, for example, BYTE_TO_DWORD and the result with DWORD_TO_BYTE.",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "value",
+            "type": "DWord",
+            "description": "Tag where the bit has to be set"
+        },
+        {
+            "name": "bitNo",
+            "type": "USInt",
+            "description": "Bit number to set in \"value\" parameter"
+        }
+    ],
+    "output": [],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "DWord",
+            "description": "Tag with the set bit"
+        }
+    ],
+    "status_codes": {},
+    "user_defined_types": []
+}

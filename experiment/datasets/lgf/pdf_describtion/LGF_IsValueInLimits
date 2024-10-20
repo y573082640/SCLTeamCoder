@@ -1,0 +1,10 @@
+## Short description ##
+
+The function checks whether a value is within a defined value range. The value range is defined 
+with a lower and an upper limit.
+
+## Functional description ##
+
+The variables lowLimit and highLimit define a value range.
+The function checks whether the value is below, in or above the value range. The outputs 
+belowLowLimit, Ret_Val, or overHighLimit show where the value is located.

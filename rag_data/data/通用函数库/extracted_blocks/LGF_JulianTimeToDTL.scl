@@ -50,6 +50,11 @@ BEGIN
 	  // Restrictions:     ENO mechanism is not used, Error handling done by error and status
 	  // Requirements:     PLC (S7-1200 / S7-1500)
 	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 14.04.2023 | Siemens Industry Online Support
+	  //                         First released version
 	  //=============================================================================
 	END_REGION Block info header
 	

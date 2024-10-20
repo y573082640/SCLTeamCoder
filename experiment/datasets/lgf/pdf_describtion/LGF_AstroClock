@@ -1,0 +1,28 @@
+## Short description ##
+
+This function calculates the times of sunrise and sunset based on the local time for a specific  place on Earth. The exact position is transferred in the form of geographical GPS coordinates (longitude and latitude).
+
+## Functional description ##
+
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+If processes must run automatically depending on the change between day and night, the 
+function of an astronomical clock is required. Examples of this would be switching outdoor 
+lighting on and off or opening and closing roller shutters.
+If these processes are to be executed with a time delay i.e. a defined time before or after 
+sunrise or sunset an offset is required in each case.
+Note For precise execution of the function, it must be ensured that system time and local time of 
+the SIMATIC controller are set correctly.
+Based on the system time/local time of the SIMATIC controller and the set coordinates, the 
+block calculates the times for sunrise and sunset. The offset times are added to the sunrise and 
+sunset and output on the sunrise and sunset outputs. If the systems local time of the SIMATIC 
+controller is between these values, the output isDaytime is set to the value TRUE.
+Note Since the times for sunrise and sunset change daily, it is possible that the isDaytime output 
+remains permanently on TRUE or FALSE over a longer period of time:
+• with correspondingly large offset values
+• for a place on the other side of the Arctic Circle
+The input of the GPS coordinate values is checked for valid values. If there are invalid values, 
+an appropriate error code is output to status.
+If there is an invalid coordinate value for a formal parameter, the outputs sunrise and sunset
+are set to the value DTL#1970-01-01-00:00:00.

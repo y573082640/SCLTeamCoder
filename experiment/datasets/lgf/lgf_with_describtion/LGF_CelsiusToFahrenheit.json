@@ -1,0 +1,23 @@
+{
+    "title": "Celsius to Fahrenheit Converter",
+    "name": "LGF_CelsiusToFahrenheit",
+    "description": "## Short description ##\n\nThis function converts a temperature value - from °Celsius to °Fahrenheit.",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "value",
+            "type": "Real",
+            "description": "Temperature to be converted in °Celsius"
+        }
+    ],
+    "output": [],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "Real",
+            "description": "Converted temperature in °Fahrenheit"
+        }
+    ],
+    "status_codes": {},
+    "user_defined_types": []
+}

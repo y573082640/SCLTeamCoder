@@ -1,0 +1,27 @@
+## Short description ##
+
+LGF_ActDeactDevice implements a compact state machine to activate and monitor or deactivate 
+decentral devices.
+The module monitors as well the device connection and error state after activation.
+It works for PN (S7-1200 / S7-1500) and DP (S7-1500) devices.
+
+## Functional description ##
+
+The module provides the procedure for activating and deactivating remote IO-Devices in the 
+Profinet (PN, S7-1500 & S7-1200) and Profibus (DP, S7-1500) network.
+The activation of the device (defined at hwId) is initiated by a rising edge at activate, after 
+complete activation this is indicated at the output isActivated and deviceStateOK. After that the 
+connection status is displayed at the deviceStateOK output.
+The connection is monitored and in case of a failure of this of more than the set monitoring time 
+timeOutStateMonitoring at the output and reported as an error. After successful recovery of the 
+connection by the system, the configured time is also waited until the error is reset to ensure 
+stability.
+Note The connection status of the decentralized device can also be displayed in the TIA Portal 
+project navigation in the PLC, which is the controller, under the item ‘Distributed I/O’, if they 
+are online with the engineering system.
+Deactivation of the device (defined at hwId) is initiated by a rising edge at deactivate, after 
+complete activation this is indicated at the output isDeactivated.
+It is possible to define the states for switching on and off, as well as the monitoring times for 
+activating and deactivating and the connection monitoring.All errors are automatically reset as soon as the faulty state is eliminated.
+The exception to this are errors that can only be corrected by an intervention in the software, 
+such as an incorrect or non-existent hardware ID of a non-existent decentralized IO device.

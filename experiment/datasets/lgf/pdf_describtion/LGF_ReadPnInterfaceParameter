@@ -1,0 +1,13 @@
+## Short description ##
+
+The function block provides Interface parameter like the IP Address settings, MAC Address and 
+the PN Name.
+
+## Functional description ##
+
+The function reads the Interface settings / parameters using the system function RDREC (Read 
+data record).
+To read the MAC and IP address of the interface provided via it's hardware ID, it is mandatory 
+to read the PD_INTERFACE_DATA_REAL data record of any PROFINET compliant interface.
+Note Upon TIA Portal V17, it’s possible to use as well the system function CommConfig, which is in 
+the Instructions / Communication / Open user communication (Version >= V8.1) located.

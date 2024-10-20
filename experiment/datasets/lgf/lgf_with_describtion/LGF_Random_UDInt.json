@@ -1,0 +1,36 @@
+{
+    "title": "Random UDInt Number Generator",
+    "name": "LGF_Random_UDInt",
+    "description": "## Short description ##\n\nThis function generates a random value with each call.\nThe random number has the data type UDInt.\n\n## Functional description ##\n\nNote The status of called commands is output in subFunctionStatus. In this case, the output value \nin status indicates which command caused the error. In this case, refer to the TIA Portal \nOnline Help section for information on the respective commands.\nThe function generates random values in the range:\n0 ≤ 𝑅𝑒𝑡𝑢𝑟𝑛𝑉𝑎𝑙 ≤ 4294967295.\nThe random value is formed from the nanoseconds of the current system time of the CPU. The \nbyte order of this value is inverted and then converted to UDInt.",
+    "type": "FUNCTION",
+    "input": [],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "Error flag"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status code"
+        },
+        {
+            "name": "subfunctionStatus",
+            "type": "Word",
+            "description": "Status or return value of called blocks"
+        }
+    ],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "UDInt",
+            "description": "Random number in the UDInt range"
+        }
+    ],
+    "status_codes": {
+        "16#0000": "STATUS_FINISHED_NO_ERROR",
+        "16#8600": "ERR_RD_SYS_T"
+    },
+    "user_defined_types": []
+}

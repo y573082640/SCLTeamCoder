@@ -1,0 +1,6 @@
+## Short description ##
+
+This function compares two binary Values source and compare by a given mask.
+Both given values are masked (input AND mask), and the results is than compared and returned.
+Can be used for Word and Byte as well, by convert the passed parameter using for e.g. 
+Byte_to_DWord(...).

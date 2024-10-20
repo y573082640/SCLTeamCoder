@@ -1,0 +1,70 @@
+## Short description ##
+
+The function generates a speed curve based on an interpolation point table. Linear interpolation 
+occurs between the points within the prescribed time.
+
+## Functional description ##
+
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+Global data
+Together with the block, you automatically receive the PLC data type LGF_typeRampTimeTable, 
+which is composed of the parameters outVal for the value of a base point and time for the time, 
+until the next base point is reached. The declaration takes place in a one-dimensional array of 
+the data type LGF_typeRampTimeTable beginning with the index 0. The array is created in a global 
+data block and then passed to the module LGF_RampCI.
+Principle of operation
+With this block, speed curves can be executed based on parameterized interpolation points; in 
+each call cycle values are output according to a schedule, and interpolation takes place 
+between the interpolation points.
+In each cycle the currently approached interpolation point number stepNumber, the actual 
+remaining time remainTime until reaching the interpolation point, the total time totalTime, and 
+the total remaining time until reaching the end of the speed curve remainTotalTime, are output. 
+In addition, the output actTimeTable is set if the projected speed curve is currently being output.
+The time interval of the calling cyclic interrupt OB is determined by interconnecting the calling 
+cyclic interrupt OB at the input parameter callOB.
+Figure: Interconnecting the cyclic interrupt OB
+The following operating modes can be selected via control inputs:
+• Restart
+• Pre-assigning an output
+• Output a speed curve
+• Stop processing
+• Specify processing step and processing time
+• Switch-on cyclic operation+F1
+• Update total time and remaining time
+Restart
+The output outValue is reset to 0.0 with a rising edge at the input reset. With 
+enDefaultOutValue = TRUE, defaultOutValue is output at outputValue. The total time and total 
+remaining time are updated and output.
+Pre-assigning an output
+If the speed curve should begin with a certain output value, then enDefaultOutValue must be 
+TRUE. In this case the value defaultOutValue is present on the output of the timer. The internal 
+processing of the speed curve continues during this time. If enDefaultOutValue changes to 
+FALSE again, interpolation is performed to the currently active calibration point.
+Output a speed curve
+With a rising edge at the input start, the speed curve is output - as long as start is TRUE or until 
+the speed curve is terminated by reaching the last interpolation point. Through a subsequent 
+rising edge, the speed curve is output again. In addition, the total time is updated at each 
+switch-on.
+Switch-on cyclic operation
+If, in addition to the input start, the input cyclicOP is also set to TRUE, the speed curve 
+automatically returns to the start point after outputting the last interpolation point value and 
+starts a new cycle.
+There is no interpolation between the last interpolation point value and the starting point. The 
+following must apply for a smooth transition: last interpolation point value = start point.
+Stop speed curve
+With hold = TRUE the value of the output variable (including time processing) is frozen. When 
+resetting hold = FALSE, the program continues at the point of interruption or at a parameterized 
+point (see “Defining the processing step and processing time”). The processing time of the 
+speed curve is extended by the holding time T1*. (see Figure below).
+Specify processing step and processing time
+If the input parameter continue is set to TRUE for continuation while the speed curve is stopped 
+(hold = TRUE), then after the input hold has been reset the interpolation point number 
+contStepNbr (target interpolation point) will be approached within the time contStepTime
+(interpolation). The total remaining time will be recalculated.
+Updating total time and total remaining time
+If values of the interpolation points are changed, the total time and the total remaining time of 
+the speed curve can change. Since calculation of totalTime and remainTotalTime can 
+significantly increase the processing time of the function block at many interpolation points, the 
+calculation is only executed once with a rising edge on the updateTime input.

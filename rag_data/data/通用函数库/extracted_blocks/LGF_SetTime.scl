@@ -190,6 +190,31 @@ BEGIN
 	  // Restrictions:     ENO disabled - error handling done with error and status
 	  // Requirements:     PLC (S7-1200 / S7-1500)
 	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 08.06.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA V14 Update 1
+	  // 01.00.02 02.03.2017  Siemens Industry Online Support
+	  //                      Bugfix: FB number: automatic
+	  // 01.00.03 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.00.04 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.00.05 20.02.2019  Siemens Industry Online Support
+	  //                      Bugfix: Rising edge at input REQ of SET_TIMEOUT
+	  // 01.00.06 23.08.2019  Simatic Systems Support
+	  //                      Reworked interface to PLC Open "execute" behavior
+	  //                      Magic numbers removed, tag naming added, code reworked
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.02 13.01.2020  Simatic Systems Support
+	  //                      Bug fix - bias correction for time offsets (330)
+	  //                      Insert documentation
+	  // 03.00.03 03.06.2022  Simatic Systems Support
+	  //                      Bug fix - bias correction for time offsets (200)
 	  //=============================================================================
 	END_REGION BLOCK INFO HEADER
 	

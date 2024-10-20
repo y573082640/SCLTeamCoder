@@ -115,6 +115,45 @@ BEGIN
 	  // Restrictions:     ENO disabled - error handling done with error and status
 	  // Requirements:     PLC (S7-1200 / S7-1500)
 	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 19.08.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 01.10.2015  Siemens Industry Online Support
+	  //                      T_ADD instruction is replaced with "+"
+	  // 01.00.02 16.11.2015  Siemens Industry Online Support
+	  //                      "offsetSunrise", "offsetSunset" is calculated in
+	  //                      "daytime"
+	  //                      Bug fix at "Adjust back TO UTC"
+	  // 01.01.00 07.06.2015  Siemens Industry Online Support
+	  //                      Add output actSystemTime and actLocalTime
+	  // 01.01.01 15.06.2015  Siemens Industry Online Support
+	  //                      Add comments
+	  // 01.01.02 04.01.2017  Siemens Industry Online Support
+	  //                      Bug fix at calculation sunrise and sunset
+	  // 01.01.03 20.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA V14 Update 1
+	  // 01.01.04 22.02.2017  Siemens Industry Online Support
+	  //                      Code optimization
+	  // 01.01.05 09.07.2018  Siemens Industry Online Support
+	  //                      Initialize #tempIntSunrise, #tempIntSunset,#tempDate1Jan 
+	  // 01.01.06 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 01.01.07 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 01.00.08 30.08.2019  Simatic Systems Support
+	  //                      Rename from Astro to AstroClock
+	  //                      Update Type name to positionGps - "LGF_typeGPS_DD" - GPS position as decimal degree
+	  //                      Refactoring of interface
+	  //                      - one input type for GPS data
+	  //                      - refactored for better usability
+	  //                      - refactoring of whole block to "ENABLE" behavior
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 12.11.2020  Simatic Systems Support
+	  //                      Bug fix - not enabled - block still running
+	  //                      Insert documentation
 	  //===============================================================================
 	END_REGION BLOCK INFO HEADER
 	

@@ -1,0 +1,60 @@
+## Short description ##
+
+The function LGF_LimRateOfChangeAdvanced limits the rate of change of an input variable. Jump 
+functions become ramp functions. In addition, the block has various operating modes.
+
+## Functional description ##
+
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+For the positive/negative value range, two rates of change in each case for the ramp (rising and 
+falling values) can be parameterized. The following operating modes can be selected via control 
+inputs:
+• Restart
+• Pre-assigning an output
+• Normal operation (automatic)
+• Switch through controlled variable (manual)
+• Tracking
+The output variable can be limited through two parametrize able limits. An active limitation of the 
+rate of change of a ramp, as well as an active limitation of the output variable are reported via 
+outputs.
+The time interval of the calling cyclic interrupt OB is determined by interconnecting the calling 
+cyclic interrupt OB at the input parameter callOB.
+Restart
+At restart reset = TRUE, the output outputValue is reset to 0.0.
+If enDefaultOutValue = TRUE is set, defaultOutValue is output. All signal outputs are set to 
+FALSE.
+Pre-assigning an output
+If enDefaultOutValue = TRUE is set, the value at defaultOutValue is output. When changing 
+from TRUE to FALSE, outputValue is ramped from defaultOutValue to autoValue. When changing 
+from FALSE to TRUE, the output outputValue immediately jumps to defaultOutValue.
+Normal operation
+The ramps are straight lines of limitation and are based on a rate of change per second; if, for 
+example, the parameter setPosUpRateLim = 10.0 is assigned, then at a sampling time of 
+1s/100ms/10ms, 10.0/1.0/0.1 will be added to outputValue at each block call, if autoValue > 
+outputValue, until autoValue is reached.
+The limitation of the rate of change can be parameterized in both positive and negative ranges 
+for the increase and decrease.
+Table: Marking of the ramps
+Parameters Ramp
+setPosUpRateLim outputValue > 0.0 and |outputValue| rising
+setPosDownRateLim
+outputValue > 0.0 and |outputValue| falling
+setNegUpRateLim outputValue < 0.0 and |outputValue| rising
+setNegDownRateLim
+outputValue < 0.0 and |outputValue| falling
+If the ramps are not parameterized (setPosUpRateLim, setPosDownRateLim, setNegUpRateLim, 
+and setNegDownRateLim equal 0.0), the output remains at 0.0 and normal operation is disabled.
+Tracking
+If the input track = TRUE is set, the input variable autoValue is interconnected directly to the 
+output variable outputValue. Thus, jumps of the input variable will also be output.
+Switch through controlled variable
+If manOp = TRUE is set, the controlled variable manualValue is interconnected directly to the 
+output variable outputValue.
+In this operating mode, the parameterization of the ramps or the high/low limitation of the output 
+variable, and the pre-assignment of the output, are ineffective.
+When changing from TRUE to FALSE, the output outputValue is ramped again after autoValue.
+As soon as the value range between the low and high limits is reached, the high and low limits 
+are reactivated.
+Figure: Ramp function sequence, operating modes

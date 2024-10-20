@@ -1,0 +1,26 @@
+## Short description ##
+
+This function generates a rectangular signal profile. For this it uses the time interval of the 
+calling Cyclic Interrupt OB.
+
+## Functional description ##
+
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The block calculates the values for a rectangular signal profile, which is output to the output 
+parameter value.
+The amplitude, the offset in the Y-direction, the period, and the phase shift can be set at the 
+input parameters.
+The input parameter reset resets the signal profile. At the value output parameter, the value 0 is 
+output as long as reset is set to TRUE.
+The block must be called in a cyclic interrupt OB. The time interval of the calling cyclic interrupt 
+OB is determined in the FB with the command QRY_CINT. For this, the constant name of the 
+calling cyclic interrupt OB must be interconnected at the input parameter callOB.
+The number of calculated values of the signal profile per period duration is calculated as follows:
+𝑄𝑢𝑎𝑛𝑡𝑖𝑡𝑦𝑉𝑎𝑙𝑢𝑒𝑠 =
+𝑃𝑒𝑟𝑖𝑜𝑑𝑑𝑢𝑟𝑎𝑡𝑖𝑜𝑛
+/𝑇𝑖𝑚𝑒𝑖𝑛𝑡𝑒𝑟𝑣𝑎𝑘𝐶𝑦𝑐𝑙𝑖𝑐𝑖𝑛𝑡𝑒𝑟𝑟𝑢𝑝𝑡𝑂𝐵
+Note To obtain a continuous signal profile of the curve, the time interval of the cyclic interrupt OB 
+should not be selected too large depending on the period duration.
+The Figure below shows the signal profile of the calculated values.

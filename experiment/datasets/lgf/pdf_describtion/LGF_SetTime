@@ -1,0 +1,13 @@
+## Short description ##
+
+This block combines the functions of system time, local time, and set time zone.
+
+## Functional description ##
+
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+Note The function uses internally the system function WR_LOC_T to write the local time of the CPU 
+or WR_SYS_T to write the coordinated world time (UTC). Further it uses the system function 
+SET_TIMEZONE to set the time zone of the PLC.
+This block combines the functions of system time, local time, and set time zone.

@@ -1,0 +1,9 @@
+## Short description ##
+
+The function calculates the distance between two points in 3D space.
+
+## Functional description ##
+
+The block calculates the distance between two points in a Cartesian coordinate system. The 
+distance is calculated with the following formula:
+result = 2√((𝑥2 − 𝑥1)^2 + (𝑦2 − 𝑦1)^2 + (𝑧2 − 𝑧1)^2)

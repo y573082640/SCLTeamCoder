@@ -1,0 +1,25 @@
+## Short description ##
+
+The function approximately calculates the area under a function curve. The function curve is 
+transferred as an analog value (LReal) which varies over time. The integral value is output on 
+integral.
+The implementation is based on the trapezoidal rule and uses [ms] as time base.
+
+## Functional description ##
+
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The integral calculation includes the summation of those trapezoidal areas that span between 
+the last two function values on the “value” input and the time. The elapsed time is calculated via 
+the system time of the CPU. This trapezoidal area is identical to the product of the mean value 
+of the two process values and the time interval.
+Note The calculation takes [ms] as time base. So the analoge value hase to use the same time 
+base, e.g. [volume flow/ms].
+𝐴 = 1/2 * (𝐹𝑡1 + 𝐹𝑡0) * (𝑡1 − 𝑡0) + 1/2 * (𝐹𝑡2 + 𝐹𝑡1) *(𝑡2− 𝑡1) + ...
+Start the integral calculation for the inputvalue at the parameter value:
+• Set the parameter enable to the value TRUE
+• Set the parameter reset to the value FALSE
+If the parameter enable is set to the value FALSE, the integral calculation is stopped and the 
+output integral outputs the last calculated value.
+If the parameter reset is set to the value TRUE, the output integral is reset to 0.0

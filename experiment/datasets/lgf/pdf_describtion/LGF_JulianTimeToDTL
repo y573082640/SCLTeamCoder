@@ -1,0 +1,6 @@
+## Short description ##
+
+This function converts a given Julian Date (regular or modified) of data type LReal (Double) to a 
+date and time of data type DTL.
+The timestamp is calculated based on UTC. This means that the time zone is not considered.
+Only times after 01/01/1990 are permitted.

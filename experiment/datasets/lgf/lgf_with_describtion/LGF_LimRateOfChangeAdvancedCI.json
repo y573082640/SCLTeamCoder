@@ -1,0 +1,159 @@
+{
+    "title": "Advanced Rate of Change Limiter",
+    "name": "LGF_LimRateOfChangeAdvancedCI",
+    "description": "## Short description ##\n\nThe function LGF_LimRateOfChangeAdvanced limits the rate of change of an input variable. Jump \nfunctions become ramp functions. In addition, the block has various operating modes.\n\n## Functional description ##\n\nNote The status of called commands is output in subFunctionStatus. In this case, the output value \nin status indicates which command caused the error. In this case, refer to the TIA Portal \nOnline Help section for information on the respective commands.\nFor the positive/negative value range, two rates of change in each case for the ramp (rising and \nfalling values) can be parameterized. The following operating modes can be selected via control \ninputs:\n• Restart\n• Pre-assigning an output\n• Normal operation (automatic)\n• Switch through controlled variable (manual)\n• Tracking\nThe output variable can be limited through two parametrize able limits. An active limitation of the \nrate of change of a ramp, as well as an active limitation of the output variable are reported via \noutputs.\nThe time interval of the calling cyclic interrupt OB is determined by interconnecting the calling \ncyclic interrupt OB at the input parameter callOB.\nRestart\nAt restart reset = TRUE, the output outputValue is reset to 0.0.\nIf enDefaultOutValue = TRUE is set, defaultOutValue is output. All signal outputs are set to \nFALSE.\nPre-assigning an output\nIf enDefaultOutValue = TRUE is set, the value at defaultOutValue is output. When changing \nfrom TRUE to FALSE, outputValue is ramped from defaultOutValue to autoValue. When changing \nfrom FALSE to TRUE, the output outputValue immediately jumps to defaultOutValue.\nNormal operation\nThe ramps are straight lines of limitation and are based on a rate of change per second; if, for \nexample, the parameter setPosUpRateLim = 10.0 is assigned, then at a sampling time of \n1s/100ms/10ms, 10.0/1.0/0.1 will be added to outputValue at each block call, if autoValue > \noutputValue, until autoValue is reached.\nThe limitation of the rate of change can be parameterized in both positive and negative ranges \nfor the increase and decrease.\nTable: Marking of the ramps\nParameters Ramp\nsetPosUpRateLim outputValue > 0.0 and |outputValue| rising\nsetPosDownRateLim\noutputValue > 0.0 and |outputValue| falling\nsetNegUpRateLim outputValue < 0.0 and |outputValue| rising\nsetNegDownRateLim\noutputValue < 0.0 and |outputValue| falling\nIf the ramps are not parameterized (setPosUpRateLim, setPosDownRateLim, setNegUpRateLim, \nand setNegDownRateLim equal 0.0), the output remains at 0.0 and normal operation is disabled.\nTracking\nIf the input track = TRUE is set, the input variable autoValue is interconnected directly to the \noutput variable outputValue. Thus, jumps of the input variable will also be output.\nSwitch through controlled variable\nIf manOp = TRUE is set, the controlled variable manualValue is interconnected directly to the \noutput variable outputValue.\nIn this operating mode, the parameterization of the ramps or the high/low limitation of the output \nvariable, and the pre-assignment of the output, are ineffective.\nWhen changing from TRUE to FALSE, the output outputValue is ramped again after autoValue.\nAs soon as the value range between the low and high limits is reached, the high and low limits \nare reactivated.\nFigure: Ramp function sequence, operating modes",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "autoValue",
+            "type": "LReal",
+            "description": "Signal to be processed and limited in its rate of change"
+        },
+        {
+            "name": "manualValue",
+            "type": "LReal",
+            "description": "Manually controlled output value"
+        },
+        {
+            "name": "posUpRateLim",
+            "type": "LReal",
+            "description": "Rate of change per second for the rising ramp in the positive value range"
+        },
+        {
+            "name": "posDownRateLim",
+            "type": "LReal",
+            "description": "Rate of change per second for the falling ramp in the positive value range"
+        },
+        {
+            "name": "negUpRateLim",
+            "type": "LReal",
+            "description": "Rate of change per second for the rising ramp in the negative value range"
+        },
+        {
+            "name": "negDownRateLim",
+            "type": "LReal",
+            "description": "Rate of change per second for the falling ramp in the negative value range"
+        },
+        {
+            "name": "highLim",
+            "type": "LReal",
+            "description": "High limit value"
+        },
+        {
+            "name": "lowLim",
+            "type": "LReal",
+            "description": "Low limit value"
+        },
+        {
+            "name": "defaultOutValue",
+            "type": "LReal",
+            "description": "Value for pre-assignment of the output variable"
+        },
+        {
+            "name": "enDefaultOutValue",
+            "type": "Bool",
+            "description": "Assign default output value"
+        },
+        {
+            "name": "track",
+            "type": "Bool",
+            "description": "Follow / tracking of Input variable"
+        },
+        {
+            "name": "manOp",
+            "type": "Bool",
+            "description": "Manual mode on"
+        },
+        {
+            "name": "reset",
+            "type": "Bool",
+            "description": "Complete restart of function"
+        },
+        {
+            "name": "callOB",
+            "type": "OB_CYCLIC",
+            "description": "Calling wake-alarm interrupt OB"
+        }
+    ],
+    "output": [
+        {
+            "name": "outputValue",
+            "type": "LReal",
+            "description": "Output variable"
+        },
+        {
+            "name": "posUpRateLim",
+            "type": "Bool",
+            "description": "Rise limitation in positive range tripped"
+        },
+        {
+            "name": "posDownRateLim",
+            "type": "Bool",
+            "description": "Down rate limit in positive range reached"
+        },
+        {
+            "name": "negUpRateLim",
+            "type": "Bool",
+            "description": "Up rate limit in negative range reached"
+        },
+        {
+            "name": "negDownRateLim",
+            "type": "Bool",
+            "description": "Down rate limit in negative range reached"
+        },
+        {
+            "name": "highLim",
+            "type": "Bool",
+            "description": "High limit reached"
+        },
+        {
+            "name": "lowLim",
+            "type": "Bool",
+            "description": "Low limit reached"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "Error occurred during the execution of the FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status of the FB"
+        },
+        {
+            "name": "subfunctionStatus",
+            "type": "Word",
+            "description": "Status or return value of called FB's, FC's and system blocks"
+        }
+    ],
+    "in/out": [],
+    "return_value": [],
+    "status_codes": {
+        "16#0000": "STATUS_FINISHED_NO_ERROR",
+        "16#8200": "ERR_NEG_RATE_LIM",
+        "16#8202": "ERR_NEG_RATE_OF_CHANGE",
+        "16#8600": "ERR_QRY_CINT",
+        "16#8601": "ERR_OB_UNAVAILABLE"
+    },
+    "user_defined_types": [
+        {
+            "name": "LGF_typeNonLinSetpoints",
+            "description": "Data type for setup a setpoint table for function",
+            "member": [
+                {
+                    "name": "inputValue",
+                    "type": "LReal",
+                    "default": "0.0",
+                    "description": "Input value to be interpolated"
+                },
+                {
+                    "name": "outputValue",
+                    "type": "LReal",
+                    "default": "0.0",
+                    "description": "Corresponding interpolated value"
+                }
+            ]
+        }
+    ]
+}

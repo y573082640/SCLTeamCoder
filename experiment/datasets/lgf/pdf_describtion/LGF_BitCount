@@ -1,0 +1,8 @@
+## Short description ##
+
+This block counts in a variable of type DWord how many bits are set (TRUE) and how many are 
+not set (FALSE) and outputs the number at the outputs.
+Instead of DWord, Word and Byte can also be used by converting the past parameter with e.g. 
+BYTE_TO_DWORD and connecting the corresponding bit length of the data type at the 
+parameter “numberOfBits”.
+Byte=8, Word=16, DWord=32

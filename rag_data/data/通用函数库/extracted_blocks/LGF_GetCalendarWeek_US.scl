@@ -81,6 +81,16 @@ BEGIN
 	  // Restrictions:     ENO disabled - error handling done with error and status
 	  // Requirements:     PLC (S7-1200 / S7-1500)
 	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 13.11.2019  Simatic Systems Support
+	  //                      First release
+	  //                      based on spli from  LGF_CalenderWeek (previously LGF_CalenderWeek_ISO)
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 19.01.2020  Simatic Systems Support
+	  //                      Insert documentation
 	  //=============================================================================
 	END_REGION BLOCK INFO HEADER
 	

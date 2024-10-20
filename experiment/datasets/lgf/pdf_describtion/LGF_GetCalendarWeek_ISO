@@ -1,0 +1,17 @@
+## Short description ##
+
+This function uses the specified date to calculate the calendar week and the number of days that have passed since the beginning of the year for ISO 8601 European countries.
+
+## Functional description ##
+
+Counting method for European countries in accordance with ISO 8601
+•     Calendar weeks have 7 days, start on a Monday, and they are counted continuously throughout the year
+•     Calendar week 1 of a year is the week that contains the first Thursday.
+•     Each year has either 52 or 53 calendar weeks.
+•    A year has 53 calendar weeks if the following characteristics apply:
+-    A common year begins on a Thursday and ends on a Thursday.
+-    A leap year begins either on a Wednesday and ends on a Thursday or it begins on a Thursday and ends on a Friday.
+
+
+•    The 29th, 30th and 31st December can belong to the calendar week 1 of the following year.
+•    The 1st, 2nd, and 3rd January can still belong to the last calendar week of the previous year.

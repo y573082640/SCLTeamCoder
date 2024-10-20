@@ -1,0 +1,35 @@
+{
+    "title": "Single Byte CRC-8 Calculator",
+    "name": "LGF_CalcCRC8For1Byte",
+    "description": "## Short description ##\n\nThe CRC calculation is used for error detection at data transmission. The result of a calculation \nreturns a CRC value via the data sent (Byte). The receiver detects a faulty transmission due to \nthe unequal CRC value. The function LGF_CalcCRC8For1Byte uses 8 bits as the generator \npolynomial (mask).\n\n## Functional description ##\n\nThe function calculates the CRC value from a data byte value. The start value initValue and \nthe generator polynomial mask can be freely selected.\nNote Various online tools are available for calculating the CRC values. The function of the block \nwas tested with the following online tool, since it supports the input parameters mask\n(Polynomial) and initValue (Initial Value):\nhttp://www.sunshine2k.de/coding/javascript/crc/crc_js.html",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "initValue",
+            "type": "Byte",
+            "description": "Start value for the calculation"
+        },
+        {
+            "name": "mask",
+            "type": "Byte",
+            "description": "Generator polynomial for the calculation"
+        },
+        {
+            "name": "value",
+            "type": "Byte",
+            "description": "Data byte for which the CRC value will be calculated"
+        }
+    ],
+    "output": [],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "Byte",
+            "description": "Calculated CRC value"
+        }
+    ],
+    "status_codes": {
+        "16#0000": "STATUS_NO_ERROR"
+    },
+    "user_defined_types": []
+}

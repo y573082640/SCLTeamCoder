@@ -1,0 +1,147 @@
+{
+    "title": "Ramp Function Generator",
+    "name": "LGF_RampCI",
+    "description": "## Short description ##\n\nThe function generates a speed curve based on an interpolation point table. Linear interpolation \noccurs between the points within the prescribed time.\n\n## Functional description ##\n\nNote The status of called commands is output in subFunctionStatus. In this case, the output value \nin status indicates which command caused the error. In this case, refer to the TIA Portal \nOnline Help section for information on the respective commands.\nGlobal data\nTogether with the block, you automatically receive the PLC data type LGF_typeRampTimeTable, \nwhich is composed of the parameters outVal for the value of a base point and time for the time, \nuntil the next base point is reached. The declaration takes place in a one-dimensional array of \nthe data type LGF_typeRampTimeTable beginning with the index 0. The array is created in a global \ndata block and then passed to the module LGF_RampCI.\nPrinciple of operation\nWith this block, speed curves can be executed based on parameterized interpolation points; in \neach call cycle values are output according to a schedule, and interpolation takes place \nbetween the interpolation points.\nIn each cycle the currently approached interpolation point number stepNumber, the actual \nremaining time remainTime until reaching the interpolation point, the total time totalTime, and \nthe total remaining time until reaching the end of the speed curve remainTotalTime, are output. \nIn addition, the output actTimeTable is set if the projected speed curve is currently being output.\nThe time interval of the calling cyclic interrupt OB is determined by interconnecting the calling \ncyclic interrupt OB at the input parameter callOB.\nFigure: Interconnecting the cyclic interrupt OB\nThe following operating modes can be selected via control inputs:\n• Restart\n• Pre-assigning an output\n• Output a speed curve\n• Stop processing\n• Specify processing step and processing time\n• Switch-on cyclic operation+F1\n• Update total time and remaining time\nRestart\nThe output outValue is reset to 0.0 with a rising edge at the input reset. With \nenDefaultOutValue = TRUE, defaultOutValue is output at outputValue. The total time and total \nremaining time are updated and output.\nPre-assigning an output\nIf the speed curve should begin with a certain output value, then enDefaultOutValue must be \nTRUE. In this case the value defaultOutValue is present on the output of the timer. The internal \nprocessing of the speed curve continues during this time. If enDefaultOutValue changes to \nFALSE again, interpolation is performed to the currently active calibration point.\nOutput a speed curve\nWith a rising edge at the input start, the speed curve is output - as long as start is TRUE or until \nthe speed curve is terminated by reaching the last interpolation point. Through a subsequent \nrising edge, the speed curve is output again. In addition, the total time is updated at each \nswitch-on.\nSwitch-on cyclic operation\nIf, in addition to the input start, the input cyclicOP is also set to TRUE, the speed curve \nautomatically returns to the start point after outputting the last interpolation point value and \nstarts a new cycle.\nThere is no interpolation between the last interpolation point value and the starting point. The \nfollowing must apply for a smooth transition: last interpolation point value = start point.\nStop speed curve\nWith hold = TRUE the value of the output variable (including time processing) is frozen. When \nresetting hold = FALSE, the program continues at the point of interruption or at a parameterized \npoint (see “Defining the processing step and processing time”). The processing time of the \nspeed curve is extended by the holding time T1*. (see Figure below).\nSpecify processing step and processing time\nIf the input parameter continue is set to TRUE for continuation while the speed curve is stopped \n(hold = TRUE), then after the input hold has been reset the interpolation point number \ncontStepNbr (target interpolation point) will be approached within the time contStepTime\n(interpolation). The total remaining time will be recalculated.\nUpdating total time and total remaining time\nIf values of the interpolation points are changed, the total time and the total remaining time of \nthe speed curve can change. Since calculation of totalTime and remainTotalTime can \nsignificantly increase the processing time of the function block at many interpolation points, the \ncalculation is only executed once with a rising edge on the updateTime input.",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "defaultOutValue",
+            "type": "LReal",
+            "description": "Value for pre-assignment of the output variable"
+        },
+        {
+            "name": "contStepNbr",
+            "type": "Int",
+            "description": "Number of the next interpolation point for continuing"
+        },
+        {
+            "name": "contStepTime",
+            "type": "Time",
+            "description": "Remaining time to continue to the interpolation point"
+        },
+        {
+            "name": "enDefaultOutValue",
+            "type": "Bool",
+            "description": "Assign default output value"
+        },
+        {
+            "name": "start",
+            "type": "Bool",
+            "description": "Run down the interpolation point table"
+        },
+        {
+            "name": "hold",
+            "type": "Bool",
+            "description": "Freeze/hold output at actual value"
+        },
+        {
+            "name": "continue",
+            "type": "Bool",
+            "description": "Continuing"
+        },
+        {
+            "name": "cyclicOP",
+            "type": "Bool",
+            "description": "Repeat interpolation point table cyclically"
+        },
+        {
+            "name": "updateTime",
+            "type": "Bool",
+            "description": "Update time values"
+        },
+        {
+            "name": "reset",
+            "type": "Bool",
+            "description": "Complete reset of function"
+        },
+        {
+            "name": "callOB",
+            "type": "OB_CYCLIC",
+            "description": "Calling wake-alarm interrupt OB"
+        }
+    ],
+    "output": [
+        {
+            "name": "outputValue",
+            "type": "LReal",
+            "description": "Output value"
+        },
+        {
+            "name": "actTimeTable",
+            "type": "Bool",
+            "description": "Interpolation point table will be edited"
+        },
+        {
+            "name": "stepNumber",
+            "type": "Int",
+            "description": "Current interpolation point number"
+        },
+        {
+            "name": "remainTime",
+            "type": "Time",
+            "description": "Remaining time until reaching the next interpolation point"
+        },
+        {
+            "name": "totalTime",
+            "type": "Time",
+            "description": "Total time for setpoint table"
+        },
+        {
+            "name": "remainTotalTime",
+            "type": "Time",
+            "description": "Total remaining time"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "Error occurred during the execution of the FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status of the FB"
+        },
+        {
+            "name": "subfunctionStatus",
+            "type": "Word",
+            "description": "Status or return value of called FB's, FC's and system blocks"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "setpoints",
+            "type": "Array[*] of LGF_typeRampTimeTable",
+            "description": "Interpolation point table."
+        }
+    ],
+    "return_value": [],
+    "status_codes": {
+        "16#0000": "STATUS_FINISHED_NO_ERROR",
+        "16#7000": "STATUS_NO_CALL",
+        "16#7001": "STATUS_FIRST_CALL",
+        "16#7002": "STATUS_FURTHER_CALLS",
+        "16#8200": "ERR_OB_UNAVAILABLE",
+        "16#8201": "ERR_ARRAY_LOWER_BOUND",
+        "16#8400": "ERR_QRY_CINT"
+    },
+    "user_defined_types": [
+        {
+            "name": "LGF_typeRampTimeTable",
+            "description": "Data type for setup a speed curve",
+            "member": [
+                {
+                    "name": "outputValue",
+                    "type": "LReal",
+                    "default": "0.0",
+                    "description": "Setpoint Value to reach by the interpolation curve"
+                },
+                {
+                    "name": "time",
+                    "type": "Time",
+                    "default": "T#0s",
+                    "description": "Time until the interpolation point is reached"
+                }
+            ]
+        }
+    ]
+}

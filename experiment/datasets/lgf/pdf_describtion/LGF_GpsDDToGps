@@ -1,0 +1,5 @@
+## Short description ##
+
+This function converts a given GPS-DD data type (decimal degrees) into a GPS data type 
+(direction, degrees, minutes, and seconds).
+GPS decimal degree to GPS “native”.

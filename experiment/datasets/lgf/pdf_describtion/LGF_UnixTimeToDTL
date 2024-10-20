@@ -1,0 +1,5 @@
+## Short description ##
+
+This function converts the Unix time of data type DInt to a date and time of data type DTL. The 
+timestamp is calculated in UTC. This means that the time zone is not considered.
+Only times after 01/01/1990 are permitted.

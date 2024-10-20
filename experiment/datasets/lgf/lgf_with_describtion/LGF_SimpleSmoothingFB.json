@@ -1,0 +1,49 @@
+{
+    "title": "Simple Smoothing Function Block",
+    "name": "LGF_SimpleSmoothingFB",
+    "description": "## Short description ##\n\nThe function calculates the linear mean value cyclically.\nThe simplest form of smoothing a sequence of measured values is to calculate the linear mean \nvalue by three points.\nThe function reads-in a value with each positive edge on the insert input. As soon as three \nvalues have been read in, the block calculates a smoothed value and outputs it.\n\n## Functional description ##\n\nThe function calculates the smoothed values using the following formula:\n𝑦(𝑛) = (𝑦(𝑛 − 1) + 𝑦(𝑛) + 𝑦(𝑛 + 1)) / 3\nThe calculated value is output or the calculated values are output at output smoothedValue.\nBased on this formula, the function cannot calculate values for the elements 0 and N.",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "enable",
+            "type": "Bool",
+            "description": "Activates the block."
+        },
+        {
+            "name": "insert",
+            "type": "Bool",
+            "description": "Accepts the value at the input `value` at positive edge and outputs a `smoothedValue` if three values have been read in."
+        },
+        {
+            "name": "value",
+            "type": "LReal",
+            "description": "Value that is to be included in the smoothing."
+        }
+    ],
+    "output": [
+        {
+            "name": "smoothedValue",
+            "type": "LReal",
+            "description": "The smoothed value."
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: No error, TRUE: An error occurred during the execution of the FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status of the FB and error identification."
+        }
+    ],
+    "in/out": [],
+    "return_value": [],
+    "status_codes": {
+        "16#7000": "STATUS_NO_CALL: The block waits for activation through the parameter `enable`.",
+        "16#7001": "STATUS_FIRST_CALL: First call of FB after enabling",
+        "16#7002": "STATUS_SUBSEQUENT_CALL: Processing is active. Subsequent call of FB.",
+        "16#7010": "STATUS_NOT_ENOUGH_VALUES: The block requires three (3) values to calculate a smoothed value."
+    },
+    "user_defined_types": []
+}

@@ -1,0 +1,23 @@
+## Short description ##
+
+This function generates a sawtooth-shaped signal profile. Each sawtooth consists of a defined 
+number of steps (increments).
+Note LEGACY FUNCTION
+Please update and use the FB with the same name LGF_CountRisInDWord in the future!
+This function is no longer maintained
+
+## Functional description ##
+
+Note Please note that changes at the input parameters only become effective with reset.
+The block calculates the values for a sawtooth-shaped signal profile, which is output to the 
+output parameter value. The signal begins with the start value startValue and is added with the 
+value increment after each elapse of the time interval timeRange. The value can also be 
+negative.
+If the variable endlessSteps is set to FALSE, the number of add operations is counted. If this 
+exceeds the value numberSteps, the output parameter value is set back to the start value. A new 
+sawtooth begins.
+If the variable endlessSteps is set to TRUE, the value increment is added without interruption, 
+starting once at startValue. If the maximum positive INT value range (32767) of the output 
+parameter value is exceeded, value changes to the maximum negative INT value range (-32768) and will continue to be added up.
+Note The duration of a sawtooth at endlessSteps on FALSE is calculated as follows:
+Duration = #timeRange * (#numberSteps + 1)

@@ -49,6 +49,11 @@ BEGIN
 	  // Restrictions:     Date type (range from 01.01.1990) is used in the "Function" therefore the conversion limit is set.
 	  // Requirements:     PLC (S7-1200 / S7-1500)
 	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 14.04.2023 | Siemens Industry Online Support
+	  //                         First released version
 	  //===============================================================================
 	END_REGION Block info header
 	

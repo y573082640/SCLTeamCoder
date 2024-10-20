@@ -1,0 +1,25 @@
+{
+    "title": "Odd Parity Checker for DWord",
+    "name": "LGF_IsParityOdd",
+    "description": "## Short description ##\n\nThe function checks whether the parity of the input variable of type DWord is odd. The return \nvalue is set to TRUE if the number of bits that are assigned TRUE in the sequence is odd.",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "doubleWord",
+            "type": "DWord",
+            "description": "Variable for which the parity is to be determined."
+        }
+    ],
+    "output": [],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "Bool",
+            "description": "TRUE: When the number of bits that are assigned `TRUE` is odd"
+        }
+    ],
+    "status_codes": {
+        "16#0000": "STATUS_NO_ERROR"
+    },
+    "user_defined_types": []
+}

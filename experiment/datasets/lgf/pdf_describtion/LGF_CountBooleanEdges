@@ -1,0 +1,10 @@
+## Short description ##
+
+This function evaluates a input signal for different states in a certain amount of time.
+The states are:
+• One edge and input present over the whole monitoring time
+• Single edge
+• Double edge
+• N-Edges in between the monitoring time
+The Output signal is present for at least on cycle after the monitoring time has expired, or as 
+long as the input trigger remains TRUE.

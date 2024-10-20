@@ -1,0 +1,8 @@
+## Short description ##
+
+This function inverts a square matrix of the data type ARRAY[*,*] of LREAL.
+The square matrix of any size will be inverted according to the Shipley-Coleman method.
+𝑚𝑎𝑡𝑟𝑖𝑥𝑅𝑒𝑠𝑢𝑙𝑡 = 𝑚𝑎𝑡𝑟𝑖𝑥^(−1)
+Note Note that the input matrix must be square. This means that the number of rows must be 
+equal to the number of columns. The output matrix must be the same size and have the 
+same array boundaries as the input matrix.

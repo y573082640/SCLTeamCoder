@@ -1,0 +1,64 @@
+{
+    "title": "Rate of Change Limiter",
+    "name": "LGF_LimRateOfChangeCI",
+    "description": "## Short description ##\n\nThis function limits the rate of change of an input variable. A jump function becomes a ramp \nfunction.\n\n## Functional description ##\n\nNote The status of called commands is output in subFunctionStatus. In this case, the output value \nin status indicates which command caused the error. In this case, refer to the TIA Portal \nOnline Help section for information on the respective commands.\nThe ramp is a limit line and refers to a rate of change per second; if, for example, setChangeRate \n= 10.0 is parameterized at a sampling time of 1s/100ms/10ms for every block call, then if value \n> delayedValue, 10.0/1.0/0.1 is added to delayedValue until value is reached.\nThe limitation of the rate of change applies to both positive and negative values for the rise and \nfall.\nThe output delayedValue can be preset or initialized.\nThe time interval of the calling cyclic interrupt OB is determined by interconnecting the calling \ncyclic interrupt OB at the input parameter callOB.\nPre-assigning an output\nIf enDefaultOutValue = TRUE is set, the value at defaultOutValue is output. When changing \nfrom TRUE to FALSE, the output delayedValue is ramped from defaultOutValue to value. When \nchanging from FALSE to TRUE, the output delayedValue immediately jumps to defaultOutValue.",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "value",
+            "type": "LReal",
+            "description": "Signal to be processed and limited in its rate of change"
+        },
+        {
+            "name": "setChangeRate",
+            "type": "LReal",
+            "description": "Rate of change of ramp function"
+        },
+        {
+            "name": "defaultOutValue",
+            "type": "LReal",
+            "description": "Value for pre-assignment of the output variable"
+        },
+        {
+            "name": "enDefaultOutValue",
+            "type": "Bool",
+            "description": "Assign default output value"
+        },
+        {
+            "name": "callOB",
+            "type": "OB_CYCLIC",
+            "description": "Calling wake-alarm interrupt OB"
+        }
+    ],
+    "output": [
+        {
+            "name": "delayedValue",
+            "type": "LReal",
+            "description": "Output variable"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "Error occurred during the execution of the FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status of the FB"
+        },
+        {
+            "name": "subfunctionStatus",
+            "type": "Word",
+            "description": "Status or return value of called FB's, FC's and system blocks"
+        }
+    ],
+    "in/out": [],
+    "return_value": [],
+    "status_codes": {
+        "16#0000": "STATUS_FINISHED_NO_ERROR",
+        "16#8200": "ERR_NEG_RATE_LIM",
+        "16#8600": "ERR_QRY_CINT",
+        "16#8601": "ERR_OB_UNAVAILABLE"
+    },
+    "user_defined_types": []
+}

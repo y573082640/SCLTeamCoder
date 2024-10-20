@@ -1,0 +1,50 @@
+{
+    "title": "Structured data comparison",
+    "name": "LGF_CompareVariant",
+    "description": "## Short description ##\n\nThe function compares two structured actual parameters (array, PLC data type) and outputs \nwhether they are of the same type and have the same values.\nCompare arrays or plc datatypes and their values up to a max lengh of 200 Bytes of the \nconnected variables. If at least one value of an element is not identical –> set function result = \nfalse\nRestrictions:\nThe attached structure must not include Strings\nThe attached structure can not exceed 200 bytes, because of the internal buffer size\n\n## Functional description ##\n\nNote The status of called commands is output in subFunctionStatus. In this case, the output value \nin status indicates which command caused the error. In this case, refer to the TIA Portal \nOnline Help section for information on the respective commands.\nThis block compares two (structured) actual parameters and shows whether they equate to the \nsame value.\nNote The following differences cannot be detected with the comparison method (byte level):\n• Variables of the data type Struct cannot be compared.\n• For strings, there may be differences in the range between the actual length and the maximum \nlength.\n• With REAL numbers in the structure, a disparity can also be displayed for “same” variables.\n• Variables of the type ARRAY of BOOL cannot be checked for equality with the function, because \nthe command used, CountOfElements, also counts the filling elements (e.g. 8 is returned with an \nARRAY[0..1] of BOOL).",
+    "type": "FUNCTION",
+    "input": [],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: No error / TRUE: An error occurred during the execution of the FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "16#0000-16#7FFF: Status of the FB / 16#8000-16#FFFF: Error identification"
+        },
+        {
+            "name": "subFunctionStatus",
+            "type": "Word",
+            "description": "Status or return value of called FB's, FC's and system blocks"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "variableA",
+            "type": "Variant",
+            "description": "First comparison variable with any data type"
+        },
+        {
+            "name": "variableB",
+            "type": "Variant",
+            "description": "Second comparison variable with any data type"
+        }
+    ],
+    "return_value": [
+        {
+            "type": "Bool",
+            "description": "FALSE: Values of comparison variables or PLC data types are different. TRUE: Values of the comparison variables are equal and PLC data types are identical."
+        }
+    ],
+    "status_codes": {
+        "16#0000": "STATUS_NO_ERROR",
+        "16#8201": "ERR_INPUT_TYPES_MUST_MATCH",
+        "16#8202": "ERR_INPUT_TYPES_LENGTH_NOT_EQUAL",
+        "16#8601": "ERR_SERIALIZE_VARIABLE_A",
+        "16#8602": "ERR_SERIALIZE_VARIABLE_B"
+    },
+    "user_defined_types": []
+}

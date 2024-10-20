@@ -1,0 +1,10 @@
+## Short description ##
+
+This function converts a character string in international format with date components into the 
+data type DTL.
+
+## Functional description ##
+
+The block reads a date as a character string and converts it to the data type DTL. The individual 
+date components in the character string are separated according to the international format. The 
+separator between the components in the character string is irrelevant.

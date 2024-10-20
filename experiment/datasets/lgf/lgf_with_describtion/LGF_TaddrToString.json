@@ -1,0 +1,23 @@
+{
+    "title": "TADDR_Param to String Converter",
+    "name": "LGF_TaddrToString",
+    "description": "## Short description ##\n\nThe system data type TADDR_Param contains address information consisting of an IPV4 address \nand the port number.\nThe LGF_TaddrToString function converts a TADDR_Param system data type variable to a String\ndata type variable.\n\n## Functional description ##\n\nThe function converts the IPV4 address with or without port number. The system data type \nTADDR_Param is a structured data type. This structure contains the variable REM_PORT_NR. If this \nvariable is 0, no port is written to the parameter Ret_Val.",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "ipAdressTaddr",
+            "type": "TADDR_Param",
+            "description": "IP-Address and Port number to convert into string"
+        }
+    ],
+    "output": [],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "String",
+            "description": "IP-Address and Port number as string"
+        }
+    ],
+    "status_codes": {},
+    "user_defined_types": []
+}

@@ -1,0 +1,33 @@
+## Short description ##
+
+LGF_DataLogC (C -> Compact) function integrates all the datalog system functions and can be 
+used as standalone data logger.
+
+## Functional description ##
+
+The function LGF_DataLogC combines the system functions for creating and writing data logs in 
+one block.
+The procedure provides that an existing Datalog is opened on the basis of the name (name), if it 
+was not created before, this is recognized and the function creates the Datalog.
+Afterwards, depending on the parameterization, the data is written from data in an adjustable 
+interval or only on request to triggerLogEntry.
+ReadMe The functionality of Datalogs can be found in the user manual:
+• DataLogCreate
+• DataLogOpen
+• DataLogClose
+• DataLogWrite
+• DataLogClear
+• DataLogDelete
+NOTICE The following parameters are only effective when creating a data log:
+• parameter.header
+• parameter.maxNumberOfEntries
+• parameter.timestampFormat (S7-1200 and the S7-1500 support different formats, see the 
+manual DataLogCreate)
+NOTICE When logging data by interval (isLoggingByInterval) time variances occur, which are 
+caused by a fluctuating cycle time.
+Therefore it is recommended to call the function in a time interrupt OB besides the call in the 
+cyclic program and to set the trigger for writing in this interrupt OB.
+NOTICE A data log which is deleted by the function without deleting the file cannot be created again 
+as long as the file exists, it must first be deleted manually in the system.
+Please also note the parameter parameter.deleteFile which also deletes the file next to the 
+data in case of a delete command deleteLog.

@@ -1,0 +1,92 @@
+{
+    "title": "Boxplot Calculation for Unsigned Integer Data",
+    "name": "LGF_Boxplot_UDInt",
+    "description": "## Short description ##\n\nIf you want to get an overview of existing data, you can use a Boxplot diagram. A Boxplot shows \nyou in which area the data is located and how it is distributed over this area. A Boxplot consists \nof the following parameters:\n• Minimum (smallest occurring value of the sample)\n• Lower or first quartile (below this value are 25% of the sample values)\n• Median or second quartile (below this value are 50% of the sample values)\n• Upper or third quartile (below this value are 75% of the sample values)\n• Maximum (largest occurring value of the sample)\nFigure: Boxplot\n\n## Functional description ##\n\nThe block sorts the data series and then calculates the so-called “five-point summary”:\nTable: Five-point summary\nCharacteristic value of the five-point summary Output parameter of the block\nMinimum (smallest occurring value of the sample) min\nLower or first quartile (below this value are 25% of \nthe sample values)\nq25\nMedian or second quartile (below this value are \n50% of the sample values)\nmedian\nUpper or third quartile (below this value are 75% of \nthe sample values)\nq75\nMaximum (largest occurring value of the sample) max\nIf outlier detection is activated, the block first calculates the limits. From these limit values, the \nvalues are recognized as outliers:\n\nThe block then calculates new values for the parameters max and min, which lie within the outlier \nlimits. The outliers are counted and output as a percentage.\nTo make it easier to judge how the data is distributed, the block also calculates the skew. The \nskewness lies between the values -1 and 1 with the following meaning:\n• -1: extremely left skewed distribution\n• 0: symmetrical distribution\n• 1: extreme right-skew distribution\nThe elements of the passed array are sorted in ascending order by the block. The \nLGF_Shellsort_UDInt block is used for sorting.\nThe parameters are calculated as follows:\nTable: Boxplot formulas Parameters Formula",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "execute",
+            "type": "Bool",
+            "description": "Activation of the calculation with each positive edge."
+        },
+        {
+            "name": "rangeOutlier",
+            "type": "LReal",
+            "description": "Outlier detection parameter."
+        }
+    ],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "An error occurred during the execution of the FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status of the FB"
+        },
+        {
+            "name": "subfunctionStatus",
+            "type": "Word",
+            "description": "Status or return value of called FB's, FC's and system blocks"
+        },
+        {
+            "name": "outlierMax",
+            "type": "LReal",
+            "description": "Upper outliers in %"
+        },
+        {
+            "name": "max",
+            "type": "UDInt",
+            "description": "Maximum Value, not an outlier."
+        },
+        {
+            "name": "q75",
+            "type": "LReal",
+            "description": "3rd quartile or Q75 of the data series."
+        },
+        {
+            "name": "median",
+            "type": "LReal",
+            "description": "2nd quartile or Median of the data series."
+        },
+        {
+            "name": "q25",
+            "type": "LReal",
+            "description": "1st quartile or Q25 of the data series."
+        },
+        {
+            "name": "min",
+            "type": "UDInt",
+            "description": "Minimum Value, not an outlier."
+        },
+        {
+            "name": "outlierMin",
+            "type": "LReal",
+            "description": "Lower outliers in %"
+        },
+        {
+            "name": "skewness",
+            "type": "LReal",
+            "description": "Skewness of the data series."
+        }
+    ],
+    "in/out": [
+        {
+            "name": "values",
+            "type": "Array[*] of UDInt",
+            "description": "The array containing the data series for calculation"
+        }
+    ],
+    "return_value": [],
+    "status_codes": {
+        "16#0000": "STATUS_EXECUTION_FINISHED",
+        "16#7000": "STATUS_NO_CALL",
+        "16#7001": "STATUS_FIRST_CALL",
+        "16#8200": "ERR_NEG_ARR_BOUND",
+        "16#8600": "ERR_SHELL_SORT",
+        "16#9101": "ERR_RANGE_NOT_OK"
+    },
+    "user_defined_types": []
+}

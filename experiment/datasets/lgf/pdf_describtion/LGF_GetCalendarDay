@@ -1,0 +1,5 @@
+## Short description ##
+
+This function uses the specified date to calculate the number of days that have passed since the beginning of the year (1st January).
+The function is used in the functions “LGF_GetCalendarWeek_ISO” and
+“LGF_GetCalendarWeek_US” .

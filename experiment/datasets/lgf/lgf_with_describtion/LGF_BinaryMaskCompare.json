@@ -1,0 +1,33 @@
+{
+    "title": "Binary mask comparison",
+    "name": "LGF_BinaryMaskCompare",
+    "description": "## Short description ##\n\nThis function compares two binary Values source and compare by a given mask.\nBoth given values are masked (input AND mask), and the results is than compared and returned.\nCan be used for Word and Byte as well, by convert the passed parameter using for e.g. \nByte_to_DWord(...).",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "source",
+            "type": "DWord",
+            "description": "Source value to compare"
+        },
+        {
+            "name": "compare",
+            "type": "DWord",
+            "description": "Value to compare against"
+        },
+        {
+            "name": "mask",
+            "type": "DWord",
+            "description": "Mask the data - bits will pass if TRUE or block if FALSE"
+        }
+    ],
+    "output": [],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "Bool",
+            "description": "Return TRUE if masked values are equal"
+        }
+    ],
+    "status_codes": {},
+    "user_defined_types": []
+}

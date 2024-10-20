@@ -1,0 +1,21 @@
+## Short description ##
+
+The histogram shows the frequency distribution of a sample by class. A class describes a value 
+interval in which the individual frequencies are added together. After specifying the number of 
+classes, the class width and the respective class center are calculated. The number of classes 
+is limited to 15.
+The distribution is represented as a rectangle around the class mean with the class width and 
+the cumulated frequency as height.
+Figure: Distribution
+
+## Functional description ##
+
+The block sorts the transferred data and calculates the general class width using the transferred 
+class count and data range. The block then counts the values that lie within a class. In order to 
+draw a histogram, the block also calculates the necessary X and Y coordinates.
+The elements of the passed array values are sorted in ascending order by the block. The 
+LGF_Shellsort_UDInt block is used for sorting.
+The number of classes can be specified using the following rule of thumb:
+
+Formulas
+The block uses the following formula to calculate the class width:

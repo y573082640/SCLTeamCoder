@@ -126,6 +126,10 @@ BEGIN
 	  // Restrictions:     ---
 	  // Requirements:     Decentral PN / DP Device
 	  //--------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge        | Changes applied
+	  //----------|------------|-------------------------|------------------------------
+	  // 01.00.00 | 06.04.2023 | Simatic Systems Support | First released version
 	  //================================================================================
 	END_REGION BLOCK INFO HEADER
 	

@@ -1,0 +1,26 @@
+## Short description ##
+
+The function compares two structured actual parameters (array, PLC data type) and outputs 
+whether they are of the same type and have the same values.
+Compare arrays or plc datatypes and their values up to a max lengh of 200 Bytes of the 
+connected variables. If at least one value of an element is not identical –> set function result = 
+false
+Restrictions:
+The attached structure must not include Strings
+The attached structure can not exceed 200 bytes, because of the internal buffer size
+
+## Functional description ##
+
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+This block compares two (structured) actual parameters and shows whether they equate to the 
+same value.
+Note The following differences cannot be detected with the comparison method (byte level):
+• Variables of the data type Struct cannot be compared.
+• For strings, there may be differences in the range between the actual length and the maximum 
+length.
+• With REAL numbers in the structure, a disparity can also be displayed for “same” variables.
+• Variables of the type ARRAY of BOOL cannot be checked for equality with the function, because 
+the command used, CountOfElements, also counts the filling elements (e.g. 8 is returned with an 
+ARRAY[0..1] of BOOL).

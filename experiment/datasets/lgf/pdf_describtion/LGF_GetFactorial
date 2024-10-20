@@ -1,0 +1,5 @@
+## Short description ##
+
+The function calculates the faculty of a natural number (ℕ!) and returns the result.
+The permissible value range of the input parameter naturalNumber is between 0 and 12, as 12 
+is the maximum factorial result fitting into a DInt type

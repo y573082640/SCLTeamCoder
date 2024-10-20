@@ -1,0 +1,16 @@
+## Short description ##
+
+This function calculates the smoothed values by polynomial cyclically.
+For smoothing, a 3rd degree polynomial is placed through five value points. The error squares 
+of the distances between polynomial and real value are minimized. The smoothed values can 
+be determined from the polynomial parameters obtained in this way.
+The function reads-in a value with each positive edge on the insert input. As soon as five 
+values have been read in, the block calculates a smoothed value and outputs it.
+
+## Functional description ##
+
+The 3rd degree compensation polynomial is calculated as follows:
+
+𝑁 − 4 smoothed measured values can thus be calculated from the N measured values. The 
+output array contains the value 0 in the index (0.1, N-1, N).
+These “missing” values are calculated with the following formalisms:

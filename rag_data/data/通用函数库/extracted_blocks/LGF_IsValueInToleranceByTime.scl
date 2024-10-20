@@ -62,6 +62,12 @@ BEGIN
 	  // Restrictions:     ENO disabled - error handling done by error and status
 	  // Requirements:     PLC (S7-1200 / S7-1500)
 	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 21.12.2023 | Siemens Industry Support
+	  //                         First released version
+	  //                         Copied snd extended from "IsValueInRange"
 	  //=============================================================================
 	END_REGION
 	

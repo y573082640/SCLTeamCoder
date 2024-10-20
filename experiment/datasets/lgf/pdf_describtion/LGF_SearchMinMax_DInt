@@ -1,0 +1,11 @@
+## Short description ##
+
+This function searches, in an array of the data type DInt, for the maximum and minimum value 
+and the respective index in the array.
+
+## Functional description ##
+
+An array of any size is connected via the values input. The elements are then compared in turn. 
+The smallest and largest values, as well as their corresponding index are output to the array.
+Note If there are several identical min. or max. values, the index of the first min. or max. value is 
+output.

@@ -1,0 +1,12 @@
+## Short description ##
+
+This function generates a signal that changes between the values FALSE and TRUE depending on 
+a defined frequency and a pulse pause ratio.
+
+## Functional description ##
+
+The clock output is a Boolean value that toggles at the desired frequency. The pulsePauseRatio
+input is used to set the pulse pause ratio.
+The output countdown outputs the remaining time of the current state of clock.
+If the desired frequency or pulse pause ratio is less than or equal to 0.0, the output clock = 
+FALSE and countdown = 0s.

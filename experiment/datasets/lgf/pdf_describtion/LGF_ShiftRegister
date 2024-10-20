@@ -1,0 +1,11 @@
+## Short description ##
+
+The Function represents a shift register for any kind of Datatype (using variant).
+It is possible to shift the elements in the array at bufferRegister to the left (index 
+array[n]:=array[n+1]) or right (index array[n]:=array[n-1]).
+It could be used for material tracking trough a machine or a process, e.g. for a rotary indexing 
+table.
+Note As this is a real shift operation, it may cause some runtime effects while using big array sizes 
+to move at the input bufferRegister.
+Please consider that a FIFO or LIFO storage, based on indexes, could be used as well for 
+most applications.

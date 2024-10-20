@@ -1,0 +1,20 @@
+## Short description ##
+
+This function calculates a moving arithmetic mean value from REAL values. This method can be 
+used to smooth data series. The values can be read in cyclically or triggered.
+
+## Functional description ##
+
+Note The block LGF_FloatingAverage does not query the data type for the input parameter value. 
+For data types other than REAL, either an implicit conversion is performed automatically or 
+an error is generated during compilation.
+You can find further information in the Chapter “Overview of Data Type Conversion” in the 
+Online Help section of the TIA Portal or under:
+https://support.industry.siemens.com/cs/ww/en/view/109773506/100611494667
+The block calculates the (moving) mean value based on the set window width. The window 
+width indicates the maximum number of values read in last. After the maximum number of 
+values has been read, the output windowSizeReached is set and each newly read value replaces 
+the oldest value (FIFO principle).
+Two options are available for reading the values. With the input cyclicExecution, the values are 
+read and calculated cyclically. With the trigger input, the values are read in and calculated with 
+each pulse.

@@ -1,0 +1,6 @@
+## Short description ##
+
+This function subtracts a matrix of the data type ARRAY[*,*] of LREAL from another one.
+The individual fields of the two matrices are read, subtracted and then output in the matrix 
+matrixResult.
+Note Note that all input and output matrices must have the same number of columns and rows

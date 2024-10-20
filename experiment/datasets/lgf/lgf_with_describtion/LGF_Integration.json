@@ -1,0 +1,52 @@
+{
+    "title": "Function Curve Area Calculator",
+    "name": "LGF_Integration",
+    "description": "## Short description ##\n\nThe function approximately calculates the area under a function curve. The function curve is \ntransferred as an analog value (LReal) which varies over time. The integral value is output on \nintegral.\nThe implementation is based on the trapezoidal rule and uses [ms] as time base.\n\n## Functional description ##\n\nNote The status of called commands is output in subFunctionStatus. In this case, the output value \nin status indicates which command caused the error. In this case, refer to the TIA Portal \nOnline Help section for information on the respective commands.\nThe integral calculation includes the summation of those trapezoidal areas that span between \nthe last two function values on the “value” input and the time. The elapsed time is calculated via \nthe system time of the CPU. This trapezoidal area is identical to the product of the mean value \nof the two process values and the time interval.\nNote The calculation takes [ms] as time base. So the analoge value hase to use the same time \nbase, e.g. [volume flow/ms].\n𝐴 = 1/2 * (𝐹𝑡1 + 𝐹𝑡0) * (𝑡1 − 𝑡0) + 1/2 * (𝐹𝑡2 + 𝐹𝑡1) *(𝑡2− 𝑡1) + ...\nStart the integral calculation for the inputvalue at the parameter value:\n• Set the parameter enable to the value TRUE\n• Set the parameter reset to the value FALSE\nIf the parameter enable is set to the value FALSE, the integral calculation is stopped and the \noutput integral outputs the last calculated value.\nIf the parameter reset is set to the value TRUE, the output integral is reset to 0.0",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "enable",
+            "type": "Bool",
+            "description": "Enables integral calculation"
+        },
+        {
+            "name": "value",
+            "type": "LReal",
+            "description": "Analog value of the continuous function curve, based on [ms]"
+        },
+        {
+            "name": "reset",
+            "type": "Bool",
+            "description": "Sets the output 'integral' to '0.0'"
+        }
+    ],
+    "output": [
+        {
+            "name": "integral",
+            "type": "LReal",
+            "description": "Integral value"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "Error flag"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status code"
+        },
+        {
+            "name": "subfunctionStatus",
+            "type": "Word",
+            "description": "Status or return value of called blocks"
+        }
+    ],
+    "in/out": [],
+    "return_value": [],
+    "status_codes": {
+        "16#0000": "STATUS_EXECUTION_FINISHED_NO_ERROR",
+        "16#8600": "ERR_READ_SYS_TIME"
+    },
+    "user_defined_types": []
+}

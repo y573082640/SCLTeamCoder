@@ -1,0 +1,49 @@
+{
+    "title": "Boolean signal edge detection",
+    "name": "LGF_CountBooleanEdges",
+    "description": "## Short description ##\n\nThis function evaluates a input signal for different states in a certain amount of time.\nThe states are:\n• One edge and input present over the whole monitoring time\n• Single edge\n• Double edge\n• N-Edges in between the monitoring time\nThe Output signal is present for at least on cycle after the monitoring time has expired, or as \nlong as the input trigger remains TRUE.",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "trigger",
+            "type": "Bool",
+            "description": "Trigger to evaluate signal"
+        },
+        {
+            "name": "monitorTime",
+            "type": "Time",
+            "description": "Time to monitor and count edges on `trigger` input"
+        }
+    ],
+    "output": [
+        {
+            "name": "single",
+            "type": "Bool",
+            "description": "Single edge until monitoring time expires"
+        },
+        {
+            "name": "double",
+            "type": "Bool",
+            "description": "Two edges in between the monitoring time"
+        },
+        {
+            "name": "long",
+            "type": "Bool",
+            "description": "Just a single edge in the monitoring time, the `trigger` input stays TRUE after the edge appears"
+        },
+        {
+            "name": "severalEdges",
+            "type": "Bool",
+            "description": "Numerous Edges occur within the monitoring time"
+        },
+        {
+            "name": "noOfEdges",
+            "type": "USInt",
+            "description": "Number of edges in between the monitoring time frame"
+        }
+    ],
+    "in/out": [],
+    "return_value": [],
+    "status_codes": {},
+    "user_defined_types": []
+}

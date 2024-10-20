@@ -1,0 +1,16 @@
+## Short description ##
+
+This function scales an input variable (LReal) via a linear straight-line equation.
+
+## Functional description ##
+
+The function linearly scales an input variable (e.g. an analog input value) to a specific output 
+variable (e.g. level).
+To determine the output variable, the following linear equation is used in the function:
+𝑥 =
+((𝑦2 − 𝑦1) / (𝑥2 − 𝑥1)) * (𝑥 − 𝑥1) + 𝑦1
+The straight line is described by the two points, P1 and P2. You specify the points as a 
+Cartesian coordinate system using x and y coordinates.
+Note If the values of the parameters x1 and x2 are the same, the value of y1 is output on output y
+By specifying yMin and yMax you can restrict the calculated value of y to a range limited at top 
+and bottom. Thus, you avoid override and underride ranges.

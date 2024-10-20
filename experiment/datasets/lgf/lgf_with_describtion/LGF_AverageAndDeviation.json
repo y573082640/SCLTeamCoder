@@ -1,0 +1,34 @@
+{
+    "title": "Arithmetic Mean and Standard Deviation Calculator",
+    "name": "LGF_AverageAndDeviation",
+    "description": "## Short description ##\n\nThis function calculates the arithmetic mean and the standard deviation from a series of \nnumbers.\n\n## Functional description ##\n\nAn array of any size is connected via the variableArray input. After reading-out the array \nboundaries, the arithmetic mean value and the standard deviation will be calculated from the \nvalues and both will be output.\nNote An array with too many elements can cause the cycle monitoring time to be exceeded.",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "variableArray",
+            "type": "Array[*] of LReal",
+            "description": "Sequence of numbers to calculate with"
+        }
+    ],
+    "output": [
+        {
+            "name": "arithmeticAverage",
+            "type": "LReal",
+            "description": "Calculated arithmetic average value"
+        },
+        {
+            "name": "standardDeviation",
+            "type": "LReal",
+            "description": "Calculated standard deviation"
+        }
+    ],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "Void",
+            "description": "Void - Function has no return value"
+        }
+    ],
+    "status_codes": {},
+    "user_defined_types": []
+}

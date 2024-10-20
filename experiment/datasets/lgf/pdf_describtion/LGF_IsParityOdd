@@ -1,0 +1,4 @@
+## Short description ##
+
+The function checks whether the parity of the input variable of type DWord is odd. The return 
+value is set to TRUE if the number of bits that are assigned TRUE in the sequence is odd.

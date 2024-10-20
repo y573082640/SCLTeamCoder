@@ -1,0 +1,23 @@
+{
+    "title": "Kelvin to Rankine Converter",
+    "name": "LGF_KelvinToRankine",
+    "description": "## Short description ##\n\nThis function converts a temperature value - from °Kelvin to °Rankine.",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "value",
+            "type": "Real",
+            "description": "Temperature to be converted in °Kelvin"
+        }
+    ],
+    "output": [],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "Real",
+            "description": "Converted temperature in °Rankine"
+        }
+    ],
+    "status_codes": {},
+    "user_defined_types": []
+}

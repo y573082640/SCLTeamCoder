@@ -1,0 +1,23 @@
+{
+    "title": "Fahrenheit to Kelvin Converter",
+    "name": "LGF_FahrenheitToKelvin",
+    "description": "## Short description ##\n\nThis function converts a temperature value - from °Fahrenheit to °Kelvin.",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "value",
+            "type": "Real",
+            "description": "Temperature to be converted in °Fahrenheit"
+        }
+    ],
+    "output": [],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "Real",
+            "description": "Converted temperature in °Kelvin"
+        }
+    ],
+    "status_codes": {},
+    "user_defined_types": []
+}

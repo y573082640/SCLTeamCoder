@@ -1,0 +1,20 @@
+## Short description ##
+
+This function numerically differentiates a signal sampled equidistantly in time. For example, the 
+velocity can be calculated from a measured locus curve, or the acceleration can be calculated 
+from the measured velocity. In order to minimize the effects of a scattering measurement signal, 
+this algorithm uses a compensating polynomial.
+The function block calculates the differentiated values cyclically.
+The function block reads-in a value with each positive edge on the insert been read in, the 
+block calculates a differentiated value and outputs it.
+
+## Functional description ##
+
+To calculate the difference quotient of a scattering signal, a third-degree compensation 
+polynomial is first placed through the measured values. This polynomial is then differentiated. 
+With this method, even a distorted input signal can be sensibly differentiated.
+The difference quotient is calculated with the following formula:
+
+The function (FC) can calculate 𝑁 − 4 differentiated and smoothed measured values from N 
+measured values. The output array would be assigned with 0 in the index (0,1,N-1,N). However, 
+the following formalisms can be used to calculate substitute values:

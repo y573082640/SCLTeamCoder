@@ -1,0 +1,8 @@
+## Short description ##
+
+This function transposes a matrix of the data type ARRAY[*,*] of LREAL.
+Condition: Input matrix (m x n) = output matrix (n x m).
+A matrix is transposed by making columns out of the rows.
+Note Note that the number of rows of the input matrix must be equal to the number of columns of 
+the output matrix. Also, the number of columns of the input matrix must be equal to the 
+number of rows of the output matrix.

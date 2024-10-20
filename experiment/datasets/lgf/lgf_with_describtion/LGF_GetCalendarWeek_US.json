@@ -1,0 +1,42 @@
+{
+    "title": "US calendar week calculation",
+    "name": "LGF_GetCalendarWeek_US",
+    "description": "## Short description ##\n\nThis function uses the specified date to calculate the calendar week and the number of days that have passed since the beginning of the year for the USA and many other countries.\n\n## Functional description ##\n\nCounting method for the USA and many other countries\n•     Calendar weeks have 7 days, start on a Sunday and are counted continuously throughout the year\n•     Calendar week 1 of a year is the week that contains January 1.\n•     Each year has either 52 or 53 calendar weeks.\n•    A year has 53 calendar weeks if the following characteristics apply:\n-    A common year begins on a Saturday and ends on a Saturday.\n-    A leap year begins either on a Saturday and ends on a Sunday or it begins on a Friday and ends on a Saturday.\n\n\n•    The days after the last Saturday in December can belong to the first calendar week of the following year.",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "date",
+            "type": "DTL",
+            "description": "Date used to calculate the calendar week and days since 1 January"
+        }
+    ],
+    "output": [
+        {
+            "name": "calendarDay",
+            "type": "DInt",
+            "description": "Days past since January 1st on given date"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: No error / TRUE: An error occurred during the execution of the FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "16#0000-16#7FFF: Status of the FB / 16#8000-16#FFFF: Error identification"
+        }
+    ],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "DInt",
+            "description": "Number of the calendar week."
+        }
+    ],
+    "status_codes": {
+        "16#0000": "STATUS_NO_ERROR",
+        "16#8201": "ERR_LIM_DATE Date out of the range"
+    },
+    "user_defined_types": []
+}

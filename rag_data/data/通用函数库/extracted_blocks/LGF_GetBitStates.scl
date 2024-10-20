@@ -49,6 +49,10 @@ BEGIN
 	  // Restrictions:     ENO not in use, set to true, no error handling
 	  // Requirements:     PLC (S7-1200 / S7-1500)
 	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge        | Changes applied
+	  //----------|------------|-------------------------|------------------------------
+	  // 01.00.00 | 2021.01.28 | Simatic Systems Support | First released version
 	  //=============================================================================
 	END_REGION BLOCK INFO HEADER
 	

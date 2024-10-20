@@ -1,0 +1,75 @@
+{
+    "title": "Profinet Interface Parameter Reader",
+    "name": "LGF_ReadPnInterfaceParameter",
+    "description": "## Short description ##\n\nThe function block provides Interface parameter like the IP Address settings, MAC Address and \nthe PN Name.\n\n## Functional description ##\n\nThe function reads the Interface settings / parameters using the system function RDREC (Read \ndata record).\nTo read the MAC and IP address of the interface provided via it's hardware ID, it is mandatory \nto read the PD_INTERFACE_DATA_REAL data record of any PROFINET compliant interface.\nNote Upon TIA Portal V17, it’s possible to use as well the system function CommConfig, which is in \nthe Instructions / Communication / Open user communication (Version >= V8.1) located.",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "execute",
+            "type": "Bool",
+            "description": "Rising edge starts action once"
+        },
+        {
+            "name": "hardwareId",
+            "type": "HW_ANY",
+            "description": "Hardware ID of the Interface where the parameter should be read"
+        }
+    ],
+    "output": [
+        {
+            "name": "done",
+            "type": "Bool",
+            "description": "Commanded functionality has been completed successfully"
+        },
+        {
+            "name": "busy",
+            "type": "Bool",
+            "description": "FB is not finished, new output values can be expected"
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "An error occurred during the execution of the FB"
+        },
+        {
+            "name": "status",
+            "type": "DWord",
+            "description": "Status of the FB and error identification"
+        },
+        {
+            "name": "address",
+            "type": "IP_V4",
+            "description": "IP Address from interface"
+        },
+        {
+            "name": "subnetMask",
+            "type": "IP_V4",
+            "description": "Subnet mask from interface"
+        },
+        {
+            "name": "standardGateway",
+            "type": "IP_V4",
+            "description": "Standard gateway address from interface"
+        },
+        {
+            "name": "macAddress",
+            "type": "Array[0..5] of Byte",
+            "description": "MAC Address from interface"
+        },
+        {
+            "name": "pnName",
+            "type": "String",
+            "description": "Profinet name from interface"
+        }
+    ],
+    "in/out": [],
+    "return_value": [],
+    "status_codes": {
+        "16#0000": "STATUS_EXECUTION_FINISHED: Execution finished without errors",
+        "16#7000": "STATUS_NO_CALL: No job being currently processed",
+        "16#7001": "STATUS_FIRST_CALL: First call after incoming new job",
+        "16#7002": "STATUS_SUBSEQUENT_CALL: Subsequent call during active processing",
+        "16#9000": "ERR_UNDEFINED_STATE: Due to an undefined state in state machine"
+    },
+    "user_defined_types": []
+}

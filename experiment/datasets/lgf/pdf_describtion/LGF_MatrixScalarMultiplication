@@ -1,0 +1,6 @@
+## Short description ##
+
+This function block multiplies a matrix of the data type ARRAY[*,*] of LREAL with a scalar.
+A matrix is multiplied by a scalar, thereby multiplying each matrix element by the scalar. The 
+result is output in the matrixResult matrix.
+Note Note that the input and output matrix must have the same number of columns and rows.

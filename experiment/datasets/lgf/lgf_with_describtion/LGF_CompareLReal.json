@@ -1,0 +1,28 @@
+{
+    "title": "LReal numbers comparison with fixed precision",
+    "name": "LGF_CompareLReal",
+    "description": "## Short description ##\n\nThis function checks floating point numbers for equality, by using an approximation formula and \na fixed precision by constant 1.0E-12 (pico)\n\n## Functional description ##\n\nThe comparison of the LREAL numbers is based on an fixed accuracy of 1.0E-12. The \ndifference between the two input values must be smaller than the PRECISION accuracy multiplied \nby one of the two input values.\nEquation:\nNote If your application requires a different accuracy when comparing the numbers, adapt the \n“PRECISION” constant in the function to your requirements.\nOr you may use the FC LGF_CompareLRealByPrecision.",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "valueA",
+            "type": "LReal",
+            "description": "First LREAL number to be compared."
+        },
+        {
+            "name": "valueB",
+            "type": "LReal",
+            "description": "Second LREAL number to be compared."
+        }
+    ],
+    "output": [],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "Bool",
+            "description": "FALSE: not equal, TRUE: approximately the same"
+        }
+    ],
+    "status_codes": {},
+    "user_defined_types": []
+}

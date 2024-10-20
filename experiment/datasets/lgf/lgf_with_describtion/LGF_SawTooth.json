@@ -1,0 +1,49 @@
+{
+    "title": "Sawtooth Signal Profile Generator",
+    "name": "LGF_SawTooth",
+    "description": "## Short description ##\n\nThis function generates a sawtooth-shaped signal profile. Each sawtooth consists of a defined \nnumber of steps (increments).\nNote LEGACY FUNCTION\nPlease update and use the FB with the same name LGF_CountRisInDWord in the future!\nThis function is no longer maintained\n\n## Functional description ##\n\nNote Please note that changes at the input parameters only become effective with reset.\nThe block calculates the values for a sawtooth-shaped signal profile, which is output to the \noutput parameter value. The signal begins with the start value startValue and is added with the \nvalue increment after each elapse of the time interval timeRange. The value can also be \nnegative.\nIf the variable endlessSteps is set to FALSE, the number of add operations is counted. If this \nexceeds the value numberSteps, the output parameter value is set back to the start value. A new \nsawtooth begins.\nIf the variable endlessSteps is set to TRUE, the value increment is added without interruption, \nstarting once at startValue. If the maximum positive INT value range (32767) of the output \nparameter value is exceeded, value changes to the maximum negative INT value range (-32768) and will continue to be added up.\nNote The duration of a sawtooth at endlessSteps on FALSE is calculated as follows:\nDuration = #timeRange * (#numberSteps + 1)",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "startValue",
+            "type": "Int",
+            "description": "0"
+        },
+        {
+            "name": "timeRange",
+            "type": "Time",
+            "description": "T#0s"
+        },
+        {
+            "name": "incrementRange",
+            "type": "Int",
+            "description": "0"
+        },
+        {
+            "name": "numberSteps",
+            "type": "Int",
+            "description": "0"
+        },
+        {
+            "name": "endlessSteps",
+            "type": "Bool",
+            "description": "FALSE"
+        },
+        {
+            "name": "reset",
+            "type": "Bool",
+            "description": "FALSE"
+        }
+    ],
+    "output": [
+        {
+            "name": "value",
+            "type": "Int",
+            "description": "Current value of the sawtooth signal."
+        }
+    ],
+    "in/out": [],
+    "return_value": [],
+    "status_codes": {},
+    "user_defined_types": []
+}

@@ -25,6 +25,17 @@ BEGIN
 	  // Restrictions:     ENO is not used, forced to TRUE, no error handling needed
 	  // Requirements:     PLC (S7-1200 / S7-1500)
 	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  // 01.00.00 03.06.2019  Simatic Systems Support
+	  //                      First released version
+	  //                      function besad on `LGF_CompareLReal`
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 19.01.2020  Simatic Systems Support
+	  //                      Insert documentation
+	  // 03.00.02 21.12.2023  Simatic Systems Support
+	  //                      Fix compare error if one value is exactly zero
 	  //===============================================================================
 	END_REGION BLOCK INFO HEADER
 	

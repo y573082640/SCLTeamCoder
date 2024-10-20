@@ -1,0 +1,12 @@
+## Short description ##
+
+This function generates a random value in defined limits with each call.
+The random number has the data type Real in the specified range.
+
+## Functional description ##
+
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The block generates random values that are between the specified minValue and the maxValue. 
+This random value is output via the Ret_Val.The random value is formed from the nanoseconds of the current system time of the CPU. The byte order of this value is inverted and then converted to a floating point.

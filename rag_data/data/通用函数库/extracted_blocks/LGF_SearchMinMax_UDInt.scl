@@ -47,6 +47,16 @@ BEGIN
 	  // Restrictions:     ENO disabled - Error handling not needed, using whole array
 	  // Requirements:     PLC (S7-1200 / S7-1500)
 	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 11.11.2019  Simatic Systems Support
+	  //                      First release
+	  //                      copied from "LGF_SearchMinMax" and reworked to array[*]
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 09.02.2021  Simatic Systems Support
+	  //                      Insert documentation
 	  //=============================================================================
 	END_REGION Block info header
 	

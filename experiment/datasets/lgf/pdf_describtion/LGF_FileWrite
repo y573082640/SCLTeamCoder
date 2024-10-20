@@ -1,0 +1,17 @@
+## Short description ##
+
+This function block offers writing data as binary / serialized data stream to a file which is then 
+stored on the PLC's memory card in the folder UserFiles.
+
+## Functional description ##
+
+With the function LGF_FileWrite the data budget of a variable can be written to data in a file. For 
+writing the data it is necessary to serialize it, which the function already takes from the user.
+For serialization an external buffer in the form of a byte array must be connected which can take 
+up the data quantity, if the buffer is too small an error is output.
+The file name must always be specified in full together with the folder name and the file 
+extension in the following format: UserFiles/test.dat.
+Note The file extension (here e.g. dat) can be freely selected or omitted, it is useful for external 
+processing to indicate the format of the file to the user.
+A file extension in the file name has no influence on the content of the file as well as its 
+formatting, to provide the data in an appropriate file format is up to the user.

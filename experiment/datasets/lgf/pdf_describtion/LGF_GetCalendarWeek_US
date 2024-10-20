@@ -1,0 +1,16 @@
+## Short description ##
+
+This function uses the specified date to calculate the calendar week and the number of days that have passed since the beginning of the year for the USA and many other countries.
+
+## Functional description ##
+
+Counting method for the USA and many other countries
+•     Calendar weeks have 7 days, start on a Sunday and are counted continuously throughout the year
+•     Calendar week 1 of a year is the week that contains January 1.
+•     Each year has either 52 or 53 calendar weeks.
+•    A year has 53 calendar weeks if the following characteristics apply:
+-    A common year begins on a Saturday and ends on a Saturday.
+-    A leap year begins either on a Saturday and ends on a Sunday or it begins on a Friday and ends on a Saturday.
+
+
+•    The days after the last Saturday in December can belong to the first calendar week of the following year.

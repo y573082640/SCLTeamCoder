@@ -1,0 +1,49 @@
+{
+    "title": "Polynomial Smoothing Function Block",
+    "name": "LGF_SmoothByPolynomFB",
+    "description": "## Short description ##\n\nThis function calculates the smoothed values by polynomial cyclically.\nFor smoothing, a 3rd degree polynomial is placed through five value points. The error squares \nof the distances between polynomial and real value are minimized. The smoothed values can \nbe determined from the polynomial parameters obtained in this way.\nThe function reads-in a value with each positive edge on the insert input. As soon as five \nvalues have been read in, the block calculates a smoothed value and outputs it.\n\n## Functional description ##\n\nThe 3rd degree compensation polynomial is calculated as follows:\n\n𝑁 − 4 smoothed measured values can thus be calculated from the N measured values. The \noutput array contains the value 0 in the index (0.1, N-1, N).\nThese “missing” values are calculated with the following formalisms:",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "enable",
+            "type": "Bool",
+            "description": "Activates the block."
+        },
+        {
+            "name": "insert",
+            "type": "Bool",
+            "description": "Accepts the value at the input `value` at positive edge and outputs a `smoothedValue` if five values have been read in."
+        },
+        {
+            "name": "value",
+            "type": "LReal",
+            "description": "Value that is to be included in the smoothing."
+        }
+    ],
+    "output": [
+        {
+            "name": "smoothedValue",
+            "type": "LReal",
+            "description": "The smoothed value."
+        },
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: No error, TRUE: An error occurred during the execution of the FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status of the FB and error identification."
+        }
+    ],
+    "in/out": [],
+    "return_value": [],
+    "status_codes": {
+        "16#7000": "STATUS_NO_CALL: The block waits for activation through the parameter `enable`.",
+        "16#7001": "STATUS_FIRST_CALL: First call of FB after enabling",
+        "16#7002": "STATUS_SUBSEQUENT_CALL: Processing is active. Subsequent call of FB.",
+        "16#7010": "STATUS_NOT_ENOUGH_VALUES: The block requires five (5) values to calculate a smoothed value."
+    },
+    "user_defined_types": []
+}

@@ -1,0 +1,68 @@
+{
+    "title": "Advanced CRC-32 Calculator",
+    "name": "LGF_CalcCRC32Advanced",
+    "description": "## Short description ##\n\nThe CRC calculation is used for error detection at data transmission. The result of a calculation \nreturns a CRC value via the data sent. The receiver detects a faulty transmission due to the \nunequal CRC value. The function LGF_CalcCRC32Advanced uses 32 bits as the generator \npolynomial (mask) and the parameters finalXorValue, reflectInput, and reflectResult.\n\n## Functional description ##\n\nThe function calculates the CRC value from a data stream of any size. The data stream is \ncomposed of the individual elements of the array at the input/output parameter array. The start \nvalue initValue and the generator polynomial mask can be freely selected.\nVia the Boolean input parameters reflectInput and reflectResult, you may optionally mirror \nthe bits of the input data or the CRC value. An XOR operation is also performed with the CRC \nvalue at the end and the value finalXorValue.\nThe input noOfELements can be used to specify the desired number of elements for calculation, it \napplies:\n𝑁𝑢𝑚𝑏𝑒𝑟𝑂𝑓𝐸𝑙𝑒𝑚𝑒𝑛𝑡𝑠 <= (𝐴𝑟𝑟𝑎𝑦𝑈𝑝𝑝𝑒𝑟𝐿𝑖𝑚𝑖𝑡 − 𝐴𝑟𝑟𝑎𝑦𝐿𝑜𝑤𝑒𝑟𝑈𝑛𝑑𝑒𝑟𝐿𝑖𝑚𝑖𝑡 + 1)\nNote Various online tools are available for calculating the CRC values. The function of the block \nwas tested with the following online tool, since it supports the input parameters mask\n(Polynomial) and initValue (Initial Value):\nhttp://www.sunshine2k.de/coding/javascript/crc/crc_js.html",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "initValue",
+            "type": "DWord",
+            "description": "Start value for the calculation"
+        },
+        {
+            "name": "mask",
+            "type": "DWord",
+            "description": "Generator polynomial for the calculation"
+        },
+        {
+            "name": "finalXorValue",
+            "type": "DWord",
+            "description": "Value for final XOR operation"
+        },
+        {
+            "name": "reflectInput",
+            "type": "Bool",
+            "description": "Mirror the bits within the input byte"
+        },
+        {
+            "name": "reflectResult",
+            "type": "Bool",
+            "description": "Mirror the order of the bits within the result"
+        },
+        {
+            "name": "noOfElements",
+            "type": "UInt",
+            "description": "Number of elements to be used in CRC calculation"
+        }
+    ],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "Error flag"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status code"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "array",
+            "type": "Array[*] of Byte",
+            "description": "Data stream for which the CRC value will be calculated"
+        }
+    ],
+    "return_value": [
+        {
+            "type": "DWord",
+            "description": "Calculated CRC value"
+        }
+    ],
+    "status_codes": {
+        "16#0000": "STATUS_NO_ERROR",
+        "16#8400": "ERR_NO_OF_ELEMENTS"
+    },
+    "user_defined_types": []
+}

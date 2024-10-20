@@ -44,6 +44,22 @@ BEGIN
 	  // Restrictions:     Date type (range from 01.01.1990) is used in the "Function" therefore the conversion limit is set.
 	  // Requirements:     PLC (S7-1200 / S7-1500)
 	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 | 16.10.2018 | Siemens Industry Online Support
+	  //                         First released version
+	  // 01.00.01 | 20.06.2019 | Simatic Systems Support
+	  //                         Standard header and block parameters update, status parameter added
+	  // 01.00.02 | 10.07.2019 | Simatic Systems Support
+	  //                         Commends added and code refactoring
+	  //                         Add ENO handling
+	  // 03.00.00 | 23.04.2020 | Simatic Systems Support | Set version to V3.0.0
+	  //                         Harmonize the version of the whole library
+	  // 03.00.01 | 23.02.2021 | Simatic Systems Support
+	  //                         Insert documentation
+	  // 03.00.02 | 14.04.2023 | Simatic Systems Support
+	  //                         Improve data verification for input `timeDTL` for valid data
 	  //===============================================================================
 	END_REGION Block info header
 	

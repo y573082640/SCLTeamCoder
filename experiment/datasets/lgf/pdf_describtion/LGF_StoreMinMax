@@ -1,0 +1,5 @@
+## Short description ##
+
+This function reads-in a value of a variable at each call and outputs the maximum and minimum 
+value that has been read in since the first call.
+The evaluation can be reset if necessary. The block supports the data type LReal.

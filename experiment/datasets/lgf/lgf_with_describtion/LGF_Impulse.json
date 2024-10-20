@@ -1,0 +1,29 @@
+{
+    "title": "Pulse Generator",
+    "name": "LGF_Impulse",
+    "description": "## Short description ##\n\nThis function generates pulses at a given frequency. The pulse is always present for one \n(control) cycle.\n\n## Functional description ##\n\nThe function generates pulses at the output impulse with the frequency frequency.\nThe block always begins with a pulse and sets the next pulse after the period that has elapsed.",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "frequency",
+            "type": "Real",
+            "description": "0.0"
+        }
+    ],
+    "output": [
+        {
+            "name": "impulse",
+            "type": "Bool",
+            "description": "Impulse signal output"
+        },
+        {
+            "name": "countdown",
+            "type": "Time",
+            "description": "Time until next pulse"
+        }
+    ],
+    "in/out": [],
+    "return_value": [],
+    "status_codes": {},
+    "user_defined_types": []
+}

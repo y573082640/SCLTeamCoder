@@ -60,6 +60,26 @@ BEGIN
 	  // Restrictions:     ENO disabled - error handling done by error and status
 	  // Requirements:     PLC (S7-1200 / S7-1500)
 	  //-------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge       | Changes applied
+	  //----------|------------|------------------------|------------------------------
+	  // 01.00.00 19.08.2015  Siemens Industry Online Support
+	  //                      First released version
+	  // 01.00.01 02.01.2017  Siemens Industry Online Support
+	  //                      Upgrade: TIA Portal V14 Update 1
+	  // 02.00.00 06.02.2017  Siemens Industry Online Support
+	  //                      Functionality using Array[*,*]
+	  // 02.00.01 17.08.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15 Update 2
+	  // 02.00.02 23.11.2018  Siemens Industry Online Support
+	  //                      Upgrade: TIA V15.1
+	  // 02.00.08 13.11.2019  Simatic Systems Support
+	  //                      Regions, comments and constants are added
+	  //                      Moved matrices to IO field.
+	  // 03.00.00 23.04.2020  Simatic Systems Support
+	  //                      Set version to V3.0.0, harmonize the version of the whole library
+	  // 03.00.01 02.02.2020  Simatic Systems Support
+	  //                      Insert documentation
 	  //=============================================================================
 	END_REGION Block info header
 	

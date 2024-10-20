@@ -1,0 +1,5 @@
+## Short description ##
+
+This function checks a DWord for falling as well as rising edges.
+It returns the number of edges, a DWord with the edge bits, and a boolean value if edge(s) are 
+present.

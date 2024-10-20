@@ -1,0 +1,4 @@
+## Short description ##
+
+The function searches for a specified String within an array of characters.
+Returning the position of the String in the Array, if the string is not found the return value is -1.

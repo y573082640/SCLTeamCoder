@@ -1,0 +1,15 @@
+## Short description ##
+
+The CRC calculation is used for error detection at data transmission. The result of a calculation 
+returns a CRC value via the data sent (Byte). The receiver detects a faulty transmission due to 
+the unequal CRC value. The function LGF_CalcCRC8For1Byte uses 8 bits as the generator 
+polynomial (mask).
+
+## Functional description ##
+
+The function calculates the CRC value from a data byte value. The start value initValue and 
+the generator polynomial mask can be freely selected.
+Note Various online tools are available for calculating the CRC values. The function of the block 
+was tested with the following online tool, since it supports the input parameters mask
+(Polynomial) and initValue (Initial Value):
+http://www.sunshine2k.de/coding/javascript/crc/crc_js.html

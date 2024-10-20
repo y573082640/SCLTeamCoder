@@ -1,0 +1,20 @@
+## Short description ##
+
+This function searches, in an array of the data type DInt, for the maximum and minimum value 
+and the respective index in the array.
+The following data types of the array elements are supported:
+Int, DInt, UInt, UDInt, USInt, SInt, and Real.
+
+## Functional description ##
+
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+An array of any size is connected via the variableArray input. After a data type query in the 
+block, the elements are copied one after the other into a variable of the appropriate type and 
+compared. The smallest and largest values, as well as their corresponding index are output to 
+the array.
+Note The following data types of the array elements are supported:
+Int, DInt, UInt, UDInt, USInt, SInt, and Real.
+Note If there are several identical min. or max. values, the index of the first min. or max. value is 
+output.

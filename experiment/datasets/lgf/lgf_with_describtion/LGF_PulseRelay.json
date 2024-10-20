@@ -1,0 +1,34 @@
+{
+    "title": "Pulse relay and toggle flip-flop operation",
+    "name": "LGF_PulseRelay",
+    "description": "## Short description ##\n\nThis block corresponds to an impulse relay or a toggle flip-flop including set and reset input.   Pulse relay, Surge relay, Toggle-Flip-Flop, Frequency divider reset is leading / prior to set or trigger\n\n## Functional description ##\n\nFigure: LGF_PulseRelay Signal diagram\n1.   Each rising edge of the input trigger changes the Boolean value of the output out.    \n2.   Each rising edge of the input set sets the Bboolean value of the output out to TRUE.    \n3.   Each rising edge of the input reset sets the Boolean value of the output out to FALSE. \n4.   If the inputs set and reset are set in the same cycle, the reset input has priority.\nThe block can also be used as a frequency divider. If the input trigger is supplied with a fixed frequency, the output out delivers half the frequency.",
+    "type": "FUNCTION_BLOCK",
+    "input": [
+        {
+            "name": "trigger",
+            "type": "Bool",
+            "description": "FALSE Trigger to toggle output signal (rising edge)"
+        },
+        {
+            "name": "set",
+            "type": "Bool",
+            "description": "FALSE Set output signal. rising edge"
+        },
+        {
+            "name": "reset",
+            "type": "Bool",
+            "description": "FALSE Reset signal, rising edge (prior to set)"
+        }
+    ],
+    "output": [
+        {
+            "name": "out",
+            "type": "Bool",
+            "description": "Ooutput signal"
+        }
+    ],
+    "in/out": [],
+    "return_value": [],
+    "status_codes": {},
+    "user_defined_types": []
+}

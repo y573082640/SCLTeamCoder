@@ -1,0 +1,28 @@
+{
+    "title": "Bit toggle operation in DWORD",
+    "name": "LGF_BitToggle",
+    "description": "## Short description ##\n\nThis block toggles (from TRUE to FALSE and viceversa) a bit at a predefined position in a variable of the data type DWORD.\nAlternatively, Word and Byte can be used instead of DWord by converting the passed\nparameter with, for example, BYTE_TO_DWORD and the result with DWORD_TO_BYTE",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "value",
+            "type": "DWord",
+            "description": "Tag where the bit has to be toggled"
+        },
+        {
+            "name": "bitNo",
+            "type": "USInt",
+            "description": "Bit number to be toggled in the “value” parameter."
+        }
+    ],
+    "output": [],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "DWord",
+            "description": "Tag with toggled bit"
+        }
+    ],
+    "status_codes": {},
+    "user_defined_types": []
+}

@@ -100,7 +100,7 @@ def translate_xml_to_st(file_path):
             # 此时为fb块，无返回值
             st_code = f"{block_type_code} {block_name_code}\n{define_part_code}\n{st_body_code}\nEND_{block_type_code}\n"
             
-        with open(f"{project_base}/experiment/datasets/st/{block_name_code}.st","w") as fp:
+        with open(f"{project_base}/experiment/datasets/oscat/oscat_code/{block_name_code}.st","w") as fp:
             fp.write(st_code)
             
         filecount += 1
@@ -140,4 +140,4 @@ def run_process():
     # txt_path = f"{project_base}/experiment/datasets/oscat_en/oscat_txts"
     # requirement_path = f"{project_base}/experiment/datasets/oscat_en/oscat_requirements"
     # get_oscat_requirements(code_path,txt_path,requirement_path)
-    read_and_translate(f"{project_base}/experiment/datasets/competition_en")
+    read_and_translate(f"{project_base}/experiment/datasets/lgf/lgf_en")

@@ -1,0 +1,68 @@
+{
+    "title": "German public holiday detection",
+    "name": "LGF_IsGermanHoliday",
+    "description": "## Short description ##\n\nThe function determines whether a given date is a public holiday.\nAll public holidays in Germany are taken into account.\nHolidays that are NOT uniform nationwide can be switched on or off\n\n## Functional description ##\n\nThe block calculates the public holiday calendar of the year for a given date and displays whether the given date is a public holiday.\nOptionally, holidays that are not uniform nationwide, such as Epiphany (Three Kings), can be taken into account via the appropriate input parameters in the block.",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "date",
+            "type": "DTL",
+            "description": "Date, which has to be evaluated"
+        },
+        {
+            "name": "threeKings",
+            "type": "Bool",
+            "description": "Three Kings"
+        },
+        {
+            "name": "roseMonday",
+            "type": "Bool",
+            "description": "Rose Monday"
+        },
+        {
+            "name": "ascension",
+            "type": "Bool",
+            "description": "Ascension"
+        },
+        {
+            "name": "corpusChristi",
+            "type": "Bool",
+            "description": "Corpus Christi"
+        },
+        {
+            "name": "augsburgerFriedensfest",
+            "type": "Bool",
+            "description": "Augsburger Friedensfest"
+        },
+        {
+            "name": "assumptionOfMary",
+            "type": "Bool",
+            "description": "Assumption Of Mary"
+        },
+        {
+            "name": "reformationDay",
+            "type": "Bool",
+            "description": "Reformation Day"
+        },
+        {
+            "name": "allSaintDay",
+            "type": "Bool",
+            "description": "All Saint Day"
+        },
+        {
+            "name": "bussUndBettag",
+            "type": "Bool",
+            "description": "Day of Prayer and Repentance (Buss und Bettag)"
+        }
+    ],
+    "output": [],
+    "in/out": [],
+    "return_value": [
+        {
+            "type": "Bool",
+            "description": "If the date at the input parameter is a public holiday - returning TRUE, otherwise returning FALSE"
+        }
+    ],
+    "status_codes": {},
+    "user_defined_types": []
+}

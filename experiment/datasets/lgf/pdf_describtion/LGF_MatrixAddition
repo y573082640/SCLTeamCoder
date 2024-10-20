@@ -1,0 +1,7 @@
+## Short description ##
+
+This block adds two matrices of equal size of the data type ARRAY[*,*] of LREAL.
+The individual fields of the two incoming matrices are read, added and then output in the matrix 
+matrixResult.
+Note Note that all input and output matrices must have the same low and high limits and therefore 
+the same number of columns and rows.

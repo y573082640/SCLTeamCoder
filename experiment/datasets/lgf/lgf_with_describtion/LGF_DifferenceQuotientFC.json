@@ -1,0 +1,50 @@
+{
+    "title": "Numeric Differentiation Function",
+    "name": "LGF_DifferenceQuotientFC",
+    "description": "## Short description ##\n\nThis function numerically differentiates a signal sampled equidistantly in time. For example, the \nvelocity can be calculated from a measured locus curve, or the acceleration can be calculated \nfrom the measured velocity. In order to minimize the effects of a scattering measurement signal, \nthis algorithm uses a compensating polynomial.\nThe function calculates the differentiated values acyclically.\nThe function reads an array that is differentiated. 𝑁 − 4 smoothed measured values can be \ncalculated from N measured values. The output array contains the value 0 in the index (0,1,N-\n1,N). However, replacement values can be calculated.\n\n## Functional description ##\n\nTo calculate the difference quotient of a scattering signal, a third-degree compensation \npolynomial is first placed through the measured values. This polynomial is then differentiated. \nWith this method, even a distorted input signal can be sensibly differentiated.\nThe difference quotient is calculated with the following formula:\ny'(n)= $ \\frac {y(n-2)-8y(n-1)+8y(n+1)-y(n+2)}{12 \\cdot deltaT} $ \n𝑑𝑒𝑙𝑡𝑎𝑇: equidistant distance between two measured values (e.g. 1s).\nThe function (FC) can calculate 𝑁 − 4 differentiated and smoothed measured values from N \nmeasured values. The output array would be assigned with 0 in the index (0,1,N-1,N). However, \nthe following formalisms can be used to calculate substitute values:\ny'(n-2)= $ \\frac {-125y(n-2)+136y(n-1)+48y(n)-88y(n+1)+29y(n+2)}{84\\cdot deltaT} $ \ny'(n-1)= $ \\frac {-38y(n-2)-2y(n-1)+24y(n)+26y(n+1)-10y(n+2)}{84\\cdot deltaT} $ \ny'(n+1)= $ \\frac {10y(n-2)-26y(n-1)-24y(n)+2y(n+1)+38y(n+2)}{84\\cdot deltaT} $ \ny'(n+2)= $ \\frac {-29y(n-2)+88y(n-1)-48y(n)-136y(n+1)+125y(n+2)}{84\\cdot deltaT} $",
+    "type": "FUNCTION",
+    "input": [
+        {
+            "name": "deltaT",
+            "type": "LReal",
+            "description": "Equidistant distance between two measured values. (e.g. 1s)"
+        }
+    ],
+    "output": [
+        {
+            "name": "error",
+            "type": "Bool",
+            "description": "FALSE: No error TRUE: An error occurred during the execution of the FB"
+        },
+        {
+            "name": "status",
+            "type": "Word",
+            "description": "Status of the FB"
+        }
+    ],
+    "in/out": [
+        {
+            "name": "values",
+            "type": "Array[*] of LReal",
+            "description": "Values that will be included in the differentiation."
+        },
+        {
+            "name": "derivatedValues",
+            "type": "Array[*] of LReal",
+            "description": "The differentiated value range."
+        }
+    ],
+    "return_value": [
+        {
+            "type": "Void",
+            "description": "Void - Function has no return value"
+        }
+    ],
+    "status_codes": {
+        "16#0000": "STATUS_FINISHED_NO_ERROR",
+        "16#8200": "ERR_DELTA_T Error: Delta time `deltaT` must not be zero.",
+        "16#8400": "ERR_ARRAYS_DIFFERENT Error: The Array sizes are not equal.",
+        "16#8401": "ERR_NOT_ENOUGH_VALUES Error: Not enough values."
+    },
+    "user_defined_types": []
+}

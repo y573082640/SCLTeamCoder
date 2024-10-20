@@ -1,0 +1,7 @@
+## Short description ##
+
+This function extracts the n-th root of a given value.
+The root is defined as follows:
+𝑟𝑒𝑠𝑢𝑙𝑡 = 𝑟𝑜𝑜𝑡√𝑣𝑎𝑙𝑢𝑒 = 𝑣𝑎𝑙𝑢𝑒^(1/𝑟𝑜𝑜𝑡)
+STEP 7 (TIA Portal) results in the following formula:
+𝑟𝑒𝑠𝑢𝑙𝑡 = 𝑣𝑎𝑙𝑢𝑒 ** (1/𝑟𝑜𝑜𝑡)

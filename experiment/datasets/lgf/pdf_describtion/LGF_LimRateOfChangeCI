@@ -1,0 +1,22 @@
+## Short description ##
+
+This function limits the rate of change of an input variable. A jump function becomes a ramp 
+function.
+
+## Functional description ##
+
+Note The status of called commands is output in subFunctionStatus. In this case, the output value 
+in status indicates which command caused the error. In this case, refer to the TIA Portal 
+Online Help section for information on the respective commands.
+The ramp is a limit line and refers to a rate of change per second; if, for example, setChangeRate 
+= 10.0 is parameterized at a sampling time of 1s/100ms/10ms for every block call, then if value 
+> delayedValue, 10.0/1.0/0.1 is added to delayedValue until value is reached.
+The limitation of the rate of change applies to both positive and negative values for the rise and 
+fall.
+The output delayedValue can be preset or initialized.
+The time interval of the calling cyclic interrupt OB is determined by interconnecting the calling 
+cyclic interrupt OB at the input parameter callOB.
+Pre-assigning an output
+If enDefaultOutValue = TRUE is set, the value at defaultOutValue is output. When changing 
+from TRUE to FALSE, the output delayedValue is ramped from defaultOutValue to value. When 
+changing from FALSE to TRUE, the output delayedValue immediately jumps to defaultOutValue.

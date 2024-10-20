@@ -84,6 +84,10 @@ BEGIN
 	  // Functionality: This function block offers writing data as binary / serialized data stream
 	  //                to a file which is then stored on the PLC's memory card in the folder `UserFiles`.
 	  //--------------------------------------------------------------------------------
+	  // Change log table:
+	  // Version  | Date       | Expert in charge        | Changes applied
+	  //----------|------------|-------------------------|------------------------------
+	  // 01.00.00 | 19.02.2023 | Simatic Systems Support | First released version
 	  //================================================================================
 	END_REGION
 	

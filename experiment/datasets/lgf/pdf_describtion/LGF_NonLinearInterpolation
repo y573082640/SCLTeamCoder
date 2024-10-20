@@ -1,0 +1,39 @@
+## Short description ##
+
+This function implements a characteristic curve. The characteristic curve is defined via an 
+interpolation point table with linear interpolation between the interpolation points. A prescribed 
+input value generates an output value in each cycle based on the characteristic curve from the 
+interpolation point table.
+
+## Functional description ##
+
+The value of the output outputValue based on the following priority:
+1. As long as the input enDefaultOutValue is set, the value defined via the parameter 
+defaultOutValue will be output as output value.
+2. As long as the input reset is set, the block is reset and the output value is 0.0.
+3. If the input track is set, the output value will be output directly as input value, without 
+consideration of the characteristic curve.
+4. Based on the input value, a characteristic curve value is calculated via the linearly 
+interpolated, interpolation point table and output as an output value.
+– If the input value is between two interpolation points within the interpolation point table, 
+the output value is calculated as the intersection with the connecting line between the 
+preceding and following interpolation points (see Figure below).
+– If the input value is before the first interpolation point (lowest value defined in the 
+interpolation point table), the output value will be calculated as the intersection of the 
+line formed by the first two interpolation points of the interpolation point table.
+– If the input value is after the last interpolation point (highest value defined in the 
+interpolation point table), the output value will be calculated as the intersection of the 
+line formed by the last two interpolation points of the interpolation point table.
+Interpolation point table
+The interpolation point table is implemented through a variable of the data type Array. The type 
+of the array corresponds to the PLC data type LGF_typeNonLinSetpoints.
+You can create the interpolation point table in any global data block. The size of the array 
+depends on the number of interpolation points.
+NOTICE To keep the computing time of the block as short as possible, there is no check of the 
+parameterization or the data of the interpolation point table.
+When entering the interpolation points in the interpolation point table, the following 
+particularities must be considered. If these particularities are not taken into account, it can 
+lead to a malfunction of the block.
+• At least two interpolation points must be entered in the interpolation point table.
+• The interpolation points in the interpolation point table must be entered in the Table in ascending 
+order of the input values.
