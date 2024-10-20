@@ -1,4 +1,4 @@
-read_model -i VERIFICATION.SMV
+read_model -i smv_model.smv
 
 go_msat
 

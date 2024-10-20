@@ -5,7 +5,7 @@ from scl_team_coder.util.prompt_res_util import *
 from scl_team_coder.util.agent_tools import *
 from datetime import datetime
 from tqdm import tqdm  # 导入tqdm库
-def run_claude(dataset="competition_en"):
+def run_claude(dataset="competition_en",prompt_file="prompt"):
     """
     使用 Anthropic 的 Claude 模型处理数据集并生成代码。
 
@@ -39,7 +39,7 @@ def run_claude(dataset="competition_en"):
     model = "claude-3-5-sonnet"
     
     # 构建提示文件和数据集文件的路径
-    prompt_path = f"{glovar.EXPERIMENT_DIR}/baselines/claude/prompt st"
+    prompt_path = f"{glovar.EXPERIMENT_DIR}/baselines/claude/{prompt_file}"
     dataset_path = f"{glovar.EXPERIMENT_DIR}/datasets/"
     output_path = f"{glovar.EXPERIMENT_DIR}/output/{dataset}/claude/"
     

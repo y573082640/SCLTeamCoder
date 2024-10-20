@@ -1,6 +1,7 @@
 import os
 import glob
 from openai import OpenAI
+from zhipuai import ZhipuAI
 from scl_team_coder import glovar
 from scl_team_coder.util.prompt_res_util import *
 from scl_team_coder.util.agent_tools import *
@@ -9,21 +10,10 @@ import subprocess
 import os
 import tempfile
 
-model="gpt-4o"
-dataset="oscat_en"
-api_key = glovar.GPT_API_KEY
-client = OpenAI(api_key=api_key,base_url=f"https://www.gptapi.us/v1")
-dataset_path = f"{glovar.EXPERIMENT_DIR}/datasets/"
-output_path = f"{glovar.EXPERIMENT_DIR}/output/{dataset}/llm4plc"
-# 获取当前时间
-current_time = datetime.now()
-# 格式化日期和时间
-date_folder = current_time.strftime("%Y-%m-%d")
-time_folder = current_time.strftime("%H-%M-%S")
-# 构建输出文件路径
-output_to = f"{output_path}/{date_folder}_{time_folder}.jsonl"
-
-
+model="glm-4-plus"
+api_key = glovar.API_KEY_AIRX
+client = ZhipuAI(api_key=api_key)
+baseline_path = f"{glovar.EXPERIMENT_DIR}/baselines/llm4plc"
 
 def save_logs(user_input, assistant_output):
     """
@@ -38,7 +28,7 @@ def save_logs(user_input, assistant_output):
         os.makedirs("logs")
     
     # 日志文件路径
-    log_file = f"{output_path}/logs/log.txt"
+    log_file = f"{baseline_path}/logs/log.txt"
 
     # 以追加模式打开文件，写入新的对话记录   
     with open(log_file, "a", encoding="utf-8") as f:
@@ -117,13 +107,13 @@ def call_gpt4_with_history(prompt, max_tokens=4096):
 
 def syntax_check(plc_code):
     # 创建一个临时文件来保存 PLC 代码
-    temp_filename = f"{output_path}/temp_file.plc"
+    temp_filename = f"{baseline_path}/logs/temp_file.plc"
     with open(temp_filename, "w", encoding='utf-8') as f:
         f.write(plc_code)
     try:
         # 使用 subprocess 调用 matiec 工具，假设 iec2iec 工具在 ~/matiec/ 目录下
         result = subprocess.run(
-            f"./iec2iec -f -p {temp_filename} 2>&1 > /dev/null",
+            f"./iec2iec -f -p {temp_filename} 2>&1 > /dev/null | head -n -2",
             stdout=subprocess.PIPE,  # 捕获标准输出
             stderr=subprocess.PIPE,  # 捕获标准错误输出
             cwd="/root/matiec",  # 设置工作目录为 matiec 目录
@@ -154,8 +144,8 @@ def call_nuXmv(smv_code, smv_command):
     返回:
         tuple: 包含验证结果和输出信息的元组。如果验证成功，第一个元素为 True，否则为 False；第二个元素为验证工具的输出信息。
     """
-    smv_filename = f"{output_path}/tmp_smv" # 临时的.smv 文件名
-    command_filename = f"{output_path}/tmp_command" # 临时的 command_file 文件名
+    smv_filename = f"{baseline_path}/logs/tmp_smv" # 临时的.smv 文件名
+    command_filename = f"{baseline_path}/logs/tmp_command" # 临时的 command_file 文件名
     
     # 创建一个临时文件来保存 SMV 代码
     with open(smv_filename, "w") as f:
@@ -189,7 +179,7 @@ def call_nuXmv(smv_code, smv_command):
         if "is false" in filtered_stdout: 
             return False, filtered_stdout  
         # 如果输出中包含 "syntax error"，则表示存在语法错误
-        elif "syntax error" in stderr:
+        elif "syntax error" in stderr or "aborting" in filtered_stdout:
             return False, stderr
         # 如果没有错误，则表示验证成功
         else:
@@ -234,14 +224,14 @@ def extract_target_output(text,start="START_SCL",end="END_SCL"):
     # 返回获取到的第一个内容
     if len(matches) == 0:
         return ""
-    return matches[0]
+    return parse_response(matches[0])
 
 def pipeline(nl_task_requirements):
     
     print("开始任务管道...")
     
     # 定义prompt输出文件路径
-    prompt_file = f"{output_path}/logs/prompt.txt"
+    prompt_file = f"{baseline_path}/logs/prompt.txt"
     
     # 加载系统提示模板，获取不同阶段任务的提示语
     sys_prompts = load_prompt()
@@ -403,10 +393,11 @@ def pipeline(nl_task_requirements):
         loop_count += 1
     
     # 返回最终的任务计划、SCL代码、SMV代码，以及验证结果
-    print("任务管道执行完毕.")
-    return plan, plc_code, smv_code, smv_passed and plc_passed
+    print(f"all done. smv_passed : {smv_passed} and plc_passed : {plc_passed}")
+    data['code'] = plc_code
+    return data
 
-def run_llm4plc():
+def run_llm4plc(dataset="competition_en"):
     """
     运行基于LLM的PLC代码生成器。
 
@@ -416,6 +407,15 @@ def run_llm4plc():
     返回:
         list: 包含生成的计划、PLC 代码、SMV 代码以及验证结果的元组列表。
     """
+    dataset_path = f"{glovar.EXPERIMENT_DIR}/datasets/"
+    output_path = f"{glovar.EXPERIMENT_DIR}/output/{dataset}/llm4plc"
+    # 获取当前时间
+    current_time = datetime.now()
+    # 格式化日期和时间
+    date_folder = current_time.strftime("%Y-%m-%d")
+    time_folder = current_time.strftime("%H-%M-%S")
+    # 构建输出文件路径
+    output_to = f"{output_path}/{date_folder}_{time_folder}.jsonl"
     test_data = read_jsonl(dataset_path + f"{dataset}.jsonl")
     # 如果输出路径不存在，则创建它
     if not os.path.exists(output_path):

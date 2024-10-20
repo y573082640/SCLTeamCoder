@@ -119,7 +119,7 @@ def read_files_to_dict(files_path,prefix="st"):
     return files_dict
     
 def get_oscat_requirements(code_path,txt_path,requirement_path):
-    with open(f"{project_base}/experiment/datasets/oscat_en/oscat_prompt","r") as fp:
+    with open(f"{project_base}/experiment/datasets/oscat/oscat_prompt","r") as fp:
         prompt_en = fp.read()
     # 1.读取code_path下的所有st文件并转换为字典，key为名
     st_dict = read_files_to_dict(code_path,prefix="st")
@@ -136,8 +136,8 @@ def get_oscat_requirements(code_path,txt_path,requirement_path):
         print(f"{key} done.")
 
 def run_process():
-    # code_path = f"{project_base}/experiment/datasets/oscat_en/oscat_code"
-    # txt_path = f"{project_base}/experiment/datasets/oscat_en/oscat_txts"
-    # requirement_path = f"{project_base}/experiment/datasets/oscat_en/oscat_requirements"
-    # get_oscat_requirements(code_path,txt_path,requirement_path)
-    read_and_translate(f"{project_base}/experiment/datasets/lgf/lgf_en")
+    code_path = f"{project_base}/experiment/datasets/oscat/oscat_code"
+    txt_path = f"{project_base}/experiment/datasets/oscat/oscat_raws"
+    requirement_path = f"{project_base}/experiment/datasets/oscat/oscat_with_description"
+    get_oscat_requirements(code_path,txt_path,requirement_path)
+    # read_and_translate(f"{project_base}/experiment/datasets/lgf/lgf_en")

@@ -10,7 +10,7 @@ than 64 messages so the messages are discarded and restarted at positi￾on 0. W
 time. By resetting, all the collected data will be deleted and the pointer is
 moved to -1. The module collects data in the output array ESR_OUT and
 moves POS the last position of the array that contains data. When there
-are no messages POS remains to -1. If the output data are read, the varia￾ble POS has to be set to -1, or if only readed a part POS can be set to the
+are no messages POS remains to -1. If the output data are read, the variable POS has to be set to -1, or if only readed a part POS can be set to the
 last valid value.
 The following example demonstrates how ESR_COLLECT is connected with
 ESR modules.

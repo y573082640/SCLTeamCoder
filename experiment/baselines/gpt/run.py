@@ -5,7 +5,7 @@ from scl_team_coder.util.prompt_res_util import *
 from scl_team_coder.util.agent_tools import *
 from datetime import datetime
 from tqdm import tqdm  # 导入tqdm库
-def run_gpt(dataset="competition_en"):
+def run_gpt(dataset="competition_en",prompt_file="prompt"):
     """
     使用 OpenAI 的 GPT 模型处理数据集并生成代码。
 
@@ -39,7 +39,7 @@ def run_gpt(dataset="competition_en"):
     model = "gpt-4o"
     
     # 构建提示文件和数据集文件的路径
-    prompt_path = f"{glovar.EXPERIMENT_DIR}/baselines/gpt/prompt st"
+    prompt_path = f"{glovar.EXPERIMENT_DIR}/baselines/gpt/{prompt_file}"
     dataset_path = f"{glovar.EXPERIMENT_DIR}/datasets/"
     output_path = f"{glovar.EXPERIMENT_DIR}/output/{dataset}/gpt/"
     

@@ -87,7 +87,7 @@ def run_qwen(dataset="competition_en",prompt_file="prompt"):
             model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
             generated_ids = model.generate(
                 **model_inputs,
-                max_new_tokens=2048
+                max_tokens=4096,
             )
             
             # 从响应中提取代码
