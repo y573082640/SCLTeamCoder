@@ -1,5 +1,6 @@
 import os
 import json
+from zhipuai import ZhipuAI
 from openai import OpenAI
 from scl_team_coder import glovar
 from scl_team_coder.util.prompt_res_util import *
@@ -13,6 +14,15 @@ api_key = glovar.GPT_API_KEY
 client = OpenAI(api_key=api_key, base_url=f"https://m.gptapi.us/v1")
 # 指定要使用的模型
 model = "gpt-4o"
+
+def call_llm_messages(messages):
+    # 调用智谱AI
+    response = client.chat.completions.create(
+        model = model,  # 填写需要调用的模型名称
+        messages=messages,
+        max_tokens=4096,
+    )
+    return response.choices[0].message.content
 
 def call_llm(user_input,sys_prompt="将中文翻译为英文自然语言。直接输出翻译后的英文。"):
     # 调用智谱AI
@@ -136,7 +146,7 @@ def get_oscat_requirements(code_path,txt_path,requirement_path):
 
 def run_process():
     code_path = f"{project_base}/experiment/datasets/oscat/oscat_code"
-    txt_path = f"{project_base}/experiment/datasets/oscat/oscat_raws"
-    requirement_path = f"{project_base}/experiment/datasets/oscat/oscat_en_v2"
+    txt_path = f"{project_base}/experiment/datasets/oscat/oscat_raws/processed"
+    requirement_path = f"{project_base}/experiment/datasets/oscat/oscat_with_description"
     get_oscat_requirements(code_path,txt_path,requirement_path)
     # read_and_translate(f"{project_base}/experiment/datasets/lgf/lgf_en")
