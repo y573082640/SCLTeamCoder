@@ -1,6 +1,3 @@
-Type Function: BYTE
-Input X: REAL (value to be tested)
-Output BYTE (return value)
 CHK_REAL reviewes X for valid values.
 The return values are:
 #00 valid foating-point

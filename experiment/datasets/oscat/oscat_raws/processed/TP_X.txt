@@ -1,8 +1,3 @@
-Type Function module
-Input IN: BOOL (Input)
-PT: TIME (pulse duration)
-Output Q: BOOL (output pulse)
-ET: TIME (Count the elapsed time of the output pulse)
 TP_X is a multiple triggerable pulse generator. In contrast to the standard
 module TP this template can be triggered multiple times and thus the out￾put pulse can be extended. The output Q remains after the last trigger
 event (rising edge of IN) at ON, for the period of PT. While Q is true, by a

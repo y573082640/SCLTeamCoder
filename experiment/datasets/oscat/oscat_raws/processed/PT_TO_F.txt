@@ -1,4 +1,1 @@
-Type Function: REAL
-Input PT: TIME (period in seconds)
-Output REAL (frequency in Hz)
 PT_TO_F expects a period of seconds in the appropriate frequency to fre￾quency in Hz.

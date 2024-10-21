@@ -1,8 +1,4 @@
-Type Function
-Input X: REAL (input)
-D: REAL (step size of the output signal)
-Output REAL (output)
-The Output of STAIR follows the input signal X with a step function. The 
+STAIR follows the input signal X with a step function. The 
 height of the steps is given by D. If X = 0, then the output directly follows 
 the input signal. STAIR is not suitable for fltering of input signals, because 
 if the input fuctuates by a step , the output switches between two 

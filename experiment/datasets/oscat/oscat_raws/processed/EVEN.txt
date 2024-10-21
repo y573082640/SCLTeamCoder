@@ -1,6 +1,1 @@
-Type Function: BOOL
-Input in: DINT (input)
-Output BOOL (TRUE, if in straight)
-The function EVEN = TRUE if the input IN is even and FALSE for odd IN. 
-Example: EVEN(2) is TRUE
-EVEN(3) returns FALSE
+EVEN = TRUE if the input IN is even and FALSE for odd IN. 

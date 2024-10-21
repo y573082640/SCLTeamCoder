@@ -1,4 +1,1 @@
-Type Function: REAL
-Input X: REAL (input)
-Output REAL (output value)
 SINH calculates the sinus Hyperbolic according the following formula:

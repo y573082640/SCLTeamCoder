@@ -1,7 +1,3 @@
-Type Function module
-Input E0..3: BOOL (release signal for Q0..3)
-Setup T0..3: TIME (cycle time)
-Output Q0..3: BOOL (output signals) 
 SCHEDULER is used to call time dependent program parts. For example,
 complex calculations that are needed only rarely, can be called at fxed in￾tervals. The outputs Q? of the module will be active only for one cycle and
 release the execution of the program part. The setup time T? specify at

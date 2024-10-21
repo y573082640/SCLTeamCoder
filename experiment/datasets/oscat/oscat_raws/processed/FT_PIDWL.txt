@@ -1,13 +1,3 @@
-Type Function module
-Input IN: REAL (input signal)
-KP: REAL (proportional part of the controller)
-TN: REAL (past set time of the controller in seconds)
-TV: REAL (derivative of the controller in seconds)
-LIM_L: REAL (lower limit of the integrator output)
-ILIM_H: REAL (upper limit of the integrator output)
-RST: BOOL (asynchronous reset input)
-Output Y: REAL (output of the controller)
-LIM: BOOL (TRUE if the output has reached a limit)
 FT_PIDWL is a PID controller with dynamic Wind- Up reset and works accor￾ding to the following formula: 
 Y = KP * ( IN + 1/TN * INTEG(IN) + TV *DERIV(IN))
 The control parameters are given in the form of KP, TN and TV, and if the￾re are parameters KP, KI and KD they can be converted using the following

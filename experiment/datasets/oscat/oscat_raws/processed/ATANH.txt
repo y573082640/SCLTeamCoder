@@ -1,4 +1,1 @@
-Type Function: REAL
-Input X: REAL (input)
-Output REAL (output value)
 ATANH calculates the Arcus Hyperbolic tangent as follows:

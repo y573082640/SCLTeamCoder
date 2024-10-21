@@ -1,6 +1,2 @@
-Type Function: DWORD
-Input HEX: STRING(20) (hex string)
-Output DWORD (output value)
-The function HEX_TO_DWORD converts a hexadecimal string in a DWORD
+HEX_TO_DWORD converts a hexadecimal string in a DWORD
 value. Here only hexadecimal characters '0'..'9', 'a..f' and 'A'.. 'F' are inter￾preted, others occurring in HEX characters are ignored.
-Example: HEX_TO_DWORD('FF') is 255.

@@ -1,4 +1,1 @@
-Type Function: REAL
-Input OM: REAL (angular frequency omega)
-Output REAL (frequency in Hz)
 OM_TO_F calculates the frequency in Hz of the angular frequency Omega.

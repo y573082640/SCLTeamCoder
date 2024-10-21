@@ -1,4 +1,1 @@
-Type Function: REAL
-Input FAHRENHEIT: REAL (temperature value in Fahrenheit)
-Output REAL (temperature in °C)
 F_TO_C converts a temperature reading from Fahrenheit in Celsius.

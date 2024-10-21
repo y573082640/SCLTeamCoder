@@ -1,8 +1,3 @@
-Type Function module
-Input IN: BOOL (Input)
-T1: TIME (ON Delay)
-T2: TIME (OFF Delay)
-Output Q: BOOL (output pulse)
 TONOF creates a ON delay T1 and an OFF delay T2
 The rising edge of the input signal IN is delayed by T1 and the falling edge
 of IN is delayed by T2.

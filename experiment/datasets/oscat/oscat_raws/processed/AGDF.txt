@@ -1,5 +1,2 @@
-Type Function: REAL
-Input X: REAL (input)
-Output REAL (Gundermann inverse function)
 AGDF calculates the inverse Gundermann function.
 The calculation is done using the formula:

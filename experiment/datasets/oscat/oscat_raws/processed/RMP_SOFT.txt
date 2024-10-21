@@ -1,12 +1,5 @@
-Type Function module
-Input IN: BOOL (enable input)
-VAL: Byte (maximum output value)
-Setup PT_ON: TIME (rise time, Default is 100 ms) 
-PT_OFF: TIME (fall time; Default is 100 ms) 
-Output I/O
 RMP_SOFT smooths the ramp of an input signal VAL. The signal Out follows
 the input signal VAL, where increase time as well as fall time can be limi￾ted by PT_ON and PT_OFF . The rise time and fall time of the ramps are de￾fned by setup parameter in the module RMP_SOFT. The setup time PT_ON
 specifes how long the ramp takes of 0..255. A ramp that is limited by the
 VAL, is accordingly shorter. PT_OFF defnes accordingly the falling ramp. If
 the input IN is set to FALSE, VAL corresponds to a value of 0, so by swit￾ching the input IN between 0 and VAL it can be switched. 
-Example:

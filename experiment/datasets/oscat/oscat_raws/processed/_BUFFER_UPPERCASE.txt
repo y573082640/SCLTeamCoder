@@ -1,8 +1,4 @@
-Type Function : BOOL
-Input PT: POINTER TO BYTE (address of the Bufer ) 
-SIZE: UINT (size of the bufer)
-Output BOOL (Returns TRUE)
-The function _BUFFER_UPPERCASE interprets each byte in the bufer as
+_BUFFER_UPPERCASE interprets each byte in the bufer as
 ASCII characters and converts it to uppercase . When called, a pointer to
 the array and its size in bytes is passed to the function. Under CoDeSys
 the call reads: _BUFFER_INIT(ADR(Array), SIZEOF(Array), INIT), where array
@@ -11,4 +7,3 @@ which identifes the Pointer the array and SIZEOF is a standard function,
 which determines the size of the array. The function only returns TRUE. By
 the Pointer given array is manipulated directly in memory. 
 This type of processing arrays is very efcient because no additional me￾mory is required and no surrender values must be copied.
-Example: _BUFFER_UPPERCASE(ADR(bigarray), SIZEOF(bigarray))

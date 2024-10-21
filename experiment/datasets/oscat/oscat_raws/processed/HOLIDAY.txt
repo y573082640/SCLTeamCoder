@@ -1,10 +1,4 @@
-Type Function module
-Input Date_in: DATE (input date)
-Langue: INT (desired language)
-FRIDAY: BOOL (Y is true on Friday when TRUE)
-SATURDAY: BOOL (Y is true on Saturdays if TRUE)
-SUNDAY: BOOL (Y is TRUE if TRUE on Sundays)
-I / O HOLIDAYS: ARRAY [0..29] of HOLIDAY_DATA
+HOLIDAYS: ARRAY [0..29] of HOLIDAY_DATA
 Output Y: BOOL (TRUE if DATE_IN is a holiday)
 Name: STRING(30) (name of present-day holiday)
 The HOLIDAY function shows the output Y with TRUE holidays and also pro￾vides the name of the current holiday at the output NAME. HOLIDAY can,

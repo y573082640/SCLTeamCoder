@@ -1,28 +1,3 @@
-Type Function module
-Input T_EXT1: REAL (external temperature sensor 1)
-T_EXT2: REAL (external temperature sensor 2)
-T_EXT3: REAL (external temperature sensor 3)
-T_EXT_Setup: BYTE (query mode)
-DT_IN: DATE_TIME (daytime)
-Output T_EXT: REAL (output outside temperature)
-HEAT: BOOL (heating signal)
-COOL: BOOL (cooling signal)
-Setup T_EXT_MIN: REAL (minimum outdoor temperature)
-T_EXT_MAX: REAL (maximum outside temperature)
-T_EXT_DEFAULT: REAL (default external temperature)
-HEAT_PERIOD_START: DATE (start of heating season)
-HEAT_PERIOD_STOP: DATE (end of heating season)
-COOL_PERIOD_START: DATE (start of cooling period)
-COOL_PERIOD_STOP: DATE (end of cooling period)
-HEAT_START_TEAMP_DAY (heating trigger temperature day)
-HEAT_START_TEAMP_NIGHT (heating trigger temperature night)
-HEAT_STOP_TEMP: REAL (heating stop temperature)
-COOL_START_TEAMP_DAY (cooling start temperature day)
-COOL_START_TEMP_NIGHT (cooling start temperature night)
-COOL_STOP_TEMP: REAL (cooling stop temperature)
-START_DAY: TOD (start of the day)
-START_NIGHT: TOD (early night)
-CYCLE_TIME: TIME (query time for outside temperature)
 TEMP_EXT processes up to 3 remote temperature sensor and provides by
 mode a selected external temperature to the heating control. It calculates
 signals for heating and cooling depending on outdoor temperature, date

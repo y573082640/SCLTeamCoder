@@ -1,7 +1,3 @@
-Type Function module
-Input IN: BOOL (Input)
-PT: TIME (switch of delay)
-Output Q: BOOL (output)
 TMIN ensures that the output pulse Q is at least PT is set to TRUE, even if
 the input pulse at IN is shorter than PT. otherwise the output Q follows the
 input IN.

@@ -1,17 +1,3 @@
-Type Function module
-Input SET: BOOL (Asynchronous set input)
-SU, SD: BOOL (inputs for up and down)
-RST: BOOL (asynchronous reset input)
-Setup SS: REAL (step size for small step)
-SS: REAL (step size for small step)
-Limit_H: REAL (upper limit)
-RST_VAL: REAL (initial value after reset)
-RST_VAL: REAL (initial value after reset)
-T1: TIME (time after the frst ramp starts)
-T1: TIME (time in which the second ramp starts)
-S1: REAL (speed for frst ramp)
-S2: REAL (speed for second ramp)
-Output Y: REAL (output signal)
 TUNE sets, using up and down buttons, an output signal Y. By correspon￾ding setup variables, the increment will be programmed individually. An
 upper and lower limit for the output Y can be specifed by LIMIT_L and LI￾MIT_H . with the buttons SU and SD up or down steps are generated. If a
 key is held down longer than the time T1, then the output Y is continuously

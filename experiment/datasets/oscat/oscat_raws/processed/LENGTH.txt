@@ -1,21 +1,4 @@
-Type Function module
-Input M : REAL (Meter)
-P: REAL (Typographic point)
-IN : REAL (Inch)
-FT : REAL (Foot)
-YD : REAL (Yard)
-MILE : REAL (Mile)
-SM: REAL (International nautical mile)
-FM : REAL (Fathom)
-Output YM : REAL (Meter)
-YP: REAL (Typographic point)
-YIN : REAL (Inch)
-YFT: REAL ( Foot ) 
-YYD : REAL (Yard)
-YMILE : REAL (Mile)
-YSM: REAL (International nautical mile)
-YFM : REAL (Fathom)
-The module LENGTH converts diferent in common used units for units of
+LENGTH converts diferent in common used units for units of
 length. Normally, only the input to be converted is occupied and the re￾maining inputs remain free. However, if several inputs loaded with values,
 the values of all inputs are converted accordingly and then summed.
 1 P = 0.376065 mm (unit from the printing industry)

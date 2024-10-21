@@ -1,8 +1,4 @@
-Type Function: REAL
-Input PT: Pointer (Pointer to the array) 
-SIZE: UINT (size of the array)
-Output REAL (sum of all values of the array)
-The function _ARRAY_SUM calculates the sum of all values of an arbitrary
+ARRAY_SUM calculates the sum of all values of an arbitrary
 array of REAL. When called a pointer to the array and its size in bytes is
 passed to the function. Under CoDeSys the call reads:
 ARRAY_SUM(ADR(Array), SIZEOF(Array)), where array is the name of the
@@ -11,4 +7,3 @@ pointer to the array and SIZEOF() is a standard function, which determines
 the size of the array. In order to determine the maximum, the array refe￾renced by the pointer is scanned directly in memory. The function
 ARRAY_SUM does not change the content of the array. 
 This type of processing arrays is very efcient because no additional me￾mory is required and no surrender values must be copied.
-Example: ARRAY_SUM(ADR(bigarray), SIZEOF(bigarray))

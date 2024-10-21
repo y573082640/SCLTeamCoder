@@ -1,8 +1,3 @@
-Type Function module
-Input DIR: BOOL ( Direction, TRUE means Up ) 
-E: BOOL ( Enable Input) 
-TR: TIME (time to run a full ramp)
-I / O RMP: BYTE (output signal)
 _RMP_B Is an 8-bit ramp generator. The ramp is generated in an externally
 declared variable. The ramp is rising when DIR = TRUE and falling if DIR =
 FALSE. Reaching a fnal value of the ramp, the generator remains at this

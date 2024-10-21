@@ -1,6 +1,3 @@
-Type Function : REAL
-Input T: REAL (temperature of the water)
-Output REAL (enthalpy of water in J/g at temperature T)
 WATER_ENTHALPY calculates the Enthalpy (Heat content) of liquid water
 as a function of temperature at atmospheric pressure. The temperature T
 is given in Celsius. The calculation is valid for a temperature of 0 to 100 °

@@ -1,4 +1,1 @@
-Type Function: REAL
-Input X: REAL (input)
-Output REAL (result)
-The function ERFC calculates the inverse error function of X.
+ERFC calculates the inverse error function of X.

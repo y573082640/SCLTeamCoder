@@ -1,13 +1,4 @@
-Type Function module
-Input M: REAL (distance in meter)
-AE: REAL (distance in astronomical units)
-PC: REAL (distance in parsecs)
-LJ: REAL (distance in light years)
-Output YM: REAL (distance in meters)
-YAE: REAL (distance in astronomical units)
-YPC: REAL (distance in parsecs)
-YLJ: REAL (distance in light years)
-The module ASTRO converts various distance units commonly used in 
+ASTRO converts various distance units commonly used in 
 astronomy. Normally, only the input to be converted is occupied and the 
 remaining inputs remain free. However, if several inputs loaded with 
 values, the values of all inputs are converted accordingly and then 

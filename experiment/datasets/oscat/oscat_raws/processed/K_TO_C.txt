@@ -1,4 +1,1 @@
-Type Function: REAL
-Input KELVIN: REAL (temperature value in Kelvin)
-Output REAL (temperature in °C)
 K_TO_C converts a temperature reading from Kelvin in Celsius.

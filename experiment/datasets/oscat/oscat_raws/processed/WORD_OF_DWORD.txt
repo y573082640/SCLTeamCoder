@@ -1,5 +1,2 @@
-Type Function: WORD
-Input IN: DWORD (DWORD input)
-Output WORD (output WORD)
 WORD_OF_DWORD extracts a word (W0 .. W1) from a DWORD.
  17. Latches, Flip-Flop and Shift Register

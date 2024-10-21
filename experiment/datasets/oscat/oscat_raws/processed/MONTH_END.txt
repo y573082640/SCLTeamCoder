@@ -1,6 +1,3 @@
-Type Function: DATE
-Input IDATE: DATE (current date)
-Output DATE (date of the last day of the current month)
 MONTH_END calculates the date of the last day of the current month and
 current year.
 MONTH_END(D#2008-2-13) = D#2008-2-29

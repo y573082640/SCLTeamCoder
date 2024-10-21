@@ -1,5 +1,1 @@
-Type Function : REAL
-Input RH: REAL (Relative Humidity)
-T: REAL (temperature in °C)
-Output REAL (dew point)
-The module DEW_TEMP calculate the dew point temperature from the re￾lative humidity (RH) and temperature (T in ° C). The relative humidity is gi￾ven in % (50 = 50%).
+DEW_TEMP calculate the dew point temperature from the re￾lative humidity (RH) and temperature (T in ° C). The relative humidity is gi￾ven in % (50 = 50%).

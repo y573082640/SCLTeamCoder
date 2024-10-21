@@ -1,4 +1,1 @@
-Type Function: DATE
-Input Y: INT (year)
-Output DATE (date of December 31 for the year)
 YEAR_END calculates '31 December in the year Y.

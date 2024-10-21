@@ -1,6 +1,2 @@
-Type Function: BYTE
-Input IN: BYTE (BYTE input)
-Output BYTE (Byte Output)
 REVERSE reverses the order of the bits in a byte. Bit7 of IN becomes bit 0,
 bit 6 to bit 1, etc.
-Example: REVERSE(10011110) = 01111001

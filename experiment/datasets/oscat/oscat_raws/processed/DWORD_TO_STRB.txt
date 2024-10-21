@@ -1,6 +1,3 @@
-Type Function : STRING
-Input IN: DWORD (input value)
-Output STRING(32) (result STRING)
 DWORD_TO_STRB converts a DWORD, Word or byte in a STRING of fxed
 length. The output string is exactly 32 characters long and is the bitwise
 notation of the value of IN. The output string consists of the characters '0
@@ -8,5 +5,3 @@ notation of the value of IN. The output string consists of the characters '0
 handle input formats, Byte, Word and DWORD types. The output is inde￾pendent of the input type is always a STRING of 32 characters. If a shorter
 string is needed, it can be cut with the standard function RIGHT() accor-
 dingly. The call RIGHT(DWORD_TO_STRB(X),8) results to a string of 8 cha￾racters to the contents of the lower bytes of X.
-Example :
-DWORD_TO_STRB(127) = '00000000000000000000000001111111'

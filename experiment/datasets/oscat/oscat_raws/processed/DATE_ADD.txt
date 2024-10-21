@@ -1,11 +1,4 @@
-Type Function
-Input IDATE: DATE (date)
-D: INT (days to be added)
-W: INT (weeks to be added)
-M: INT (months to be added)
-Y: INT (years to be added)
-Output DATE (result date)
-The function DATE_ADD add days, weeks, months, and add years to a
+DATE_ADD add days, weeks, months, and add years to a
 date. First the module adds the specifed days and weeks, then months
 and fnally the years. 
 The input values can be both positive as well be negative. So it can also
@@ -13,6 +6,3 @@ be subtracted from a date.
 Note that especially for negative input values the sum of negative values,
 i.e. -3000 days does not run below 1.1.1970 because this would have an
 overfow of data type DATE and undefned values are obtained. 
-Example: DATE_ADD(1.1.2007,3,1,-1,-2) = 11/12/2005
-adds additional 3 days and 1 week and then draws 1 month
-and 2 years from.

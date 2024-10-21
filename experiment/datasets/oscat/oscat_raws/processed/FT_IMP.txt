@@ -1,8 +1,3 @@
-Type Function module
-Input IN: REAL (input signal)
-T: TIME (time constant)
-K: REAL (multiplier)
-Output OUT: REAL (High pass with time constant T ) 
 FT_IMP is a high-pass flter with time constant T and multiplier K. An ab￾rupt change at the input is visible at the output, but after the time T the
 value is already smoother by 63% and after 3 * T by 95%. Thus, after an
 abrupt change of the input signal from 0 to 10, the output passes 10 at

@@ -1,12 +1,3 @@
-Type Function module
-Input IN: REAL (input signal)
-KP: REAL (proportional part of the controller)
-KI: REAL (integral part of the controller)
-LIM_L: REAL (lower limit of the integrator output)
-ILIM_H: REAL (upper limit of the integrator output)
-RST: BOOL (asynchronous reset input)
-Output Y: REAL (output of the controller)
-LIM: BOOL (TRUE if the output has reached a limit)
 FT_PIWL is a PI controller with dynamic anti-wind Up and works according
 the following formular: 
 Y = KP * IN + KI * INTEG(IN)

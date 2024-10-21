@@ -1,5 +1,2 @@
-Type Function : REAL
-Input KMH: REAL (speed in m/s)
-Output TIME (speed in km/h)
 KMH_TO_MS converts value to a speed of kilomter per Hour in meters per
 second. KMH_TO_MS := KMH / 3.6

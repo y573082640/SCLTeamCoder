@@ -1,5 +1,2 @@
-Type Function: COMPLEX
-Input X: COMPLEX (Input) 
-Output COMPLEX (result)
 CLOG calculates the natural logarithm of a complex number raised to E.
 CLOG(X) = LOG(e)(X).

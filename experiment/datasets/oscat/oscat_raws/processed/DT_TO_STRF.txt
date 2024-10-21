@@ -1,10 +1,4 @@
-Type Function : STRING
-Input DTI: DT (Date and time input value)
-MS: INT (ms input)
-FMT: STRING (default format for output)
-LANG: INT (default language)
-Output STRING (result string ) 
- DT_TO_STRF converts a DATETIME value into a formated string. At the in￾put DTI the convertible DATETIME value appears and with the string FMT
+DT_TO_STRF converts a DATETIME value into a formated string. At the in￾put DTI the convertible DATETIME value appears and with the string FMT
 the appropriate output format is determined. The input LANG determines
 the language to be used (0 = LANGUAGE_DEFAULT, 1 = English and 2 =
 German). The language settings are made in the relevant paragraph of
@@ -36,7 +30,3 @@ value. The following table defnes the format characters:
 #V Milliseconds 3 digits (000, 999)
 #W Day 2 digits but pre-padded with blank (' a' .. '31 ')
 #X Month 2 digits but pre- padded with blank (' 1' .. '12 ')
-Examples:
-DT_TO_STRF(DT#2008-1-1, 'Datum '#C. #F #A', 2) = '1. Januar 2008'
-DT_TO_STRF(DT#2008-1-1-13:43:12, '#J #M:#Q am #C. #E #A', 2) = 
-'Di 13:43 am 1. Jan 2008'

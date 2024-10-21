@@ -1,8 +1,3 @@
-Type Function: INT
-Input STR: STRING (String input)
-POS: INT (position at which the search begins)
-Output INT (The frst character that is not a number or point)
-The function FIND_NONUM searches STR from the starting position POS
+FIND_NONUM searches STR from the starting position POS
 from left to right and returns the frst position which is not a number.
 Numbers are the letters "0..9" and "."
-Example: FIND_NONUM('4+33',1) = 2

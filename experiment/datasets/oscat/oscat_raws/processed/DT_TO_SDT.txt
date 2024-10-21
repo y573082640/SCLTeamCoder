@@ -1,4 +1,1 @@
-Type Function: SDT
-Input DTI: DT (date time value)
-Output SDT (Structured date time value of type SDT)
 DT_TO_SDT converts a date value into a structured date day of type SDT.

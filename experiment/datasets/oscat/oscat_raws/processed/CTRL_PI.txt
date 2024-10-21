@@ -1,18 +1,3 @@
-Type Function module
-Input ACT: REAL (value measured by the way)
-SET: REAL (default)
-SUP: REAL (noise reduction)
-SFO: REAL (ofset for the output)
-M_I: REAL (input value for manual operation)
-MAN: BOOL (switch to manual mode, MANUAL = TRUE)
-RST: BOOL (asynchronous reset input)
-KP: REAL (proportional part of the controller)
-KI: REAL (integral part of the controller)
-LL: REAL (lower output limit)
-LH: REAL (upper output limit)
-Output Y: REAL (output of the controller)
-DIFF: Real (deviation)
-LIM: BOOL (TRUE if the output has reached a limit)
 CTRL_PI is a PI controller with dynamic anti-wind-up and manual control in￾put. The PI controller operates according to the formula:
 Y = KP * DIFF + KI * INTEG(DIFF) + OFFSET
 where DIFF = SET_POINT - ACTUAL

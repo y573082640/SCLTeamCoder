@@ -1,8 +1,4 @@
-Type Function: REAL
-Input PT: Pointer (pointer to the array)
-SIZE: UINT (size of the array)
-Output REAL (median of the array)
-The function _ARRAY_MEDIAN calculates the median value of an arbitrary
+_ARRAY_MEDIAN calculates the median value of an arbitrary
 array of REAL. When called a pointer to the array and its size in bytes is
 passed to the function. Under CoDeSys the call reads:
 _ARRAY_MEDIAN(ADR(Array), SIZEOF(Array)), where array is the name of
@@ -12,9 +8,3 @@ function end sorted. The function _ARRAY_MEDIAN thus changes the con￾tents of 
 This type of processing arrays is very efcient because no additional me￾mory is required and no surrender values must be copied.
 If an array is processed, which should not be changed, so it has to be co￾pied to a temporary array before handing over the Pointer and calling the
 function. 
-Example: _ARRAY_MEDIAN(ADR(bigarray), SIZEOF(bigarray))
-Median Value: 
-The median is the middle value to a sorted set of values. 
- Median of (12, 0, 4, 7, 1) is 4 After running the function the array remains 
-sorted in memory (0, 1, 4, 7, 12). 
-If the array contains an even number of elements the median is the avera￾ge of the two middle values of the array.

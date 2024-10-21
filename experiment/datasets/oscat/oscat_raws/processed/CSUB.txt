@@ -1,5 +1,1 @@
-Type Function: COMPLEX
-Input X: COMPLEX (Input) 
-Y:COMPLEX(Input value)
-Output COMPLEX (result)
 CSUB Subtracts two complex numbers, Csub = X - Y.

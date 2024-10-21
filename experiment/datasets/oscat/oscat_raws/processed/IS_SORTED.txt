@@ -1,8 +1,4 @@
-Type Function: BOOL
-Input PT: Pointer (pointer to the array)
-SIZE: UINT (size of the array)
-Output BOOL (TRUE)
-The function IS_SORTED checks whether any array of REAL is sorted in
+IS_SORTED checks whether any array of REAL is sorted in
 ascending order. When called, a pointer to the array and its size in bytes is
 transferred to the function. Under CoDeSys the call is:
 _ARRAY_SORT(ADR(Array), SIZEOF(Array)), where array is the name of the
@@ -11,5 +7,3 @@ pointer to the array and SIZEOF() is a standard function, which determines
 the size of the array.
 The function returns TRUE if the array is sorted in ascending order.
 This type of processing arrays is very efcient because no additional me￾mory is required and no surrender values must be copied.
-Example: IS_SORTED(ADR(bigarray), SIZEOF(bigarray))
- 7. Complex Mathematics

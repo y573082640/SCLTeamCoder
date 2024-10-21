@@ -1,6 +1,3 @@
-Type Function: REAL
-Input ELEV: REAL (elevation in degrees above the horizon)
-Output REAL (refraction in degrees)
 REFRACTION calculates the atmospheric refraction outside the atmosphe￾re and celestial bodies. A celestial body appears by the refraction of light
 in the atmosphere by the refraction higher above the horizon than he ac￾tually is. The refraction is 0 at the zenith (at 12:00 noon) and increases
 much close to the horizon. At 0° (the horizon), the refraction is -0.59° and

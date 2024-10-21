@@ -1,12 +1,3 @@
-Type Function module
-Input SET: BOOL (Asynchronous Set)
-IN: DWORD (default value for set)
-UP: BOOL (forward switch edge-triggered)
-DN: BOOL (reverse switch edge-triggered)
-STEP: DWORD (increment of Counters)
-MX: DWORD (maximum value of the Counters)
-RST: BOOL (asynchronous reset)
-Output CNT: DWORD (output)
 COUNT_DR is a DWORD (32-bit) counter with counts from 0 to MX and
 then begins again at 0. The counter can, using two edge-triggered inputs
 UP and DN, both forward and backward counting. when reaching a fnal

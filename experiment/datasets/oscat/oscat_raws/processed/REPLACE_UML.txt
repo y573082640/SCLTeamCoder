@@ -1,6 +1,3 @@
-Type Function: STRING
-Input STR: STRING (String input)
-Output STRING (String output)
 REPLACE_UML replaces umlauts with a combination of two characters so
 that the result contains no more umlauts. The large and small letters are
 considered here. If a word is all upper case and is an umlaut is mentioned,

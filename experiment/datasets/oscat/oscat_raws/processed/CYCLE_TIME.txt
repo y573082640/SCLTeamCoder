@@ -1,11 +1,3 @@
-Type Function module
-Input RES: BOOL (Reset)
-Output CT_MIN: TIME (minimum measured cycle time)
-CT_MAX: TIME (maximum measured cycle time)
-CT_LAST: TIME (recently measured cycle time)
-SYSTIME: TIME (duration since last start)
-SYSDAYS: INT (number of days since last start)
-CYCLES: DWORD (number of cycles since the last start)
 CYCLE_TIME monitors the cycle time of a PLC and provides the user with a
 range of information about cycle times and run times. The total number of
 cycles is also measured. Hereby, the user can, for example ensure that a

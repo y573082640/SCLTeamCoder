@@ -1,8 +1,3 @@
-Type Function
-Input X: REAL (input)
-XY: ARRAY [1..5,0..1] (Ascending sorted values pairs)
-PTS: INT (number of pairs of values)
-Output REAL (output)
 POLYNOM_INT interpolates a number of pairs of values with a polynomial
 of N times degree. The number of pairs is PTS, and N is the number of
 pairs of values (PTS). Any characteristic is described by a maximum of 5

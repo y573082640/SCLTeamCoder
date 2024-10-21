@@ -1,5 +1,1 @@
-Type Function: REAL
-Input X: REAL (input)
-Y: REAL (input value)
-Output REAL (output value)
 BETA computes the Euler Beta function.

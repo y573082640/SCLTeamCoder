@@ -1,21 +1,3 @@
-Type Function module
-Input X: REAL (input)
-CO: BOOL (pulse for storing the ofset)
-CS: BOOL (pulse for storing the gain factor)
-Output Y: REAL (Calibrated output signal)
-Setup Y_OFFSET: REAL (Y value in which the ofset is set)
-Y_SCALE: REAL (Y value in which the amplifcation factor
-is set)
 CALIBRATE serves for calibrating an analog signal. In order to allow a cali￾brating two reference values (Y_OFFSET and Y_SCALE) must be set by dou￾ble-clicking on the icon of the module. Y_OFFSET is the starting value at
 which the ofset is set by a pulse at CO and Y_SCALE is the value at which
 the gain is determined. A calibration can only be successful if the frst of￾set and gain are then calibrated. 
-Example :
-An input signal of 4..20 mA can be calibrated at the temperature values
-from 0 .. 70 ° C. Therefore the setup variables Y_OFFSET = 0 and Y_SCALE
-= 70 are set. Then the sensor is placed in ice water and after the response
-of the sensor, a pulse at the input C0 is triggered to initiate a calculation
-of the correction value for ofset and store it internally . Next, then the
-sensor is applied with 70 ° C and after the response a pules is triggered on
-the CS input, which calculates in the module a gain factor that is stored in￾ternally. The calibration values are permanently stored. That means, they
-are also not lost when a reset is executed, or turn of the power to the
-PLC.

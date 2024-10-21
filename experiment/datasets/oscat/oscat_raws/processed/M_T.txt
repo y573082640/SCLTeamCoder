@@ -1,10 +1,3 @@
-Type Function module
-Input IN: BOOL (Input)
-TMAX : TIME (Timeout für ET)
-RST: BOOL (Reset input)
-Output PT: TIME (measured pulse duration from the rising to the 
-falling edge)
-ET: TIME (Elapsed time since last rising edge)
 M_T measures the time how long IN was TRUE. PT is the time from the 
 rising edge of signal IN to the falling edge of the IN signal. The Output ET 
 passes the elapsed time since the last rising edge to falling edge. As long 

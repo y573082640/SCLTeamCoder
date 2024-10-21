@@ -1,13 +1,3 @@
-Type Function : DWORD
-Input PT: POINTER TO ARRAY OF BYTE (data package)
-SIZE: UINT (size of the Arrays ) 
-Setup PL: UINT (length of the polynomial)
-PN: DWORD (polynomial)
-INIT: DWORD (INIT data)
-REV_IN: BOOL (input data bytes invert)
-REV_OUT: BOOL (invert output data)
-XOR_OUT: DWORD (Last XOR of the output)
-Output DWORD (calculated CRC checksum)
 CRC_GEN generates a CRC check sum of an arbitrarily large array of Bytes.
 When the function is called a Pointer is passed on the processed array and
 its size in bytes. In CoDeSys the call reads: CRC_GEN(ADR(array),

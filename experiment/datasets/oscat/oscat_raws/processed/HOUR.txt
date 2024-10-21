@@ -1,5 +1,1 @@
-Type Function: INT
-Input ITOD: TIMEOFDAY (day time)
-Output INT (current hour)
-The HOUR function extracts the current hour of the day.
-Example: HOUR(22:55:13) = 22
+HOUR function extracts the current hour of the day.

@@ -1,9 +1,3 @@
-Type Function module
-Input SET: BOOL (set input)
-SDT: DT (set date and time)
-SMS: INT (set Milliseconds)
-Output XDT: DT (Date and Time Out)
-XMS: INT (milliseconds output)
 RTC_MS is a clock component with a resolution of milliseconds and date.
 The time is automatically every time you SET = TRUE to the value of SDT
 and SMS. If SET = FALSE the time is running on their own and provides the

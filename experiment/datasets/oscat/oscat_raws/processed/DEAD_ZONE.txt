@@ -1,7 +1,3 @@
-Type Function: REAL
-Input X: REAL (input)
-L: REAL ( Lockout Value) 
-Output REAL (output value)
 DEAD_ZONE is a linear transfer function with dead zone. The output equals 
 the input signal when the absolute value of the input is greater than L.
 DEAD_ZONE = X if ABS(X) > L 

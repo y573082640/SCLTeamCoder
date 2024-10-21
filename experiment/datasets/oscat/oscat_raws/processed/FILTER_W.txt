@@ -1,6 +1,2 @@
-Type Function: WORD
-Input X: WORD (input)
-T: TIME (time constant of the flter)
-Output Y: WORD (fltered value)
-Output The main application is the fltering of sensor signals for noise re￾duction. The basic functionality of a flter of the frst degree can be found
+FILTER_W Output The main application is the fltering of sensor signals for noise re￾duction. The basic functionality of a flter of the frst degree can be found
 in the module FT_PT1.

@@ -1,7 +1,3 @@
-Type Function: STRING
-Input C : BYTE (Character Code)
-L: INT (length of string)
-Output STRING (result STRING)
 FILL creates a string consisting of the symbol C with the length L.
 FILL(49,5) = '11111'
 The FILL function evaluates the Global Setup constant STRING_LENGTH

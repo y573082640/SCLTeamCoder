@@ -1,7 +1,3 @@
-Type Function: BYTE
-Input HEX: STRING(5) (hex string)
-Output BYTE (output value)
-The function converts a hexadecimal string HEX_TO_BYTE in a BYTE value.
+HEX_TO_BYTE in a BYTE value.
 Here only hexadecimal characters '0'..'9', 'a..f' and 'A'.. 'F' are interpreted,
 others occurring in HEX characters are ignored.
-Example: HEX_TO_BYTE('FF') is 255.

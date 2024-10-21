@@ -1,11 +1,4 @@
-Type Function module
-Input J: REAL (Joule)
-C: REAL (calorie)
-WH: REAL (Watt hours)
-Output YJ: REAL (Joule)
-YC: REAL (calorie)
-YWH: REAL (Watt hours)
-The module converts ENERGY in diferent, in practice common units of
+ENERGY in diferent, in practice common units of
 energy. Normally, only the input to be converted is occupied and the re￾maining inputs remain free. However, if several inputs loaded with values,
 the values of all inputs are converted accordingly and then summed.
 1 J = 1 Ws (Watt * Seconds) = 1 Nm (Newton * meters)

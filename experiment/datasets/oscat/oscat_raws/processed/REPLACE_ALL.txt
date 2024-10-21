@@ -1,9 +1,2 @@
-Type Function: STRING
-Input STR: STRING (String input)
-SRC: STRING (search string)
-REP: STRING (String replacement)
-Output STRING (String output)
 REPLACE_ALL replaces all occurring strings SRC in the string STR with REP.
 An empty string SRC gives no results. 
-Example: REPLACE_ALL('123BB456BB789BB','BB','/') = '123/456/789/'
-REPLACE_ALL('123BB456BB789BB','BB','') = '123456789'

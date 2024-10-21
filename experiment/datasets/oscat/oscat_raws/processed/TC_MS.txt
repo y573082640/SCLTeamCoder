@@ -1,4 +1,2 @@
-Type Function module
-Output TC: DWORD (last cycle time in milliseconds)
 TC_MS determines the last cycle time, that is the time since the last call of
 the module has passed. The time comes in milliseconds.

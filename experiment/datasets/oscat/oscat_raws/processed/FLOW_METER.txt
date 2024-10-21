@@ -1,13 +1,4 @@
-Type Function module
-Input VX: REAL (volume per hour)
-E: BOOL (Enable Input)
-RST: BOOL (Reset input)
-I / O X:REAL fow rate fractional part)
-Y:UDINT (fow rate integer part)
-SETUP PULSE_MODE: BOOL (pulse counter when TRUE)
-UPDATE_TIME: TIME (measuring time for F)
-Output F: REAL (actual fow)
-The function module FLOW_METER determines the fow rate per unit of
+FLOW_METER determines the fow rate per unit of
 time and count quantities. FLOW_METER determines the fow rate from the
 input VX and E. The module supports two operating modes are determined
 by the variable setup PULSE_MODE. If PULSE_MODE = TRUE is the volume
@@ -24,15 +15,3 @@ at X and a value of 234 at Y. If for count only a REAL is used then the reso￾l
 at least 7 digits after the decimal point. Since in this case X is always
 smaller than 1, Y can be used for output without decimal places. The two
 variables X and Y must be declared external and can, as the following ex￾ample, also be secured against power failure.
-Example 1:
-VX := 4 m³/h;
-PULSE_MODE := FALSE;
-UPDATE_TIME := T#100ms;
-The device measures the fow in m³/h and counts the fow as long as the
-input E is TRUE. The output F shows (4.0m³/h) as long as E is TRUE, other￾wise it shows (0.0). The value of F is re-calculated every 100 milliseconds.
-Example2:
-VX := 0,024 l/Puls;
-PULS_MODE := TRUE;
-UPDATE_TIME := T#1s;
-In this example, the fow at the output F is displayed in l/h and with each
-rising edge at E the counter is increased by 0.024 l.

@@ -1,14 +1,3 @@
-Type Function module
-Input X: REAL (input)
-A_UP: REAL (Maximum acceleration Up)
-A_DN: REAL (Maximum acceleration down)
-VU_MAX: REAL (Maximum speed Up)
-VD_MAX: REAL (Maximum Speed Down)
-LIMIT_HIGH: REAL (Output Limit High ) 
-LIMIT_LOW: REAL (Output Limit Low ) 
-RST: BOOL (Asynchronous Reset)
-Output Y: REAL (output signal)
-V: REAL (current speed of the output signal)
 SRAMP generates an output signal which is is limited by the adjustable pa￾rameters. The output follows the input signal and is limited by maximum
 speed (VU_MAX and VD_MAX), upper and lower limit (LIMIT_LOW and LI￾MIT_HIGH), and maximum acceleration (A_UP and A_DN). SRAMP is used to
 drive motors, for example. The output V passes the current speed of the

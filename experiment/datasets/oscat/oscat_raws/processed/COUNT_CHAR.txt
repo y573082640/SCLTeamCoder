@@ -1,6 +1,2 @@
-Type Function : STRING
-Input STR: STRING (string)
-CHR: Byte (search characters)
-Output STRING (result STRING)
 COUNT_CHAR determines how often the sign of CHR in the string STR oc￾curs. To search for special characters and control characters, the search
 character CHR is specifed as BYTE.

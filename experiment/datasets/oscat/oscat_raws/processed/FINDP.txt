@@ -1,11 +1,3 @@
-Type Function: INT
-Input STR: STRING (String input)
-SRC: STRING (search string)
-POS: INT (from the position being sought)
-Output INT (position of the frst letter of the found string)
 FINDP searches in a string STR starting at position POS for a string SRC. If
 SRC found in the string so the position of the frst character of SRC in STR
 is returned. If the string starting at position POS is not found, an 0 is retur￾ned. If an empty string is specifed as the search string, the module deli￾vers the result 0.
-Example: FINDP('ein Fuchs ist ein Tier','ein',1) = 1;
-FINDP('ein Fuchs ist ein Tier','ein',2) = 15;
-FINDP('ein Fuchs ist ein Tier','ein',16) = 0;

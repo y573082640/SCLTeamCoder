@@ -1,4 +1,4 @@
-The module CRC_CHECK was removed from the library because the func￾tionality can be fulflled in their entirety, with the module CRC_GEN.
+CRC_CHECK was removed from the library because the func￾tionality can be fulflled in their entirety, with the module CRC_GEN.
 Usually CRC_GEN generates a checksum which is is appended to the origi￾nal message . If we now build again the checksum of the message with an
 attached checksum then the new checksum 0.
 With some specifc CRC's where this is not the case, the checksum will be

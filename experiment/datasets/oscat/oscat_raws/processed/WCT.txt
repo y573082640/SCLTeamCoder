@@ -1,7 +1,3 @@
-Type Function : REAL
-Input T: REAL (outdoor temperature in ° C)
-V: REAL (Wind speed in km/h)
-Output REAL (wind chill temperature)
 WCT calculates the wind chill temperature depending on the wind speed in
 km/h and the outside temperature °C. The wind chill temperature is def￾ned only for wind speeds greater than 5 km/h and temperatures below 10
 °C. For values outside the defned range, the input temperature is output.

@@ -1,9 +1,3 @@
-Type Function : BYTE
-Input STR: STRING (string)
-INT: POS (position at which the character is read) 
-Output BYTE (code of the character at position POS)
 CODE determines the numerical code for a character at the position POS
 in STR. Is CODE called with a position with less than 1 or greater than the
 length of STR, 0 is returned.
-Example: CODE('ABC 123',4) = 32 (The character '' is encoded with the
-value of 32).

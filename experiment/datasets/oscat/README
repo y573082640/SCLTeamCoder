@@ -1,0 +1,5 @@
+code从官方下载.LIBRARY后，从codesys导出
+raws是官方3.3.2文档
+llm_description 是用LLM基于code和文档生成描述
+mixed_description是用文档替换LLM生成的部分
+compile_pdf_and_code将LLM和文档合并成mixed。注意，文档是3.3.2 代码是3.3.5。二者存在差集。所以有些没文档的只能用LLM生成，有文档的可以copy但不一定完全符合当前代码。

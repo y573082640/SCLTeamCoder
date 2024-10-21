@@ -1,4 +1,4 @@
-Type TEMP_NTC
+TEMP_NTC
 Input RES: REAL (measured resistance in ohms)
 RN: REAL (resistance of the sensor at 25°C)
 B: REAL (specifcation of the sensor)

@@ -1,6 +1,1 @@
-Type Function: REAL
-Input X: REAL (input)
-T: REAL (input)
-U: REAL (input)
-Output REAL (output value)
 CAUCHY calculates the density function for Cauchy.

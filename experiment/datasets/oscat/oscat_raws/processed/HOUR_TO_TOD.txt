@@ -1,6 +1,2 @@
-Type Function: TIME
-Input IN: REAL (number of hours with decimals)
-Output TIME (days)
-The function HOUR_TO_TOD calculate a time of day (TIMEOFDAY) from the
+HOUR_TO_TOD calculate a time of day (TIMEOFDAY) from the
 input value in hours as REAL.
-Example: HOUR_TO_TOD(12.1) = 12:06:00

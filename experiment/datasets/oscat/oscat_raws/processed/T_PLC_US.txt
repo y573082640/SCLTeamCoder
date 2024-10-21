@@ -1,5 +1,3 @@
-Type Function: DWORD
-Output DWORD (SPS Timer in microseconds) 
 T_PLC_US returns the current internal PLC time in microseconds. This has
 nothing to do with a possibly existing clock (Real Time Module), but is the
 internal Timer of a PLC that is used as a time reference. 

@@ -1,7 +1,3 @@
-Type Function: DWORD
-Input OCT : STRING(20) (Oktale Zeichenkette)
-Output DWORD (output value)
-The function OCT_TO_DWORD converts an octal encoded string into a byte
+OCT_TO_DWORD converts an octal encoded string into a byte
 value. Only the octal characters are '0 '..'7' are interpreted, others in HEX
 occurring characters are ignored.
-Example: OCT_TO_DWORD ('11 ') result 9.

@@ -1,8 +1,3 @@
-Type Function module
-Input N: INT (length of the display Strings ) 
-PT: TIME (slide delay, Default = T#1s) 
-I / O TEXT: STRING (String input)
-Output DISPLAY: STRING (String output)
 TICKER generate at the output DISPLAY a running script. At the output DIS￾PLAY a substring of text with the length N is output. DISPLAY is passed to
 output in a time frame of PT and starts at each pass from one place to the
 left of the input string TEXT. The scrolling text is generated only when N <

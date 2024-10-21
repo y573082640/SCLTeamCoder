@@ -1,4 +1,1 @@
-Type Function: REAL
-Input X: COMPLEX (Input) 
-Output REAL (result)
 CSQRT calculates the square root of a complex number

@@ -1,11 +1,5 @@
-Type Function: BOOL
-Input PT: Pointer (pointer to the array)
-SIZE: UINT (size of the array)
-Output BOOL (TRUE)
-The function _array_SORT sorts an arbitrary array of REAL in ascending or￾der. When called, a pointer to the array and its size in bytes is transferred
-to the function. Under CoDeSys the call is: _ARRAY_SORT(ADR(Array), SI￾ZEOF(Array)), where array is the name of the array to be manipulated.
+_ARRAY_SORT(ADR(Array), SI￾ZEOF(Array)), where array is the name of the array to be manipulated.
 ADR() is a standard function which identifes the pointer to the array and
 SIZEOF() is a standard function, which determines the size of the array.
 The function only returns TRUE. The array specifed by the pointer is mani￾pulated directly in memory. 
 This type of processing arrays is very efcient because no additional me￾mory is required and no surrender values must be copied.
-Example: _ARRAY_SHUFFLE (ADRs(bigarray), SIZEOF(bigarray))

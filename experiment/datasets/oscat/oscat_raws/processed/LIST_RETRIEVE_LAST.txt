@@ -1,6 +1,2 @@
-Type Function: STRING(LIST_LENGTH)
-Input SEP: BYTE (separation sign the list)
-I / O LIST: STRING(LIST_LENGTH) (input list)
-Output STRING(LIST_LENGTH) (string output)
 LIST_RETRIEVE_LAST passes the last item from a list and deletes the corre￾sponding item in the list. The list consists of Strings (elements) that begin
 with the separation character SEP.

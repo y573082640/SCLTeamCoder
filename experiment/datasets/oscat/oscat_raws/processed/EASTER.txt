@@ -1,5 +1,2 @@
-Type Function: DATE
-Input YEAR : INT (year)
-Output DATE (date of Easter Sunday for the specifed year)
-The function EASTER calculates for a given year, the date of Easter Sun￾day. Most religious holidays have a fxed distance from Easter, so that in
+EASTER calculates for a given year, the date of Easter Sun￾day. Most religious holidays have a fxed distance from Easter, so that in
 the case that Easter is known for a year, these holidays can also be deter￾mined easily. EASTER is also used in the module HOLIDAY to calculate holi￾days.

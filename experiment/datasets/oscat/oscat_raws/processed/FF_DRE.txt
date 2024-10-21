@@ -1,9 +1,3 @@
-Type Function module
-Input SET: BOOL (Asynchronous Set)
-D: BOOL (Data in)
-CLK: BOOL (clock input)
-RST: BOOL (asynchronous reset)
-Output Q : BOOL (Data Out)
 FF_DRE is a edge-triggered D-Flip-Flop with Asynchronous Set and Reset
 input. A rising edge at CLK stores the input D to output Q. A TRUE on the
 SET or RST input resets or clears the output Q at any time regardless of

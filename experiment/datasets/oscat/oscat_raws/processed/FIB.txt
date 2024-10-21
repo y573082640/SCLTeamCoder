@@ -1,6 +1,3 @@
-Type Function: DINT
-Input X: INT (input)
-Output DINT (Fibonacci numbers)
 FIB calculate the Fibonacci number The Fibonacci number is defned as fol￾lows:
 FIB(0) = 0, FIB(1) = 1, FIB(2) = 1, FIB(3) = 2, FIB(4) = 3, FIB(5) = 5 .....
 The Fibonacci number of X is equal to the sum of the Fibonacci numbers of

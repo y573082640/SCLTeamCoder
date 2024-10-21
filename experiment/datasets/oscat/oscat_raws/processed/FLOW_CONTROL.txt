@@ -1,12 +1,3 @@
-Type Function module
-Input IN: BOOL (control input)
-REQ: BOOL ( Request for automatic mode) 
-ENQ: BOOL ( Enable for output Q) 
-RST: BOOL (asynchronous reset input)
-Setup T_AUTO: TIME (valve switch time in automatic mode)
-T_DELAY: TIME(valve disable Time in automatic mode) 
-Output Q: BOOL (switching output for valve)
-STATUS: BYTE (ESR compliant status output)
 FLOW_CONTROL switches a valve at the output Q when the input IN =
 TRUE. In addition, the valve can also be switched via the input RE. REQ =
 TRUE turns the valve on for the time T_AUTO and will be locked for the

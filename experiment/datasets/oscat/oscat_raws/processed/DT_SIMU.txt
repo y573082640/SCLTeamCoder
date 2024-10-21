@@ -1,7 +1,3 @@
-Type Function module
-Input START DT (start DATETIME)
-SPEED: REAL (speed for the output DTS)
-Output DTS: DT (Simulated DATE TIME)
 DT_SIMU simulates on output DTS a date value that starts with the initial
 value of START and continues with the speed SPEED. If SPEED intthe input
 value not used, the device operates with the internal standard value 1.0

@@ -1,7 +1,2 @@
-Type Function: REAL
-Input X: REAL (input)
-U: REAL (locality of the function)
-SI: REAL (Sigma, spreading the function)
-Output REAL (Gaussian function)
-The function calculates the Gaussian normal distribution using the followi￾ng formula:
+GAUSS The function calculates the Gaussian normal distribution using the followi￾ng formula:
 The normal distribution is the density function normally distributed ran￾dom variables. With the parameters U = 0 and SI = 1, it follows the stan￾dard normal distribution.

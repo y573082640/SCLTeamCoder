@@ -1,6 +1,3 @@
-Type Function: INT
-Input IN: DWORD (input)
-Output INT (number of bits which have value TRUE (1) in IN)
 BIT_COUNT determines the number of bits in IN, which have the value
 TRUE (1). The input IN is DWORD and can also process the types Byte and
 Word.

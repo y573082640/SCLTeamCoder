@@ -1,8 +1,4 @@
-Type Function: BOOL
-Input PT: Pointer (Pointer to the array) 
-SIZE: UINT (size of the array)
-Output BOOL (TRUE)
-The function _ARRAY_ABS calculates the elements of an arbitrary array Of
+_ARRAY_ABS calculates the elements of an arbitrary array Of
 REAL in an absolute value. When called, a pointer to the array and its size
 in bytes is transferred to the function. Under CoDeSys the call reads: _AR￾RAY_ABS(ADR(Array), SIZEOF(array)), where array is the name of the array
 to be manipulated. ADR() is a standard function which identifes the poin￾ter to the array and SIZEOF() is a standard function, which determines the
@@ -10,4 +6,3 @@ size of the array. The function only returns TRUE. The array specifed by
 the pointer is manipulated directly in memory. 
 This type of processing arrays is very efcient because no additional me￾mory is required and no surrender values must be copied.
 Call: _ARRAY_ABS(ADR(bigarray), SIZEOF(bigarray))
-Example: [0,-2,3,-1-5] is converted to [0,2,3,1,5]

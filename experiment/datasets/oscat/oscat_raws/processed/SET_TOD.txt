@@ -1,7 +1,1 @@
-Type Function: TOD
-Input HOUR: INT (hour)
-MINUTE: INT (min)
-SECOND: REAL (seconds and milliseconds)
-Output TOD (output value day)
-The function SET_TOD calculates a time of day (TOD) from the input va￾lues, hours, minutes and seconds.
-Example: Set_TOD(13, 10, 22.33) = 13:10:22.330
+SET_TOD calculates a time of day (TOD) from the input va￾lues, hours, minutes and seconds.

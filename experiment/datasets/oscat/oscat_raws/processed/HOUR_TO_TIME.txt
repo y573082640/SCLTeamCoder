@@ -1,6 +1,2 @@
-Type Function: TIME
-Input IN: REAL (number of hours with decimals)
-Output TIME (TIME)
-The function HOUR_TO_TIME calculates a time value (TIME) from the input
+HOUR_TO_TIME calculates a time value (TIME) from the input
 value in hours as REAL.
-Example: HOUR_TO_TIME(1.1) = T#1h6m

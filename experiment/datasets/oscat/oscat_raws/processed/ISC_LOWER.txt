@@ -1,6 +1,3 @@
-Type Function: BOOL
-Input IN: BYTE (characters)
-Output Type
 ISC_LOWER tests whether a sign IN is a lowercase letter, If IN is a lower
 case the function returns TRUE, else the function returns FALSE. In exami￾ning the Global Setup EXTENDED_ASCII constant is considered. If EXTEN￾DED_ASCII = TRUE the extended ASCII character-set to be considered in
 accordance with ISO 8859-1.

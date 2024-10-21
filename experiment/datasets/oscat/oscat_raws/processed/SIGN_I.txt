@@ -1,5 +1,2 @@
-Type Function: BOOL
-Input IN: DINT (input)
-Output BOOL (TRUE if the input is negative)
-The function SIGN_I returns TRUE if the input value is negative. The input
+SIGN_I returns TRUE if the input value is negative. The input
 values are of type DINT.

@@ -1,4 +1,1 @@
-Type Function: INT
-Input IN: BYTE (BCD coded input)
-Output INT (output value)
 BCDC_TO_INT converts a BCD coded input BYTE in an integer value.

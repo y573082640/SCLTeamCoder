@@ -1,6 +1,3 @@
-Type Function: DWORD
-Input LAST: DWORD (last calculated value)
-Output DWORD (Random Pattern)
 RDMDW charges pseudo - random number with 32 bits in length in the for￾mat DWORD. This is the PLC's internal timer that is read and is transferred
 into a pseudo random number. Since RDMDW as a function and was not
 written as a function module, it can not save data between 2 calls and

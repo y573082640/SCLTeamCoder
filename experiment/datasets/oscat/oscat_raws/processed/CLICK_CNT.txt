@@ -1,8 +1,3 @@
-Type Function module
-Input IN: BOOL (Input)
-N: INT (number ofclicks ) to decode
-TC: TIME (time in which the clicks must take place) 
-Output Q: BOOL (output)
 CLICK_CNT determines the number of pulses within the unit time TC. at in￾put IN. A rising edge at IN will start an internal timer with time TC. During
 the course of Timers the module counts the falling edges of IN and review￾es after the expiry of the time TC whether N pulses are within the time TC.
 Just when exactly N pluses within TC will happen, the output Q is set for a

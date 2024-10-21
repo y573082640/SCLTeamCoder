@@ -1,8 +1,3 @@
-Type Function: STRING (10)
-Input MTH: INT (Month 1..12)
-LANG: INT (Language 0 = Default ) 
-LX: INT (length of string)
-Output STRING (10) (output value)
 MONTH_TO_STRING convert a month number to its equivalent string. The
 input MTH passes the month: 1 =January, 12 = December. The input LANG
 chooses the language: 1 = English and 2 = German. LANG = 0 used as

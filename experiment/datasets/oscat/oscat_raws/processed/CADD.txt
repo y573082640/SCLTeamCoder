@@ -1,5 +1,1 @@
-Type Function: COMPLEX
-Input X: COMPLEX (Input) 
-Y:COMPLEX(Input value)
-Output COMPLEX (result)
 CADD adds two complex numbers X and Y.

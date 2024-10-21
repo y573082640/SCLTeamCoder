@@ -1,8 +1,3 @@
-Type Function: INT
-Input IDATE: DATE (date)
-Output INT (day of the year of input date)
-The DAY_OF_YEAR function calculates the day of the year from the input
+DAY_OF_YEAR function calculates the day of the year from the input
 date IDATE. Leap years are taken into account according to the Gregorian
 calendar. The function is defned for the years 1970 - 2099.
-Example: DAY_OF_YEAR(31.12.2007) = 365
-DAY_OF_YEAR(31.12.2008) = 366

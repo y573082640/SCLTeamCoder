@@ -1,11 +1,3 @@
-Type Function module
-Input X1 .. X5: BOOL (line inputs)
-Setup RELEASE: BOOL (a key code when you press and 
-release of a key generated)
-Output CODE: Byte (output for key code)
-TP: BOOL (TP is TRUE for one cycle when a new 
-Key code is present)
-Y1 .. Y4: BOOL (line outputs)
 MATRIX is a matrix keyboard controller for up to 4 columns and 5 rows.
 With each PLC cycle on the MATRIX column switch the output further for a
 column so that the lines Y1 to Y4 are queried one by one. For each co￾lumn, the row inputs X1 to X5 are queried and if a button is pressed, the

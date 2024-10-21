@@ -1,8 +1,3 @@
-Type Function: DWORD
-Input IN : BOOL (if TRUE the module provides the release date)
-Output (Version of the library)
 OSCAT_VERSION iprovides if IN = FALSE the current version number as
 DWORD. If IN is set to TRUE then the release date of the current version as
 a DWORD is returned. 
-Example: OSCAT_VERSION(FALSE) = 201 for version 2.60
-DWORD_TO_DATE(OSCAT_VERSION (TRUE)) = 2008-1-1

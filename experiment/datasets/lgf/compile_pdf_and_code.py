@@ -25,7 +25,6 @@ def update_json_descriptions():
                     description_content = desc_file.read().strip()  # 读取 description 文件内容
             except FileNotFoundError:
                 print(f"描述文件 {description_path} 未找到，跳过该 JSON 文件。")
-                continue
             
             # 读取 JSON 文件
             with open(json_path, 'r', encoding='utf-8') as json_file:

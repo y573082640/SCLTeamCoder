@@ -1,7 +1,2 @@
-Type Function: INT
-Input IDATE: DATE (date)
-Output INT (year of the date)
-The function YEAR_OF_DATE calculates the corresponding year from the
+YEAR_OF_DATE calculates the corresponding year from the
 date of input IDATE.
-Example: YEAR_OF_DATE(31.12.2007) = 2007
- 13. String Functions

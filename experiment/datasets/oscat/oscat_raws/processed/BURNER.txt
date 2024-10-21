@@ -1,33 +1,3 @@
-Type Function module
-Input IN: BOOL (control input)
-Stage2: BOOL (control input level 2)
-OVER_TEMP: BOOL (temperature limit of the boiler)
-OIL_TEMP: BOOL (thermostat of fuel oil warming)
-FLAME: BOOL (fame sensor)
-RST: BOOL (reset input for failure reset)
-RST_TIMER: BOOL (reset for the service counter)
-Output MOTOR: BOOL (control signal for the motor)
-COIL1: BOOL (control signal for valve oil Level 1)
-COIL2: BOOL (control input for oil valve stage 2)
-PRE_HEAT: BOOL (fuel oil warming)
-IGNITE: BOOL (ignition)
-KWH: REAL (kilo watt hour meter)
-STATUS: BYTE (ESR compliant status output)
-FAIL: BOOL (fault: TRUE if error appearance)
-I / O RUNTIME1: UDINT (operating time level 1)
-Runtime2: UDINT (operating time level 2)
-CYCLES: UDINT (number of burner starts)
-Setup PRE_HEAT_TIME: TIME (maximum time for fuel oil warming)
-PRE_VENT_TIME: TIME (prepurge)
-PRE_IGNITE_TIME: TIME (pre ignition time)
-POST_IGNITE_TIME: TIME (post ignition time)
-STAGE2_DELAY: TIME (delay level 2)
-SAFETY_TIME: TIME ()
-LOCKOUT_TIME: TIME (time must elapse before with
-a RST a interference can be deleted)
-MULTIPLE_IGNITION: BOOL ()
-KW1: REAL (burner output at level 1 in KW)
-KW2: REAL (burner output at level 2 in KW)
 BURNER is a control interface for oil or gas burner operating at kilowatt
 hour meter and counter. The module controls a two-stage burner with op￾tional fuel oil warming. The input IN is the control input that starts the bur￾ner only when the input OVER_TEMP is FALSE. OVER_TEMP is the boiler
 thermostat protection, which gets TRUE, if the boiler temperature has rea￾ched the maximum temperature. A burner start begins with the fuel oil

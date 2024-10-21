@@ -1,5 +1,2 @@
-Type Function module
-Input PT: TIME (period time)
-Output Q: BOOL (output)
-Gen_SQ is a generator with programmable period time and a fxed duty
+GEN_SQ is a generator with programmable period time and a fxed duty
 cycle of 50%. The input PT defnes the period time and the output Q pas￾ses the output signal.

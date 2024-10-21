@@ -1,16 +1,3 @@
-Type Function module
-Input X: REAL (input)
-RST: BOOL (reset input for alarm output)
-Output LOW: BOOL (TRUE, if X < TRIGGER_LOW)
-Q1 .. Q6: BOOL (trigger output)
-HIGH: BOOL (TRUE if X >= TRIGGER_HIGH)
-ALARM: BOOL (alarm output)
-STATUS: Byte (ESR status output)
-Setup TRIGGER_LOW: REAL (trigger threshold for LOW Output)
-TRIGGER_HIGH: REAL (trigger threshold for High Output)
-ALARM_LOW: BOOL ( Enable Alarm Low Output)
-ALARM_HIGH: BOOL ( Enable Alarm High Output) 
-LOG_SCALE : BOOL (output is logarithmic if TRUE) 
 BAR_GRAPH is a level Detector, which activates depending on the input
 value an output. The threshold for the LOW and HIGH Outputs can be set
 by the setup variables TRIGGER_LOW and TRIGGER_HIGH. LOW is TRUE if

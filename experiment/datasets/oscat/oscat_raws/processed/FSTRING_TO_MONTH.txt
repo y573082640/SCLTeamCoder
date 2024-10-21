@@ -1,7 +1,3 @@
-Type Function: INT
-Input MTH: STRING(20) (String input)
-LANG: INT (language)
-Output INT (month number 1..12)
 FSTRING_TO_MONTH determines from a string containing a month name
 or abbreviation the value of the month. The function can handle both the
 month names and abbreviations as input as well as a number of the

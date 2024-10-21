@@ -1,5 +1,1 @@
-Type Function: COMPLEX
-Input X: COMPLEX (Input) 
-Y: COMPLEX (input value of 2)
-Output COMPLEX (result)
 CPOW calculates the power of two Complex numbers, CPOW = X^Y.

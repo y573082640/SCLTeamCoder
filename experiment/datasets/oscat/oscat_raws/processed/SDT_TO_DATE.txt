@@ -1,4 +1,1 @@
-Type Function: DATE
-Input DTI: SDT (structured input value as date / time value)
-Output DATE (Date value)
 SDT_TO_DATE produces a date value of a structured date-time value

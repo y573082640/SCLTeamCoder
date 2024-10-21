@@ -1,7 +1,4 @@
-Type Function: INT
-Input IDATE: DATE (date)
-Output INT (working week of the input date)
-The function WORK_WEEK calculates the week from the date of input IDA￾TE. The week starts with 1 for the frst week of the year. The frst Thursday
+WORK_WEEK calculates the week from the date of input IDA￾TE. The week starts with 1 for the frst week of the year. The frst Thursday
 of the year is always in the frst week. If a year starts with a Thursday or
 end on a Thursday this year has 53 calendar weeks. If the frst day of the
 year a Tuesday, Wednesday or Thursday so the week begins one early as

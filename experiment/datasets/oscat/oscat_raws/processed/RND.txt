@@ -1,11 +1,3 @@
-Type Function: REAL
-Input X: REAL (input)
-N: integer (number of digits)
-Output REAL (rounded value)
-The function R ND rounds the input value IN to N digits. Follows the last
-point a number that is greater than 5, the last digit is rounded up. RND in￾ternally uses the standard function TRUNC() which converts the input va￾lue to an INTEGER type DINT. This may come as an overfow because DINT
+RND in￾ternally uses the standard function TRUNC() which converts the input va￾lue to an INTEGER type DINT. This may come as an overfow because DINT
 can store in maximum +/-2.14*10^9. The range of the RND is therefore li-
 mited to +/-2.14*10^9 . See also the ROUND function which rounds the in￾put value to N decimal places. 
-Example: RND(355.55, 2) = 360
-RND(3.555, 2) = 3.6
-ROUND(3.555, 2) = 3.56

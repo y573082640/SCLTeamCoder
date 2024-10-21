@@ -1,18 +1,3 @@
-Type Function : REAL
-Input TF: REAL (fow temperature in °C)
-TR: REAL (back fow temperature in °C)
-LPH: REAL (Flow in L/h or L/pulse)
-E: BOOL ( Enable Signal) 
-RST: BOOL (asynchronous reset input)
-Setup CP: REAL (Specifc heat capacity 2nd component)
-DENSITY: REAL (density of the 2nd component)
-CONTENT: REAL (share, 1 = 100%)
-PULSE_MODE: BOOL (pulse counter if TRUE)
-RETURN_METER: BOOL (fow meter in the return
-if TRUE)
-AVG_TIME: TIME (time interval for current consumption)
-Output C: REAL (current consumption in joules/hour)
-I / O Y: REAL (amount of heat in joules)
 HEAT_METER is a calorimeter. The amount of heat Y is measured in joules.
 The inputs of TF and TR are the forward and return temperature of the me￾dium. At the input LPH the fow rate in liters/hour, resp. the fow rate per
 pulse of E is specifed. The property of E is determined by the Setup Varia￾ble PULSE_MODE. PULSE_MODE = FALSE means the amount of heat is ad￾ded continuously as long as E is set to TRUE. PULSE_MODE = TRUE means

@@ -145,8 +145,8 @@ def get_oscat_requirements(code_path,txt_path,requirement_path):
         return  
 
 def run_process():
-    code_path = f"{project_base}/experiment/datasets/oscat/oscat_code"
-    txt_path = f"{project_base}/experiment/datasets/oscat/oscat_raws/processed"
-    requirement_path = f"{project_base}/experiment/datasets/oscat/oscat_with_description"
-    get_oscat_requirements(code_path,txt_path,requirement_path)
-    # read_and_translate(f"{project_base}/experiment/datasets/lgf/lgf_en")
+    # code_path = f"{project_base}/experiment/datasets/oscat/oscat_code"
+    # txt_path = f"{project_base}/experiment/datasets/oscat/oscat_raws/processed"
+    # requirement_path = f"{project_base}/experiment/datasets/oscat/oscat_with_description"
+    # get_oscat_requirements(code_path,txt_path,requirement_path)
+    read_and_translate(f"{project_base}/experiment/datasets/oscat/oscat_with_mixed_describtion")

@@ -1,7 +1,3 @@
-Type Function: REAL
-Input T: REAL (temperature in °C)
-R0: REAL (resistance at 0° C)
-Output REAL (resistance)
 RES_NI calculated the resistance of a NI-resistance sensor from the input
 values T (temperature in°C) and R0 (resistance at 0°C).
 The calculation is done using the formula:

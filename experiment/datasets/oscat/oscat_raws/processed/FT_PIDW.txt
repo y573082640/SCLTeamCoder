@@ -1,13 +1,3 @@
-Type Function module
-Input IN: REAL (input signal)
-KP: REAL (proportional part of the controller)
-TN: REAL (past set time of the controller in seconds)
-TV: REAL (derivative of the controller in seconds)
-LIM_L: REAL (lower limit of the integrator output)
-ILIM_H: REAL (upper limit of the integrator output)
-RST: BOOL (asynchronous reset input)
-Output Y: REAL (output of the controller)
-LIM: BOOL (TRUE if the output has reached a limit)
 FT_PIDW is a PID controller with Anti Wind- Up Hold works according to the
 following formula: 
 Y = KP * ( IN + 1/TN * INTEG(IN) + TV *DERIV(IN))

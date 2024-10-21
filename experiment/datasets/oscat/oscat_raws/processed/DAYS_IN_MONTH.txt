@@ -1,5 +1,2 @@
-Type Function: INT
-Input IDATE: DATE (current date)
-Output INT (number of days of current month)
-The days_in_month function calculates the number of days in the current
+DAYS_IN_MONTH function calculates the number of days in the current
 month.

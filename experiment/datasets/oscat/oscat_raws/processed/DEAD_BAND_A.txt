@@ -1,10 +1,3 @@
-Type Function module
-Input X: REAL (input)
-T: TIME (time delay of the lowpass)
-KL: REAL (gain of the flter)
-LM: REAL (maximum value of the HF amplitude)
-Output Y: REAL (output value) 
-L: REAL (amplitude of high frequency)
 DEAD_BAND_A is a self adapting linear transfer function with dead zone.
 The function moves the positive part of the curve to -L and the negative
 part of the curve by +L. DEAD_BAND_A is used to flter the noise com￾ponents at the origin of a signal. DEAD_BAND_A, for example, used in con￾trol systems in order to prevent that the controller permanently switches

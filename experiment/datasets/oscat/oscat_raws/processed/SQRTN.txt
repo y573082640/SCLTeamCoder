@@ -1,5 +1,1 @@
-Type Function: REAL
-Input X: REAL (input)
-N: INT (input value)
-Output REAL (output value)
 SQRTN calculates the N-fold root of X as follows:

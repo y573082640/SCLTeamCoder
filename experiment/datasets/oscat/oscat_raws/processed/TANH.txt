@@ -1,5 +1,2 @@
-Type Function: REAL
-Input X: REAL (input)
-Output REAL (output value)
 TANH calculates the Tangent Hyperbolic according to the following 
 formula:

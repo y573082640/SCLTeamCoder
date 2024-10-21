@@ -1,5 +1,1 @@
-Type Function: COMPLEX
-Input X: COMPLEX (Input) 
-Y:COMPLEX(Input value)
-Output COMPLEX (result)
 CDIV dividing two complex numbers X / Y.

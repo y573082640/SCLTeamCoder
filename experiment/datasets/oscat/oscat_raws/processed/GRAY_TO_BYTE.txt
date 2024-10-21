@@ -1,4 +1,1 @@
-Type Function
-Input IN: BYTE (Gray coded value)
-Output Byte (Binary Value)
 GRAY_TO_BYTE converts a Gray-coded value (IN) in a byte.

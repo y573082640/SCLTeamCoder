@@ -1,6 +1,3 @@
-Type Function: REAL
-Input X: REAL (input)
-Output REAL (Gamma function)
-The function GAMMA calculates the gamma function after approximation
+GAMMA calculates the gamma function after approximation
 of NEMES.
 The gamma function can be used for Integer X as replacement for the Fa￾culty.

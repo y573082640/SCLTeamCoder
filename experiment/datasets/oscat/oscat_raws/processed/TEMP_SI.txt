@@ -1,8 +1,3 @@
-Type Function: REAL
-Input RES: REAL (measured resistance in ohms)
-RS: REAL (resistance at 0°C)
-TS: REAL (temperature is defned in RS)
-Output REAL (measured temperature)
 TEMP_SI calculates the temperature of a resistor sensor input values from
 the RES (resistance in ohms) and RS, Resistance at TS in °C. It is specifed
 in contrast to the modules TEMP_NI and TEMP_PT with their R0 at 0°, the

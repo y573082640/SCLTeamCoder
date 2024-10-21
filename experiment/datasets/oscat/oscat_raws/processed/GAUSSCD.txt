@@ -1,7 +1,2 @@
-Type Function: REAL
-Input X: REAL (input)
-U: REAL (locality of the function)
-SI: REAL (Sigma, spreading the function)
-Output REAL (Gaussian distribution function)
-The function GAUSSCD calculated the distribution function for normal dis￾tribution using the following formula:
+GAUSSCD calculated the distribution function for normal dis￾tribution using the following formula:
 The normal distribution is the density function normally distributed ran￾dom variables. With the parameters U = 0 and SI = 1, it follows the stan￾dard normal distribution. The distribution function ( Cumulative Distributi￾on Function ).

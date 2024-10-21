@@ -1,7 +1,3 @@
-Type Function module
-Input IN: REAL (input signal)
-E: BOOL ( enable Signal) 
-Output OUT_MAX: REAL (upper output limit)
 SH_T is a transparent Sample and Hold module. The input signal is provi￾ded at the output, as long as E is TRUE. With a falling edge of E, the value
 stored in the output OUT and will stay here until E return TRUE, and thus is
 switched back to OUT. 

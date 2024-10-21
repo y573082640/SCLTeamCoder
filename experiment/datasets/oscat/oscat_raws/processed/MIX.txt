@@ -1,8 +1,3 @@
-Type Function: REAL
-Input A: REAL (input value of 1)
-B: REAL (input value 2)
-M: REAL (ratio)
-Output REAL (value from the mixing ratio M between A and B)
 MIX provides at the output a mixed ratio M value, mixed from values A and
 B. The input M passes the proportion of B in the range 0..1.
 MIX = (M-1)*A + M*B

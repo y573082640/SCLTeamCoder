@@ -1,8 +1,3 @@
-Type Function module
-Input IN: REAL (input signal)
-KP: REAL (proportional part of the controller)
-TV: REAL (reset time of the diferentiator in seconds)
-Output Y: REAL (output of the controller)
 FT_PD is a PD controller, the following formula works:
 Y = KP * (IN + DERIV(IN))
 FT_PD can be used in conjunction with the modules CTRL_IN and

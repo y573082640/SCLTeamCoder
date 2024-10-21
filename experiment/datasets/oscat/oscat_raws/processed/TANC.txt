@@ -1,5 +1,2 @@
-Type Function: REAL
-Input X: REAL (input)
-Output REAL (output value)
 TANC TANC function calculates the following formula:
 with TANC(0) = 1.

@@ -1,8 +1,4 @@
-Type Function: REAL
-Input PT: Pointer (Pointer to the array) 
-SIZE: UINT (size of the array)
-Output REAL (minimum value of the array)
-The function ARRAY_MIN calculates the minimum value of any array of
+ARRAY_MIN calculates the minimum value of any array of
 REAL. When called the function passed a Pointer to the array and its size
 in bytes. Under CoDeSys the call reads: ARRAY_MIN(ADR(Array),
 SIZEOF(Array)), where array is the name of the array to be manipulated.
@@ -12,4 +8,3 @@ order to determine the maximum, the array referenced by the pointer is
 scanned directly in memory. The function ARRAY _ MIN does not change
 the contents of the array. 
 This type of processing arrays is very efcient because no additional me￾mory is required and no surrender values must be copied.
-Example: ARRAY_MIN(ADR(bigarray), SIZEOF(bigarray))

@@ -1,9 +1,3 @@
-Type Function module
-Input PT: TIME (period time)
-AM: REAL (signal amplitude)
-OS: REAL (signal ofset)
-Output Q: BOOL (binary output)
-OUT: REAL (analog output signal)
 GEN_RDM is a random signal generator. It generates the output OUT a
 new value in PT intervals. The output Q is TRUE for one cycle when the
 output OUT has changed. The input AM and OS set the amplitude and the

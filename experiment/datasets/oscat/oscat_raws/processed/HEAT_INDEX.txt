@@ -1,7 +1,3 @@
-Type Function : REAL
-Input T: REAL (temperature in °C)
-RH: REAL (Relative Humidity)
-Output REAL ( Heat Temperature Index) 
 HEAT_INDEX calculates at high temperatures and high humidity wind chill.
 The function is defned for temperatures above 20 ° C and relative humidi￾ty > 10%. For values outside the defned range, the input temperature is
 passed out.

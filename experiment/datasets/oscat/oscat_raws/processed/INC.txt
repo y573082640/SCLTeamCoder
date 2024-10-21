@@ -1,8 +1,3 @@
-Type Function: INT
-Input X: INT (input)
-D: INT (value to be added to the input value)
-M: INT (maximum value for the output)
-Output INT (output value)
 INC adds to the input X the Value D and ensures that the output INC is not
 does not exceed the value of M. If the result from the addition of X and D
 is greater than M, then it starts again at 0. The feature is especially useful
@@ -12,6 +7,3 @@ zero INC starts again at M.
 INC: = X + D, because D can take the maximum value M.
 If INC > M so INC starts again at 0.
 If INC < 0 so INC starts again at M
-Example: INC(3, 2, 5) ergibt 5
-INC(4, 2, 5) ergibt 0
-INC(0,-1,7) ergibt 7

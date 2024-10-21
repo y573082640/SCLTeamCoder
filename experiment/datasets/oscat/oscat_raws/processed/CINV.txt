@@ -1,4 +1,1 @@
-Type Function: COMPLEX
-Input X: COMPLEX (Input) 
-Output COMPLEX (result)
 CINV calculated the reciprocal of a complex number, CINV = 1/X

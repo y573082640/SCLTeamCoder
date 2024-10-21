@@ -1,8 +1,4 @@
-Type Function : STRING
-Input IN: BYTE (input)
-Output STRING(2) (result STRING)
 BYTE_TO_STRH converts a byte into a fxed-length STRING. The output
 string is exactly two characters long and is the hexadecimal notation of
 the value of IN. The output string consists of the characters '0 '.. '9' and
 'A' .. 'F'. The least signifcant sign is right in the STRING.
-Example : BYTE_TO_STRH(15) = '0F'

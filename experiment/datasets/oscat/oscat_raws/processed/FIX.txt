@@ -1,9 +1,3 @@
-Type Function: STRING
-Input STR: STRING (String input)
-L: INT (fxed-length od output string)
-C: BYTE (padding character when padding)
-M: INT (mode for padding)
-Output STRING (string of fxed length N)
 FIX creates a string of fxed length N. The string STR at the input is trunca￾ted to the length N respective flled with the fll character C. If the string
 STR is shorter than the length L to be created, will the string be flled de￾pending on M, with the fll character C. If M = 0, the padding at the end of
 the string is appended, if M = 1, the padding is attached the beginning

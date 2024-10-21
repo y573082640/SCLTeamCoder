@@ -1,8 +1,3 @@
-Type Function: STRING
-Input STR: STRING (String input)
-SRC: STRING (search strings)
-REP: STRING (surrogate)
-Output STRING (String output)
 REPLACE_CHARS replaces all the characters STR in String SRC with the
 characters at the same place in REP.
 example: REPLACE_CHARS('abc123', '0123456789', ABCDEFGHIJ') = 'ab￾cABC'

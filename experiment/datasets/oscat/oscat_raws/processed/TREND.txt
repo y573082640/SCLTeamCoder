@@ -1,9 +1,3 @@
-Type Function module
-Input X: REAL (input)
-Output Q: BOOL (X ascending = TRUE)
-TU: BOOL (TRUE if the input X increases)
-TD: BOOL (TRUE if input X reduces)
-D: REAL (deltas of the input change)
 TREND monitors the input X and time at the output Q to see if X increases
 (Q = TRUE) or X decrease (Q = FALSE). If X does not change, Q remains at
 its last value. If X increases, the output TU gets for one cycle to TRUE and

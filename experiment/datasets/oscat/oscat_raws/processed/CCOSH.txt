@@ -1,4 +1,1 @@
-Type Function: COMPLEX
-Input X: COMPLEX (Input) 
-Output COMPLEX (result)
 CCOSH calculates the hyperbolic cosine of a complex number

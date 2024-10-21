@@ -1,9 +1,4 @@
-Type Function module
-Input DIR: BOOL ( Direction, TRUE means Up ) 
-E: BOOL ( Enable Input) 
-TR: TIME (time to run a full ramp)
-I / O RMP: WORD (output signal)
-_RMP_B Is an 16-bit ramp generator. The ramp is generated in an external￾ly declared variable. The ramp is rising when DIR = TRUE and falling if DIR
+_RMP_W Is an 16-bit ramp generator. The ramp is generated in an external￾ly declared variable. The ramp is rising when DIR = TRUE and falling if DIR
 = FALSE. Reaching a fnal value of the ramp, the generator remains at this
 value. With the input E the ramp can be stopped at any time, when E =
 TRUE the ramp runs. The input TR shows the time which is needed to cy￾cle through 0-65535 or the other way around.

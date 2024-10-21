@@ -1,7 +1,3 @@
-Type Function: INT
-Input WDAY: STRING(20) (String input)
-LANG: INT (language)
-Output INT (weekday)
 FSTRING_TO_WEEKDAY decodes a weekday in the form 'MO' to an integer,
 1 = MO ... 7 = Sun. For the analysis the frst two letters of the string WDAY
 are evaluated, all others are ignored. If the string contains spaces they will

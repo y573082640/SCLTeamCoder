@@ -1,11 +1,2 @@
-Type Function: BOOL
-Input STR: STRING (String input)
-CMP: STRING (comparison characters)
-Output BOOL (TRUE if STR contains only those listed in the STRING
-CMP
-contains)
 IS_CC tests whether the string in STR only the in STR listed characters are
 included. If another character is found the function returns FALSE.
-Examples:
-IS_CC('3.14', '0123456789.') = TRUE
-IS_CC('-3.14', '0123456789.') = FALSE

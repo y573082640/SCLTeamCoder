@@ -1,19 +1,3 @@
-Type Function module
-Input ACT: REAL (value measured by the way)
-SET: REAL (default)
-SUP: REAL (noise reduction)
-SFO: REAL (ofset for the output)
-M_I: REAL (input value for manual operation)
-MAN: BOOL (switch to manual mode, MANUAL = TRUE)
-RST: BOOL (asynchronous reset input)
-KP: REAL (controller gain)
-TN: REAL (reset of the controller)
-TV: REAL (derivative of the controller)
-LL: REAL (lower output limit)
-LH: REAL (upper output limit)
-Output Y: REAL (output of the controller)
-DIFF: Real (deviation)
-LIM: BOOL (TRUE if the output has reached a limit)
 CTRL_PID is a PID controller with dynamic anti-wind up and manual control
 input. The PID controller operates according to the formula: 
 Y = KP * (DIFF + 1/Tn * INTEG(DIFF) + TV *DERIV(DIFF)) + OFFSET

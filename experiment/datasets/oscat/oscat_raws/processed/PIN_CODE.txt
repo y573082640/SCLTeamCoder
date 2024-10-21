@@ -1,8 +1,3 @@
-Type Function module
-Input CB: BYTE (input)
-E: BOOL ( Enable Input) 
-SETUP PIN: STRING(8) (String to be tested ) 
-Output TP ( Trigger Output)
 PIN_CODE checks a stream of bytes for the presence of a specifc se￾quence. If the sequence is found, this is indicated by a TRUE at output TP.
 In the following example, two modules PIN_CODE be used to decode two
 CODE_SEQUENCES of a matrix keyboard.

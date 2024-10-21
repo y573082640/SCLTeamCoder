@@ -1,34 +1,3 @@
-Type Function module
-Input T_UPPER: REAL (input upper temperature sensor)
-T_LOWER: REAL (lower input temperature sensor)
-PRESSURE: REAL (input pressure sensor)
-ENABLE: BOOL (hot water requirement)
-REQ_1: BOOL (input requirements for predefned Temperature
-1)
-REQ_2: BOOL (input requirements for predefned Temperature
-2)
-BOOST: BOOL (input requirement for immediate
-Deployment)
-Output HEAT: BOOL (output loading circuit)
-ERROR: BOOL (error signal)
-STATUS: Byte (ESR compliant status output)
-Setup T_UPPER_MIN: REAL (minimum temperature at top)
-Default = 50
-T_UPPER_MAX: REAL (maximum temperature at top)
-Default = 60
-T_LOWER_ENABLE : BOOL (FALSE, if lower
-Temperature Sensor does not exist)
-T_LOWER_MAX: REAL (maximum temperature of bottom)
-Default = 60
-T_REQUEST_1: REAL (temperature requirement 1)
-Default = 70
-T_REQUEST_2: REAL (temperature requirement 2)
-Default = 50
-T_REQUEST_HYS: REAL (hysteresis control) Default = 5
-T_PROTECT_HIGH: REAL (upper limit temperature,
-Default = 80)
-T_PROTECT_LOW: REAL (lower limit temperature,
-Default = 10)
 BOILER is a Controllerfor bufers such as warm water bufer. With two se￾parate temperature sensor inputs also storage layers can be controlled.
 With the setup variable T_LOWER_ENABLE the lower temperature sensor
 can be switched on and of. When the input ENABLE = TRUE, the boiler is
@@ -60,5 +29,4 @@ Status
 102 Standard recharge
 103 Recharge on Request Temperature 1
 104 Recharge on Request Temperature 2
-The following Example shows the application of a BOILER with a TIMER
-and a public holiday mode:
+The following 

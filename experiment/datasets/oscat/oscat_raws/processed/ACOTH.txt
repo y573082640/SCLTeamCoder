@@ -1,4 +1,1 @@
-Type Function: REAL
-Input X: REAL (input)
-Output REAL (output value)
-Acoth calculates the arc cotangent hyperbolic with following formula:
+ACOTH calculates the arc cotangent hyperbolic with following formula:

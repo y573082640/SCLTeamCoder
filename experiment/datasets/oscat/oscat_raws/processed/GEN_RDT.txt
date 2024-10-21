@@ -1,9 +1,3 @@
-Type Function module
-Input ENABLE: BOOL (enable input)
-MIN_TIME_MS: TIME (Minimum cycle time)
-MAX_TIME_MS: TIME (maximum cycle time)
-TP_Q: TIME (pulse width of the output pulse to XQ)
-Output XQ: BOOL (binary output)
 GEN_RDT generates pulses with a defned pulse width and random spa￾cing. The output pulses with the pulse width TP_Q be generated at random
 intervals TX. TX fuctuates randomly between time MIN_TIME_MS and
 MAX_TIME_MS. The module generates output pulses at XQ only when the

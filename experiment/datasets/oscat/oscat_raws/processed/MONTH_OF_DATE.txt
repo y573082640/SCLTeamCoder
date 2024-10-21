@@ -1,6 +1,2 @@
-Type Function: INT
-Input IDATE: DATE (date)
-Output INT (month in the year of the input date)
-The MONTH function calculates the month of the year from the date of in￾put date IDATE.
-Example: MONTH_OF_DATE(D#2007-12-31) = 12
+MONTH_OF_DATE(D#2007-12-31) = 12
 MONTH_OF_DATE(D#2006-1-1) = 1

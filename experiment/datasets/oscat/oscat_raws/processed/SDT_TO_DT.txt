@@ -1,4 +1,1 @@
-Type Position: DT
-Input DTI: SDT (structured input value as date / time value)
-Output DT (date-time value)
 SDT_TO_DT generates a date-time value of a structured date-time value

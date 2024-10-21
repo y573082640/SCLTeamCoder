@@ -1,6 +1,3 @@
-Type Function: BOOL
-Input IN: BYTE (characters)
-Output BOOL (TRUE IN a sign of a..z, A..Z or Umlaut ) is
 ISC_ALPHA tests whether the character IN is an alphabetic character. If IN
 is a sign A..Z, a..z or any umlaut, the function returns TRUE, if not the
 function returns FALSE. In examining the Global Setup EXTENDED_ASCII

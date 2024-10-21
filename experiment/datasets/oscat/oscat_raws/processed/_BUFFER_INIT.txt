@@ -1,13 +1,6 @@
-Type Function : BOOL
-Input PT: POINTER TO BYTE (address of the Bufer ) 
-SIZE: UINT (size of the bufer)
-INIT: BYTE (initial value)
-Output BOOL (Returns TRUE)
-The function _BUFFER_INIT initializes any array of Byte with value INIT.
+_BUFFER_INIT initializes any array of Byte with value INIT.
 When called, a pointer to the array and its size in bytes is passed to the
 function. Under CoDeSys the call reads: _BUFFER_INIT(ADR(Array), SI￾ZEOF(Array), INIT), where array is the name of the array to be manipula￾ted. ADR() is a standard function which identifes the pointer to the array
 and SIZEOF() is a standard function, which determines the size of the ar￾ray. The function only returns TRUE. The array specifed by the pointer is
 manipulated directly in memory. 
 This type of processing arrays is very efcient because no additional me￾mory is required and no surrender values must be copied.
-Example: _BUFFER_INIT(ADR(bigarray), SIZEOF(bigarray),3)
-initializes bigarray with 3.

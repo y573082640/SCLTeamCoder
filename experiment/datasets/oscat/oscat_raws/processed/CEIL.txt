@@ -1,8 +1,2 @@
-Type Function: INT
-Input X: REAL (input)
-Output INT (output value)
-The CEIL function returns the smallest integer value greater or equal than
+CEIL function returns the smallest integer value greater or equal than
 X.
-Example: CEIL(3.14) = 4
-CEIL(-3.14) = -3
-CEIL(2) = 2

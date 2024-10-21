@@ -1,4 +1,1 @@
-Type Function: TOD
-Input DTI: SDT (structured input value as date / time value)
-Output TOD (time of day)
 SDT_TO_TOD produces a time of day of a structured date-time value.

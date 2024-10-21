@@ -1,6 +1,3 @@
-Type Function
-Input MS: INT (force on the Beaufort scale)
-Output MS: REAL (Wind speed in meters / second)
 MS_TO_BFT converts wind speeds of meters per second in the Beaufort
 scale.
 The calculation is done using the formula:

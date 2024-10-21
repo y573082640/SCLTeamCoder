@@ -1,9 +1,4 @@
-Type Function: BOOL
-Input PT: Pointer (Pointer to the array) 
-SIZE: UINT (size of the array)
-X: REAL (multiplier)
-Output BOOL (TRUE)
-The function _ARRAY_MUL multiply each element of an arbitrary array of
+_ARRAY_MUL multiply each element of an arbitrary array of
 REAL with the value X. When called a Pointer to the array and its size in
 bytes is passed to the function. Under CoDeSys the call reads:
 _ARRAY_MUL(ADR(Array), SIZEOF(Array), X), where array is the name of
@@ -11,4 +6,3 @@ the array to be manipulated. ADR() is a standard function which identifes
 the pointer to the array and SIZEOF() is a standard function, which deter￾mines the size of the array. The function only returns TRUE. The array spe￾cifed by the pointer is manipulated directly in memory. 
 This type of processing arrays is very efcient because no additional me￾mory is required and no surrender values must be copied.
 Call: _ARRAY_MUL(ADR(bigarray), SIZEOF(bigarray), X)
-Example: [0,-2,3,-1-5], X = 3 is converted into [0, -6,9,-3,-15]

@@ -1,5 +1,2 @@
-Type Function: COMPLEX
-Input X: COMPLEX (Input) 
-Output COMPLEX (result)
 CASIN calculates the arc sine of a complex number
 The range of values of the result is between [-/2,+/2 ] For the imagina￾ry part.

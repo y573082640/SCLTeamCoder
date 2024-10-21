@@ -1,4 +1,1 @@
-Type Function: INT
-Input IDATE: DATE (date)
-Output INT (day in month of input date)
-The DAY_OF_MONTH function calculates the day of the month from the in￾put date IDATE.
+DAY_OF_MONTH function calculates the day of the month from the in￾put date IDATE.

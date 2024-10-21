@@ -1,5 +1,2 @@
-Type Function: INT
-Input XDT: DATETIME (input)
-Output INT (current minute)
 MINUTE_OF_DT extracts the current minute from a DT value.
 MINUTE_OF_DT(DT#2008-6-6-10:22:20) = 22

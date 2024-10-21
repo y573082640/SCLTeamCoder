@@ -1,8 +1,3 @@
-Type Function: REAL
-Input SET_POINT: REAL (default)
-ACTUAL: REAL (process value)
-NOISE: REAL (threshold)
-Output REAL (Process deviation) 
 CTRL_IN calculates the process deviation (SET_POINT _ ACTUAL) and pas￾ses them at the output. If the diference is less than the value at the input
 NOISE of the output remains at 0. CTRL_IN can be used to build own rule
 modules.

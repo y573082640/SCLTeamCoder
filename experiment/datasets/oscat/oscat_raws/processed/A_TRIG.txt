@@ -1,8 +1,3 @@
-Type Function module
-Input IN: REAL (input signal)
-RES: REAL (input change)
-Output Q: BOOL (output)
-D: REAL (last change of the input signal)
 A_TRIG monitors an input value on change and every time when the input
 value changes by more than RES, the module generates an output pulse
 for a cycle so that the new value can be processed. At the same time, the

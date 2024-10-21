@@ -1,6 +1,1 @@
-Complex numbers are shown with the defned type COMPLEX.
-The type COMPLEX consists of a real part and an imaginary part, both
-components are of type REAL.
-The complex number Z of type COMPLEX consists of:
-*.RE Real part of type REAL.
-*.IM Imaginary part of the type REAL.
+.

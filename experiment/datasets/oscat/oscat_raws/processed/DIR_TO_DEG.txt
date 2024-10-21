@@ -1,7 +1,3 @@
-Type Function: INT
-Input DIR: STRING(3) (direction in compass readings)
-L: INT (language selection)
-Output INT (direction in degrees)
 DIR_TO_DEG converts a NNE direction in the form to degrees. It will be up
 to 3 points evaluated, corresponding to a resolution of 22.5°. The output is
 integer. The input must be in capital letters and East must be marked with

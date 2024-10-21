@@ -1,7 +1,3 @@
-Type Function: INT
-Input X: REAL (input)
-Output REAL (result of Sigmoid )
-The Sigmoid is also named Gooseneck - function and described by the fol￾lowing equation: 
 SIGMOID = 1 / (1 + EXP(-X))
 The Sigmoid is often used as activation function. By its behavior the
 Sigmoid is qualifed for soft switching transitions.

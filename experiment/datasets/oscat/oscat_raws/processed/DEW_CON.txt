@@ -1,8 +1,4 @@
-Type Function : REAL
-Input RH: REAL (Relative Humidity)
-T: REAL (temperature in °C)
-Output REAL (water vapor concentration in g/m³)
-The module DEW_CON calculates from the relative humidity (RH) and 
+DEW_CON calculates from the relative humidity (RH) and 
 temperature (T in °C) water vapor concentration in the air. The result is 
 calculated in grams/m³. RH is shown in % (50 = 50%) and indicates the 
 temperature in °C.

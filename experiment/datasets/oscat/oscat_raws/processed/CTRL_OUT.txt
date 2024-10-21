@@ -1,12 +1,3 @@
-Type Function module
-Input CI: REAL (input from controller)
-OFFSET: REAL (output ofset)
-MAN_IN: REAL (Manual input)
-LIM_L: REAL (lower output limit)
-LIM_H: REAL (upper output limit)
-MANUAL: BOOL (switch for manual operation)
-Output Y: REAL (Control signal) 
-LIM: BOOL (TRUE if control signal reaches a limit)
 CTRL_OUT adds to the CI input the value of OFFSET and returns the result
 to Y if MANUAL = FALSE. If MANUAL is TRUE at output Y the input value of
 MAN_IN + OFFSET is issued. Y is always limited to the boundaries defned

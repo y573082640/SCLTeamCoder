@@ -1,6 +1,3 @@
-Type Function: BOOL
-Input STR: STRING (String input)
-Output BOOL (TRUE if STR contains only letters or numbers)
 IS_ALNUM test if in the string STR are only letters or numbers. If an incor￾rect, non-alphanumeric character is found the function returns FALSE. STR
 contains only letters or numbers, the result is TRUE. Letters are the cha￾racters A..Z and a..Z, and numbers are the signs 0..9. In examining the
 Global Setup constant EXTENDED_ASCII is considered. If EXTENDED_ASCII

@@ -1,5 +1,2 @@
-Type Function: REAL
-Input X: REAL (input)
-Output REAL (output value)
 SINC calculates the sine Kardinalis or the gap function.
 Mit SINC(0) = 1.

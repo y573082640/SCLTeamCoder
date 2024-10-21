@@ -1,8 +1,3 @@
-Type Function module
-Input IN: BOOL (Input)
-RST: BOOL (Reset input)
-Output SECONDS: UDINT (operating time in seconds)
-CYCLES: UDINT (switch cycles of the input IN)
 ONTIME is an hour meter. It is summed up the entire time that the signal
 IN was since the last RESET to TRUE. Additionally, the number of the total
 on/of cycles is determined. The output values are of type UDINT. With the

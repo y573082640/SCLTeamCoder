@@ -1,5 +1,2 @@
-Type Function: STRING
-Input STR: STRING (String input)
-Output STRING (output string)
-The TRIME function removes spaces at the beginning and the end of STR.
+TRIME function removes spaces at the beginning and the end of STR.
 Spaces within the string are ignored, even if they occur repeatedly.

@@ -1,6 +1,2 @@
-Type Function: REAL
-Input X: REAL (X - value)
-Y: REAL (Y - value)
-Output REAL (length of the hypotenuse)
-The Mortgage function calculates the hypotenuse of a right triangle, by
+HYPOT The Mortgage function calculates the hypotenuse of a right triangle, by
 the theorem of Pythagoras.

@@ -1,9 +1,3 @@
-Type Function: BOOL
-Input IN: BYTE (input byte)
-P: BOOL ( Parity-Bit)
-Output BYTE (output is TRUE in even parity)
 CHECK_PARITY checks an input byte IN and an associated paritybit P to
 even parity. The output is TRUE if the number of bits in the byte IN have
 the value TRUE together with the parity-bit results is an even number. 
-Example for output = TRUE: 
-Example output = FALSE:

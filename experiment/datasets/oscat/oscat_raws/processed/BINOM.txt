@@ -1,5 +1,1 @@
-Type Function: DINT
-Input N: INT (input value)
-K: INT (input value)
-Output DINT (output value)
 BINOM calculates the binominal coefcient N over K for integer N and K.

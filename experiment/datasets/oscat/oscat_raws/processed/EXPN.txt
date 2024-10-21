@@ -1,7 +1,3 @@
-Type Function: REAL
-Input X: REAL (input)
-N: INT (exponential)
-Output REAL (result X^N)
 EXPN calculates the exponential value of X^N for integer N. EXPN is espe￾cifcally written for PLC without Floating Point Unit and is about 30 times
 faster than the IEC standard function EXPT(). Note the special case of the
 0^0 defned mathematically as a 1 and is not a 0. 

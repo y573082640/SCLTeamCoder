@@ -1,7 +1,2 @@
-Type Function : REAL
-Input T: REAL (air temperature in ° C)
-P: REAL (air pressure in Pascal)
-RH: REAL (humidity in %)
-Output (Density of air in kg / m³)
 AIR_DENSITY calculates the density of air in kg / m³ depending on pressu￾re, humidity and temperature. The temperature is given in ° C, pressure in
 Pascal and the humidity in % (50 = 50%).

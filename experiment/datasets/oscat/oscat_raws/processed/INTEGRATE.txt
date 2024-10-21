@@ -1,8 +1,3 @@
-Type Function module
-Input E: BOOL ( Enable Input, Default = TRUE) 
-X: REAL (input)
-K: REAL (Integration value in 1/s)
-I / O Y: REAL ( IntegratorOutput) 
 INTEGRATE is a Integrator which integrates the value of X to an external
 value Y. The integrator operates when E = TRUE, the internal Default of E
 = TRUE.

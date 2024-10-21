@@ -1,6 +1,2 @@
-Type Function: BOOL
-Input IN: DWORD (input)
-N: INT (number of bits 0..31)
-Output BOOL (output bit)
 BIT_OF_DWORD extracts a bit of the DWORD at the input IN.
 Bit0 für N=0, Bit1 für N=1 and so on.

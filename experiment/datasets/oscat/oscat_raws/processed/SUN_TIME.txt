@@ -1,13 +1,4 @@
-Type Function module
-Input LATITUDE: REAL (latitude of the reference location)
- LONGITUDE : REAL (longitude of the reference location) 
-UTC: DATE (Universal Time)
-H: Real (angle above the horizon in degrees)
-Output MIDDAY : TOD (sun exactly south) 
-SUN_RISE : TOD (time of sunrise) 
-SUN_SET: TOD (time of sunset)
-SUN_Declension : REAL (height in the sun South) 
-The function block SUN_TIME is a astro timer. It calculates sunrise and 
+SUN_TIME is a astro timer. It calculates sunrise and 
 sunset for any day, defned by the input UTC. In addition to sunrise and 
 sunset, the time of the solar azimuth (daily peak in the south) and the 
 solar angle above the horizon in the azimuth is calculated. This SUN_TIME 
@@ -25,33 +16,3 @@ the module SUN_POS. SUN_TIME is only in latitudes between 65°S and
 65°North is available. The output MIDDAY passes, at what time the sun is 
 the south and SUN_DECLINATION stating the angle above the horizon in 
 degrees. 
-Example of 1.1.1970, 12° East and 47° North:
-The times of sunrise and - Sunset in UTC (Universal Time), the highest 
-position of the sun will be at 11:16 UTC at 20 degrees above the horizon. 
-As at the input -6 ° is given, the module calculates the Civil twilight.
-SUN_RISE is the time, when the upper edge of the sun is visible on the 
-horizon. SUN_SET is the time when the upper edge of the sun disappears 
-behind the horizon. The horizon is just above the open sea constantly at 0° 
-depending on the terrain and location of hills and mountains, this time 
-may difer materially for various locations. A corresponding correction can 
-only be place dependent, where is the basis for revisions is, thatthe sun 
-travels in one minute 4 degrees. For practical applications, except on the 
-open sea must both rise as well as set times be adjusted accordingly. With 
-the input of H can be defned, how many degrees before or after the 
-horizon SUN_RISE and SUN_SET is determined. If not specifed on input H, 
-the module works internally with the default of -0.83333 degrees which 
-will compensate the refraction at the horizon. For civil, nautical and 
-astronomical twilight at the entrance of H, the corresponding values (-6 °, 
--12 °, -18 °) are given.
-For sunrise and sunset, there are diferent defnitions and requirements:
-The Civil twilight describes that time when the sun is 6 degrees below the 
-horizon, it is the time where daylight is already achieved.
-As nautical twilight is the period when the sun is 12 ° below the horizon, it 
-is the time when the frst lightening on the horizon is determined.
-The Astronomical twilight is the time when the sun is 18 degrees below the 
-horizon, it is the time at which no illumination of the sun longer 
-measurable.
-Additional information on sunrise and sunset times are available on the 
-following websites:
-http://www.calsky.com/cs.cgi
-http://lexikon.astronomie.info/java/sunmoon/

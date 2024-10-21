@@ -1,10 +1,3 @@
-Type Function: REAL
-Input X: REAL (input)
-I_LO: REAL (min input value)
-I_HI: REAL (input value max)
-O_LO: REAL (min output value)
-O_HI: REAL (output value max)
-Output REAL (output value)
 SCALE_R scales an input value REAL and calculates an output value in
 REAL. The input value X is limited here to I_LO and I_HI. SCALE_D
 (IN,4,20,0,100) scales an input with 4 .. 20mA to the output 0..100.

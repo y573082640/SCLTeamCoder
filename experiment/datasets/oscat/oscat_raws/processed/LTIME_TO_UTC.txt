@@ -1,8 +1,3 @@
-Type Function: DATE_TIME
-Input LTIME: DATE_TIME (local time)
-DST: BOOL (TRUE if daylight saving time is true)
-TIME_ZONE_OFFSET: INT (time diference to UTC in minutes)
-Output DATE_TIME (UTC, Universal Time)
 LTIME_TO_UTC calculates UTC (Universal Time) from a given local time. 
 The world time is calculated by subtracting from the TIME_ZONE_OFFSET
 LTIME local time. If the DST is active (DST = TRUE), an additional hour of

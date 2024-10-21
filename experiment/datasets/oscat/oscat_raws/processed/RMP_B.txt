@@ -1,13 +1,3 @@
-Type Function module
-Input SET: BOOL (set input)
-PT: TIME (duration of a ramp 0..255)
-E: BOOL (enable input)
-UP: BOOL (direction UP = TRUE means Up)
-RST: BOOL (Reset input)
-Output I/O
-BUSY: BOOL (TRUE, when ramp is running)
-HIGH: BOOL (maximum output value is reached)
-LOW: BOOL (Minimum output value is reached)
 RMP_B is a ramp generator with 8 bits (1 byte) resolution. The ramp of
 0..255 is divided into a maximum of 255 steps and go through, in a time
 of PT once complete. An enable signal E switches the ramp generator on

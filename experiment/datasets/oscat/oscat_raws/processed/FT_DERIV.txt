@@ -1,8 +1,3 @@
-Type Function module
-Input IN: REAL (input signal)
-K: REAL (multiplier)
-RUN: BOOL (enable input)
-Output OUT: REAL (derivation of the input signal K * X/  T ) 
 FT_DERIV is a D-link, or LZI-transfer element, which has a diferentiating
 transfer behavior. At the output of FT_DERIV the derivative is over time T
 in seconds. When the input signal increases in one second from 3 to 4

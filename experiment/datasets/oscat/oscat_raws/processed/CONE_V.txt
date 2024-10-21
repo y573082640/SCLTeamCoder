@@ -1,5 +1,1 @@
-Type Function
-Input RX: REAL (radius of base)
-HX: REAL (height of cone)
-Output REAL (volume of the cone)
-KONE_V calculated the volume of a cone with the radius RX and height HX.
+CONE_V calculated the volume of a cone with the radius RX and height HX.

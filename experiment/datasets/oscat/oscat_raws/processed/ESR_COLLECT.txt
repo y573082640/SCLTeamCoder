@@ -1,8 +1,3 @@
-Type Function module
-Input ESR_0.. 7: ESR_DATA (ESR inputs)
-RST: BOOL (asynchronous reset input)
-Output ESR_OUT : ESR_DATA (Array with the ESR protocol)
-IN/OUT POS: INT ( Position of of latest ESR protocol in the array)
 ESR_COLLECT collects ESR data from up to 8 ESR modules and stores the
 log in an array. The output POS indicates the position at which in the array
 ESR_OUT is currently the last message is ESR. Collects the module more
@@ -10,7 +5,7 @@ than 64 messages so the messages are discarded and restarted at positi￾on 0. W
 time. By resetting, all the collected data will be deleted and the pointer is
 moved to -1. The module collects data in the output array ESR_OUT and
 moves POS the last position of the array that contains data. When there
-are no messages POS remains to -1. If the output data are read, the variable POS has to be set to -1, or if only readed a part POS can be set to the
+are no messages POS remains to -1. If the output data are read, the varia￾ble POS has to be set to -1, or if only readed a part POS can be set to the
 last valid value.
 The following example demonstrates how ESR_COLLECT is connected with
 ESR modules.

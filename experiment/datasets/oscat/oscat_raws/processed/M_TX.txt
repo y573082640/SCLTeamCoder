@@ -1,12 +1,3 @@
-Type Function module
-Input IN: BOOL (Input)
-TMAX : TIME (Timeout für ET)
-RST: BOOL (Reset input)
-Output TH: TIME (Ontime the input signal)
-TL: TIME (Of time of the input signal)
-DC: REAL (duty cycle / Duty Cycle the input signal) 
-F: REAL (the input signal frequency in Hz)
-ET: TIME (Elapsed time during the measurement)
 M_TX determined from the input signal IN the time which the signal IN was
 TRUE (TH) and the time the signal was set to FALSE (TL). The times of TH
 and TL are only measured after a rising or falling edge. If IN is at the frst

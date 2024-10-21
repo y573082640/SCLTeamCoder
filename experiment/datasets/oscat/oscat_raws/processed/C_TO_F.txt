@@ -1,4 +1,1 @@
-Type Function: REAL
-Input CELSIUS: REAL (temperature in ° C)
-Output REAL (temperature in Fahrenheit)
 C_TO_F converts a temperature reading from Celsius to Fahrenheit.

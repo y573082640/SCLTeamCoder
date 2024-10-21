@@ -1,8 +1,3 @@
-Type Function
-Input IN: BYTE (input)
-LOW: REAL (initial value at X = 0)
-HIGH: REAL (initial value at X = 255)
-Output REAL (output value)
 BYTE_TO_RANGE convert a BYTE value to a REAL. An input value of 0 cor￾responds to the REAL value of LOW and an input value of 255 corresponds
 to the input value of HIGH.
 To convert a BYTE value of 0 .255 to a percent of 0 .100 the module is cal￾led, as follows:

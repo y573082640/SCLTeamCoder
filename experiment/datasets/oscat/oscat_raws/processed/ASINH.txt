@@ -1,4 +1,1 @@
-Type Function: REAL
-Input X: REAL (input)
-Output REAL (output value)
 ASINH calculate the arc hyperbolic sine by the formula:

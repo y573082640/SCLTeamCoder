@@ -1,15 +1,4 @@
-Type Function module
-Input CLK: BOOL ( Clock Input) 
-RST: BOOL (Reset input)
-Output Q0: BOOL (divider output CLK / 2)
-Q1: BOOL (divider output CLK / 4)
-Q2: BOOL (divider output CLK / 8)
-Q3: BOOL (divider output CLK / 16)
-Q4: BOOL (divider output CLK / 32)
-Q5: BOOL (divider output CLK / 64)
-Q6: BOOL (divider output CLK / 128)
-Q7: BOOL (divider output CLK / 256)
-The function module CLK_DIV is a divider module and devides the input si￾gnal CLK into 8 levels each divided by 2, so that at the output Q0 is half
+CLK_DIV is a divider module and devides the input si￾gnal CLK into 8 levels each divided by 2, so that at the output Q0 is half
 the frequency of the input CLK with 50% duty cycle available. The output
 Q1 is the halved frequency of Q0 available and so on, until at Q7 the input
 frequency is divided by 256. A reset input RST sets asynchronous all out￾puts to FALSE. CLK is allowed to make only one cycle to TRUE, if CLK does

@@ -1,0 +1,6 @@
+raw是比赛时用Kimi从文档提取并人工校验的。其中的任务描述是kimi生成 。
+pdf_description 是从文档复制的内容。all是所有的打包。
+lgf_with_description 是用文档替换LLM生成的部分
+compile_pdf_and_code将LLM和文档合并成 lgf_with_description 。
+
+注意：缺乏图片和数学公式的准确描述

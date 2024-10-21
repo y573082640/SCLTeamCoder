@@ -1,8 +1,4 @@
-Type Function: INT
-Input IDATE: DATE (date)
-Output INT (month in the year of the input date)
-The function calculates the DAY_OF_WEEK week from the date of receipt
+DAY_OF_WEEK week from the date of receipt
 IDATE.
 Monday = 1 .. Sunday = 7 The calculation is done in accordance with
 ISO8601.
-Example: DAY_OF_WEEK(D#2007-1-8) = 1

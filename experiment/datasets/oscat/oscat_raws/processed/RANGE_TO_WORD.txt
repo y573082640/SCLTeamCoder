@@ -1,0 +1,4 @@
+RANGE_TO_WORD converts a REAL value to a WORD value. An input value
+of X corresponds to the value of LOW is converted it into an output value
+of 0 and an input value X that corresponds to HIGH is converted to an out￾put value of 65535. The X input is limited to the range from LOW to HIGH,
+an overfow of the output WORD therefore can not happen.

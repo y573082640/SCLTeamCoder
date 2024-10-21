@@ -1,8 +1,3 @@
-Type Function module
-Input IN: BOOL (enable input)
-SIG: BYTE (Bitpattern)
-TS: TIME (switching time)
-Output Q: BOOL (output)
 SIGNAL generates an output signal Q that corresponds to the bit pattern in
 SIG. This is Bitpattern is passed in TS long steps. By diferent bit patterns
 in SIG, various output signals are generated. If the input IN connected to

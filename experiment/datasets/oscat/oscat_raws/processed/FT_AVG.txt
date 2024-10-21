@@ -1,10 +1,4 @@
-Type Function module
-Input IN: REAL (input signal)
-E: BOOL (enable input)
-N: INT (number of values over which the average is calculated)
-RST: BOOL (Reset input)
-Output REAL (moving average over the last N values)
-The function module FT_AVG calculates a moving average over each of
+FT_AVG calculates a moving average over each of
 the last N values. By the input RST, the stored values can be deleted. N is
 defned from 0 .. 32. N = 0 means that the output signal = input signal. N
 = 5 is the average over the last 5 values. The average is calculated over a

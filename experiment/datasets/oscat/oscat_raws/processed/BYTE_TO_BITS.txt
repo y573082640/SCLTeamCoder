@@ -1,6 +1,3 @@
-Type Function module
-Input IN: BYTE (input byte)
-Output B0 .. B7: BOOL (output bits)
 BYTE_TO_BITS split a byte (IN) into its individual bits (B0 .. B7). The input
 IN is defned as a DWORD to handle either byte, word, or DWORD at the
 input. If a Word or DWORD used at the input, only the bits 0th .7 are pro￾cessed. A DWORD can then, using the default command SHR , be shifted

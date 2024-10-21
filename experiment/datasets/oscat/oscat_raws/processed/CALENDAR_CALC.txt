@@ -1,7 +1,3 @@
-Type Function module
-Input SPE: BOOL (TRUE calculates the current sun position)
-I / O XCAL: CALENDAR (external variables)
-HOLIDAYS HOLIDAY_DATA (holiday list)
 CALENDAR_CALC automatically calculates all the values in a CALENDAR
 structure based on the value of the type UTC in the structure. XCAL is a
 Pointer an external or global variable of type CALENDAR. CALENDAR_CALC

@@ -1,8 +1,3 @@
-Type Function: STRING (10)
-Input WDAY: INT (weekday 1..7)
-LANG: INT (Language 0 = Default ) 
-LX: INT (length of string)
-Output STRING (10) (output value)
 WEEKDAY_TO_STRING converts a weekday in the corresponding string.
 The input WDAY indicates the corresponding day of the week: 1 = Monday
 and 7 = Sunday. The input LANG chooses the language: 1 = English and 2

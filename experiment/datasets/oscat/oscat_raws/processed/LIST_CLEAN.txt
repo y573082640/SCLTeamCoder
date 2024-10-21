@@ -1,7 +1,3 @@
-Type Function: BOOL
-Input SEP: BYTE (separation sign the list)
-I / O LIST: STRING(LIST_LENGTH) (input list)
-Output BOOL (TRUE)
 LIST_CLEAN cleans a list of empty elements. The list consists of Strings
 (elements) that begin with the separation character SEP.
 LIST_CLEAN('&ABC$23&&NEXT', 38) = '&ABC&23&NEXT'

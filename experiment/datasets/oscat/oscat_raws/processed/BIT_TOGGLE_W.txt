@@ -1,7 +1,3 @@
-Type Function: WORD
-Input IN: WORD (input data)
-POS: INT (Position)
-Output WORD (output byte)
 BIT_TOGGLE_W inverts a specifed bit POS at IN.
 BIT_TOGGLE_W(2#0000_1111, 2) = 2#0000_1011
 BIT_TOGGLE_W(2#0000_1111, 7) = 2#1000_1111

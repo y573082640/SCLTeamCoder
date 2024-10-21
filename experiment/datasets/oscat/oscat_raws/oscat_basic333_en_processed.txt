@@ -133,7 +133,7 @@ ACOSH calculates the arcus hyperbolic cosine of the following formula:
 Type Function: REAL
 Input X: REAL (input)
 Output REAL (output value)
-Acoth calculates the arc cotangent hyperbolic with following formula:
+ACOTH calculates the arc cotangent hyperbolic with following formula:
 5.3. AGDF
 Type Function: REAL
 Input X: REAL (input)
@@ -365,7 +365,7 @@ Input X: REAL (input)
 U: REAL (locality of the function)
 SI: REAL (Sigma, spreading the function)
 Output REAL (Gaussian function)
-The function calculates the Gaussian normal distribution using the followi￾ng formula:
+GAUSS The function calculates the Gaussian normal distribution using the followi￾ng formula:
 The normal distribution is the density function normally distributed ran￾dom variables. With the parameters U = 0 and SI = 1, it follows the stan￾dard normal distribution.
 5.32. GAUSSCD
 Type Function: REAL
@@ -402,7 +402,7 @@ Type Function: REAL
 Input X: REAL (X - value)
 Y: REAL (Y - value)
 Output REAL (length of the hypotenuse)
-The Mortgage function calculates the hypotenuse of a right triangle, by
+HYPOT The Mortgage function calculates the hypotenuse of a right triangle, by
 the theorem of Pythagoras.
 5.37. INC
 Type Function: INT
@@ -464,7 +464,7 @@ The LAMBERT_W function is defned for x > = -1/e. When the value is be￾low the 
 Type Function: REAL
 Input X: REAL (input)
 Output REAL (output value)
-The The Langevin Function is very similarto sigmoid function, but more
+The LANGEVIN Function is very similarto sigmoid function, but more
 slowly approaching the limits. In contrast to the sigmoid are the values at
 -1 and +1. The Langevin function is mainly at CPUs without foating point
 unit much faster than the Sigmoid function.
@@ -964,14 +964,7 @@ the size of the array.
 The function returns TRUE if the array is sorted in ascending order.
 This type of processing arrays is very efcient because no additional me￾mory is required and no surrender values must be copied.
 Example: IS_SORTED(ADR(bigarray), SIZEOF(bigarray))
- 7. Complex Mathematics
-7.1. INTRODUCTION
-Complex numbers are shown with the defned type COMPLEX.
-The type COMPLEX consists of a real part and an imaginary part, both
-components are of type REAL.
-The complex number Z of type COMPLEX consists of:
-*.RE Real part of type REAL.
-*.IM Imaginary part of the type REAL.
+7. Complex Mathematics
 7.2. CABS
 Type Function: REAL
 Input X: COMPLEX (Input) 
@@ -1019,7 +1012,7 @@ CASINH calculates the arc hyperbolic sine of a complex number
 Type Function: COMPLEX
 Input X: COMPLEX (Input) 
 Output COMPLEX (result)
-ATAN calculates the arc tangent of a complex number
+CATAN calculates the arc tangent of a complex number
 The range of values of the result is between [-/2,+/2 ] For the imagina￾ry part.
 7.10. CATANH
 Type Function: COMPLEX
@@ -1038,7 +1031,7 @@ CCON.IM = -X.IM
 Type Function: COMPLEX
 Input X: COMPLEX (Input) 
 Output COMPLEX (result)
-CCOs calculates the cosine of a complex number
+CCOS calculates the cosine of a complex number
 7.13. CCOSH
 Type Function: COMPLEX
 Input X: COMPLEX (Input) 
@@ -1352,7 +1345,7 @@ Type Function
 Input RX: REAL (radius of base)
 HX: REAL (height of cone)
 Output REAL (volume of the cone)
-KONE_V calculated the volume of a cone with the radius RX and height HX.
+CONE_V calculated the volume of a cone with the radius RX and height HX.
 10.5. ELLIPSE_A
 Type Function
 Input R1: REAL (radius 1)
@@ -1607,7 +1600,7 @@ Includes 49,710 days.
 Type Function: INT
 Input IDATE: DATE (current date)
 Output INT (number of days of current month)
-The days_in_month function calculates the number of days in the current
+The DAYS_IN_MONTH function calculates the number of days in the current
 month.
 12.11. DAYS_IN_YEAR
 Type Function: INT
@@ -2923,7 +2916,7 @@ than the length of TEXT. If N >= length of text then the String TEXT is di￾rec
 Type Function: BYTE
 Input IN: BYTE ( Characters to be converted ) 
 Output BYTE (converted characters)
-To_lower converts individual characters to lowercase. During conversion,
+TO_LOWER converts individual characters to lowercase. During conversion,
 the Global Setup EXTENDED_ASCII constant is considered. If
 EXTENDED_ASCII = TRUE, all characters of the extended ASCII character
 set to be considered in accordance with ISO 8859-1.
@@ -2951,7 +2944,7 @@ All other characters are returned as a string with the character IN.
 Type Function: BYTE
 Input IN: BYTE ( Characters to be converted ) 
 Output BYTE (converted characters)
-To_upper converts some characters to uppercase. During conversion, the
+TO_UPPER converts some characters to uppercase. During conversion, the
 Global Setup EXTENDED_ASCII constant is considered. If EXTENDED_ASCII
 = TRUE, all characters of the extended ASCII character set to be conside￾red in accordance with ISO 8859-1.
 The following Table discusses the conversion code:
@@ -3246,7 +3239,7 @@ the outputs.
 Type Function module
 Input PT: TIME (period time)
 Output Q: BOOL (output)
-Gen_SQ is a generator with programmable period time and a fxed duty
+GEN_SQ is a generator with programmable period time and a fxed duty
 cycle of 50%. The input PT defnes the period time and the output Q pas￾ses the output signal.
 15.13. SCHEDULER
 Type Function module
@@ -3753,7 +3746,7 @@ B2: Byte (input byte 2)
 B1: Byte (input byte 1)
 B0: Byte (input byte 0)
 Output DWORD (DWORD result)
-BYTE_OF_BIT creates from 4 individual bits (B0 .. B3) a DWORD.
+DWORD_OF_BYTE creates from 4 individual bytes (B0 .. B3) a DWORD.
 A DWORD is composed as follows: B3-B2-B1-B0.
 16.26. DWORD_OF_WORD
 Type Function: DWORD
@@ -4205,7 +4198,7 @@ I / O I/O
 OUTPUT DIR: BOOL (direction of change in IN)
 UP: BOOL (signals a rising ramp)
 DN: BOOL (signals a falling ramp)
-RMP_NEXT follows at the output OUT to the input signal IN with the in TR
+_RMP_NEXT follows at the output OUT to the input signal IN with the in TR
 and TF defned rising or falling fanks. Unlike RMP_SOFT the fank of
 RMP_NEXT runs until it underrun or overrun the endpoint and is therefore
 suitable for control tasks. Changing the value of IN so a rising ramp with
@@ -4222,7 +4215,7 @@ Input DIR: BOOL ( Direction, TRUE means Up )
 E: BOOL ( Enable Input) 
 TR: TIME (time to run a full ramp)
 I / O RMP: WORD (output signal)
-_RMP_B Is an 16-bit ramp generator. The ramp is generated in an external￾ly declared variable. The ramp is rising when DIR = TRUE and falling if DIR
+_RMP_W Is an 16-bit ramp generator. The ramp is generated in an external￾ly declared variable. The ramp is rising when DIR = TRUE and falling if DIR
 = FALSE. Reaching a fnal value of the ramp, the generator remains at this
 value. With the input E the ramp can be stopped at any time, when E =
 TRUE the ramp runs. The input TR shows the time which is needed to cy￾cle through 0-65535 or the other way around.
@@ -4643,7 +4636,7 @@ Type Function: WORD
 Input X: WORD (input)
 T: TIME (time constant of the flter)
 Output Y: WORD (fltered value)
-Output The main application is the fltering of sensor signals for noise re￾duction. The basic functionality of a flter of the frst degree can be found
+FILTER_W Output The main application is the fltering of sensor signals for noise re￾duction. The basic functionality of a flter of the frst degree can be found
 in the module FT_PT1.
 19.14. FILTER_WAV
 Type Function: REAL
@@ -4701,7 +4694,7 @@ Ofset_2: REAL (ofset that is added when O2 = TRUE)
 Ofset_3: REAL (ofset that is added when O3 = TRUE)
 Ofset_4: REAL (ofset is added if O4 = TRUE)
  Default : REAL (This is used instead of X, if D = TRUE) 
-The function Ofset addes diferent ofsets to an input signal depending on 
+The function OFFSET addes diferent ofsets to an input signal depending on 
 the binary value of O1.. O4. The ofsets can be added individually or 
 simultaneously. With the input D a Default value instead of the input X can 
 be switched to the adder. The ofset and Default value be defned through 
@@ -4753,7 +4746,7 @@ corresponds to the value of LOW is converted it into an output value of 0
 and an input value X of the input value corresponds to HIGH is converted
 into an output value of 255. The input X is limited to the range from LOW
 to HIGH, an overfow of the output BYTE can therefore not happen.
-19.22. RANGE_TO_BYTE
+19.22. RANGE_TO_WORD
 Type Function
 Input X: REAL (input)
 LOW : REAL (lower range limit) 
@@ -5187,7 +5180,7 @@ Type Function: REAL
 Input RES: REAL (resistance in ohms)
 R0: REAL (resistance at 0° C)
 Output REAL (measured temperature)
-RES_NI calculates the temperature of a NI-resistance from the RES sensor
+TEMP_NI calculates the temperature of a NI-resistance from the RES sensor
 input values (measured resistance value) and R0 (resistance at 0°C).
 The calculation is suitable for a temperature range of -60.. +180 ° C and
 made by the following formal:
@@ -5858,7 +5851,7 @@ YC: REAL ( Temperature scale to Celsius )
 YF: REAL (Fahrenheit temperature scale)
 YRE: REAL (after Reaumur temperature scale)
 YRA: Real (after Rankine temperature scale)
-The module TEMP converts diferent, in practice common used units for
+The module TEMPERATURE converts diferent, in practice common used units for
 temperature. Normally, only the input to be converted is occupied and the
 remaining inputs remain free. However, if several inputs loaded with va￾lues, the values of all inputs are converted accordingly and then summed.
 1 K = 273.15 °C
@@ -5866,7 +5859,7 @@ remaining inputs remain free. However, if several inputs loaded with va￾lues, 
 1 °F = °C * 1.8 + 32
 1 Re = °C * 0.8
 1 Ra = K * 1.8
- 23. Control Modules
+23. Control Modules
 23.1. Introduction
 In the feld of process control modules for the construction of controllers
 and controlled systems are provided. Where possible, the modules measu￾res the cycle time and calculate the output change with the current cycle

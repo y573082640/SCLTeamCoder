@@ -1,8 +1,3 @@
-Type Function: BOOL
-Input IN: BOOL (Input)
-ON: BOOL (manual mode on)
-OFF: BOOL (manual mode of)
-Output BOOL (output)
 MANUAL can override an input signal IN with TRUE or FALSE.
 IN ON OFF Q
 0 0 0 0

@@ -1,6 +1,3 @@
-Type Function: REAL
-Input FLT: STRING(20) (foating point)
-Output REAL (REAL value of the foating point)
 FLOAT_TO_REAL converts a string- foating point number into a data type
 REAL. While the conversion characters "." or ',' interpreted as a comma
 and 'E' or 'e' as the separator of the exponent. The characters '-

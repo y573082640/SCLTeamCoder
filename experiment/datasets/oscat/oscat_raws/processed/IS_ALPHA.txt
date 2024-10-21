@@ -1,6 +1,3 @@
-Type Function: BOOL
-Input STR: STRING (String input)
-Output BOOL (TRUE if STR contains only letters)
 IS_ALPHA tests whether the string STR contains only letters. If an incorrect,
 non-alphanumeric character is found the function returns FALSE. If only letters
 are included in STR is the result of TRUE. Letters are the characters A..Z and

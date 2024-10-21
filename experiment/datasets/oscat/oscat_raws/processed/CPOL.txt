@@ -1,6 +1,2 @@
-Type Function: COMPLEX
-Input L: REAL (Length or Radius) 
-A: REAL (Angle value) 
-Output COMPLEX (result)
 CPOL produces a complex number in polar form. The input values of L and
 A specify the length (radius) and the angle.

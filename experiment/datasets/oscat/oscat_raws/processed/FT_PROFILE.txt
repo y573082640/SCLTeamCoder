@@ -1,26 +1,3 @@
-Type Function module
-Input K: REAL (multiplier)
-O: REAL (ofset)
-M: REAL (time multiplier)
-E: BOOL (start signal)
-Output Y: REAL (signal output)
-RUN: BOOL (TRUE, if the output signal is generated)
-ET: TIME (time since start of the initial profle)
-Setup VALUE_0: REAL (output value of the output to start)
-TIME_1: TIME (time when the ramp reaches VALUE_1)
-VALUE_1: REAL (value of the ramp at the time TIME_1)
-TIME_2: TIME (time when the ramp reaches VALUE_2)
-VALUE_2: REAL (value of the ramp at the time TIME_2)
-TIME_3: TIME (time when the ramp reaches VALUE_3)
-VALUE_3: REAL (value of the ramp at the time TIME_3)
-TIME_10: TIME (time when the ramp reaches VALUE_10)
-VALUE_10: REAL (value of the ramp at the time TIME_10)
-TIME_11: TIME (time when the ramp reaches VALUE_11)
-VALUE_11: REAL (value of the ramp at the time TIME_11)
-TIME_12: TIME (time when the ramp reaches VALUE_12)
-VALUE_12: REAL (value of the ramp at the time TIME_12)
-TIME_13: TIME (time when the ramp reaches VALUE_13)
-VALUE_13: REAL (value of the ramp at the time TIME_13)
 FT_PROFILE generates a time-dependent output signal. The output signal
 is defned by time - value pairs. FT_PROFILE generate a output signal Y by
 the value pairs are connected by ramps. A typical application for FT_PRO￾FILE is to generate a temperature profle for a furnace, but also every app￾lication which requires a time-dependent control signal provides an appli￾cation. The time-dependent output signal is initiated by a rising edge at E

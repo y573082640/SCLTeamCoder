@@ -1,13 +1,4 @@
-Type Function module
-Input MS: REAL (meters / second)
-KMH: REAL (kilometers / hour)
-CN: REAL (knots = miles / hour)
-MH: REAL (miles / hour)
-Output YMS: REAL (meters / second)
-YKMH : REAL (Kilometers / hour) 
-YKN: REAL (knots = miles / hour)
-YMH: REAL (miles / hour)
-The module SPEED converts various common units in the units for speed.
+SPEED converts various common units in the units for speed.
 Normally, only the input to be converted is occupied and the remaining in-
 puts remain free. However, if several inputs loaded with values, the values
 of all inputs are converted accordingly and then summed.

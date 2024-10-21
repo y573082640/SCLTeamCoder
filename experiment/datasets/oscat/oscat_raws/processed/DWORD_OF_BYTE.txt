@@ -1,8 +1,2 @@
-Type Function: DWORD
-Input B3: Byte (input byte 3)
-B2: Byte (input byte 2)
-B1: Byte (input byte 1)
-B0: Byte (input byte 0)
-Output DWORD (DWORD result)
-BYTE_OF_BIT creates from 4 individual bits (B0 .. B3) a DWORD.
+DWORD_OF_BYTE creates from 4 individual bytes (B0 .. B3) a DWORD.
 A DWORD is composed as follows: B3-B2-B1-B0.

@@ -1,6 +1,3 @@
-Type Function: REAL
-Input X: REAL (input)
-Output REAL (Gundermann function)
 GDF calculate the Gundermann function.
 The calculation is done using the formula:
 The result of GDF is between -π/2 and + π/2

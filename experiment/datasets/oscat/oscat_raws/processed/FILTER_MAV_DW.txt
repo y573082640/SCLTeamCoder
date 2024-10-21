@@ -1,8 +1,3 @@
-Type Function: DWORD
-Input X: DWORD (input)
-N: UINT (number of assigned values)
-RST: BOOL (asynchronous reset input)
-Output Y: DWORD (fltered value)
 FILTER_MAV_DW is a flter with moving average. The flter with moving
 average (also Moving Average Filter called) the average of N successive
 readings is output as an average. 

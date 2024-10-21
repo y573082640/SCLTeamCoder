@@ -1,7 +1,4 @@
-Type Function: REAL
-Input X: REAL (input)
-Output REAL (result)
-The ERF function calculates the error function of X. The error function is
+ERF function calculates the error function of X. The error function is
 calculated using an approximation formula, the maximum relative error is
 smaller than 1,3 * 10-4 
 .

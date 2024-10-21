@@ -1,10 +1,3 @@
-Type Function: REAL
-Input X: Byte (input)
-K: Byte (multiplier)
-O: REAL (ofset)
-MX: REAL (maximum output value)
-MN: REAL (minimum output value)
-Output REAL (output value)
 SCALE multiplies the input X with K, and adds the ofset O. The calculated
 value will be limited to the values of MN and MX and the result is passed
 to output.

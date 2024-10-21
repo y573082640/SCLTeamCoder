@@ -1,7 +1,3 @@
-Type Function: REAL
-Input RES: REAL (measured resistance in ohms)
-R0: REAL (resistance at 0° C)
-Output REAL (measured temperature)
 TEMP_PT calculates the temperature of a PT-resistance from the RES sen￾sor input values (measured resistance value) and R0 (resistance at 0°C). If
 the inputs has a temperature outside the range of -200.. + 850°C, at the
 output the temperature output +10000.0°C is passed.
