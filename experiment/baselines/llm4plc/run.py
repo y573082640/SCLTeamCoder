@@ -12,7 +12,7 @@ import tempfile
 
 model="glm-4-plus"
 api_key = glovar.API_KEY_AIRX
-client = ZhipuAI(api_key=api_key)
+client = OpenAI(api_key=api_key,base_url=f"https://m.gptapi.us/v1")
 baseline_path = f"{glovar.EXPERIMENT_DIR}/baselines/llm4plc"
 
 def save_logs(user_input, assistant_output):

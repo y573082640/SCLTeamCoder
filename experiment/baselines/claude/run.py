@@ -33,7 +33,7 @@ def run_claude(dataset="competition_en",prompt_file="prompt"):
     """
     # 设置 API 密钥和基础 URL
     api_key = glovar.GPT_API_KEY
-    client = Anthropic(api_key=api_key, base_url=f"https://www.gptapi.us")
+    client = Anthropic(api_key=api_key, base_url=f"https://m.gptapi.us")
     
     # 指定要使用的模型
     model = "claude-3-5-sonnet"

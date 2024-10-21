@@ -10,9 +10,9 @@ project_base = glovar.PROJECT_ROOT
 # 设置 API 密钥
 api_key = glovar.GPT_API_KEY
 # 创建GPT AI 客户端
-client = OpenAI(api_key=api_key, base_url=f"https://www.gptapi.us/v1")
+client = OpenAI(api_key=api_key, base_url=f"https://m.gptapi.us/v1")
 # 指定要使用的模型
-model = "gpt-4o-mini"
+model = "gpt-4o"
 
 def call_llm(user_input,sys_prompt="将中文翻译为英文自然语言。直接输出翻译后的英文。"):
     # 调用智谱AI
@@ -22,9 +22,7 @@ def call_llm(user_input,sys_prompt="将中文翻译为英文自然语言。直�
             {"role": "system", "content": sys_prompt},
             {"role": "user", "content": user_input}
         ],
-        temperature=0.15,
-        top_p=0.95,
-        max_tokens=1024,
+        max_tokens=4096,
     )
     return response.choices[0].message.content
 
@@ -134,10 +132,11 @@ def get_oscat_requirements(code_path,txt_path,requirement_path):
         with open(f"{requirement_path}/{key}.json","w") as fp:
             fp.write(requirement)
         print(f"{key} done.")
+        return  
 
 def run_process():
     code_path = f"{project_base}/experiment/datasets/oscat/oscat_code"
     txt_path = f"{project_base}/experiment/datasets/oscat/oscat_raws"
-    requirement_path = f"{project_base}/experiment/datasets/oscat/oscat_with_description"
+    requirement_path = f"{project_base}/experiment/datasets/oscat/oscat_en_v2"
     get_oscat_requirements(code_path,txt_path,requirement_path)
     # read_and_translate(f"{project_base}/experiment/datasets/lgf/lgf_en")

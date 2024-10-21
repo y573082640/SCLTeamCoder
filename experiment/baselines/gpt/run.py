@@ -33,7 +33,7 @@ def run_gpt(dataset="competition_en",prompt_file="prompt"):
     """
     # 设置 API 密钥和基础 URL
     api_key = glovar.GPT_API_KEY
-    client = OpenAI(api_key=api_key, base_url=f"https://www.gptapi.us/v1")
+    client = OpenAI(api_key=api_key, base_url=f"https://m.gptapi.us/v1")
     
     # 指定要使用的模型
     model = "gpt-4o"
